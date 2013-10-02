@@ -1,5 +1,9 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -7,6 +11,8 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -31,8 +37,6 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModelFull;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.Share;
 
-import java.util.ArrayList;
-
 @SuppressWarnings("serial")
 public class Albums extends BasePageAuth {
 
@@ -43,7 +47,7 @@ public class Albums extends BasePageAuth {
 	private static final int WINDOW_WIDTH = 500;
 	private static final int WINDOW_HEIGHT = 120;
 	private static final int ALBUMS_PER_PAGE = 10;
-
+	
 	public Albums(final PageParameters parameters) {
 		super(parameters);
 		add(createAlbumForm());
@@ -55,6 +59,9 @@ public class Albums extends BasePageAuth {
 		LoadableDetachableModel<ArrayList<Album>> ldm = new AlbumsModelFull();
 		DataView<Album> dataView = new DataView<Album>("pageable",
 				new AlbumListDataProvider(ldm.getObject().size())) {
+			public String getPrivacity() {
+				return "SHAREABLE";
+			}
 			protected void populateItem(final Item<Album> item) {
 				PageParameters pars = new PageParameters();
 				pars.add("album", item.getModelObject().getName());
@@ -95,13 +102,35 @@ public class Albums extends BasePageAuth {
 				BookmarkablePageLink<Void> bp2 = new BookmarkablePageLink<Void>(
 						"share", Share.class, pars);
 				item.add(bp2);
+
+				
+				final List<String> privacityLevels = Arrays.asList(new String[] {
+						"PUBLIC", "SHAREABLE", "PRIVATE" });
+
+				String privacityDefault = item.getModelObject().getPrivacity();
+
+				
+				Form form = new Form("formPrivacitySelector"); 
+				DropDownChoice<String> choice = new DropDownChoice<String>(
+						("privacitySelector"),
+						new PropertyModel<String>(this, "privacity"),
+						privacityLevels){
+					void onSelectionChange(){
+						info("\n\n\n\n HA CAMBIADO \n\n\n\n\n");
+					}
+				};
+				
+				
+				item.add(form);
+				form.add(choice);
+
 			}
 		};
 		ldm.detach();
 		dataView.setItemsPerPage(ALBUMS_PER_PAGE);
 		return dataView;
 	}
-
+	
 	private Form<Album> createAlbumForm() {
 		Form<Album> form = new Form<Album>("form") {
 			@Override
