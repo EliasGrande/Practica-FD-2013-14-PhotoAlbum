@@ -17,4 +17,6 @@ public interface AlbumService {
 	Album getById(Integer id);
 
 	ArrayList<Album> getAlbums(Integer id);
+
+	ArrayList<Album> getPublicAlbums();
 }

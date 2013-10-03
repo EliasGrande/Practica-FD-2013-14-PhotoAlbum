@@ -56,6 +56,7 @@ public class TestLoginPage {
 					public ArrayList<Album> getAlbums(Integer id) {
 						return new ArrayList<Album>();
 					}
+					public ArrayList<Album> getPublicAlbums() { return new ArrayList<Album>(); }
 				};
 				context.putBean("userBean", mock);
 				context.putBean("albumBean", mockAlbum);

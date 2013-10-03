@@ -47,6 +47,7 @@ public class TestAlbumsPage {
 					}
 					public Album getById(Integer id) { return null; }
 					public ArrayList<Album> getAlbums(Integer id) { return new ArrayList<Album>(); }
+					public ArrayList<Album> getPublicAlbums() { return new ArrayList<Album>(); }
 				};
 				UserService mock = new UserService() {
 					public void create(User user) {	}
