@@ -18,6 +18,7 @@ public class Album implements Serializable {
 	private Set<ShareInformation> shareInformation = new HashSet<ShareInformation>();
 
 	public Album() {
+		privacyLevel = "SHAREABLE";
 	}
 
 	public Album(Integer id, String name, User user, Set<File> files,

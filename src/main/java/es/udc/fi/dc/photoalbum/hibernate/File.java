@@ -17,6 +17,7 @@ public class File implements Serializable {
 	private Album album;
 
 	public File() { 
+		privacyLevel = "PUBLIC";
 	}
 
 	public File(Integer id, String name, byte[] file, byte[] fileSmall,
