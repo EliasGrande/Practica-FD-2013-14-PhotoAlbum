@@ -16,7 +16,7 @@ public class File implements Serializable {
 	private byte[] fileSmall;
 	private Album album;
 
-	public File() {
+	public File() { 
 	}
 
 	public File(Integer id, String name, byte[] file, byte[] fileSmall,
