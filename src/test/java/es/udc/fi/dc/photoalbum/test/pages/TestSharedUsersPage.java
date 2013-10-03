@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 import org.apache.wicket.Session;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
@@ -20,6 +19,7 @@ import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedUsers;
@@ -48,7 +48,7 @@ public class TestSharedUsersPage {
 					public void delete(ShareInformation shareInformation) {	}
 					public List<ShareInformation> getShares(User userShared, User userSharedTo) { return null; }
 					public ShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
-						return new ShareInformation(1, new Album(1, null, null, null, null), null); 
+						return new ShareInformation(1, new Album(1, null, null, null, null, PrivacyLevel.SHAREABLE), null); 
 					}
 					public ArrayList<ShareInformation> getAlbumShares(
 							int albumId) { return null; }

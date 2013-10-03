@@ -10,7 +10,6 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
-
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -30,6 +29,7 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.Share;
@@ -50,7 +50,7 @@ public class TestSharePage {
 					public void rename(Album album, String newName) { }
 					public Album getAlbum(String name, int userId) {
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						Album album = new Album(1, ALBUM_NAME_EXIST, user, null, null);
+						Album album = new Album(1, ALBUM_NAME_EXIST, user, null, null, PrivacyLevel.SHAREABLE);
 						files.add(new File(1, "1", new byte[1], new byte[1], album));
 						album.setFiles(files);
 						album.setShareInformation(shares);

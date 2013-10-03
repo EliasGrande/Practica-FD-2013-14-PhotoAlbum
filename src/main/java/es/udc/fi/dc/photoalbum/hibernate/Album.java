@@ -13,7 +13,7 @@ public class Album implements Serializable {
 	private Integer id;
 	private String name;
 	private User user;
-	private String Privacity;
+	private String privacity;
 	private Set<File> files = new HashSet<File>();
 	private Set<ShareInformation> shareInformation = new HashSet<ShareInformation>();
 
@@ -21,11 +21,11 @@ public class Album implements Serializable {
 	}
 
 	public Album(Integer id, String name, User user, Set<File> files,
-			Set<ShareInformation> shareInformation) {
+			Set<ShareInformation> shareInformation, String privacity) {
 		this.id = id;
 		this.name = name;
 		this.user = user;
-		this.Privacity = "PUBLIC";
+		this.privacity = privacity;
 		this.files = files;
 		this.shareInformation = shareInformation;
 	}
@@ -59,11 +59,11 @@ public class Album implements Serializable {
 	}
 
 	public String getPrivacity() {
-		return Privacity;
+		return privacity;
 	}
 
 	public void setPrivacity(String privacity) {
-		Privacity = privacity;
+		this.privacity = privacity;
 	}
 
 	@Id

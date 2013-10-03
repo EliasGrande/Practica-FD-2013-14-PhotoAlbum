@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -23,6 +22,7 @@ import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedAlbums;
@@ -43,7 +43,7 @@ public class TestSharedAlbumsPage {
 					public void delete(ShareInformation shareInformation) {	}
 					public List<ShareInformation> getShares(User userShared, User userSharedTo) {
 						ArrayList<ShareInformation> list = new ArrayList<ShareInformation>();
-						list.add(new ShareInformation(1, new Album(1, ALBUM_NAME_EXIST, null, null, null), new User()));
+						list.add(new ShareInformation(1, new Album(1, ALBUM_NAME_EXIST, null, null, null, PrivacyLevel.SHAREABLE), new User()));
 						return list;
 					}
 					public ShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
