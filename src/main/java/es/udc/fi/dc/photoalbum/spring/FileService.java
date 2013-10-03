@@ -24,4 +24,6 @@ public interface FileService {
 	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count);
 
 	Long getCountAlbumFiles(int albumId);
+	
+	void changePrivacy(File file, String privacy);
 }

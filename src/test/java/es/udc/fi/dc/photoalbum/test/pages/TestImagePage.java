@@ -56,6 +56,7 @@ public class TestImagePage {
 						list.add(album);
 						return list;
 					}
+					public ArrayList<Album> getPublicAlbums() { return null; }
 				};
 				FileService mockFile = new FileService() {
 					public void create(File file) {	}

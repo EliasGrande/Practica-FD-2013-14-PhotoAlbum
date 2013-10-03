@@ -61,6 +61,7 @@ public class TestSharePage {
 					public void create(Album album) { }
 					public Album getById(Integer id) { return null; }
 					public ArrayList<Album> getAlbums(Integer id) { return null; }
+					public ArrayList<Album> getPublicAlbums() { return null; }
 				};
 				FileService mockFile = new FileService() {
 					public void create(File file) {	}

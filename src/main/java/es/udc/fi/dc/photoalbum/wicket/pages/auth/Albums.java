@@ -30,6 +30,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.AlbumListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
@@ -59,7 +60,7 @@ public class Albums extends BasePageAuth {
 		LoadableDetachableModel<ArrayList<Album>> ldm = new AlbumsModelFull();
 		DataView<Album> dataView = new DataView<Album>("pageable",
 				new AlbumListDataProvider(ldm.getObject().size())) {
-			public String getPrivacity() {
+			public String getPrivacyLevel() {
 				return "SHAREABLE";
 			}
 			protected void populateItem(final Item<Album> item) {
@@ -102,24 +103,16 @@ public class Albums extends BasePageAuth {
 				BookmarkablePageLink<Void> bp2 = new BookmarkablePageLink<Void>(
 						"share", Share.class, pars);
 				item.add(bp2);
-
-				
-				final List<String> privacityLevels = Arrays.asList(new String[] {
-						"PUBLIC", "SHAREABLE", "PRIVATE" });
-
-				String privacityDefault = item.getModelObject().getPrivacity();
-
 				
 				Form form = new Form("formPrivacitySelector"); 
 				DropDownChoice<String> choice = new DropDownChoice<String>(
 						("privacitySelector"),
 						new PropertyModel<String>(this, "privacity"),
-						privacityLevels){
+						PrivacyLevel.LIST){
 					void onSelectionChange(){
 						info("\n\n\n\n HA CAMBIADO \n\n\n\n\n");
 					}
 				};
-				
 				
 				item.add(form);
 				form.add(choice);

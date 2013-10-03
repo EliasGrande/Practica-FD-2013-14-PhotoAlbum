@@ -43,4 +43,8 @@ public class AlbumServiceImpl implements AlbumService {
 	public ArrayList<Album> getAlbums(Integer id) {
 		return albumDao.getAlbums(id);
 	}
+
+	public ArrayList<Album> getPublicAlbums() {
+		return albumDao.getPublicAlbums();
+	}
 }

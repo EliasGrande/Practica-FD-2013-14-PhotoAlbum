@@ -56,6 +56,14 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
 	}
 
+	@SuppressWarnings("unchecked")
+	public ArrayList<Album> getPublicAlbums() {
+		return (ArrayList<Album>) getHibernateTemplate().findByCriteria(
+				DetachedCriteria.forClass(Album.class).createCriteria("user")
+						.add(Restrictions.like("privacyLevel", PrivacyLevel.PRIVATE, MatchMode.EXACT))
+						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
+	}
+
 //	@SuppressWarnings("unchecked")
 //	public ArrayList<Album> getByIdAndMinPrivacyLevel(Integer id,
 //			String privacyLevel) {
