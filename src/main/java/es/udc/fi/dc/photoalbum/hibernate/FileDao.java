@@ -41,4 +41,6 @@ public interface FileDao extends GenericDao<File> {
 	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count);
 
 	Long getCountAlbumFiles(int albumId);
+	
+	void changePrivacy(File file, String privacity);
 }

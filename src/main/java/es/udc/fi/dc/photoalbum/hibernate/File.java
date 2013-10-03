@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 
 @Entity
@@ -10,6 +11,7 @@ public class File implements Serializable {
 
 	private Integer id;
 	private String name;
+	private String privacyLevel;
 	private byte[] file;
 	private byte[] fileSmall;
 	private Album album;
@@ -21,6 +23,7 @@ public class File implements Serializable {
 			Album album) {
 		this.id = id;
 		this.name = name;
+		this.privacyLevel = "PRIVATE";
 		this.file = file;
 		this.fileSmall = fileSmall;
 		this.album = album;
@@ -44,6 +47,15 @@ public class File implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Column(name = "PRIVACY_LEVEL")
+	public String getPrivacyLevel() {
+		return privacyLevel;
+	}
+
+	public void setPrivacyLevel(String privacyLevel) {
+		this.privacyLevel = privacyLevel;
 	}
 
 	@Column(name = "FILE")
