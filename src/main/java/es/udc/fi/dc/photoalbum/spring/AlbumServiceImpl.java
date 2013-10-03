@@ -47,4 +47,8 @@ public class AlbumServiceImpl implements AlbumService {
 	public ArrayList<Album> getPublicAlbums() {
 		return albumDao.getPublicAlbums();
 	}
+
+	public void changePrivacyLevel(Album album, String privacyLevel) {
+		albumDao.changePrivacyLevel(album, privacyLevel);
+	}
 }

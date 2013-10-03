@@ -28,6 +28,8 @@ public interface AlbumDao extends GenericDao<Album> {
 	ArrayList<Album> getAlbums(Integer id);
 	
 	ArrayList<Album> getPublicAlbums();
+	
+	void changePrivacyLevel(Album album, String privacyLevel);
 
 //	ArrayList<Album> getByIdAndMinPrivacyLevel(Integer id, String privacyLevel);
 }
