@@ -19,4 +19,6 @@ public interface AlbumService {
 	ArrayList<Album> getAlbums(Integer id);
 
 	ArrayList<Album> getPublicAlbums();
+
+	void changePrivacyLevel(Album album, String privacyLevel);
 }

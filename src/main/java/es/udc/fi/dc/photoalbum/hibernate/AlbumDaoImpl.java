@@ -63,6 +63,11 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 						.add(Restrictions.like("privacyLevel", PrivacyLevel.PRIVATE, MatchMode.EXACT))
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
 	}
+	
+	public void changePrivacyLevel(Album album, String privacyLevel) {
+		album.setPrivacyLevel(privacyLevel);
+		getHibernateTemplate().update(album);
+	}
 
 //	@SuppressWarnings("unchecked")
 //	public ArrayList<Album> getByIdAndMinPrivacyLevel(Integer id,
