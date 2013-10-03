@@ -23,7 +23,7 @@ public class File implements Serializable {
 			Album album) {
 		this.id = id;
 		this.name = name;
-		this.privacyLevel = "PRIVATE";
+		this.privacyLevel = "PUBLIC";
 		this.file = file;
 		this.fileSmall = fileSmall;
 		this.album = album;
