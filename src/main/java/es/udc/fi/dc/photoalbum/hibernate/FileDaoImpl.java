@@ -117,4 +117,9 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 										Criteria.DISTINCT_ROOT_ENTITY));
 		return list.get(0);
 	}
+
+	public void changePrivacy(File file, String privacyLevel) {
+		getHibernateTemplate().update(file);
+		file.setPrivacyLevel(privacyLevel);
+	}
 }

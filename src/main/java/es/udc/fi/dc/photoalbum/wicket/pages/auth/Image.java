@@ -1,7 +1,13 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 
+import java.sql.Blob;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -23,8 +29,6 @@ import es.udc.fi.dc.photoalbum.wicket.NavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileOwnModel;
-
-import java.sql.Blob;
 
 @SuppressWarnings("serial")
 public class Image extends BasePageAuth {
@@ -54,6 +58,7 @@ public class Image extends BasePageAuth {
 			add(createNonCachingImage());
 			add(createFormDelete());
 			add(createFormMove());
+			add(createFormPrivacy());
 			add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
 					(new PageParameters()).add("album", name)));
 		} else {
@@ -100,6 +105,33 @@ public class Image extends BasePageAuth {
 				null));
 		form.add(listAlbums);
 		form.add(new FeedbackPanel("feedback"));
+		return form;
+	}
+
+	private Form<Void> createFormPrivacy() {
+		final List<String> privacityLevels = Arrays.asList(new String[] {
+				"PUBLIC", "SHAREABLE", "PRIVATE" });
+		Form<Void> form = new Form<Void>("formPrivacitySelector");
+		add(form);
+		DropDownChoice<String> choice = new DropDownChoice<String>(
+				("privacitySelector"), new PropertyModel<String>(this,
+						"privacity"), privacityLevels);
+		/*Form<Void> form = new Form<Void>("formPrivacitySelector");
+
+		DropDownChoice<String> choice = new DropDownChoice<String>(
+				("privacitySelector"), new PropertyModel<String>(this,
+						"privacity"), privacityLevels);
+		choice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+			@Override
+			protected void onUpdate(AjaxRequestTarget target) {
+				
+				 * fileService.update(fileOwnModel.getObject()); 
+				 * info(new StringResourceModel("image.updated", this, null)
+				 * .getString());
+				 
+			}
+		});
+		form.add(choice);*/
 		return form;
 	}
 
