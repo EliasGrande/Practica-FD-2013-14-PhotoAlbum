@@ -104,10 +104,10 @@ public class Albums extends BasePageAuth {
 						"share", Share.class, pars);
 				item.add(bp2);
 				
-				Form form = new Form("formPrivacitySelector"); 
+				Form form = new Form("formPrivacyLevelSelector"); 
 				DropDownChoice<String> choice = new DropDownChoice<String>(
-						("privacitySelector"),
-						new PropertyModel<String>(this, "privacity"),
+						("privacyLevelSelector"),
+						new PropertyModel<String>(this, "privacyLevel"),
 						PrivacyLevel.LIST){
 					void onSelectionChange(){
 						info("\n\n\n\n HA CAMBIADO \n\n\n\n\n");

@@ -58,7 +58,7 @@ public class Image extends BasePageAuth {
 			add(createNonCachingImage());
 			add(createFormDelete());
 			add(createFormMove());
-			add(createFormPrivacy());
+			//add(createFormPrivacy());
 			add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
 					(new PageParameters()).add("album", name)));
 		} else {
@@ -108,7 +108,7 @@ public class Image extends BasePageAuth {
 		return form;
 	}
 
-	private Form<Void> createFormPrivacy() {
+	/*private Form<Void> createFormPrivacy() {
 		final List<String> privacityLevels = Arrays.asList(new String[] {
 				"PUBLIC", "SHAREABLE", "PRIVATE" });
 		Form<Void> form = new Form<Void>("formPrivacitySelector");
@@ -116,7 +116,7 @@ public class Image extends BasePageAuth {
 		DropDownChoice<String> choice = new DropDownChoice<String>(
 				("privacitySelector"), new PropertyModel<String>(this,
 						"privacity"), privacityLevels);
-		/*Form<Void> form = new Form<Void>("formPrivacitySelector");
+		Form<Void> form = new Form<Void>("formPrivacitySelector");
 
 		DropDownChoice<String> choice = new DropDownChoice<String>(
 				("privacitySelector"), new PropertyModel<String>(this,
@@ -131,9 +131,9 @@ public class Image extends BasePageAuth {
 				 
 			}
 		});
-		form.add(choice);*/
+		form.add(choice);
 		return form;
-	}
+	}*/
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
