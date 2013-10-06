@@ -3,7 +3,9 @@ package es.udc.fi.dc.photoalbum.hibernate;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
@@ -55,10 +57,8 @@ public class ShareInformationDaoImpl extends HibernateDaoSupport implements
 						.add(Restrictions.eq("us.id", userSharedTo.getId()))
 						.add(Restrictions
 								.disjunction()
-								.add(Restrictions
-										.like("al.privacyLevel",
-												PrivacyLevel.SHAREABLE,
-												MatchMode.EXACT))
+								.add(Restrictions.like("al.privacyLevel",
+										PrivacyLevel.SHAREABLE, MatchMode.EXACT))
 								.add(Restrictions.like("al.privacyLevel",
 										PrivacyLevel.PUBLIC, MatchMode.EXACT)))
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
@@ -121,7 +121,8 @@ public class ShareInformationDaoImpl extends HibernateDaoSupport implements
 
 	/**
 	 * Usado en "Albumes compartidos conmigo" para mostrar la lista de usuarios
-	 * que me comparten algo.
+	 * que me comparten algo. Si todos los albumes que me comparte otro usuario
+	 * son privados lo filtra para que no aparezca dicho usuario en la lista.
 	 * 
 	 * @param userId
 	 *            Id del usuario con el que se han compartido albumes.
@@ -133,8 +134,19 @@ public class ShareInformationDaoImpl extends HibernateDaoSupport implements
 				.findByCriteria(
 						DetachedCriteria
 								.forClass(ShareInformation.class)
-								.createCriteria("user")
-								.add(Restrictions.eq("id", userId))
+								.createAlias("user", "us")
+								.createAlias("album", "al")
+								.add(Restrictions.eq("us.id", userId))
+								.add(Restrictions
+										.disjunction()
+										.add(Restrictions.like(
+												"al.privacyLevel",
+												PrivacyLevel.SHAREABLE,
+												MatchMode.EXACT))
+										.add(Restrictions.like(
+												"al.privacyLevel",
+												PrivacyLevel.PUBLIC,
+												MatchMode.EXACT)))
 								.setResultTransformer(
 										Criteria.DISTINCT_ROOT_ENTITY));
 	}
