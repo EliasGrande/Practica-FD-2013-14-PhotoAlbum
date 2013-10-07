@@ -3,7 +3,6 @@ package es.udc.fi.dc.photoalbum.test.pages;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
 import org.apache.wicket.Session;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
@@ -20,7 +19,6 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
-
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
 
 public class TestAlbumsPage {
@@ -34,34 +32,67 @@ public class TestAlbumsPage {
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
 				AlbumService mockAlbum = new AlbumService() {
-					public void rename(Album album, String newName) { }
-					public Album getAlbum(String name, int userId) { return null; }
+					public void rename(Album album, String newName) {
+					}
+
+					public Album getAlbum(String name, int userId) {
+						return null;
+					}
+
 					public void delete(Album album) {
 						album.getUser().getAlbums().remove(album);
 					}
+
 					public void create(Album album) {
 						if (album.getName().equals(ALBUM_NAME_EXIST)) {
 							throw new DataIntegrityViolationException("");
 						}
 						album.getUser().getAlbums().add(album);
 					}
-					public Album getById(Integer id) { return null; }
-					public ArrayList<Album> getAlbums(Integer id) { return new ArrayList<Album>(); }
-					public ArrayList<Album> getPublicAlbums() { return new ArrayList<Album>(); }
+
+					public Album getById(Integer id) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbums(Integer id) {
+						return new ArrayList<Album>();
+					}
+
+					public ArrayList<Album> getPublicAlbums() {
+						return new ArrayList<Album>();
+					}
+
+					public void changePrivacyLevel(Album album,
+							String privacyLevel) {
+						album.setPrivacyLevel(privacyLevel);
+					}
 				};
 				UserService mock = new UserService() {
-					public void create(User user) {	}
-					public void delete(User user) { }
-					public void update(User user) { }
-					public User getUser(String email, String password) { return null; }
-					public User getUser(User userEmail) { return null; }
+					public void create(User user) {
+					}
+
+					public void delete(User user) {
+					}
+
+					public void update(User user) {
+					}
+
+					public User getUser(String email, String password) {
+						return null;
+					}
+
+					public User getUser(User userEmail) {
+						return null;
+					}
+
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
 				};
 				context.putBean("userBean", mock);
 				context.putBean("albumBean", mockAlbum);
-				getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
+				getComponentInstantiationListeners().add(
+						new SpringComponentInjector(this, context));
 			}
 		};
 	}
@@ -85,7 +116,8 @@ public class TestAlbumsPage {
 		FormTester formTester = this.tester.newFormTester("form");
 		formTester.setValue("AlbumName", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("Поле 'Название альбома' обязательно для ввода.");
+		this.tester
+				.assertErrorMessages("Поле 'Album name' обязательно для ввода.");
 	}
 
 	@Test
@@ -93,7 +125,8 @@ public class TestAlbumsPage {
 		FormTester formTester = this.tester.newFormTester("form");
 		formTester.setValue("AlbumName", ALBUM_NAME_EXIST);
 		formTester.submit();
-		this.tester.assertErrorMessages("Альбом с таким названием уже существует");
+		this.tester
+				.assertErrorMessages("Album with this name already exist");
 	}
 
 	@Test

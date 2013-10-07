@@ -53,6 +53,6 @@ public class TestErrorPage404 {
 	public void testRendered() {
 		this.tester.startPage(ErrorPage404.class);
 		tester.assertRenderedPage(ErrorPage404.class);
-		tester.assertContains("�������� �� �������");
+		tester.assertContains("Page Not Found");
 	}
 }

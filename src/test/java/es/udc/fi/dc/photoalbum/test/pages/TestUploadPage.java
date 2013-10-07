@@ -38,48 +38,110 @@ public class TestUploadPage {
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
 				AlbumService mockAlbum = new AlbumService() {
-					public void rename(Album album, String newName) { }
+					public void rename(Album album, String newName) {
+					}
+
 					public Album getAlbum(String name, int userId) {
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						Album album = new Album(1, ALBUM_NAME_EXIST, user, null, null, PrivacyLevel.SHAREABLE);
-						set.add(new File(1, "1", new byte[1], new byte[1], album));
+						Album album = new Album(1, ALBUM_NAME_EXIST, user,
+								null, null, PrivacyLevel.SHAREABLE);
+						set.add(new File(1, "1", new byte[1], new byte[1],
+								album));
 						album.setFiles(set);
 						user.getAlbums().add(album);
 						return album;
 					}
-					public void delete(Album album) { }
-					public void create(Album album) { }
-					public Album getById(Integer id) { return null; }
-					public ArrayList<Album> getAlbums(Integer id) { return null; }
-					public ArrayList<Album> getPublicAlbums() { return null; }
+
+					public void delete(Album album) {
+					}
+
+					public void create(Album album) {
+					}
+
+					public Album getById(Integer id) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbums(Integer id) {
+						return null;
+					}
+
+					public ArrayList<Album> getPublicAlbums() {
+						return null;
+					}
+
+					public void changePrivacyLevel(Album album,
+							String privacyLevel) {
+						album.setPrivacyLevel(privacyLevel);
+					}
 				};
 				FileService mockFile = new FileService() {
-					public void create(File file) {	}
-					public void delete(File file) {	}
-					public File getFileOwn(int id, String name, int userId) { return null; }
-					public File getFileShared(int id, String name, int userId) { return null; }
-					public void changeAlbum(File file, Album album) {	}
-					public File getById(Integer id) { return null; }
-					public ArrayList<File> getAlbumFiles(int albumId) { return new ArrayList<File>(); }
-					public ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count) { return null; }
+					public void create(File file) {
+					}
+
+					public void delete(File file) {
+					}
+
+					public File getFileOwn(int id, String name, int userId) {
+						return null;
+					}
+
+					public File getFileShared(int id, String name, int userId) {
+						return null;
+					}
+
+					public void changeAlbum(File file, Album album) {
+					}
+
+					public File getById(Integer id) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFiles(int albumId) {
+						return new ArrayList<File>();
+					}
+
+					public ArrayList<File> getAlbumFilesPaging(int albumId,
+							int first, int count) {
+						return null;
+					}
+
 					public Long getCountAlbumFiles(int albumId) {
 						return (long) 0;
 					}
+
+					public void changePrivacyLevel(File file,
+							String privacyLevel) {
+						file.setPrivacyLevel(privacyLevel);
+					}
 				};
 				UserService mock = new UserService() {
-					public void create(User user) {	}
-					public void delete(User user) { }
-					public void update(User user) { }
-					public User getUser(String email, String password) { return null; }
-					public User getUser(User userEmail) { return null; }
+					public void create(User user) {
+					}
+
+					public void delete(User user) {
+					}
+
+					public void update(User user) {
+					}
+
+					public User getUser(String email, String password) {
+						return null;
+					}
+
+					public User getUser(User userEmail) {
+						return null;
+					}
+
 					public User getById(Integer id) {
-						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES); 
+						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
 				};
 				context.putBean("userBean", mock);
 				context.putBean("albumBean", mockAlbum);
 				context.putBean("fileBean", mockFile);
-				getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
+				getComponentInstantiationListeners().add(
+						new SpringComponentInjector(this, context));
 			}
 		};
 	}

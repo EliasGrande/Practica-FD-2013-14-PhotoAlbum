@@ -25,5 +25,5 @@ public interface FileService {
 
 	Long getCountAlbumFiles(int albumId);
 	
-	void changePrivacy(File file, String privacy);
+	void changePrivacyLevel(File file, String privacyLevel);
 }

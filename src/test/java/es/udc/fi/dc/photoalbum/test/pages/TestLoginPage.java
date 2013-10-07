@@ -3,7 +3,6 @@ package es.udc.fi.dc.photoalbum.test.pages;
 import java.util.ArrayList;
 import java.util.Locale;
 
-
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.FormTester;
@@ -18,7 +17,6 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.Login;
-
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
 
 public class TestLoginPage {
@@ -32,31 +30,63 @@ public class TestLoginPage {
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
 				UserService mock = new UserService() {
-					public void create(User user) { }
-					public void delete(User user) { }
-					public void update(User user) { }
+					public void create(User user) {
+					}
+
+					public void delete(User user) {
+					}
+
+					public void update(User user) {
+					}
+
 					public User getUser(String email, String password) {
-						if ((email.equals(USER_EMAIL_EXIST)) && (password.equals(USER_PASS_YES))) {
+						if ((email.equals(USER_EMAIL_EXIST))
+								&& (password.equals(USER_PASS_YES))) {
 							return new User(1, email, password);
 						} else {
 							return null;
 						}
 					}
-					public User getUser(User userEmail) { return null; }
+
+					public User getUser(User userEmail) {
+						return null;
+					}
+
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
 				};
 				AlbumService mockAlbum = new AlbumService() {
-					public void rename(Album album, String newName) { }
-					public Album getAlbum(String name, int userId) { return null; }
-					public void delete(Album album) { }
-					public void create(Album album) { }
-					public Album getById(Integer id) { return null; }
+					public void rename(Album album, String newName) {
+					}
+
+					public Album getAlbum(String name, int userId) {
+						return null;
+					}
+
+					public void delete(Album album) {
+					}
+
+					public void create(Album album) {
+					}
+
+					public Album getById(Integer id) {
+						return null;
+					}
+
 					public ArrayList<Album> getAlbums(Integer id) {
 						return new ArrayList<Album>();
 					}
-					public ArrayList<Album> getPublicAlbums() { return new ArrayList<Album>(); }
+
+					public ArrayList<Album> getPublicAlbums() {
+						return new ArrayList<Album>();
+					}
+
+					public void changePrivacyLevel(Album album,
+							String privacyLevel) {
+						album.setPrivacyLevel(privacyLevel);
+
+					}
 				};
 				context.putBean("userBean", mock);
 				context.putBean("albumBean", mockAlbum);
@@ -80,8 +110,9 @@ public class TestLoginPage {
 		formTester.setValue("email", "");
 		formTester.setValue("password", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("���� '�������� ����' ����������� ��� �����.",
-                "���� '������' ����������� ��� �����.");
+		this.tester.assertErrorMessages(
+				"Поле 'Email' обязательно для ввода.",
+				"Поле 'Password' обязательно для ввода.");
 
 		this.tester.getSession().setLocale(Locale.ENGLISH);
 		formTester = this.tester.newFormTester("form");
@@ -89,7 +120,7 @@ public class TestLoginPage {
 		formTester.setValue("password", "");
 		formTester.submit();
 		this.tester.assertErrorMessages("Field 'Email' is required.",
-                "Field 'Password' is required.");
+				"Field 'Password' is required.");
 	}
 
 	@Test
@@ -98,8 +129,9 @@ public class TestLoginPage {
 		formTester.setValue("email", USER_EMAIL_NOT);
 		formTester.setValue("password", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("'123' �� �������� ���������� ������� e-mail.",
-                "���� '������' ����������� ��� �����.");
+		this.tester.assertErrorMessages(
+				"'123' не является правильным адресом e-mail.",
+				"Поле 'Password' обязательно для ввода.");
 	}
 
 	@Test
@@ -108,7 +140,8 @@ public class TestLoginPage {
 		formTester.setValue("email", USER_EMAIL_NOT);
 		formTester.setValue("password", USER_PASS_NO);
 		formTester.submit();
-		this.tester.assertErrorMessages("'123' �� �������� ���������� ������� e-mail.");
+		this.tester
+				.assertErrorMessages("'123' не является правильным адресом e-mail.");
 	}
 
 	@Test
@@ -117,7 +150,8 @@ public class TestLoginPage {
 		formTester.setValue("email", "");
 		formTester.setValue("password", USER_PASS_NO);
 		formTester.submit();
-		this.tester.assertErrorMessages("���� '�������� ����' ����������� ��� �����.");
+		this.tester
+				.assertErrorMessages("Поле 'Email' обязательно для ввода.");
 	}
 
 	@Test
@@ -126,7 +160,8 @@ public class TestLoginPage {
 		formTester.setValue("email", USER_EMAIL_EXIST);
 		formTester.setValue("password", USER_PASS_NO);
 		formTester.submit();
-		this.tester.assertErrorMessages("������������ � ����� ������/������� �� ����������");
+		this.tester
+				.assertErrorMessages("No user with this email/password");
 	}
 
 	@Test

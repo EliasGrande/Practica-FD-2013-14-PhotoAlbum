@@ -57,7 +57,7 @@ public class FileServiceImpl implements FileService {
 		return fileDao.getCountAlbumFiles(albumId);
 	}
 
-	public void changePrivacy(File file, String privacy) {
-		fileDao.changePrivacy(file, privacy);
+	public void changePrivacyLevel(File file, String privacyLevel) {
+		fileDao.changePrivacy(file, privacyLevel);
 	}
 }

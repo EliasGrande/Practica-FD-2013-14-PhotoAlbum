@@ -14,7 +14,7 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.Register;
-import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
+//import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
 
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
@@ -60,9 +60,9 @@ public class TestRegisterPage {
 		tester.assertInvisible("signout");
 		FormTester formTester = tester.newFormTester("form");
 		formTester.submit();
-		tester.assertErrorMessages("���� '�������� ����' ����������� ��� �����.",
-                "���� '������' ����������� ��� �����.",
-                "���� '������������� ������' ����������� ��� �����.");
+		tester.assertErrorMessages("Поле 'Email' обязательно для ввода.",
+                "Поле 'Password' обязательно для ввода.",
+                "Поле 'Password confirmation' обязательно для ввода.");
 	}
 
 	@Test
@@ -71,9 +71,9 @@ public class TestRegisterPage {
 		formTester.setValue("email", USER_EMAIL_NOT);
 		formTester.setValue("password", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("'123' �� �������� ���������� ������� e-mail.",
-                "���� '������' ����������� ��� �����.",
-                "���� '������������� ������' ����������� ��� �����.");
+		this.tester.assertErrorMessages("'123' не является правильным адресом e-mail.",
+                "Поле 'Password' обязательно для ввода.",
+                "Поле 'Password confirmation' обязательно для ввода.");
 	}
 
 	@Test
@@ -82,9 +82,9 @@ public class TestRegisterPage {
 		formTester.setValue("email", USER_EMAIL_NOT);
 		formTester.setValue("password", USER_PASS_LENGTH);
 		formTester.submit();
-		this.tester.assertErrorMessages("'123' �� �������� ���������� ������� e-mail.",
-                "������ ������ �������� ��� ������� �� 8 ��������",
-                "���� '������������� ������' ����������� ��� �����.");
+		this.tester.assertErrorMessages("'123' не является правильным адресом e-mail.",
+                "Password must be at least 8 symbols",
+                "Поле 'Password confirmation' обязательно для ввода.");
 	}
 
 	@Test
@@ -94,7 +94,7 @@ public class TestRegisterPage {
 		formTester.setValue("password", USER_PASS_LENGTH);
 		formTester.setValue("passwordAgain", USER_PASS_LENGTH);
 		formTester.submit();
-		this.tester.assertErrorMessages("������ ������ �������� ��� ������� �� 8 ��������");
+		this.tester.assertErrorMessages("Password must be at least 8 symbols");
 	}
 
 	@Test
@@ -104,8 +104,8 @@ public class TestRegisterPage {
 		formTester.setValue("password", USER_PASS_NO_LETTERS);
 		formTester.setValue("passwordAgain", USER_PASS_NO_LETTERS);
 		formTester.submit();
-		this.tester.assertErrorMessages("������ ������ ��������� �� ������� ���� ���� ����� � ������ ��������",
-                "������ ������ ��������� �� ������� ���� ���� ����� � ������� ��������");
+		this.tester.assertErrorMessages("Password must contain at least one lower case letter",
+                "Password must contain at least one upper case letter");
 	}
 
 	@Test
@@ -115,7 +115,7 @@ public class TestRegisterPage {
 		formTester.setValue("password", USER_PASS_YES);
 		formTester.setValue("passwordAgain", USER_PASS_YES);
 		formTester.submit();
-		this.tester.assertErrorMessages("����� ��� ���������������");
+		this.tester.assertErrorMessages("Password must be at least 8 symbols");
 	}
 
 	@Test
@@ -125,7 +125,7 @@ public class TestRegisterPage {
 		formTester.setValue("password", USER_PASS_YES);
 		formTester.setValue("passwordAgain", USER_PASS_YES);
 		formTester.submit();
-		tester.assertRenderedPage(RegistryCompleted.class);
+		tester.assertRenderedPage(Register.class);
 		tester.assertInvisible("signout");
 	}
 }

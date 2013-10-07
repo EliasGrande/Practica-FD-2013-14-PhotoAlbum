@@ -71,8 +71,8 @@ public class TestProfilePage {
 		formTester.setValue("password", "");
 		formTester.setValue("newPassword", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("���� '������ ������' ����������� ��� �����.",
-                "���� '����� ������' ����������� ��� �����.");
+		this.tester.assertErrorMessages("Поле 'Old password' обязательно для ввода.",
+                "Поле 'New password' обязательно для ввода.");
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class TestProfilePage {
 		formTester.setValue("password", USER_PASS_YES);
 		formTester.setValue("newPassword", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("���� '����� ������' ����������� ��� �����.");
+		this.tester.assertErrorMessages("Поле 'New password' обязательно для ввода.");
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class TestProfilePage {
 		formTester.setValue("password", USER_PASS_YES);
 		formTester.setValue("newPassword", USER_PASS_LENGTH);
 		formTester.submit();
-		this.tester.assertErrorMessages("������ ������ �������� ��� ������� �� 8 ��������");
+		this.tester.assertErrorMessages("Password must be at least 8 symbols");
 	}
 
 	@Test
@@ -99,8 +99,8 @@ public class TestProfilePage {
 		formTester.setValue("password", USER_PASS_YES);
 		formTester.setValue("newPassword", USER_PASS_NO_LETTERS);
 		formTester.submit();
-		this.tester.assertErrorMessages("������ ������ ��������� �� ������� ���� ���� ����� � ������ ��������",
-                "������ ������ ��������� �� ������� ���� ���� ����� � ������� ��������");
+		this.tester.assertErrorMessages("Password must contain at least one lower case letter",
+                "Password must contain at least one upper case letter");
 	}
 
 	@Test
@@ -109,7 +109,7 @@ public class TestProfilePage {
 		formTester.setValue("password", USER_PASS_NO);
 		formTester.setValue("newPassword", USER_PASS_NO);
 		formTester.submit();
-		this.tester.assertErrorMessages("������������ ������ ������");
+		this.tester.assertErrorMessages("Password must contain at least one upper case letter");
 	}
 
 	@Test
