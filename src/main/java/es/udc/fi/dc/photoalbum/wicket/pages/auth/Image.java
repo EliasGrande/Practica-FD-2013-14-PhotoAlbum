@@ -1,13 +1,9 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 
 import java.sql.Blob;
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -23,12 +19,15 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.spring.FileService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.NavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileOwnModel;
+import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelOption;
+import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelsModel;
 
 @SuppressWarnings("serial")
 public class Image extends BasePageAuth {
@@ -37,7 +36,8 @@ public class Image extends BasePageAuth {
 	private FileService fileService;
 	private FileOwnModel fileOwnModel;
 	private PageParameters parameters;
-	private Album selected;
+	private Album selectedAlbum;
+	private PrivacyLevelOption selectedPrivacyLevel;
 
 	public Image(final PageParameters parameters) {
 		super(parameters);
@@ -58,7 +58,7 @@ public class Image extends BasePageAuth {
 			add(createNonCachingImage());
 			add(createFormDelete());
 			add(createFormMove());
-			//add(createFormPrivacy());
+			add(createFormPrivacyLevel());
 			add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
 					(new PageParameters()).add("album", name)));
 		} else {
@@ -90,50 +90,49 @@ public class Image extends BasePageAuth {
 		Form<Void> form = new Form<Void>("formMove") {
 			@Override
 			public void onSubmit() {
-				fileService.changeAlbum(fileOwnModel.getObject(), selected);
+				fileService.changeAlbum(fileOwnModel.getObject(), selectedAlbum);
 				info(new StringResourceModel("image.moved", this, null)
 						.getString());
 				setResponsePage(new Upload(parameters.remove("fid")));
 			}
 		};
 		DropDownChoice<Album> listAlbums = new DropDownChoice<Album>("albums",
-				new PropertyModel<Album>(this, "selected"), new AlbumsModel(
+				new PropertyModel<Album>(this, "selectedAlbum"), new AlbumsModel(
 						fileOwnModel.getObject().getAlbum()),
 				new ChoiceRenderer<Album>("name", "id"));
 		listAlbums.setRequired(true);
 		listAlbums.setLabel(new StringResourceModel("image.moveAlbum", this,
 				null));
 		form.add(listAlbums);
-		form.add(new FeedbackPanel("feedback"));
+		form.add(new FeedbackPanel("feedbackAlbums"));
 		return form;
 	}
 
-	/*private Form<Void> createFormPrivacy() {
-		final List<String> privacityLevels = Arrays.asList(new String[] {
-				"PUBLIC", "SHAREABLE", "PRIVATE" });
-		Form<Void> form = new Form<Void>("formPrivacitySelector");
-		add(form);
-		DropDownChoice<String> choice = new DropDownChoice<String>(
-				("privacitySelector"), new PropertyModel<String>(this,
-						"privacity"), privacityLevels);
-		Form<Void> form = new Form<Void>("formPrivacitySelector");
-
-		DropDownChoice<String> choice = new DropDownChoice<String>(
-				("privacitySelector"), new PropertyModel<String>(this,
-						"privacity"), privacityLevels);
-		choice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+	private Form<Void> createFormPrivacyLevel() {
+		Form<Void> form = new Form<Void>("formPrivacyLevel") {
 			@Override
-			protected void onUpdate(AjaxRequestTarget target) {
-				
-				 * fileService.update(fileOwnModel.getObject()); 
-				 * info(new StringResourceModel("image.updated", this, null)
-				 * .getString());
-				 
+			public void onSubmit() {
+				if (selectedPrivacyLevel != null &&PrivacyLevel.validate(selectedPrivacyLevel.getValue())) {
+					fileService.changePrivacyLevel(fileOwnModel.getObject(), selectedPrivacyLevel.getValue());
+					info(new StringResourceModel("privacyLevel.changed", this, null)
+							.getString());
+				}
+				setResponsePage(new Image(parameters));
 			}
-		});
-		form.add(choice);
+		};
+		selectedPrivacyLevel = new PrivacyLevelOption(fileOwnModel.getObject()
+				.getPrivacyLevel(), this);
+		DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
+				"privacyLevels", new PropertyModel<PrivacyLevelOption>(this,
+						"selectedPrivacyLevel"), new PrivacyLevelsModel(this),
+				new ChoiceRenderer<PrivacyLevelOption>("label", "value"));
+		listPrivacyLevel.setRequired(true);
+		listPrivacyLevel.setLabel(new StringResourceModel(
+				"privacyLevel.change", this, null));
+		form.add(listPrivacyLevel);
+		form.add(new FeedbackPanel("feedbackPrivacyLevels"));
 		return form;
-	}*/
+	}
 
 	@Override
 	public void renderHead(IHeaderResponse response) {

@@ -24,17 +24,33 @@
 									</td>
 									<td><input type="submit" class="g-button-small" wicket:message="value:image.move" /></td>
 									<td>
-										<div align="center" wicket:id="feedback"></div>
+										<div align="center" wicket:id="feedbackAlbums"></div>
 									</td>
 								</tr>
 							</table>
 						</form>
 					</td>
-					<!--<td>  
-						<form wicket:id="formPrivacitySelector">
-							<select wicket:id="privacitySelector"></select>
+				</tr>
+				<tr>
+					<td colspan="2"></td>
+					<td>
+						<form wicket:id="formPrivacyLevel">
+							<table>
+								<tr>
+									<td>
+										<p>
+											<wicket:message key="privacyLevel.changeTitle" />
+											<select wicket:id="privacyLevels"></select>
+										</p>
+									</td>
+									<td><input type="submit" class="g-button-small" wicket:message="value:privacyLevel.change" /></td>
+									<td>
+										<div align="center" wicket:id="feedbackPrivacyLevels"></div>
+									</td>
+								</tr>
+							</table>
 						</form>
-					</td>-->
+					</td>
 				</tr>
 			</table>
 			<form wicket:id="formNavigate">
