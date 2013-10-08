@@ -1,11 +1,15 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 import java.util.ArrayList;
 
@@ -95,10 +99,32 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 	}
 
 	@SuppressWarnings("unchecked")
+	public ArrayList<File> getAlbumFiles(int albumId, String minPrivacyLevel) {
+		return (ArrayList<File>) getHibernateTemplate().findByCriteria(
+				DetachedCriteria.forClass(File.class)
+						.createAlias("album", "al")
+						.add(Restrictions.eq("al.id", albumId))
+						.add(PrivacyLevel.minPrivacyLevelCriterion(minPrivacyLevel))
+						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
+	}
+
+	@SuppressWarnings("unchecked")
 	public ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count) {
 		return (ArrayList<File>) getHibernateTemplate().getSessionFactory()
 				.getCurrentSession().createCriteria(File.class)
 				.createCriteria("album").add(Restrictions.eq("id", albumId))
+				.addOrder(Order.asc("id")).setFirstResult(first)
+				.setMaxResults(count)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count, String minPrivacyLevel) {
+		return (ArrayList<File>) getHibernateTemplate().getSessionFactory()
+				.getCurrentSession().createCriteria(File.class)
+				.createAlias("album", "al")
+				.add(Restrictions.eq("al.id", albumId))
+				.add(PrivacyLevel.minPrivacyLevelCriterion(minPrivacyLevel))
 				.addOrder(Order.asc("id")).setFirstResult(first)
 				.setMaxResults(count)
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();

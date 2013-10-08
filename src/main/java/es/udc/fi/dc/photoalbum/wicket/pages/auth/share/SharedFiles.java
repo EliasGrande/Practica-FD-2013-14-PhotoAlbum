@@ -16,6 +16,7 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
 import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.FileListDataProvider;
@@ -57,10 +58,10 @@ public class SharedFiles extends BasePageAuth {
 
 	private DataView<File> createDataView() {
 		LoadableDetachableModel<ArrayList<File>> ldm = new FilesModel(
-				this.album.getId());
+				this.album.getId(), PrivacyLevel.SHAREABLE);
 		DataView<File> dataView = new DataView<File>("pageable",
 				new FileListDataProvider(ldm.getObject().size(),
-						this.album.getId())) {
+						this.album.getId(), PrivacyLevel.SHAREABLE)) {
 			public void populateItem(final Item<File> item) {
 				PageParameters pars = new PageParameters();
 				pars.add("album", album.getName());

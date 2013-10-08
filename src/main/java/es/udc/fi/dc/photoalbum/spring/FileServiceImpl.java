@@ -49,8 +49,16 @@ public class FileServiceImpl implements FileService {
 		return fileDao.getAlbumFiles(albumId);
 	}
 
+	public ArrayList<File> getAlbumFiles(int albumId, String minPrivacyLevel) {
+		return fileDao.getAlbumFiles(albumId, minPrivacyLevel);
+	}
+
 	public ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count) {
 		return fileDao.getAlbumFilesPaging(albumId, first, count);
+	}
+
+	public ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count, String minPrivacyLevel) {
+		return fileDao.getAlbumFilesPaging(albumId, first, count, minPrivacyLevel);
 	}
 
 	public Long getCountAlbumFiles(int albumId) {

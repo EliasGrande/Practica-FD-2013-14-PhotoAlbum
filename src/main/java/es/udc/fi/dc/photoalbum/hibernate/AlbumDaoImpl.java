@@ -60,7 +60,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 	public ArrayList<Album> getPublicAlbums() {
 		return (ArrayList<Album>) getHibernateTemplate().findByCriteria(
 				DetachedCriteria.forClass(Album.class).createCriteria("user")
-						.add(Restrictions.like("privacyLevel", PrivacyLevel.PRIVATE, MatchMode.EXACT))
+						.add(PrivacyLevel.minPrivacyLevelCriterion(PrivacyLevel.PUBLIC))
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
 	}
 	
@@ -68,29 +68,4 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 		album.setPrivacyLevel(privacyLevel);
 		getHibernateTemplate().update(album);
 	}
-
-//	@SuppressWarnings("unchecked")
-//	public ArrayList<Album> getByIdAndMinPrivacyLevel(Integer id,
-//			String privacyLevel) {
-//
-//		Criterion privacyLevelCriterion = Restrictions.like("privacity",
-//				PrivacyLevel.PUBLIC, MatchMode.EXACT);
-//		boolean getPrivates = PrivacyLevel.PRIVATE.equals(privacyLevel);
-//		boolean getShareables = PrivacyLevel.SHAREABLE.equals(privacyLevel)
-//				|| getPrivates;
-//		if (getShareables)
-//			privacyLevelCriterion = Restrictions.or(privacyLevelCriterion,
-//					Restrictions.like("privacity", PrivacyLevel.SHAREABLE,
-//							MatchMode.EXACT));
-//		else if (getPrivates)
-//			privacyLevelCriterion = Restrictions.or(privacyLevelCriterion,
-//					Restrictions.like("privacity", PrivacyLevel.PRIVATE,
-//							MatchMode.EXACT));
-//
-//		return (ArrayList<Album>) getHibernateTemplate().findByCriteria(
-//				DetachedCriteria.forClass(Album.class).createCriteria("user")
-//						.add(Restrictions.eq("id", id))
-//						.add(privacyLevelCriterion)
-//						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
-//	}
 }

@@ -3,9 +3,7 @@ package es.udc.fi.dc.photoalbum.hibernate;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
@@ -55,12 +53,8 @@ public class ShareInformationDaoImpl extends HibernateDaoSupport implements
 						.createAlias("user", "us")
 						.add(Restrictions.eq("alus.id", userShared.getId()))
 						.add(Restrictions.eq("us.id", userSharedTo.getId()))
-						.add(Restrictions
-								.disjunction()
-								.add(Restrictions.like("al.privacyLevel",
-										PrivacyLevel.SHAREABLE, MatchMode.EXACT))
-								.add(Restrictions.like("al.privacyLevel",
-										PrivacyLevel.PUBLIC, MatchMode.EXACT)))
+						.add(PrivacyLevel.minPrivacyLevelCriterion(
+								"al.privacyLevel", PrivacyLevel.SHAREABLE))
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
 	}
 
@@ -137,16 +131,9 @@ public class ShareInformationDaoImpl extends HibernateDaoSupport implements
 								.createAlias("user", "us")
 								.createAlias("album", "al")
 								.add(Restrictions.eq("us.id", userId))
-								.add(Restrictions
-										.disjunction()
-										.add(Restrictions.like(
-												"al.privacyLevel",
-												PrivacyLevel.SHAREABLE,
-												MatchMode.EXACT))
-										.add(Restrictions.like(
-												"al.privacyLevel",
-												PrivacyLevel.PUBLIC,
-												MatchMode.EXACT)))
+								.add(PrivacyLevel.minPrivacyLevelCriterion(
+										"al.privacyLevel",
+										PrivacyLevel.SHAREABLE))
 								.setResultTransformer(
 										Criteria.DISTINCT_ROOT_ENTITY));
 	}

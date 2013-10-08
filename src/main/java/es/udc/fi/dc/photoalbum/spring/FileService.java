@@ -21,7 +21,11 @@ public interface FileService {
 
 	ArrayList<File> getAlbumFiles(int albumId);
 
+	ArrayList<File> getAlbumFiles(int albumId, String minPrivacyLevel);
+
 	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count);
+
+	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count, String minPrivacyLevel);
 
 	Long getCountAlbumFiles(int albumId);
 	
