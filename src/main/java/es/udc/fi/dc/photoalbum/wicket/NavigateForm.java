@@ -6,6 +6,7 @@ import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.FilesModel;
 
@@ -28,8 +29,13 @@ public class NavigateForm<T> extends Form<T> {
 	 */
 	public NavigateForm(String path, int albumId, int fileId,
 			final Class<? extends IRequestablePage> cls) {
+		this(path, albumId, fileId, PrivacyLevel.PRIVATE, cls);
+	}
+	
+	public NavigateForm(String path, int albumId, int fileId, String minPrivacyLevel,
+			final Class<? extends IRequestablePage> cls) {
 		super(path);
-		FilesModel ldm = new FilesModel(albumId);
+		FilesModel ldm = new FilesModel(albumId, minPrivacyLevel);
 		Iterator<File> iterator = ldm.getObject().iterator();
 		boolean b = true;
 		int i = -1;

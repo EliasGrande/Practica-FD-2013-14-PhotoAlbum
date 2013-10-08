@@ -6,7 +6,9 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
@@ -43,42 +45,50 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public File getFileShared(int id, String name, int userId) {
-		File file;
+	private File getFileSharedOrPublic(int id, String name, int userId,
+			String minPrivacyLevel) {
+
+		DetachedCriteria subquery = DetachedCriteria
+				.forClass(ShareInformation.class, "shareinformation")
+				.createAlias("shareinformation.album", "sinf_al")
+				.createAlias("shareinformation.user", "sinf_us")
+				// file is in the album
+				.add(Restrictions.eqProperty("sinf_al.id", "file_al.id"))
+				// album name is correct
+				.add(Restrictions.eq("sinf_al.name", name))
+				// album shareable or public
+				.add(PrivacyLevel.minPrivacyLevelCriterion(
+						"sinf_al.privacyLevel", minPrivacyLevel))
+				// album shared with the indicated user
+				.add(Restrictions.eq("sinf_us.id", userId))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				// return only album id
+				.setProjection(Property.forName("sinf_al.id"));
+		
 		ArrayList<File> list = (ArrayList<File>) getHibernateTemplate()
 				.findByCriteria(
 						DetachedCriteria
-								.forClass(File.class)
-								.add(Restrictions.eq("id", id))
-								.createCriteria("album")
-								.add(Restrictions.eq("name", name))
+								.forClass(File.class, "file")
+								.createAlias("file.album", "file_al")
+								// file id exist
+								.add(Restrictions.eq("file.id", id))
+								// file shareable or public
+								.add(PrivacyLevel
+										.minPrivacyLevelCriterion(minPrivacyLevel))
+								// album subquery check
+								.add(Subqueries.exists(subquery))
 								.setResultTransformer(
 										Criteria.DISTINCT_ROOT_ENTITY));
+		
 		if (list.size() == 1) {
-			file = list.get(0);
+			return list.get(0);
 		} else {
-			file = null;
+			return null;
 		}
-		if (file != null) {
-			ArrayList<ShareInformation> list2 = (ArrayList<ShareInformation>) getHibernateTemplate()
-					.findByCriteria(
-							DetachedCriteria
-									.forClass(ShareInformation.class)
-									.createAlias("album", "al")
-									.createAlias("user", "us")
-									.add(Restrictions.eq("al.id", file
-											.getAlbum().getId()))
-									.add(Restrictions.eq("us.id", userId))
-									.setResultTransformer(
-											Criteria.DISTINCT_ROOT_ENTITY));
-			if ((list2.isEmpty())) {
-				return null;
-			} else {
-				return file;
-			}
-		} else {
-			return file;
-		}
+	}
+
+	public File getFileShared(int id, String name, int userId) {
+		return getFileSharedOrPublic(id,name,userId,PrivacyLevel.SHAREABLE);
 	}
 
 	public void delete(File file) {
