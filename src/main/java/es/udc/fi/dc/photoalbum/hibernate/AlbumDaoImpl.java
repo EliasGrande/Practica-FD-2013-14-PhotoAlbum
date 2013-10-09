@@ -59,8 +59,9 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Album> getPublicAlbums() {
 		return (ArrayList<Album>) getHibernateTemplate().findByCriteria(
-				DetachedCriteria.forClass(Album.class).createCriteria("user")
-						.add(PrivacyLevel.minPrivacyLevelCriterion(PrivacyLevel.PUBLIC))
+				DetachedCriteria.forClass(Album.class)
+						.add(Restrictions.like("privacyLevel", PrivacyLevel.PUBLIC))
+						.createCriteria("user")
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
 	}
 	
