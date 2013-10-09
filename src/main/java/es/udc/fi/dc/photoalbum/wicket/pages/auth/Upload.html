@@ -18,10 +18,24 @@
 								</span></td>
 								<td><input type="submit" wicket:id="ajax-button" class="g-button-small" wicket:message="value:upload.submit" /></td>
 							</tr>
+							
 						</table>
 					</fieldset>
 				</div>
 			</form>
+			<form wicket:id="formPrivacyLevel">
+							<table>
+								<tr>
+									<td>
+										<p>
+											<wicket:message key="privacyLevel.changeTitle" />
+											<select wicket:id="privacyLevels"></select>
+										</p>
+									</td>
+									<td><input type="submit" class="g-button-small" wicket:message="value:privacyLevel.change" /></td>
+								</tr>
+							</table>
+						</form>
 			<div wicket:id="uploadFeedback"></div> 
 			<br>
 			<div wicket:id="dataContainer">

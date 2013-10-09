@@ -3,6 +3,8 @@ package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
@@ -12,19 +14,24 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.utils.ResizeImage;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.FileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
+import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelOption;
+import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelsModel;
 
 import java.sql.Blob;
 import java.util.List;
@@ -34,12 +41,16 @@ public class Upload extends BasePageAuth {
 
 	@SpringBean
 	private FileService fileService;
+	@SpringBean
+	private AlbumService albumService;
 	private AlbumModel am;
 	private static final int ITEMS_PER_PAGE = 10;
 	private static final int MAX_UPLOAD = 10000;
 	private static final int SIZE = 200;
 	private FeedbackPanel feedback;
-
+	private PrivacyLevelOption selectedPrivacyLevel;
+	private PageParameters parameters;
+	
 	public Upload(PageParameters parameters) {
 		super(parameters);
 		if (parameters.getNamedKeys().contains("album")) {
@@ -57,7 +68,9 @@ public class Upload extends BasePageAuth {
 		feedback.setOutputMarkupId(true);
 		add(feedback);
 		this.feedback = feedback;
+		this.parameters = parameters;
 		add(createUplooadForm());
+		add(createFormPrivacyLevel());
 		add(new AjaxDataView("dataContainer", "navigator", createFileDataView()));
 	}
 
@@ -131,6 +144,31 @@ public class Upload extends BasePageAuth {
 		form.setMultiPart(true);
 		form.setMaxSize(Bytes.kilobytes(MAX_UPLOAD));
 		form.add(new MyAjaxButton("ajax-button", form, feedback));
+		return form;
+	}
+	
+	private Form<Void> createFormPrivacyLevel() {
+		Form<Void> form = new Form<Void>("formPrivacyLevel") {
+			@Override
+			public void onSubmit() {
+				if (PrivacyLevel.validate(selectedPrivacyLevel.getValue())) {
+					albumService.changePrivacyLevel(am.getObject(), selectedPrivacyLevel.getValue());
+					info(new StringResourceModel("privacyLevel.changed", this,
+							null).getString());
+				}
+				setResponsePage(new Upload(parameters));
+			}
+		};
+		selectedPrivacyLevel = new PrivacyLevelOption(am.getObject().getPrivacyLevel(), this);
+		DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
+				"privacyLevels", new PropertyModel<PrivacyLevelOption>(this,
+						"selectedPrivacyLevel"), new PrivacyLevelsModel(this),
+				new ChoiceRenderer<PrivacyLevelOption>("label", "value"));
+		listPrivacyLevel.setRequired(true);
+		listPrivacyLevel.setLabel(new StringResourceModel(
+				"privacyLevel.change", this, null));
+		form.add(listPrivacyLevel);
+        
 		return form;
 	}
 

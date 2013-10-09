@@ -1,8 +1,6 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -11,8 +9,6 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.ChoiceRenderer;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -30,7 +26,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.AlbumListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
@@ -60,9 +55,7 @@ public class Albums extends BasePageAuth {
 		LoadableDetachableModel<ArrayList<Album>> ldm = new AlbumsModelFull();
 		DataView<Album> dataView = new DataView<Album>("pageable",
 				new AlbumListDataProvider(ldm.getObject().size())) {
-			public String getPrivacyLevel() {
-				return "SHAREABLE";
-			}
+			
 			protected void populateItem(final Item<Album> item) {
 				PageParameters pars = new PageParameters();
 				pars.add("album", item.getModelObject().getName());
@@ -103,19 +96,6 @@ public class Albums extends BasePageAuth {
 				BookmarkablePageLink<Void> bp2 = new BookmarkablePageLink<Void>(
 						"share", Share.class, pars);
 				item.add(bp2);
-				
-				Form form = new Form("formPrivacyLevelSelector"); 
-				DropDownChoice<String> choice = new DropDownChoice<String>(
-						("privacyLevelSelector"),
-						new PropertyModel<String>(this, "privacyLevel"),
-						PrivacyLevel.LIST){
-					void onSelectionChange(){
-						info("\n\n\n\n HA CAMBIADO \n\n\n\n\n");
-					}
-				};
-				
-				item.add(form);
-				form.add(choice);
 
 			}
 		};
