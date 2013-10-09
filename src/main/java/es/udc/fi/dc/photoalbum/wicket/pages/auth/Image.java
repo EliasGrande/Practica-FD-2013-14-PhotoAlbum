@@ -90,7 +90,8 @@ public class Image extends BasePageAuth {
 		Form<Void> form = new Form<Void>("formMove") {
 			@Override
 			public void onSubmit() {
-				fileService.changeAlbum(fileOwnModel.getObject(), selectedAlbum);
+				fileService
+						.changeAlbum(fileOwnModel.getObject(), selectedAlbum);
 				info(new StringResourceModel("image.moved", this, null)
 						.getString());
 				setResponsePage(new Upload(parameters.remove("fid")));
@@ -104,7 +105,7 @@ public class Image extends BasePageAuth {
 		listAlbums.setLabel(new StringResourceModel("image.moveAlbum", this,
 				null));
 		form.add(listAlbums);
-		form.add(new FeedbackPanel("feedbackAlbums"));
+		form.add(new FeedbackPanel("feedback"));
 		return form;
 	}
 
@@ -114,8 +115,8 @@ public class Image extends BasePageAuth {
 			public void onSubmit() {
 				if (selectedPrivacyLevel != null &&PrivacyLevel.validate(selectedPrivacyLevel.getValue())) {
 					fileService.changePrivacyLevel(fileOwnModel.getObject(), selectedPrivacyLevel.getValue());
-					info(new StringResourceModel("privacyLevel.changed", this, null)
-							.getString());
+					info(new StringResourceModel("privacyLevel.changed", this,
+							null).getString());
 				}
 				setResponsePage(new Image(parameters));
 			}
@@ -130,7 +131,7 @@ public class Image extends BasePageAuth {
 		listPrivacyLevel.setLabel(new StringResourceModel(
 				"privacyLevel.change", this, null));
 		form.add(listPrivacyLevel);
-		form.add(new FeedbackPanel("feedbackPrivacyLevels"));
+        
 		return form;
 	}
 

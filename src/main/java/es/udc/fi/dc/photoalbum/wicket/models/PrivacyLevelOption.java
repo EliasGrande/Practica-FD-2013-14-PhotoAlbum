@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.wicket.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -8,7 +9,8 @@ import org.apache.wicket.model.StringResourceModel;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
-public class PrivacyLevelOption {
+@SuppressWarnings("serial")
+public class PrivacyLevelOption implements Serializable {
 
 	private String label;
 	private String value;
