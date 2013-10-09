@@ -133,6 +133,36 @@ public class TestImagePage {
 							String privacyLevel) {
 						file.setPrivacyLevel(privacyLevel);
 					}
+
+					public ArrayList<File> getAlbumFiles(int albumId,
+							String minPrivacyLevel) {
+						ArrayList<File> list = new ArrayList<File>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.SHAREABLE);
+						File file = new File(1, "1", new byte[1], new byte[1],
+								album);
+						file.setPrivacyLevel(minPrivacyLevel);
+						set.add(file);
+						album.setFiles(set);
+						list.add(file);
+						return list;
+					}
+
+					public ArrayList<File> getAlbumFilesPaging(int albumId,
+							int first, int count, String minPrivacyLevel) {
+						ArrayList<File> list = new ArrayList<File>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.SHAREABLE);
+						File file = new File(1, "1", new byte[1], new byte[1],
+								album);
+						file.setPrivacyLevel(minPrivacyLevel);
+						set.add(file);
+						album.setFiles(set);
+						list.add(file);
+						return list;
+					}
 				};
 				UserService mock = new UserService() {
 					public void create(User user) {
@@ -199,5 +229,14 @@ public class TestImagePage {
 		DropDownChoice<Album> dropDownChoice = (DropDownChoice<Album>) tester
 				.getComponentFromLastRenderedPage("formMove:albums");
 		Assert.assertEquals(0, dropDownChoice.getChoices().size());
+	}
+	
+	@Test
+	public void testChangePrivacy() {
+		tester.assertRenderedPage(Image.class);
+		@SuppressWarnings("unchecked")
+		DropDownChoice<File> dropDownChoice = (DropDownChoice<File>) tester
+				.getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
+		Assert.assertEquals(3, dropDownChoice.getChoices().size());
 	}
 }

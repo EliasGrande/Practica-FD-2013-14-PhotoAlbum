@@ -96,6 +96,34 @@ public class TestSharedBigPage {
 							String privacyLevel) {
 						file.setPrivacyLevel(privacyLevel);
 					}
+
+					public ArrayList<File> getAlbumFiles(int albumId,
+							String minPrivacyLevel) {
+						ArrayList<File> list = new ArrayList<File>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.SHAREABLE);
+						File file = new File(1, "1", new byte[1], new byte[1],
+								album);
+						set.add(file);
+						album.setFiles(set);
+						list.add(file);
+						return list;
+					}
+
+					public ArrayList<File> getAlbumFilesPaging(int albumId,
+							int first, int count, String minPrivacyLevel) {
+						ArrayList<File> list = new ArrayList<File>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.SHAREABLE);
+						File file = new File(1, "1", new byte[1], new byte[1],
+								album);
+						set.add(file);
+						album.setFiles(set);
+						list.add(file);
+						return list;
+					}
 				};
 				UserService mock = new UserService() {
 					public void create(User user) {

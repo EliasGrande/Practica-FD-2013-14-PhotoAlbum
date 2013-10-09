@@ -5,8 +5,11 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import junit.framework.Assert;
+
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -24,6 +27,7 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Upload;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
 
@@ -114,6 +118,36 @@ public class TestUploadPage {
 							String privacyLevel) {
 						file.setPrivacyLevel(privacyLevel);
 					}
+
+					public ArrayList<File> getAlbumFiles(int albumId,
+							String minPrivacyLevel) {
+						ArrayList<File> list = new ArrayList<File>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						Album album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.SHAREABLE);
+						File file = new File(albumId, "1", new byte[1], new byte[1],
+								album);
+						file.setPrivacyLevel(minPrivacyLevel);
+						set.add(file);
+						album.setFiles(set);
+						list.add(file);
+						return list;
+					}
+
+					public ArrayList<File> getAlbumFilesPaging(int albumId,
+							int first, int count, String minPrivacyLevel) {
+						ArrayList<File> list = new ArrayList<File>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						Album album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.SHAREABLE);
+						File file = new File(albumId, "1", new byte[1], new byte[1],
+								album);
+						file.setPrivacyLevel(minPrivacyLevel);
+						set.add(file);
+						album.setFiles(set);
+						list.add(file);
+						return list;
+					}
 				};
 				UserService mock = new UserService() {
 					public void create(User user) {
@@ -162,5 +196,14 @@ public class TestUploadPage {
 	public void testRendered() {
 		tester.assertRenderedPage(Upload.class);
 		tester.assertComponent("upload:fileInput", FileUploadField.class);
+	}
+	
+	@Test
+	public void testChangePrivacy() {
+		tester.assertRenderedPage(Upload.class);
+		@SuppressWarnings("unchecked")
+		DropDownChoice<Album> dropDownChoice = (DropDownChoice<Album>) tester
+				.getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
+		Assert.assertEquals(3, dropDownChoice.getChoices().size());
 	}
 }
