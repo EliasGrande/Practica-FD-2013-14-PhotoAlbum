@@ -113,7 +113,7 @@ public class Image extends BasePageAuth {
 		Form<Void> form = new Form<Void>("formPrivacyLevel") {
 			@Override
 			public void onSubmit() {
-				if (selectedPrivacyLevel != null &&PrivacyLevel.validate(selectedPrivacyLevel.getValue())) {
+				if (selectedPrivacyLevel != null &&PrivacyLevel.validateFile(selectedPrivacyLevel.getValue())) {
 					fileService.changePrivacyLevel(fileOwnModel.getObject(), selectedPrivacyLevel.getValue());
 					info(new StringResourceModel("privacyLevel.changed", this,
 							null).getString());
@@ -125,7 +125,7 @@ public class Image extends BasePageAuth {
 				.getPrivacyLevel(), this);
 		DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
 				"privacyLevels", new PropertyModel<PrivacyLevelOption>(this,
-						"selectedPrivacyLevel"), new PrivacyLevelsModel(this),
+						"selectedPrivacyLevel"), new PrivacyLevelsModel(fileOwnModel.getObject(),this),
 				new ChoiceRenderer<PrivacyLevelOption>("label", "value"));
 		listPrivacyLevel.setRequired(true);
 		listPrivacyLevel.setLabel(new StringResourceModel(

@@ -6,9 +6,8 @@ import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
-import es.udc.fi.dc.photoalbum.wicket.models.FilesModel;
+import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModel;
 
 import java.util.Iterator;
 
@@ -16,7 +15,7 @@ import java.util.Iterator;
  * Form for navigating back and forward through images
  */
 @SuppressWarnings("serial")
-public class NavigateForm<T> extends Form<T> {
+public class SharedNavigateForm<T> extends Form<T> {
 
 	/**
 	 * 
@@ -27,15 +26,10 @@ public class NavigateForm<T> extends Form<T> {
 	 * @param cls
 	 *            class of page image on
 	 */
-	public NavigateForm(String path, int albumId, int fileId,
-			final Class<? extends IRequestablePage> cls) {
-		this(path, albumId, fileId, PrivacyLevel.PRIVATE, cls);
-	}
-	
-	public NavigateForm(String path, int albumId, int fileId, String minPrivacyLevel,
+	public SharedNavigateForm(String path, int albumId, int userId, int fileId,
 			final Class<? extends IRequestablePage> cls) {
 		super(path);
-		FilesModel ldm = new FilesModel(albumId);
+		SharedFilesModel ldm = new SharedFilesModel(albumId, userId);
 		Iterator<File> iterator = ldm.getObject().iterator();
 		boolean b = true;
 		int i = -1;
@@ -64,7 +58,7 @@ public class NavigateForm<T> extends Form<T> {
 			@Override
 			public void onSubmit() {
 				PageParameters pars = new PageParameters();
-				pars.add("album", previous.getObject().getAlbum().getName());
+				pars.add("albumId", previous.getObject().getAlbum().getId());
 				pars.add("fid", previous.getObject().getId());
 				setResponsePage(cls, pars);
 			}
@@ -73,7 +67,7 @@ public class NavigateForm<T> extends Form<T> {
 			@Override
 			public void onSubmit() {
 				PageParameters pars = new PageParameters();
-				pars.add("album", next.getObject().getAlbum().getName());
+				pars.add("albumId", next.getObject().getAlbum().getId());
 				pars.add("fid", next.getObject().getId());
 				setResponsePage(cls, pars);
 			}

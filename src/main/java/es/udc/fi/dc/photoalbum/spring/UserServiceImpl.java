@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.spring;
 
+import java.util.ArrayList;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.fi.dc.photoalbum.hibernate.User;
@@ -40,6 +42,10 @@ public class UserServiceImpl implements UserService {
 
 	public User getById(Integer id) {
 		return userDao.getById(id);
+	}
+
+	public ArrayList<User> getUsersSharingWith(int userId) {
+		return userDao.getUsersSharingWith(userId);
 	}
 
 }

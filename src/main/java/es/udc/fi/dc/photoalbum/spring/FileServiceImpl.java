@@ -45,20 +45,12 @@ public class FileServiceImpl implements FileService {
 		return fileDao.getById(id);
 	}
 
-	public ArrayList<File> getAlbumFiles(int albumId) {
-		return fileDao.getAlbumFiles(albumId);
+	public ArrayList<File> getAlbumFilesOwn(int albumId) {
+		return fileDao.getAlbumFilesOwn(albumId);
 	}
 
-	public ArrayList<File> getAlbumFiles(int albumId, String minPrivacyLevel) {
-		return fileDao.getAlbumFiles(albumId, minPrivacyLevel);
-	}
-
-	public ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count) {
-		return fileDao.getAlbumFilesPaging(albumId, first, count);
-	}
-
-	public ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count, String minPrivacyLevel) {
-		return fileDao.getAlbumFilesPaging(albumId, first, count, minPrivacyLevel);
+	public ArrayList<File> getAlbumFilesOwnPaging(int albumId, int first, int count) {
+		return fileDao.getAlbumFilesOwnPaging(albumId, first, count);
 	}
 
 	public Long getCountAlbumFiles(int albumId) {
@@ -66,6 +58,28 @@ public class FileServiceImpl implements FileService {
 	}
 
 	public void changePrivacyLevel(File file, String privacyLevel) {
-		fileDao.changePrivacy(file, privacyLevel);
+		fileDao.changePrivacyLevel(file, privacyLevel);
+	}
+
+	public File getFilePublic(int id, String name, int userId) {
+		return fileDao.getFilePublic(id, name, userId);
+	}
+
+	public ArrayList<File> getAlbumFilesShared(int albumId, int userId) {
+		return fileDao.getAlbumFilesShared(albumId, userId);
+	}
+
+	public ArrayList<File> getAlbumFilesSharedPaging(int albumId, int userId,
+			int first, int count) {
+		return fileDao.getAlbumFilesSharedPaging(albumId, userId, first, count);
+	}
+
+	public ArrayList<File> getAlbumFilesPublic(int albumId, int userId) {
+		return fileDao.getAlbumFilesPublic(albumId, userId);
+	}
+
+	public ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId,
+			int first, int count) {
+		return fileDao.getAlbumFilesPublicPaging(albumId, userId, first, count);
 	}
 }

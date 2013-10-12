@@ -14,14 +14,12 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
+import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
-import es.udc.fi.dc.photoalbum.wicket.FileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
-import es.udc.fi.dc.photoalbum.wicket.models.FilesModel;
+import es.udc.fi.dc.photoalbum.wicket.SharedFileListDataProvider;
+import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 
@@ -32,7 +30,7 @@ import java.util.ArrayList;
 public class SharedFiles extends BasePageAuth {
 
 	@SpringBean
-	private ShareInformationService shareInformationService;
+	private AlbumService albumService;
 	private Album album;
 	private static final int ITEMS_PER_PAGE = 10;
 
@@ -42,12 +40,11 @@ public class SharedFiles extends BasePageAuth {
 				&& (parameters.getNamedKeys().contains("user"))) {
 			String name = parameters.get("album").toString();
 			String email = parameters.get("user").toString();
-			ShareInformation share = shareInformationService.getShare(name,
+			this.album = albumService.getSharedAlbum(name,
 					((MySession) Session.get()).getuId(), email);
-			if (share == null) {
+			if (this.album == null) {
 				throw new RestartResponseException(ErrorPage404.class);
 			}
-			this.album = share.getAlbum();
 		} else {
 			throw new RestartResponseException(ErrorPage404.class);
 		}
@@ -57,11 +54,12 @@ public class SharedFiles extends BasePageAuth {
 	}
 
 	private DataView<File> createDataView() {
-		LoadableDetachableModel<ArrayList<File>> ldm = new FilesModel(
-				this.album.getId(), PrivacyLevel.SHAREABLE);
+		int userId = ((MySession) Session.get()).getuId();
+		LoadableDetachableModel<ArrayList<File>> ldm = new SharedFilesModel(
+				this.album.getId(), userId);
 		DataView<File> dataView = new DataView<File>("pageable",
-				new FileListDataProvider(ldm.getObject().size(),
-						this.album.getId(), PrivacyLevel.SHAREABLE)) {
+				new SharedFileListDataProvider(ldm.getObject().size(),
+						this.album.getId(), userId)) {
 			public void populateItem(final Item<File> item) {
 				PageParameters pars = new PageParameters();
 				pars.add("album", album.getName());

@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -43,17 +43,17 @@ public class TestSharedUsersPage {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
 				};
-				ShareInformationService mockShare = new ShareInformationService() {
-					public void create(ShareInformation shareInformation) { }
-					public void delete(ShareInformation shareInformation) {	}
-					public List<ShareInformation> getShares(User userShared, User userSharedTo) { return null; }
-					public ShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
-						return new ShareInformation(1, new Album(1, null, null, null, null, PrivacyLevel.SHAREABLE), null); 
+				AlbumShareInformationService mockShare = new AlbumShareInformationService() {
+					public void create(AlbumShareInformation shareInformation) { }
+					public void delete(AlbumShareInformation shareInformation) {	}
+					public List<AlbumShareInformation> getShares(User userShared, User userSharedTo) { return null; }
+					public AlbumShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
+						return new AlbumShareInformation(1, new Album(1, null, null, null, null, PrivacyLevel.SHAREABLE), null); 
 					}
-					public ArrayList<ShareInformation> getAlbumShares(
+					public ArrayList<AlbumShareInformation> getAlbumShares(
 							int albumId) { return null; }
-					public ArrayList<ShareInformation> getUserShares(int userId) {
-						return new ArrayList<ShareInformation>();
+					public ArrayList<AlbumShareInformation> getUserShares(int userId) {
+						return new ArrayList<AlbumShareInformation>();
 					}
 				};
 				context.putBean("userBean", mock);

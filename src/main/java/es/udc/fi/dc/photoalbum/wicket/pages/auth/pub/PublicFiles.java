@@ -3,7 +3,6 @@ package es.udc.fi.dc.photoalbum.wicket.pages.auth.pub;
 import java.sql.Blob;
 import java.util.ArrayList;
 
-import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.image.NonCachingImage;
@@ -17,20 +16,13 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicFileListDataProvider;
-import es.udc.fi.dc.photoalbum.wicket.models.FilesModel;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedAlbums;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedBig;
 
 @SuppressWarnings("serial")
 public class PublicFiles extends BasePageAuth {
@@ -52,11 +44,12 @@ public class PublicFiles extends BasePageAuth {
 	}
 
 	private DataView<File> createDataView() {
+		int userId = ((MySession) Session.get()).getuId();
 		LoadableDetachableModel<ArrayList<File>> ldm = new PublicFilesModel(
-				album.getId());
+				album.getId(), userId);
 		DataView<File> dataView = new DataView<File>("pageable",
 				new PublicFileListDataProvider(ldm.getObject().size(),
-						album.getId())) {
+						album.getId(), userId)) {
 			public void populateItem(final Item<File> item) {
 				PageParameters pars = new PageParameters();
 				int idFile = item.getModelObject().getId();

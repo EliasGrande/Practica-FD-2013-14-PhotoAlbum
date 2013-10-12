@@ -70,7 +70,7 @@ public class TestSharedBigPage {
 						return null;
 					}
 
-					public ArrayList<File> getAlbumFiles(int albumId) {
+					public ArrayList<File> getAlbumFilesOwn(int albumId) {
 						ArrayList<File> list = new ArrayList<File>();
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 						album = new Album(1, ALBUM_NAME_EXIST, user, null,
@@ -83,7 +83,7 @@ public class TestSharedBigPage {
 						return list;
 					}
 
-					public ArrayList<File> getAlbumFilesPaging(int albumId,
+					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
 						return null;
 					}
@@ -97,7 +97,7 @@ public class TestSharedBigPage {
 						file.setPrivacyLevel(privacyLevel);
 					}
 
-					public ArrayList<File> getAlbumFiles(int albumId,
+					public ArrayList<File> getAlbumFilesOwn(int albumId,
 							String minPrivacyLevel) {
 						ArrayList<File> list = new ArrayList<File>();
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);

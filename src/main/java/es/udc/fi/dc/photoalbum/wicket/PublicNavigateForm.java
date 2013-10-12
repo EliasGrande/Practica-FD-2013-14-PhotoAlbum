@@ -26,10 +26,10 @@ public class PublicNavigateForm<T> extends Form<T> {
 	 * @param cls
 	 *            class of page image on
 	 */
-	public PublicNavigateForm(String path, int albumId, int fileId,
+	public PublicNavigateForm(String path, int albumId, int userId, int fileId,
 			final Class<? extends IRequestablePage> cls) {
 		super(path);
-		PublicFilesModel ldm = new PublicFilesModel(albumId);
+		PublicFilesModel ldm = new PublicFilesModel(albumId, userId);
 		Iterator<File> iterator = ldm.getObject().iterator();
 		boolean b = true;
 		int i = -1;

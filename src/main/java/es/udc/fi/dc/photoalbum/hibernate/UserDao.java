@@ -1,8 +1,12 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import java.util.ArrayList;
+
 public interface UserDao extends GenericDao<User> {
 
 	void update(User user);
+
+	User getById(Integer id);
 
 	/**
 	 * @param email
@@ -19,6 +23,11 @@ public interface UserDao extends GenericDao<User> {
 	 * @return user if exists or null
 	 */
 	User getUser(User userEmail);
-
-	User getById(Integer id);
+	
+	/**
+	 * @param userId
+	 *            id of user
+	 * @return sorted list of users sharing files or albums with the user
+	 */
+	ArrayList<User> getUsersSharingWith(int userId);
 }

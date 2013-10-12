@@ -8,10 +8,9 @@ import org.apache.wicket.markup.html.image.resource.BlobImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
-import es.udc.fi.dc.photoalbum.wicket.NavigateForm;
+import es.udc.fi.dc.photoalbum.wicket.SharedNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.models.FileSharedAlbum;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
@@ -29,17 +28,18 @@ public class SharedBig extends BasePageAuth {
 				&& parameters.getNamedKeys().contains("album")) {
 			int id = parameters.get("fid").toInt();
 			String name = parameters.get("album").toString();
+			int userId = ((MySession) Session.get()).getuId();
 			FileSharedAlbum fileSharedAlbum = new FileSharedAlbum(id, name,
-					((MySession) Session.get()).getuId());
+					userId);
 			this.fileSharedAlbum = fileSharedAlbum;
 			if ((fileSharedAlbum.getObject() == null)
 					|| (!(fileSharedAlbum.getObject().getAlbum().getName()
 							.equals(name)))) {
 				throw new RestartResponseException(ErrorPage404.class);
 			}
-			add(new NavigateForm<Void>("formNavigate", fileSharedAlbum
-					.getObject().getAlbum().getId(), fileSharedAlbum
-					.getObject().getId(), PrivacyLevel.SHAREABLE, SharedBig.class));
+			add(new SharedNavigateForm<Void>("formNavigate", fileSharedAlbum
+					.getObject().getAlbum().getId(), userId, fileSharedAlbum
+					.getObject().getId(),SharedBig.class));
 			add(createNonCachingImage());
 			PageParameters newPars = new PageParameters();
 			newPars.add("album", name);

@@ -11,9 +11,9 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -28,7 +28,7 @@ public class SharedAlbums extends BasePageAuth {
 	@SpringBean
 	private UserService userService;
 	@SpringBean
-	private ShareInformationService shareInformationService;
+	private AlbumService albumService;
 	private static final int ITEMS_PER_PAGE = 10;
 	private User user;
 
@@ -49,23 +49,19 @@ public class SharedAlbums extends BasePageAuth {
 		}
 	}
 
-	private DataView<ShareInformation> createShareDataView() {
-		List<ShareInformation> list = shareInformationService.getShares(
-				userService.getUser(user),
-				userService.getById(((MySession) Session.get()).getuId()));
-		if (list.isEmpty()) {
-			throw new RestartResponseException(ErrorPage404.class);
-		}
-		DataView<ShareInformation> dataView = new DataView<ShareInformation>(
-				"pageable", new ListDataProvider<ShareInformation>(list)) {
-			public void populateItem(final Item<ShareInformation> item) {
-				final ShareInformation shareInformation = item.getModelObject();
+	private DataView<Album> createShareDataView() {
+		List<Album> list = albumService.getAlbumsSharedWith(
+				((MySession) Session.get()).getuId(), user.getEmail());
+		DataView<Album> dataView = new DataView<Album>(
+				"pageable", new ListDataProvider<Album>(list)) {
+			public void populateItem(final Item<Album> item) {
+				final Album album = item.getModelObject();
 				PageParameters pars = new PageParameters();
 				pars.add("user", user.getEmail());
-				pars.add("album", shareInformation.getAlbum().getName());
+				pars.add("album", album.getName());
 				BookmarkablePageLink<Void> bp = new BookmarkablePageLink<Void>(
 						"link", SharedFiles.class, pars);
-				bp.add(new Label("name", shareInformation.getAlbum().getName()));
+				bp.add(new Label("name", album.getName()));
 				item.add(bp);
 			}
 		};

@@ -51,4 +51,14 @@ public class AlbumServiceImpl implements AlbumService {
 	public void changePrivacyLevel(Album album, String privacyLevel) {
 		albumDao.changePrivacyLevel(album, privacyLevel);
 	}
+
+	public ArrayList<Album> getAlbumsSharedWith(Integer id, String ownerEmail) {
+		return albumDao.getAlbumsSharedWith(id, ownerEmail);
+	}
+
+	public Album getSharedAlbum(String albumName, int userSharedToId,
+			String userSharedEmail) {
+		return albumDao.getSharedAlbum(albumName, userSharedToId,
+				userSharedEmail);
+	}
 }

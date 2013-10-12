@@ -3,48 +3,30 @@ package es.udc.fi.dc.photoalbum.hibernate;
 import java.util.ArrayList;
 
 public interface FileDao extends GenericDao<File> {
-
-	/**
-	 * @param id
-	 *            id of file
-	 * @param name
-	 *            name of file
-	 * @param userId
-	 *            id of user, file belongs to
-	 * @return File, that belongs to this userId
-	 */
-	File getFileOwn(int id, String name, int userId);
-
-	/**
-	 * @param id
-	 *            id of file
-	 * @param name
-	 *            name of file
-	 * @param userId
-	 *            Id of user, file shared to
-	 * @return file with this id and name, that shared to user with userIdS
-	 */
-	File getFileShared(int id, String name, int userId);
-
-	/**
-	 * @param file
-	 *            file, album of what will be changed
-	 * @param album
-	 *            change to this
-	 */
+	
 	void changeAlbum(File file, Album album);
+	
+	void changePrivacyLevel(File file, String privacyLevel);
 
 	File getById(Integer id);
 
-	ArrayList<File> getAlbumFiles(int albumId);
+	File getFileOwn(int id, String name, int userId);
+	
+	File getFileShared(int id, String name, int userId);
+	
+	File getFilePublic(int id, String name, int userId);
 
-	ArrayList<File> getAlbumFiles(int albumId, String minPrivacyLevel);
+	ArrayList<File> getAlbumFilesOwn(int albumId);
 
-	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count);
+	ArrayList<File> getAlbumFilesOwnPaging(int albumId, int first, int count);
 
-	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count, String minPrivacyLevel);
+	ArrayList<File> getAlbumFilesShared(int albumId, int userId);
+
+	ArrayList<File> getAlbumFilesSharedPaging(int albumId, int userId, int first, int count);
+
+	ArrayList<File> getAlbumFilesPublic(int albumId, int userId);
+
+	ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId, int first, int count);
 
 	Long getCountAlbumFiles(int albumId);
-	
-	void changePrivacy(File file, String privacyLevel);
 }

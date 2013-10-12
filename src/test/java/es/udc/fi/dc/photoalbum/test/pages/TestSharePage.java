@@ -23,11 +23,11 @@ import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -39,7 +39,7 @@ public class TestSharePage {
 	private WicketApp wicketApp;
 	private WicketTester tester;
 	private Set<File> files = new HashSet<File>();
-	private Set<ShareInformation> shares = new HashSet<ShareInformation>();
+	private Set<AlbumShareInformation> shares = new HashSet<AlbumShareInformation>();
 	
 	{
 		this.wicketApp = new WicketApp() {
@@ -107,11 +107,11 @@ public class TestSharePage {
 						return null;
 					}
 
-					public ArrayList<File> getAlbumFiles(int albumId) {
+					public ArrayList<File> getAlbumFilesOwn(int albumId) {
 						return null;
 					}
 
-					public ArrayList<File> getAlbumFilesPaging(int albumId,
+					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
 						return null;
 					}
@@ -125,7 +125,7 @@ public class TestSharePage {
 						file.setPrivacyLevel(privacyLevel);
 					}
 
-					public ArrayList<File> getAlbumFiles(int albumId,
+					public ArrayList<File> getAlbumFilesOwn(int albumId,
 							String minPrivacyLevel) {
 						ArrayList<File> list = new ArrayList<File>();
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
@@ -155,33 +155,33 @@ public class TestSharePage {
 						return list;
 					}
 				};
-				ShareInformationService mockShare = new ShareInformationService() {
-					public void create(ShareInformation shareInformation) {
+				AlbumShareInformationService mockShare = new AlbumShareInformationService() {
+					public void create(AlbumShareInformation shareInformation) {
 						shareInformation.getUser().getShareInformation()
 								.add(shareInformation);
 						shareInformation.getAlbum().getShareInformation()
 								.add(shareInformation);
 					}
 
-					public void delete(ShareInformation shareInformation) {
+					public void delete(AlbumShareInformation shareInformation) {
 					}
 
-					public List<ShareInformation> getShares(User userShared,
+					public List<AlbumShareInformation> getShares(User userShared,
 							User userSharedTo) {
 						return null;
 					}
 
-					public ShareInformation getShare(String albumName,
+					public AlbumShareInformation getShare(String albumName,
 							int userSharedToId, String userSharedEmail) {
 						return null;
 					}
 
-					public ArrayList<ShareInformation> getAlbumShares(
+					public ArrayList<AlbumShareInformation> getAlbumShares(
 							int albumId) {
-						return new ArrayList<ShareInformation>();
+						return new ArrayList<AlbumShareInformation>();
 					}
 
-					public ArrayList<ShareInformation> getUserShares(int userId) {
+					public ArrayList<AlbumShareInformation> getUserShares(int userId) {
 						return null;
 					}
 				};

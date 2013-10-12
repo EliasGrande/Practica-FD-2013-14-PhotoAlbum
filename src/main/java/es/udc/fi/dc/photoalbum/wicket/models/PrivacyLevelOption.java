@@ -33,9 +33,17 @@ public class PrivacyLevelOption implements Serializable {
 				+ value.toLowerCase(), cmp, null).getString();
 	}
 	
-	public static ArrayList<PrivacyLevelOption> getOptions (Component cmp) {
+	public static ArrayList<PrivacyLevelOption> getAlbumOptions (Component cmp) {
 		ArrayList<PrivacyLevelOption> options = new ArrayList<PrivacyLevelOption>();
-		Iterator<String> iterator = PrivacyLevel.LIST.iterator();
+		Iterator<String> iterator = PrivacyLevel.LIST_ALBUM.iterator();
+		while(iterator.hasNext())
+			options.add(new PrivacyLevelOption(iterator.next(), cmp));
+		return options;
+	}
+	
+	public static ArrayList<PrivacyLevelOption> getFileOptions (Component cmp) {
+		ArrayList<PrivacyLevelOption> options = new ArrayList<PrivacyLevelOption>();
+		Iterator<String> iterator = PrivacyLevel.LIST_FILE.iterator();
 		while(iterator.hasNext())
 			options.add(new PrivacyLevelOption(iterator.next(), cmp));
 		return options;

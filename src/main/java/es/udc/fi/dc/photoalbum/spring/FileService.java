@@ -11,23 +11,29 @@ public interface FileService {
 
 	void delete(File file);
 
+	void changeAlbum(File file, Album album);
+	
+	void changePrivacyLevel(File file, String privacyLevel);
+
+	File getById(Integer id);
+
 	File getFileOwn(int id, String name, int userId);
 
 	File getFileShared(int id, String name, int userId);
 
-	void changeAlbum(File file, Album album);
+	File getFilePublic(int id, String name, int userId);
 
-	File getById(Integer id);
+	ArrayList<File> getAlbumFilesOwn(int albumId);
 
-	ArrayList<File> getAlbumFiles(int albumId);
+	ArrayList<File> getAlbumFilesOwnPaging(int albumId, int first, int count);
 
-	ArrayList<File> getAlbumFiles(int albumId, String minPrivacyLevel);
+	ArrayList<File> getAlbumFilesShared(int albumId, int userId);
 
-	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count);
+	ArrayList<File> getAlbumFilesSharedPaging(int albumId, int userId, int first, int count);
 
-	ArrayList<File> getAlbumFilesPaging(int albumId, int first, int count, String minPrivacyLevel);
+	ArrayList<File> getAlbumFilesPublic(int albumId, int userId);
+
+	ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId, int first, int count);
 
 	Long getCountAlbumFiles(int albumId);
-	
-	void changePrivacyLevel(File file, String privacyLevel);
 }

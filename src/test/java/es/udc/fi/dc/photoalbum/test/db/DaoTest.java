@@ -23,11 +23,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
@@ -45,7 +45,7 @@ public class DaoTest {
 	@Autowired
 	private FileService fileService;
 	@Autowired
-	private ShareInformationService shareInformationService;
+	private AlbumShareInformationService shareInformationService;
 
 	@BeforeClass
 	public static void setUpJndi() throws NamingException {
@@ -126,15 +126,15 @@ public class DaoTest {
 		assertEquals(file.getPrivacyLevel(), PrivacyLevel.SHAREABLE);
 
 		// Find files by different criteria
-		ArrayList<File> foundFiles = this.fileService.getAlbumFiles(1);
-		ArrayList<File> foundFiles2 = this.fileService.getAlbumFiles(1,
+		ArrayList<File> foundFiles = this.fileService.getAlbumFilesOwn(1);
+		ArrayList<File> foundFiles2 = this.fileService.getAlbumFilesOwn(1,
 				PrivacyLevel.PUBLIC);
-		ArrayList<File> foundFiles3 = this.fileService.getAlbumFiles(1,
+		ArrayList<File> foundFiles3 = this.fileService.getAlbumFilesOwn(1,
 				PrivacyLevel.PRIVATE);
 		assertEquals(foundFiles.size(), 1);
 		assertEquals(foundFiles2.size(), 0);
 		assertEquals(foundFiles3.size(), 1);
-		ArrayList<File> foundFiles4 = this.fileService.getAlbumFilesPaging(1,
+		ArrayList<File> foundFiles4 = this.fileService.getAlbumFilesOwnPaging(1,
 				0, 10);
 		assertEquals(foundFiles4.size(), 1);
 		ArrayList<File> foundFiles5 = this.fileService.getAlbumFilesPaging(1,
@@ -155,24 +155,24 @@ public class DaoTest {
 		
 		// test create share
 		this.userService.create(userSharedTo);
-		ShareInformation shareInformation = new ShareInformation(null, album,
+		AlbumShareInformation shareInformation = new AlbumShareInformation(null, album,
 				userSharedTo);
 		this.shareInformationService.create(shareInformation);
 		this.userService.create(userSharedTo2);
-		ShareInformation shareInformation2 = new ShareInformation(null, album,
+		AlbumShareInformation shareInformation2 = new AlbumShareInformation(null, album,
 				userSharedTo2);
 		this.shareInformationService.create(shareInformation2);
 		assertNotNull(this.shareInformationService.getShare(album.getName(),
 				userSharedTo.getId(), user.getEmail()));
 		
 		// test get shares
-		List<ShareInformation> shares = this.shareInformationService.getShares(
+		List<AlbumShareInformation> shares = this.shareInformationService.getShares(
 				user, userSharedTo);
 		assertEquals(shares.size(), 1);
 		assertEquals(shares.get(0).getAlbum().getName(), album.getName());		
 
 		// test shares from an album
-		ArrayList<ShareInformation> albumShares = this.shareInformationService
+		ArrayList<AlbumShareInformation> albumShares = this.shareInformationService
 				.getAlbumShares(album.getId());
 		assertEquals(albumShares.size(), 2);
 		assertEquals(albumShares.get(0).getAlbum().getName(), album.getName());
@@ -180,7 +180,7 @@ public class DaoTest {
 				.getAlbum().getName());
 
 		// test a user shares
-		ArrayList<ShareInformation> userShares = this.shareInformationService
+		ArrayList<AlbumShareInformation> userShares = this.shareInformationService
 				.getUserShares(userSharedTo.getId());
 		assertEquals(userShares.size(), 1);
 		assertEquals(userShares.get(0).getUser().getEmail(), userSharedTo.getEmail());

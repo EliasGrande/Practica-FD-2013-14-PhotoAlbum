@@ -14,7 +14,7 @@ public class User implements Serializable {
 	private String email;
 	private String password;
 	private Set<Album> albums = new HashSet<Album>();
-	private Set<ShareInformation> shareInformation = new HashSet<ShareInformation>();
+	private Set<AlbumShareInformation> shareInformation = new HashSet<AlbumShareInformation>();
 
 	public User() {
 	}
@@ -35,11 +35,11 @@ public class User implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	public Set<ShareInformation> getShareInformation() {
+	public Set<AlbumShareInformation> getShareInformation() {
 		return shareInformation;
 	}
 
-	public void setShareInformation(Set<ShareInformation> shareInformation) {
+	public void setShareInformation(Set<AlbumShareInformation> shareInformation) {
 		this.shareInformation = shareInformation;
 	}
 

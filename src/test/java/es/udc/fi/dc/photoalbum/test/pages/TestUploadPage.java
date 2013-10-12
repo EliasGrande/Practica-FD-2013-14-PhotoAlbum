@@ -101,11 +101,11 @@ public class TestUploadPage {
 						return null;
 					}
 
-					public ArrayList<File> getAlbumFiles(int albumId) {
+					public ArrayList<File> getAlbumFilesOwn(int albumId) {
 						return new ArrayList<File>();
 					}
 
-					public ArrayList<File> getAlbumFilesPaging(int albumId,
+					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
 						return null;
 					}
@@ -119,7 +119,7 @@ public class TestUploadPage {
 						file.setPrivacyLevel(privacyLevel);
 					}
 
-					public ArrayList<File> getAlbumFiles(int albumId,
+					public ArrayList<File> getAlbumFilesOwn(int albumId,
 							String minPrivacyLevel) {
 						ArrayList<File> list = new ArrayList<File>();
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);

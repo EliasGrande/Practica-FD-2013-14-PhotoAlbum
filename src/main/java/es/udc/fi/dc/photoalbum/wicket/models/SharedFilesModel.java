@@ -6,29 +6,31 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
+import es.udc.fi.dc.photoalbum.utils.FileComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 @SuppressWarnings("serial")
-public class PublicFilesModelPaging extends LoadableDetachableModel<ArrayList<File>> {
+public class SharedFilesModel extends LoadableDetachableModel<ArrayList<File>> {
+
 	@SpringBean
 	private FileService fileService;
 	private int albumId;
 	private int userId;
-	private int first;
-	private int count;
 
-	public PublicFilesModelPaging(int albumId, int userId, int first, int count) {
+	public SharedFilesModel(int albumId, int userId) {
 		this.albumId = albumId;
 		this.userId = userId;
-		this.first = first;
-		this.count = count;
 		Injector.get().inject(this);
 	}
-
+	
 	@Override
 	protected ArrayList<File> load() {
-		return new ArrayList<File>(fileService.getAlbumFilesPublicPaging(
-				albumId, userId, first, count));
+		ArrayList<File> list = new ArrayList<File>(
+				fileService.getAlbumFilesShared(albumId, userId));
+		Collections.sort(list, new FileComparator());
+		return list;
 	}
+	
 }

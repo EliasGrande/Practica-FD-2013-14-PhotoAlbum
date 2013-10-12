@@ -10,8 +10,8 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.hibernate.User;
+import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
@@ -23,7 +23,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class SharedUsers extends BasePageAuth {
 	@SpringBean
-	private ShareInformationService shareInformationService;
+	private UserService userService;
 	private static final int ITEMS_PER_PAGE = 10;
 
 	public SharedUsers(final PageParameters parameters) {
@@ -33,11 +33,10 @@ public class SharedUsers extends BasePageAuth {
 
 	private DataView<String> createDataView() {
 		final HashSet<String> set = new HashSet<String>();
-		final List<ShareInformation> list = new ArrayList<ShareInformation>(
-				shareInformationService.getUserShares(((MySession) Session
-						.get()).getuId()));
-		for (ShareInformation aList : list) {
-			set.add(aList.getAlbum().getUser().getEmail());
+		final ArrayList<User> list = userService
+				.getUsersSharingWith(((MySession) Session.get()).getuId());
+		for (User aList : list) {
+			set.add(aList.getEmail());
 		}
 		final List<String> list1 = new ArrayList<String>(set);
 		DataView<String> dataView = new DataView<String>("pageable",

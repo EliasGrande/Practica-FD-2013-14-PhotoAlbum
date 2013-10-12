@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.spring;
 
+import java.util.ArrayList;
+
 import es.udc.fi.dc.photoalbum.hibernate.User;
 
 public interface UserService {
@@ -15,4 +17,6 @@ public interface UserService {
 	User getUser(User userEmail);
 
 	User getById(Integer id);
+
+	ArrayList<User> getUsersSharingWith(int userId);
 }

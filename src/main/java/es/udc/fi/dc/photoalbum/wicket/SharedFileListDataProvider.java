@@ -8,13 +8,13 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
-import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModelPaging;
+import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModelPaging;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 @SuppressWarnings("serial")
-public class PublicFileListDataProvider implements IDataProvider<File> {
+public class SharedFileListDataProvider implements IDataProvider<File> {
 	@SpringBean
 	private FileService fileService;
 	private int size;
@@ -24,7 +24,7 @@ public class PublicFileListDataProvider implements IDataProvider<File> {
 	public void detach() {
 	}
 
-	public PublicFileListDataProvider(int size, int albumId, int userId) {
+	public SharedFileListDataProvider(int size, int albumId, int userId) {
 		this.size = size;
 		this.albumId = albumId;
 		this.userId = userId;
@@ -32,7 +32,7 @@ public class PublicFileListDataProvider implements IDataProvider<File> {
 	}
 
 	public Iterator<File> iterator(int first, int count) {
-		LoadableDetachableModel<ArrayList<File>> ldm = new PublicFilesModelPaging(
+		LoadableDetachableModel<ArrayList<File>> ldm = new SharedFilesModelPaging(
 				this.albumId, this.userId, first, count);
 		return ldm.getObject().iterator();
 	}

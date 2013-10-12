@@ -151,7 +151,7 @@ public class Upload extends BasePageAuth {
 		Form<Void> form = new Form<Void>("formPrivacyLevel") {
 			@Override
 			public void onSubmit() {
-				if (PrivacyLevel.validate(selectedPrivacyLevel.getValue())) {
+				if (PrivacyLevel.validateAlbum(selectedPrivacyLevel.getValue())) {
 					albumService.changePrivacyLevel(am.getObject(), selectedPrivacyLevel.getValue());
 					info(new StringResourceModel("privacyLevel.changed", this,
 							null).getString());
@@ -162,7 +162,7 @@ public class Upload extends BasePageAuth {
 		selectedPrivacyLevel = new PrivacyLevelOption(am.getObject().getPrivacyLevel(), this);
 		DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
 				"privacyLevels", new PropertyModel<PrivacyLevelOption>(this,
-						"selectedPrivacyLevel"), new PrivacyLevelsModel(this),
+						"selectedPrivacyLevel"), new PrivacyLevelsModel(am.getObject(),this),
 				new ChoiceRenderer<PrivacyLevelOption>("label", "value"));
 		listPrivacyLevel.setRequired(true);
 		listPrivacyLevel.setLabel(new StringResourceModel(

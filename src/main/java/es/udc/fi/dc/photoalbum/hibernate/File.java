@@ -2,7 +2,11 @@ package es.udc.fi.dc.photoalbum.hibernate;
 
 import javax.persistence.*;
 
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
+
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ARCHIVO")
@@ -15,19 +19,29 @@ public class File implements Serializable {
 	private byte[] file;
 	private byte[] fileSmall;
 	private Album album;
+	private Set<FileShareInformation> shareInformation = new HashSet<FileShareInformation>();
 
 	public File() { 
-		privacyLevel = "PUBLIC";
+		privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
 	}
 
 	public File(Integer id, String name, byte[] file, byte[] fileSmall,
 			Album album) {
 		this.id = id;
 		this.name = name;
-		this.privacyLevel = "PUBLIC";
+		this.privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
 		this.file = file;
 		this.fileSmall = fileSmall;
 		this.album = album;
+	}
+
+	@OneToMany(mappedBy = "file", fetch = FetchType.LAZY)
+	public Set<FileShareInformation> getShareInformation() {
+		return shareInformation;
+	}
+
+	public void setShareInformation(Set<FileShareInformation> shareInformation) {
+		this.shareInformation = shareInformation;
 	}
 
 	@Id

@@ -19,10 +19,10 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -37,7 +37,7 @@ public class Share extends BasePageAuth {
 	@SpringBean
 	private AlbumService albumService;
 	@SpringBean
-	private ShareInformationService shareInformationService;
+	private AlbumShareInformationService shareInformationService;
 	@SpringBean
 	private UserService userService;
 	private Album album;
@@ -55,19 +55,19 @@ public class Share extends BasePageAuth {
 		}
 
 		add(createShareForm());
-		DataView<ShareInformation> dataView = createShareDataView();
+		DataView<AlbumShareInformation> dataView = createShareDataView();
 		add(dataView);
 		add(new PagingNavigator("navigator", dataView));
 	}
 
-	private DataView<ShareInformation> createShareDataView() {
-		final List<ShareInformation> list = new ArrayList<ShareInformation>(
+	private DataView<AlbumShareInformation> createShareDataView() {
+		final List<AlbumShareInformation> list = new ArrayList<AlbumShareInformation>(
 				shareInformationService.getAlbumShares(this.album.getId()));
-		DataView<ShareInformation> dataView = new DataView<ShareInformation>(
-				"pageable", new ListDataProvider<ShareInformation>(list)) {
+		DataView<AlbumShareInformation> dataView = new DataView<AlbumShareInformation>(
+				"pageable", new ListDataProvider<AlbumShareInformation>(list)) {
 
-			public void populateItem(final Item<ShareInformation> item) {
-				final ShareInformation shareInformation = item.getModelObject();
+			public void populateItem(final Item<AlbumShareInformation> item) {
+				final AlbumShareInformation shareInformation = item.getModelObject();
 				item.add(new Label("email", shareInformation.getUser()
 						.getEmail()));
 				item.add(new Link<Void>("delete") {
@@ -100,7 +100,7 @@ public class Share extends BasePageAuth {
 					error(new StringResourceModel("share.yourself", this, null)
 							.getString());
 				} else {
-					ShareInformation shareInformation = new ShareInformation(
+					AlbumShareInformation shareInformation = new AlbumShareInformation(
 							null, album, existedUser);
 					if (shareInformationService.getShare(album.getName(),
 							existedUser.getId(), (userService

@@ -4,20 +4,20 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "SHARE_INFORMATION")
+@Table(name = "FILE_SHARE_INFORMATION")
 @SuppressWarnings("serial")
-public class ShareInformation implements Serializable {
+public class FileShareInformation implements Serializable {
 
 	private Integer id;
-	private Album album;
+	private File file;
 	private User user;
 
-	public ShareInformation() {
+	public FileShareInformation() {
 	}
 
-	public ShareInformation(Integer id, Album album, User user) {
+	public FileShareInformation(Integer id, File file, User user) {
 		this.id = id;
-		this.album = album;
+		this.file = file;
 		this.user = user;
 	}
 
@@ -33,13 +33,13 @@ public class ShareInformation implements Serializable {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "ALBUM_ID")
-	public Album getAlbum() {
-		return album;
+	@JoinColumn(name = "FILE_ID")
+	public File getFile() {
+		return file;
 	}
 
-	public void setAlbum(Album album) {
-		this.album = album;
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	@ManyToOne

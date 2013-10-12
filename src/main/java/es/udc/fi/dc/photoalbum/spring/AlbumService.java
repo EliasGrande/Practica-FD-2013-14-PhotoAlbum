@@ -10,15 +10,20 @@ public interface AlbumService {
 
 	void delete(Album album);
 
-	Album getAlbum(String name, int userId);
-
 	void rename(Album album, String newName);
+
+	void changePrivacyLevel(Album album, String privacyLevel);
 
 	Album getById(Integer id);
 
+	Album getAlbum(String name, int userId);
+
 	ArrayList<Album> getAlbums(Integer id);
 
-	ArrayList<Album> getPublicAlbums();
+	ArrayList<Album> getAlbumsSharedWith(Integer id, String ownerEmail);
 
-	void changePrivacyLevel(Album album, String privacyLevel);
+	ArrayList<Album> getPublicAlbums();
+	
+	Album getSharedAlbum(String albumName, int userSharedToId,
+			String userSharedEmail);
 }

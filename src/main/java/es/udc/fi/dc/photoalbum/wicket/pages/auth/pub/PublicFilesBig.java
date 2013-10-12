@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.wicket.pages.auth.pub;
 
 import java.sql.Blob;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BlobImageResource;
@@ -12,6 +13,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
+import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 
@@ -31,8 +33,9 @@ public class PublicFilesBig extends BasePageAuth{
 		int albumId = parameters.get("albumId").toInt();
 		File auxFile = fileService.getById(id);
 		this.file = auxFile;
-		
-		add(new PublicNavigateForm<Void>("formNavigate", albumId, id, PublicFilesBig.class));
+
+		add(new PublicNavigateForm<Void>("formNavigate", albumId,
+				((MySession) Session.get()).getuId(), id, PublicFilesBig.class));
 		add(createNonCachingImage());
 		PageParameters newPars = new PageParameters();
 		newPars.add("albumId", albumId);

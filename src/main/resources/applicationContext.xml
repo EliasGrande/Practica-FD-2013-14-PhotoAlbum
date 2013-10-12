@@ -10,9 +10,13 @@
 	<bean id="fileService" class="es.udc.fi.dc.photoalbum.spring.FileServiceImpl">
 		<property name="fileDao" ref="fileDao" />
 	</bean>
-	<bean id="shareInformationService"
-		class="es.udc.fi.dc.photoalbum.spring.ShareInformationServiceImpl">
-		<property name="shareInformationDao" ref="shareInformationDao" />
+	<bean id="albumShareInformationService"
+		class="es.udc.fi.dc.photoalbum.spring.AlbumShareInformationServiceImpl">
+		<property name="albumShareInformationDao" ref="albumShareInformationDao" />
+	</bean>
+	<bean id="fileShareInformationService"
+		class="es.udc.fi.dc.photoalbum.spring.FileShareInformationServiceImpl">
+		<property name="fileShareInformationDao" ref="fileShareInformationDao" />
 	</bean>
 	<bean id="userService" class="es.udc.fi.dc.photoalbum.spring.UserServiceImpl">
 		<property name="userDao" ref="userDao" />
@@ -25,8 +29,12 @@
 	<bean id="fileDao" class="es.udc.fi.dc.photoalbum.hibernate.FileDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="shareInformationDao"
-		class="es.udc.fi.dc.photoalbum.hibernate.ShareInformationDaoImpl">
+	<bean id="albumShareInformationDao"
+		class="es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformationDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="fileShareInformationDao"
+		class="es.udc.fi.dc.photoalbum.hibernate.FileShareInformationDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="userDao" class="es.udc.fi.dc.photoalbum.hibernate.UserDaoImpl">

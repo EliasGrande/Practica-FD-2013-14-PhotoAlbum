@@ -10,6 +10,7 @@
 		<mapping class="es.udc.fi.dc.photoalbum.hibernate.User" />
 		<mapping class="es.udc.fi.dc.photoalbum.hibernate.Album" />
 		<mapping class="es.udc.fi.dc.photoalbum.hibernate.File" />
-		<mapping class="es.udc.fi.dc.photoalbum.hibernate.ShareInformation" />
+		<mapping class="es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation" />
+		<mapping class="es.udc.fi.dc.photoalbum.hibernate.FileShareInformation" />
 	</session-factory>
 </hibernate-configuration>

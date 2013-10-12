@@ -18,9 +18,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.ShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.ShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -35,22 +35,22 @@ public class TestSharedAlbumsPage {
 			@Override
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
-				ShareInformationService mockShare = new ShareInformationService() {
-					public void create(ShareInformation shareInformation) {
+				AlbumShareInformationService mockShare = new AlbumShareInformationService() {
+					public void create(AlbumShareInformation shareInformation) {
 						shareInformation.getUser().getShareInformation().add(shareInformation);
 						shareInformation.getAlbum().getShareInformation().add(shareInformation);
 					}
-					public void delete(ShareInformation shareInformation) {	}
-					public List<ShareInformation> getShares(User userShared, User userSharedTo) {
-						ArrayList<ShareInformation> list = new ArrayList<ShareInformation>();
-						list.add(new ShareInformation(1, new Album(1, ALBUM_NAME_EXIST, null, null, null, PrivacyLevel.SHAREABLE), new User()));
+					public void delete(AlbumShareInformation shareInformation) {	}
+					public List<AlbumShareInformation> getShares(User userShared, User userSharedTo) {
+						ArrayList<AlbumShareInformation> list = new ArrayList<AlbumShareInformation>();
+						list.add(new AlbumShareInformation(1, new Album(1, ALBUM_NAME_EXIST, null, null, null, PrivacyLevel.SHAREABLE), new User()));
 						return list;
 					}
-					public ShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
+					public AlbumShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
 						return null;
 					}
-					public ArrayList<ShareInformation> getAlbumShares(int albumId) { return null; }
-					public ArrayList<ShareInformation> getUserShares(int userId) { return null; }
+					public ArrayList<AlbumShareInformation> getAlbumShares(int albumId) { return null; }
+					public ArrayList<AlbumShareInformation> getUserShares(int userId) { return null; }
 				};
 				UserService mockUser = new UserService() {
 					public void create(User user) { }
