@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -9,12 +10,18 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import es.udc.fi.dc.photoalbum.spring.AlbumService;
+import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 import java.util.ArrayList;
 
 public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 
+	@SpringBean
+	private AlbumService albumService;
+	
 	public void create(File file) {
 		getHibernateTemplate().save(file);
 	}
@@ -46,17 +53,17 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 	public File getFileShared(int id, String name, int userId) {
 		// get file
 		File file = getFileOwn(id, name, userId);
-		if (file==null)
+		if (file == null)
 			return null;
-		
+
 		String filePrivacyLevel = file.getPrivacyLevel();
-		
+
 		// the file is public => return it
 		if (filePrivacyLevel.equals(PrivacyLevel.PUBLIC))
 			return file;
 
 		ArrayList<File> list;
-		
+
 		// the file is private => check FileShareInformation
 		if (filePrivacyLevel.equals(PrivacyLevel.PRIVATE)) {
 			list = (ArrayList<File>) getHibernateTemplate()
@@ -69,10 +76,10 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 									.add(Restrictions.eq("us.id", userId))
 									.setResultTransformer(
 											Criteria.DISTINCT_ROOT_ENTITY));
-			
+
 			return (list.size() == 1) ? file : null;
 		}
-		
+
 		// the file inherit its share information from the album
 		// => check AlbumShareInformation
 		if (filePrivacyLevel.equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
@@ -82,22 +89,23 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 									.forClass(AlbumShareInformation.class)
 									.createAlias("album", "al")
 									.createAlias("user", "us")
-									.add(Restrictions.eq("al.id", file.getAlbum().getId()))
+									.add(Restrictions.eq("al.id", file
+											.getAlbum().getId()))
 									.add(Restrictions.eq("us.id", userId))
 									.setResultTransformer(
 											Criteria.DISTINCT_ROOT_ENTITY));
-			
+
 			return (list.size() == 1) ? file : null;
 		}
-		
+
 		// unknown privacy level => return nothing
 		return null;
 	}
 
 	public File getFilePublic(int id, String name, int userId) {
-		return getFileShared(id,name,userId);
+		return getFileShared(id, name, userId);
 	}
-	
+
 	public void delete(File file) {
 		getHibernateTemplate().delete(file);
 	}
@@ -106,12 +114,11 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 		getHibernateTemplate().update(file);
 		file.setAlbum(album);
 	}
-	
+
 	private Criteria getAlbumOwnFilesCriteria(int albumId) {
 		return getHibernateTemplate().getSessionFactory().getCurrentSession()
 				.createCriteria(File.class).createCriteria("album")
-				.add(Restrictions.eq("id", albumId))
-				.addOrder(Order.asc("id"))
+				.add(Restrictions.eq("id", albumId)).addOrder(Order.asc("id"))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 	}
 
@@ -126,15 +133,15 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 		return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId)
 				.setFirstResult(first).setMaxResults(count).list();
 	}
-	
+
 	private Criteria getAlbumSharedFilesCriteria(int albumId, int userId) {
-		
+
 		// main query, search by album
 		Criteria criteria = getHibernateTemplate().getSessionFactory()
 				.getCurrentSession().createCriteria(File.class, "file")
 				.createAlias("file.album", "file_al")
 				.add(Restrictions.eq("file_al.id", albumId));
-		
+
 		// get public files
 		Criterion publicFileCr = Restrictions.eq("file.privacyLevel",
 				PrivacyLevel.PUBLIC);
@@ -150,8 +157,8 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
 
 		// get inherit files if the album (is public OR is shared to userId)
-		Criterion publicAlbumCr = Restrictions.eq(
-				"file_al.privacyLevel", PrivacyLevel.PUBLIC);
+		Criterion publicAlbumCr = Restrictions.eq("file_al.privacyLevel",
+				PrivacyLevel.PUBLIC);
 		Criterion sharedAlbumCr = Subqueries.gt(
 				Long.valueOf(0),
 				DetachedCriteria.forClass(AlbumShareInformation.class, "ais")
@@ -164,19 +171,15 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 				.conjunction()
 				.add(Restrictions.eq("file.privacyLevel",
 						PrivacyLevel.INHERIT_FROM_ALBUM))
-				.add(Restrictions.disjunction()
-						.add(publicAlbumCr)
+				.add(Restrictions.disjunction().add(publicAlbumCr)
 						.add(sharedAlbumCr));
 
 		// add restrictions to the main query
 		criteria.add(
-				Restrictions.disjunction()
-						.add(publicFileCr)
-						.add(sharedFileCr)
-						.add(inheritFileCr)
-				).addOrder(Order.asc("file.id"))
+				Restrictions.disjunction().add(publicFileCr).add(sharedFileCr)
+						.add(inheritFileCr)).addOrder(Order.asc("file.id"))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		
+
 		return criteria;
 	}
 
@@ -193,13 +196,33 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 				.setFirstResult(first).setMaxResults(count).list();
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<File> getAlbumFilesPublic(int albumId, int userId) {
-		return getAlbumFilesShared(albumId, userId);
+		Album album = albumService.getById(albumId);
+		//I'm the owner, show all the files of the album
+		if(album.getUser().getId() == userId){
+			return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId).list();
+		}
+		else{
+		//I'm not the owner, show all public and files shared with me
+			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,userId).list();
+		
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId,
 			int first, int count) {
-		return getAlbumFilesSharedPaging(albumId, userId, first, count);
+		Album album = albumService.getById(albumId);
+		//I'm the owner, show all the files of the album
+		if(album.getUser().getId() == userId){
+			return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId).setFirstResult(first).setMaxResults(count);
+		}
+		else{
+		//I'm not the owner, show all public and files shared with me
+			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,userId).setFirstResult(first).setMaxResults(count);
+		
+		}
 	}
 
 	@SuppressWarnings("unchecked")

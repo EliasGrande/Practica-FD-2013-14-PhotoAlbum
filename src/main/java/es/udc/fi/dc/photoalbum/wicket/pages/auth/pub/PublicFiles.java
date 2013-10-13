@@ -17,6 +17,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
+import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -29,11 +30,12 @@ public class PublicFiles extends BasePageAuth {
 
 	@SpringBean
 	private AlbumService albumService;
+	@SpringBean
+	private UserService userService;
 
 	private static final int ITEMS_PER_PAGE = 10;
 	private Album album;
 	
-	// si no hay ninguna foto que no salga
 	public PublicFiles(final PageParameters parameters) {
 		super(parameters);
 		int albumId = parameters.get("albumId").toInt();
@@ -53,11 +55,9 @@ public class PublicFiles extends BasePageAuth {
 			public void populateItem(final Item<File> item) {
 				PageParameters pars = new PageParameters();
 				int idFile = item.getModelObject().getId();
-				//int index = publicFiles.indexOf(item.getModelObject());
 				
 				pars.add("fid", idFile);
 				pars.add("albumId", album.getId());
-				//pars.add("fid", Integer.toString(item.getModelObject().getId()));
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"big", PublicFilesBig.class, pars);
 				bpl.add(new NonCachingImage("img", new BlobImageResource() {
