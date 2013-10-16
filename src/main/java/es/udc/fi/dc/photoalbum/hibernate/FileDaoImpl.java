@@ -1,27 +1,31 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import es.udc.fi.dc.photoalbum.spring.AlbumService;
-import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
-import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 import java.util.ArrayList;
 
 public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 
-	@SpringBean
-	private AlbumService albumService;
-	
+	private AlbumDao albumDao;
+
+	public AlbumDao getAlbumDao() {
+		return this.albumDao;
+	}
+
+	public void setAlbumDao(AlbumDao albumDao) {
+		this.albumDao = albumDao;
+	}
+
 	public void create(File file) {
 		getHibernateTemplate().save(file);
 	}
@@ -52,7 +56,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 	@SuppressWarnings("unchecked")
 	public File getFileShared(int id, String name, int userId) {
 		// get file
-		File file = getFileOwn(id, name, userId);
+		File file = getById(id);
 		if (file == null)
 			return null;
 
@@ -138,17 +142,17 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 
 		// main query, search by album
 		Criteria criteria = getHibernateTemplate().getSessionFactory()
-				.getCurrentSession().createCriteria(File.class, "file")
-				.createAlias("file.album", "file_al")
-				.add(Restrictions.eq("file_al.id", albumId));
+				.getCurrentSession().createCriteria(File.class, "fi")
+				.createAlias("fi.album", "fi_al")
+				.add(Restrictions.eq("fi_al.id", albumId));
 
-		// get public files
-		Criterion publicFileCr = Restrictions.eq("file.privacyLevel",
+		// OR1: get public files
+		Criterion publicFileCr = Restrictions.eq("fi.privacyLevel",
 				PrivacyLevel.PUBLIC);
 
-		// get files shared to userId
+		// OR2: get files shared to userId
 		Criterion sharedFileCr = Subqueries.propertyIn(
-				"file.id",
+				"fi.id",
 				DetachedCriteria.forClass(FileShareInformation.class, "fis")
 						.createAlias("fis.user", "fis_us")
 						.createAlias("fis.file", "fis_fi")
@@ -156,28 +160,34 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 						.setProjection(Projections.property("fis_fi.id"))
 						.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
 
-		// get inherit files if the album (is public OR is shared to userId)
-		Criterion publicAlbumCr = Restrictions.eq("file_al.privacyLevel",
+		// OR3: get inherit files if the album (is public OR is shared to
+		// userId)
+		Criterion publicAlbumCr = Restrictions.eq("fi_al.privacyLevel",
 				PrivacyLevel.PUBLIC);
-		Criterion sharedAlbumCr = Subqueries.gt(
-				Long.valueOf(0),
+		Criterion sharedAlbumCr = Subqueries.propertyIn(
+				"fi_al.id",
 				DetachedCriteria.forClass(AlbumShareInformation.class, "ais")
 						.createAlias("ais.user", "ais_us")
 						.createAlias("ais.album", "ais_al")
 						.add(Restrictions.eq("ais_us.id", userId))
 						.add(Restrictions.eq("ais_al.id", albumId))
-						.setProjection(Projections.rowCount()));
+						.setProjection(Projections.property("ais_al.id")));
 		Criterion inheritFileCr = Restrictions
 				.conjunction()
-				.add(Restrictions.eq("file.privacyLevel",
+				.add(Restrictions.eq("fi.privacyLevel",
 						PrivacyLevel.INHERIT_FROM_ALBUM))
-				.add(Restrictions.disjunction().add(publicAlbumCr)
+				.add(Restrictions.disjunction()
+						.add(publicAlbumCr)
 						.add(sharedAlbumCr));
 
+		// OR: join OR1, OR2, OR3
+		Disjunction or = Restrictions.disjunction();
+		or.add(publicFileCr);
+		or.add(sharedFileCr);
+		or.add(inheritFileCr);
+
 		// add restrictions to the main query
-		criteria.add(
-				Restrictions.disjunction().add(publicFileCr).add(sharedFileCr)
-						.add(inheritFileCr)).addOrder(Order.asc("file.id"))
+		criteria.add(or).addOrder(Order.asc("fi.id"))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 		return criteria;
@@ -198,30 +208,31 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<File> getAlbumFilesPublic(int albumId, int userId) {
-		Album album = albumService.getById(albumId);
-		//I'm the owner, show all the files of the album
-		if(album.getUser().getId() == userId){
+		Album album = albumDao.getById(albumId);
+		// I'm the owner, show all the files of the album
+		if (album.getUser().getId() == userId) {
 			return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId).list();
-		}
-		else{
-		//I'm not the owner, show all public and files shared with me
-			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,userId).list();
-		
+		} else {
+			// I'm not the owner, show all public and files shared with me
+			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,
+					userId).list();
+
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId,
 			int first, int count) {
-		Album album = albumService.getById(albumId);
-		//I'm the owner, show all the files of the album
-		if(album.getUser().getId() == userId){
-			return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId).setFirstResult(first).setMaxResults(count);
-		}
-		else{
-		//I'm not the owner, show all public and files shared with me
-			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,userId).setFirstResult(first).setMaxResults(count);
-		
+		Album album = albumDao.getById(albumId);
+		// I'm the owner, show all the files of the album
+		if (album.getUser().getId() == userId) {
+			return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId)
+					.setFirstResult(first).setMaxResults(count).list();
+		} else {
+			// I'm not the owner, show all public and files shared with me
+			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,
+					userId).setFirstResult(first).setMaxResults(count).list();
+
 		}
 	}
 

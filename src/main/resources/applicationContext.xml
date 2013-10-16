@@ -28,6 +28,7 @@
 	</bean>
 	<bean id="fileDao" class="es.udc.fi.dc.photoalbum.hibernate.FileDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="albumDao" ref="albumDao" />
 	</bean>
 	<bean id="albumShareInformationDao"
 		class="es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformationDaoImpl">
