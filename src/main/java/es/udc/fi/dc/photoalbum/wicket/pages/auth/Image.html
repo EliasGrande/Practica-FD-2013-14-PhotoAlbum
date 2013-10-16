@@ -34,6 +34,21 @@
 				<tr>
 					<td colspan="2"></td>
 					<td>
+						<form wicket:id="form">
+							<table>
+								<tr>
+									<td><p><wicket:message key="share.email" /> <input wicket:id="shareEmail" type="text" /></p></td>
+									<td><input type="submit" wicket:id="ajax-button" class="g-button-small"
+										wicket:message="value:share.submit" /></td>
+									<td><div wicket:id="feedback"></div></td>
+								</tr>
+							</table>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"></td>
+					<td>
 						<form wicket:id="formPrivacyLevel">
 							<table>
 								<tr>
@@ -48,6 +63,15 @@
 							</table>
 						</form>
 					</td>
+				</tr>
+			</table>
+			<wicket:message key="share.yourFileShare" /><br/>
+			<div wicket:id="navigator" id="navigator"></div>
+			<table class="dataview">
+				<tr wicket:id="pageable">
+					<td width="200"><span wicket:id="email"></span></td>
+					<td><a wicket:id="delete"><img src="images/minus.png"
+							wicket:message="title:albums.delete"></a></td>
 				</tr>
 			</table>
 			<form wicket:id="formNavigate">
