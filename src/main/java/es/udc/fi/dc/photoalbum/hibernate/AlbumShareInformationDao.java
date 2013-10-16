@@ -14,4 +14,9 @@ public interface AlbumShareInformationDao extends GenericDao<AlbumShareInformati
 	 */
 	AlbumShareInformation getShare(String albumName, int userSharedToId,
 			String userSharedEmail);
+	
+	/**
+	 * Recupera un objeto AlbumShareInformation concreto.
+	 */
+	AlbumShareInformation getShare(int albumId, int userId);
 }

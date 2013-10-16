@@ -166,14 +166,6 @@ public class Image extends BasePageAuth {
 				if (selectedPrivacyLevel != null
 						&& PrivacyLevel.validateFile(selectedPrivacyLevel
 								.getValue())) {
-					if (selectedPrivacyLevel.getValue() == PrivacyLevel.INHERIT_FROM_ALBUM) {
-						ArrayList<FileShareInformation> fileShares = shareInformationService
-								.getFileShares(fileOwnModel.getObject().getId());
-						int i;
-						for (i = 0; i < fileShares.size(); i++) {
-							shareInformationService.delete(fileShares.get(i));
-						}
-					}
 					fileService.changePrivacyLevel(fileOwnModel.getObject(),
 							selectedPrivacyLevel.getValue());
 					info(new StringResourceModel("privacyLevel.changed", this,

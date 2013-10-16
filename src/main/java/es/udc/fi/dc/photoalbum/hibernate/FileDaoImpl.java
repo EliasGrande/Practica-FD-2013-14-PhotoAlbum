@@ -16,16 +16,6 @@ import java.util.ArrayList;
 
 public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 
-	private AlbumDao albumDao;
-
-	public AlbumDao getAlbumDao() {
-		return this.albumDao;
-	}
-
-	public void setAlbumDao(AlbumDao albumDao) {
-		this.albumDao = albumDao;
-	}
-
 	public void create(File file) {
 		getHibernateTemplate().save(file);
 	}
@@ -45,69 +35,13 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 								.add(Restrictions.eq("name", name))
 								.setResultTransformer(
 										Criteria.DISTINCT_ROOT_ENTITY));
-		if ((list.size() == 1)
-				&& ((list.get(0)).getAlbum().getUser().getId() == userId)) {
-			return list.get(0);
-		} else {
-			return null;
+		if ((list.size() == 1)) {
+			File file = list.get(0);
+			// verify ownership
+			if (file.getAlbum().getUser().getId() == userId)
+				return file;
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public File getFileShared(int id, String name, int userId) {
-		// get file
-		File file = getById(id);
-		if (file == null)
-			return null;
-
-		String filePrivacyLevel = file.getPrivacyLevel();
-
-		// the file is public => return it
-		if (filePrivacyLevel.equals(PrivacyLevel.PUBLIC))
-			return file;
-
-		ArrayList<File> list;
-
-		// the file is private => check FileShareInformation
-		if (filePrivacyLevel.equals(PrivacyLevel.PRIVATE)) {
-			list = (ArrayList<File>) getHibernateTemplate()
-					.findByCriteria(
-							DetachedCriteria
-									.forClass(FileShareInformation.class)
-									.createAlias("file", "fi")
-									.createAlias("user", "us")
-									.add(Restrictions.eq("fi.id", id))
-									.add(Restrictions.eq("us.id", userId))
-									.setResultTransformer(
-											Criteria.DISTINCT_ROOT_ENTITY));
-
-			return (list.size() == 1) ? file : null;
-		}
-
-		// the file inherit its share information from the album
-		// => check AlbumShareInformation
-		if (filePrivacyLevel.equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
-			list = (ArrayList<File>) getHibernateTemplate()
-					.findByCriteria(
-							DetachedCriteria
-									.forClass(AlbumShareInformation.class)
-									.createAlias("album", "al")
-									.createAlias("user", "us")
-									.add(Restrictions.eq("al.id", file
-											.getAlbum().getId()))
-									.add(Restrictions.eq("us.id", userId))
-									.setResultTransformer(
-											Criteria.DISTINCT_ROOT_ENTITY));
-
-			return (list.size() == 1) ? file : null;
-		}
-
-		// unknown privacy level => return nothing
 		return null;
-	}
-
-	public File getFilePublic(int id, String name, int userId) {
-		return getFileShared(id, name, userId);
 	}
 
 	public void delete(File file) {
@@ -204,36 +138,6 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 			int first, int count) {
 		return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId, userId)
 				.setFirstResult(first).setMaxResults(count).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	public ArrayList<File> getAlbumFilesPublic(int albumId, int userId) {
-		Album album = albumDao.getById(albumId);
-		// I'm the owner, show all the files of the album
-		if (album.getUser().getId() == userId) {
-			return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId).list();
-		} else {
-			// I'm not the owner, show all public and files shared with me
-			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,
-					userId).list();
-
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId,
-			int first, int count) {
-		Album album = albumDao.getById(albumId);
-		// I'm the owner, show all the files of the album
-		if (album.getUser().getId() == userId) {
-			return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId)
-					.setFirstResult(first).setMaxResults(count).list();
-		} else {
-			// I'm not the owner, show all public and files shared with me
-			return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,
-					userId).setFirstResult(first).setMaxResults(count).list();
-
-		}
 	}
 
 	@SuppressWarnings("unchecked")

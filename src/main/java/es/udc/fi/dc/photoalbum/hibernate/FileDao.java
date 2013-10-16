@@ -11,10 +11,6 @@ public interface FileDao extends GenericDao<File> {
 	File getById(Integer id);
 
 	File getFileOwn(int id, String name, int userId);
-	
-	File getFileShared(int id, String name, int userId);
-	
-	File getFilePublic(int id, String name, int userId);
 
 	ArrayList<File> getAlbumFilesOwn(int albumId);
 
@@ -23,10 +19,6 @@ public interface FileDao extends GenericDao<File> {
 	ArrayList<File> getAlbumFilesShared(int albumId, int userId);
 
 	ArrayList<File> getAlbumFilesSharedPaging(int albumId, int userId, int first, int count);
-
-	ArrayList<File> getAlbumFilesPublic(int albumId, int userId);
-
-	ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId, int first, int count);
 
 	Long getCountAlbumFiles(int albumId);
 }

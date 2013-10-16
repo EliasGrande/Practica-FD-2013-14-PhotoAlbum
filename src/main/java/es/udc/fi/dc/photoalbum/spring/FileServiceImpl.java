@@ -3,13 +3,19 @@ package es.udc.fi.dc.photoalbum.spring;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumDao;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformationDao;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileDao;
+import es.udc.fi.dc.photoalbum.hibernate.FileShareInformationDao;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 import java.util.ArrayList;
 
 @Transactional
 public class FileServiceImpl implements FileService {
+	
+	// FILE DAO
 
 	private FileDao fileDao;
 
@@ -20,6 +26,44 @@ public class FileServiceImpl implements FileService {
 	public void setFileDao(FileDao fileDao) {
 		this.fileDao = fileDao;
 	}
+	
+	// ALBUM DAO
+
+	private AlbumDao albumDao;
+
+	public AlbumDao getAlbumDao() {
+		return this.albumDao;
+	}
+
+	public void setAlbumDao(AlbumDao albumDao) {
+		this.albumDao = albumDao;
+	}
+
+	// ALBUM_SHARE_INFORMATION DAO
+
+	private AlbumShareInformationDao albumShareInformationDao;
+
+	public AlbumShareInformationDao getAlbumShareInformationDao() {
+		return this.albumShareInformationDao;
+	}
+
+	public void setAlbumShareInformationDao(AlbumShareInformationDao albumShareInformationDao) {
+		this.albumShareInformationDao = albumShareInformationDao;
+	}
+
+	// FILE_SHARE_INFORMATION DAO
+
+	private FileShareInformationDao fileShareInformationDao;
+
+	public FileShareInformationDao getFileShareInformationDao() {
+		return this.fileShareInformationDao;
+	}
+
+	public void setFileShareInformationDao(FileShareInformationDao fileShareInformationDao) {
+		this.fileShareInformationDao = fileShareInformationDao;
+	}
+	
+	// IMPLEMENTATION
 
 	public void create(File file) {
 		fileDao.create(file);
@@ -33,8 +77,34 @@ public class FileServiceImpl implements FileService {
 		return fileDao.getFileOwn(id, name, userId);
 	}
 
-	public File getFileShared(int id, String name, int userId) {
-		return fileDao.getFileShared(id, name, userId);
+	public File getFileShared(int fileId, String name, int userId) {
+		// get file
+		File file = fileDao.getById(fileId);
+		if (file == null)
+			return null;
+
+		String filePrivacyLevel = file.getPrivacyLevel();
+
+		// the file is public => return it
+		if (filePrivacyLevel.equals(PrivacyLevel.PUBLIC))
+			return file;
+
+		// the file is private => check FileShareInformation
+		if (filePrivacyLevel.equals(PrivacyLevel.PRIVATE)) {
+			return (fileShareInformationDao.getShare(fileId, userId) == null)
+					? null : file;
+		}
+
+		// the file inherit its share information from the album
+		// => check AlbumShareInformation
+		if (filePrivacyLevel.equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
+			int albumId = file.getAlbum().getId();
+			return (albumShareInformationDao.getShare(albumId, userId) == null)
+					? null : file;
+		}
+
+		// unknown privacy level => return nothing
+		return null;
 	}
 
 	public void changeAlbum(File file, Album album) {
@@ -59,10 +129,17 @@ public class FileServiceImpl implements FileService {
 
 	public void changePrivacyLevel(File file, String privacyLevel) {
 		fileDao.changePrivacyLevel(file, privacyLevel);
+		if (privacyLevel.equals(PrivacyLevel.INHERIT_FROM_ALBUM))
+			fileShareInformationDao.deleteShares(file.getId());
 	}
 
 	public File getFilePublic(int id, String name, int userId) {
-		return fileDao.getFilePublic(id, name, userId);
+		// try to get it as owner
+		File file = fileDao.getFileOwn(id, name, userId);
+		if (file == null)
+			// try to get it as "shared with me" or "public file"
+			file = getFileShared(id, name, userId);
+		return file;
 	}
 
 	public ArrayList<File> getAlbumFilesShared(int albumId, int userId) {
@@ -75,11 +152,30 @@ public class FileServiceImpl implements FileService {
 	}
 
 	public ArrayList<File> getAlbumFilesPublic(int albumId, int userId) {
-		return fileDao.getAlbumFilesPublic(albumId, userId);
+		Album album = albumDao.getById(albumId);
+		if (album == null)
+			return null;
+		if (album.getUser().getId() == userId) {
+			// I'm the owner, show all the files of the album
+			return fileDao.getAlbumFilesOwn(albumId);
+		} else {
+			// I'm not the owner, show all public and files shared with me
+			return fileDao.getAlbumFilesShared(albumId, userId);
+		}
 	}
 
 	public ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId,
 			int first, int count) {
-		return fileDao.getAlbumFilesPublicPaging(albumId, userId, first, count);
+		Album album = albumDao.getById(albumId);
+		if (album == null)
+			return null;
+		if (album.getUser().getId() == userId) {
+			// I'm the owner, show all the files of the album
+			return fileDao.getAlbumFilesOwnPaging(albumId, first, count);
+		} else {
+			// I'm not the owner, show all public and files shared with me
+			return fileDao.getAlbumFilesSharedPaging(albumId, userId, first,
+					count);
+		}
 	}
 }

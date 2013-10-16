@@ -29,4 +29,30 @@ public class FileShareInformationDaoImpl extends HibernateDaoSupport implements
 								.setResultTransformer(
 										Criteria.DISTINCT_ROOT_ENTITY));
 	}
+
+	@SuppressWarnings("unchecked")
+	public FileShareInformation getShare(int fileId, int userId) {
+		ArrayList<FileShareInformation> list = (ArrayList<FileShareInformation>) getHibernateTemplate()
+				.findByCriteria(
+						DetachedCriteria
+								.forClass(FileShareInformation.class)
+								.createAlias("file", "fi")
+								.createAlias("user", "us")
+								.add(Restrictions.eq("fi.id", fileId))
+								.add(Restrictions.eq("us.id", userId))
+								.setResultTransformer(
+										Criteria.DISTINCT_ROOT_ENTITY));
+		if (list.size() == 1) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
+
+	public void deleteShares(int fileId) {
+		String hql = "delete from FileShareInformation where file.id = :fileId";
+		getHibernateTemplate().getSessionFactory().getCurrentSession()
+				.createQuery(hql).setParameter("fileId", fileId)
+				.executeUpdate();
+	}
 }

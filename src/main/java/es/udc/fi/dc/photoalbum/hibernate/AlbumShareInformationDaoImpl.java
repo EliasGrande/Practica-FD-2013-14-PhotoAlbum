@@ -58,6 +58,25 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport implements
 		}
 	}
 
+	public AlbumShareInformation getShare(int albumId, int userId) {
+		@SuppressWarnings("unchecked")
+		ArrayList<AlbumShareInformation> list = (ArrayList<AlbumShareInformation>) getHibernateTemplate()
+				.findByCriteria(
+						DetachedCriteria
+								.forClass(AlbumShareInformation.class)
+								.createAlias("album", "al")
+								.createAlias("user", "us")
+								.add(Restrictions.eq("al.id", albumId))
+								.add(Restrictions.eq("us.id", userId))
+								.setResultTransformer(
+										Criteria.DISTINCT_ROOT_ENTITY));
+		if (list.size() == 1) {
+			return list.get(0);
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * Usado en "Mis albumes > AlbumEjemplo > Compartir" para mostrar la lista
 	 * de usuarios con los que he compartido el album.
