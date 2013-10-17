@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.hibernate;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -26,6 +27,7 @@ public class FileShareInformationDaoImpl extends HibernateDaoSupport implements
 								.forClass(FileShareInformation.class)
 								.createCriteria("file")
 								.add(Restrictions.eq("id", fileId))
+								.addOrder(Order.asc("id"))
 								.setResultTransformer(
 										Criteria.DISTINCT_ROOT_ENTITY));
 	}

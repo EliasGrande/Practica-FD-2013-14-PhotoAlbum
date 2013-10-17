@@ -7,6 +7,7 @@ import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 
+import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Image;
@@ -59,6 +60,7 @@ public class WicketApp extends WebApplication {
 		mountPage("profile", Profile.class);
 		mountPage("forgotPassword", ForgotPassword.class);
 		mountPage("signOut", SignOut.class);
+		mountPage("baseTags", BaseTags.class);
 	}
 
 	@Override
