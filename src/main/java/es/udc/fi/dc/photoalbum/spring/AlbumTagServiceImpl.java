@@ -18,13 +18,17 @@ public class AlbumTagServiceImpl implements AlbumTagService {
 	}
 
 	public void create(AlbumTag albumTag) {
-		albumTagDao.create(albumTag);
-		
+		if (albumTagDao.getTag(albumTag.getAlbum().getId(), albumTag.getTag()) == null)
+			albumTagDao.create(albumTag);
 	}
 
 	public void delete(AlbumTag albumTag) {
 		albumTagDao.delete(albumTag);
-		
+
+	}
+
+	public AlbumTag getTag(int albumId, String tag) {
+		return albumTagDao.getTag(albumId, tag);
 	}
 
 	public ArrayList<AlbumTag> getTags(int albumId) {

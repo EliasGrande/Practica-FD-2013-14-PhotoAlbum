@@ -18,13 +18,18 @@ public class FileTagServiceImpl implements FileTagService {
 	}
 
 	public void create(FileTag fileTag) {
-		fileTagDao.create(fileTag);
+		if (fileTagDao.getTag(fileTag.getFile().getId(), fileTag.getTag()) == null)
+			fileTagDao.create(fileTag);
 
 	}
 
 	public void delete(FileTag fileTag) {
 		fileTagDao.delete(fileTag);
 
+	}
+
+	public FileTag getTag(int fileId, String tag) {
+		return fileTagDao.getTag(fileId, tag);
 	}
 
 	public ArrayList<FileTag> getTags(int fileId) {
