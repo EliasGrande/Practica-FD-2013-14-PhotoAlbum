@@ -158,4 +158,49 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 		getHibernateTemplate().update(file);
 		file.setPrivacyLevel(privacyLevel);
 	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<File> getFilesByTag(int userId, String tag) {
+		
+		String hql = "FROM File "
+				+ "WHERE id IN ("
+					// search files by tag
+					+ "SELECT file.id FROM FileTag "
+					+ "WHERE tag = :tag"
+				+ ")"
+				+ "AND"
+				+ "("
+					// public files
+					+ "privacyLevel = :publicPrivacyLevel "
+					// files shared with userId
+					+ "OR id IN ("
+						+ "SELECT file.id FROM FileShareInformation "
+						+ "WHERE user.id = :userId"
+					+ ")"
+					// inherit files
+					+ "OR ("
+						+ "privacyLevel = :inheritPrivacyLevel "
+						+ "AND ("
+							// from public albums
+							+ "album.privacyLevel = :publicPrivacyLevel "
+							// from albums shared with userId
+							+ "OR album.id IN ("
+								+ "SELECT album.id FROM AlbumShareInformation "
+								+ "WHERE user.id = :userId"
+							+ ")"
+						+ ")"
+					+ ")"
+				+ ")";
+		
+		return (ArrayList<File>) getHibernateTemplate()
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(hql)
+				.setParameter("tag", tag)
+				.setParameter("userId", userId)
+				.setParameter("inheritPrivacyLevel",
+						PrivacyLevel.INHERIT_FROM_ALBUM)
+				.setParameter("publicPrivacyLevel",
+						PrivacyLevel.PUBLIC).list();
+	}
 }

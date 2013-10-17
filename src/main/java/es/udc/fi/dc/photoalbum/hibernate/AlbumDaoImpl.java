@@ -1,11 +1,9 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
+import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
@@ -13,6 +11,79 @@ import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import java.util.ArrayList;
 
 public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
+
+	/**
+	 * Restriction for Album: Public albums.
+	 *    
+	 * Parameters:
+	 *    - (String) inheritPrivacyLevel
+	 *    - (String) publicPrivacyLevel
+	 */
+	private static final String HQL_RESTRICTION_ALBUMS_PUBLIC =
+		"("
+			+ "("
+				// public albums (*1)
+				+ "privacyLevel = :publicPrivacyLevel "
+				+ "AND id IN ("
+					// (*1) with inherit files
+					+ "SELECT album.id FROM File "
+					+ "WHERE privacyLevel = :inheritPrivacyLevel"
+				+ ")"
+			+ ")"
+			+ "OR"
+			+ "("
+				// albums (*2)
+				+ "id IN ("
+					// (*2) with public files
+					+ "SELECT album.id FROM File "
+					+ "WHERE privacyLevel = :publicPrivacyLevel"
+				+ ")"
+			+ ")"
+		+ ")";
+	
+	/**
+	 * Restriction for Album: Albums shared with userId.
+	 * 
+	 * Parameters:
+	 *    - (int) userId
+	 *    - (String) inheritPrivacyLevel
+	 *    - (String) publicPrivacyLevel
+	 */
+	private static final String HQL_RESTRICTION_ALBUMS_SHARED_WITH =
+		"("
+			+ "("
+				+ "id IN ("
+					// albums shared with userId and (*1)
+					+ "SELECT album.id FROM AlbumShareInformation "
+					+ "WHERE user.id = :userId "
+					+ "AND album.id IN ("
+						// (*1) with INHERIT or PUBLIC files
+						+ "SELECT album.id FROM File "
+						+ "WHERE privacyLevel = :inheritPrivacyLevel "
+						+ "OR privacyLevel = :publicPrivacyLevel"
+					+ ")"
+				+ ")"
+			+ ")"
+			+ "OR"
+			+ "("
+				+ "id IN ("
+					// albums (*2)
+					+ "SELECT album.id FROM File "
+					+ "WHERE id IN ("
+						// (*2) with files shared with userId
+						+ "SELECT file.id FROM FileShareInformation "
+						+ "WHERE user.id = :userId"
+					+ ")"
+				+ ")"
+			+ ")"
+		+ ")";
+	
+	private Query createQuery(String hql) {
+		return getHibernateTemplate()
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(hql);
+	}
 
 	public void create(Album album) {
 		getHibernateTemplate().save(album);
@@ -60,28 +131,12 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Album> getPublicAlbums() {
 		
-		DetachedCriteria dc = DetachedCriteria.forClass(Album.class, "album")
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		
-		// public albums with inherit files
-		DetachedCriteria inheritFilesDc = DetachedCriteria.forClass(File.class, "ih_file")
-				.createAlias("ih_file.album", "ih_file_al")
-				.add(Restrictions.eq("ih_file.privacyLevel", PrivacyLevel.INHERIT_FROM_ALBUM))
-				.setProjection(Projections.property("ih_file_al.id"));
-		Criterion inheritFilesCr = Restrictions
-				.conjunction()
-				.add(Restrictions.eq("album.privacyLevel", PrivacyLevel.PUBLIC))
-				.add(Subqueries.propertyIn("album.id", inheritFilesDc));
-		
-		// albums with public files
-		DetachedCriteria publicFilesDc = DetachedCriteria.forClass(File.class, "pu_file")
-				.createAlias("pu_file.album", "pu_file_al")
-				.add(Restrictions.eq("pu_file.privacyLevel", PrivacyLevel.PUBLIC))
-				.setProjection(Projections.property("pu_file_al.id"));
-		Criterion publicFilesCr = Subqueries.propertyIn("album.id",publicFilesDc);
-		
-		return (ArrayList<Album>) getHibernateTemplate().findByCriteria(
-				dc.add(Restrictions.disjunction().add(inheritFilesCr).add(publicFilesCr)));
+		String hql = "FROM Album WHERE " + HQL_RESTRICTION_ALBUMS_PUBLIC;
+
+		return (ArrayList<Album>) createQuery(hql)
+				.setParameter("inheritPrivacyLevel",
+						PrivacyLevel.INHERIT_FROM_ALBUM)
+				.setParameter("publicPrivacyLevel", PrivacyLevel.PUBLIC).list();
 	}
 	
 	public void changePrivacyLevel(Album album, String privacyLevel) {
@@ -91,42 +146,12 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Album> getAlbumsSharedWith(Integer userId, String ownerEmail) {
-		String hql = "FROM Album al "
-				// albums of ownerEmail
-				+ "WHERE al.user.email = :ownerEmail "
-				+ "AND ("
-						+ "("
-							+ "al.id IN ("
-								// albums shared with userId and (*1)
-								+ "SELECT asi.album.id FROM AlbumShareInformation asi "
-								+ "WHERE asi.user.id = :userId "
-								+ "AND asi.album.id IN ("
-									// (*1) with INHERIT or PUBLIC files
-									+ "SELECT ifi.album.id FROM File ifi "
-									+ "WHERE ifi.privacyLevel = :inheritPrivacyLevel "
-									+ "OR ifi.privacyLevel = :publicPrivacyLevel"
-								+ ")"
-							+ ")"
-						+ ")"
-						+ "OR"
-						+ "("
-							+ "al.id IN ("
-								// albums (*2)
-								+ "SELECT sfi.album.id FROM File sfi "
-								+ "WHERE sfi.id IN ("
-									// (*2) with files shared with userId
-									+ "SELECT fsi.file.id FROM FileShareInformation fsi "
-									+ "WHERE fsi.user.id = :userId"
-								+ ")"
-							+ ")"
-						+ ")"
-					+ ")"
-				+ ")";
+		
+		String hql = "FROM Album "
+				+ "WHERE user.email = :ownerEmail "
+				+ "AND" + HQL_RESTRICTION_ALBUMS_SHARED_WITH;
 
-		return (ArrayList<Album>) getHibernateTemplate()
-				.getSessionFactory()
-				.getCurrentSession()
-				.createQuery(hql)
+		return (ArrayList<Album>) createQuery(hql)
 				.setParameter("ownerEmail", ownerEmail)
 				.setParameter("userId", userId)
 				.setParameter("inheritPrivacyLevel",
@@ -159,5 +184,33 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 		}
 		
 		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Album> getAlbumsByTag(int userId, String tag) {
+		String hql = "FROM Album "
+				// albums with the tag
+				+ "WHERE id IN ("
+					+ "SELECT album.id FROM AlbumTag "
+					+ "WHERE tag = :tag"
+				+ ")"
+				+ "AND ("
+						// albums viewable by the user
+						+ HQL_RESTRICTION_ALBUMS_SHARED_WITH
+						+ " OR "
+						+ HQL_RESTRICTION_ALBUMS_PUBLIC
+					+ ")"
+				+ ")";
+
+		return (ArrayList<Album>) getHibernateTemplate()
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(hql)
+				.setParameter("userId", userId)
+				.setParameter("tag", tag)
+				.setParameter("inheritPrivacyLevel",
+						PrivacyLevel.INHERIT_FROM_ALBUM)
+				.setParameter("publicPrivacyLevel",
+						PrivacyLevel.PUBLIC).list();
 	}
 }

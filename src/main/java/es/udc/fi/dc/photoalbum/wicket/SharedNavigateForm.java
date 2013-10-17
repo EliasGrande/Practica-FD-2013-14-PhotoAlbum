@@ -58,7 +58,7 @@ public class SharedNavigateForm<T> extends Form<T> {
 			@Override
 			public void onSubmit() {
 				PageParameters pars = new PageParameters();
-				pars.add("albumId", previous.getObject().getAlbum().getId());
+				pars.add("album", previous.getObject().getAlbum().getName());
 				pars.add("fid", previous.getObject().getId());
 				setResponsePage(cls, pars);
 			}
@@ -67,7 +67,7 @@ public class SharedNavigateForm<T> extends Form<T> {
 			@Override
 			public void onSubmit() {
 				PageParameters pars = new PageParameters();
-				pars.add("albumId", next.getObject().getAlbum().getId());
+				pars.add("album", next.getObject().getAlbum().getName());
 				pars.add("fid", next.getObject().getId());
 				setResponsePage(cls, pars);
 			}

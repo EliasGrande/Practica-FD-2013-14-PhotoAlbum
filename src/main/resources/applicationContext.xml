@@ -26,9 +26,11 @@
 	</bean>
 	<bean id="albumTagService"
 		class="es.udc.fi.dc.photoalbum.spring.AlbumTagServiceImpl">
+		<property name="albumTagDao" ref="albumTagDao" />
 	</bean>
 	<bean id="fileTagService"
 		class="es.udc.fi.dc.photoalbum.spring.FileTagServiceImpl">
+		<property name="fileTagDao" ref="fileTagDao" />
 	</bean>
 
 	<!-- DAOs -->
@@ -47,6 +49,12 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="userDao" class="es.udc.fi.dc.photoalbum.hibernate.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="albumTagDao" class="es.udc.fi.dc.photoalbum.hibernate.AlbumTagDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="fileTagDao" class="es.udc.fi.dc.photoalbum.hibernate.FileTagDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 

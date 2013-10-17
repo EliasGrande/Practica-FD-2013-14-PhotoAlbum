@@ -63,7 +63,6 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	public ArrayList<Album> getAlbumsByTag(int userId, String tag) {
-		// TODO Auto-generated method stub
-		return new ArrayList<Album>();
+		return albumDao.getAlbumsByTag(userId, tag);
 	}
 }

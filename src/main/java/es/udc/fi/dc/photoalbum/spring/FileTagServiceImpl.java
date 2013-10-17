@@ -3,22 +3,32 @@ package es.udc.fi.dc.photoalbum.spring;
 import java.util.ArrayList;
 
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
+import es.udc.fi.dc.photoalbum.hibernate.FileTagDao;
 
 public class FileTagServiceImpl implements FileTagService {
 
+	private FileTagDao fileTagDao;
+
+	public FileTagDao getFileTagDao() {
+		return this.fileTagDao;
+	}
+
+	public void setFileTagDao(FileTagDao fileTagDao) {
+		this.fileTagDao = fileTagDao;
+	}
+
 	public void create(FileTag fileTag) {
-		// TODO Auto-generated method stub
+		fileTagDao.create(fileTag);
 
 	}
 
 	public void delete(FileTag fileTag) {
-		// TODO Auto-generated method stub
+		fileTagDao.delete(fileTag);
 
 	}
 
 	public ArrayList<FileTag> getTags(int fileId) {
-		// TODO Auto-generated method stub
-		return new ArrayList<FileTag>();
+		return fileTagDao.getTags(fileId);
 	}
 
 }

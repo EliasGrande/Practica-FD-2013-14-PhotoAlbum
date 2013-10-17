@@ -157,10 +157,10 @@ public class FileServiceImpl implements FileService {
 			return null;
 		if (album.getUser().getId() == userId) {
 			// I'm the owner, show all the files of the album
-			return fileDao.getAlbumFilesOwn(albumId);
+			return getAlbumFilesOwn(albumId);
 		} else {
 			// I'm not the owner, show all public and files shared with me
-			return fileDao.getAlbumFilesShared(albumId, userId);
+			return getAlbumFilesShared(albumId, userId);
 		}
 	}
 
@@ -171,16 +171,15 @@ public class FileServiceImpl implements FileService {
 			return null;
 		if (album.getUser().getId() == userId) {
 			// I'm the owner, show all the files of the album
-			return fileDao.getAlbumFilesOwnPaging(albumId, first, count);
+			return getAlbumFilesOwnPaging(albumId, first, count);
 		} else {
 			// I'm not the owner, show all public and files shared with me
-			return fileDao.getAlbumFilesSharedPaging(albumId, userId, first,
+			return getAlbumFilesSharedPaging(albumId, userId, first,
 					count);
 		}
 	}
 
 	public ArrayList<File> getFilesByTag(int userId, String tag) {
-		// TODO Auto-generated method stub
-		return new ArrayList<File>();
+		return fileDao.getFilesByTag(userId, tag);
 	}
 }

@@ -20,4 +20,6 @@ public interface AlbumDao extends GenericDao<Album> {
 	
 	Album getSharedAlbum(String albumName, int userSharedToId,
 			String userSharedEmail);
+	
+	ArrayList<Album> getAlbumsByTag(int userId, String tag);
 }
