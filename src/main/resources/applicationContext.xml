@@ -24,6 +24,12 @@
 	<bean id="userService" class="es.udc.fi.dc.photoalbum.spring.UserServiceImpl">
 		<property name="userDao" ref="userDao" />
 	</bean>
+	<bean id="albumTagService"
+		class="es.udc.fi.dc.photoalbum.spring.AlbumTagServiceImpl">
+	</bean>
+	<bean id="fileTagService"
+		class="es.udc.fi.dc.photoalbum.spring.FileTagServiceImpl">
+	</bean>
 
 	<!-- DAOs -->
 	<bean id="albumDao" class="es.udc.fi.dc.photoalbum.hibernate.AlbumDaoImpl">

@@ -26,4 +26,16 @@ public interface AlbumService {
 	
 	Album getSharedAlbum(String albumName, int userSharedToId,
 			String userSharedEmail);
+	
+	/**
+	 * Get a list of albums searching by tag.
+	 * 
+	 * @param userId
+	 *            The user who invocated the search, needed for privacy
+	 *            restrictions.
+	 * @param tag
+	 *            The album tag.
+	 * @return A list of albums (empty if nothing found).
+	 */
+	ArrayList<Album> getAlbumsByTag(int userId, String tag);
 }
