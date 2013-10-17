@@ -61,4 +61,9 @@ public class AlbumServiceImpl implements AlbumService {
 		return albumDao.getSharedAlbum(albumName, userSharedToId,
 				userSharedEmail);
 	}
+
+	public ArrayList<Album> getAlbumsByTag(int userId, String tag) {
+		// TODO Auto-generated method stub
+		return new ArrayList<Album>();
+	}
 }

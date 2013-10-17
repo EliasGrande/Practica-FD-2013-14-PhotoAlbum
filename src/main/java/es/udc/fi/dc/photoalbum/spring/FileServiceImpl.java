@@ -178,4 +178,9 @@ public class FileServiceImpl implements FileService {
 					count);
 		}
 	}
+
+	public ArrayList<File> getFilesByTag(int userId, String tag) {
+		// TODO Auto-generated method stub
+		return new ArrayList<File>();
+	}
 }

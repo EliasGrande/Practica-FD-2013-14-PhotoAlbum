@@ -36,4 +36,16 @@ public interface FileService {
 	ArrayList<File> getAlbumFilesPublicPaging(int albumId, int userId, int first, int count);
 
 	Long getCountAlbumFiles(int albumId);
+	
+	/**
+	 * Get a list of files searching by tag.
+	 * 
+	 * @param userId
+	 *            The user who invocated the search, needed for privacy
+	 *            restrictions.
+	 * @param tag
+	 *            The file tag.
+	 * @return A list of files (empty if nothing found).
+	 */
+	ArrayList<File> getFilesByTag(int userId, String tag);
 }
