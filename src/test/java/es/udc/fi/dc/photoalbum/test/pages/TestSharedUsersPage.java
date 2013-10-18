@@ -4,7 +4,6 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EX
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import org.apache.wicket.Session;
@@ -14,12 +13,8 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedUsers;
@@ -42,22 +37,13 @@ public class TestSharedUsersPage {
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
-				};
-				AlbumShareInformationService mockShare = new AlbumShareInformationService() {
-					public void create(AlbumShareInformation shareInformation) { }
-					public void delete(AlbumShareInformation shareInformation) {	}
-					public List<AlbumShareInformation> getShares(User userShared, User userSharedTo) { return null; }
-					public AlbumShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
-						return new AlbumShareInformation(1, new Album(1, null, null, null, null, PrivacyLevel.SHAREABLE), null); 
-					}
-					public ArrayList<AlbumShareInformation> getAlbumShares(
-							int albumId) { return null; }
-					public ArrayList<AlbumShareInformation> getUserShares(int userId) {
-						return new ArrayList<AlbumShareInformation>();
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						ArrayList<User> list = new ArrayList<User>();
+						list.add(new User(1,USER_EMAIL_EXIST,USER_PASS_YES));
+						return list;
 					}
 				};
 				context.putBean("userBean", mock);
-				context.putBean("shareBean", mockShare);
 				getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
 			}
 		};

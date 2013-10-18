@@ -24,9 +24,11 @@ import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
+import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -77,6 +79,21 @@ public class TestImagePage {
 							String privacyLevel) {
 						album.setPrivacyLevel(privacyLevel);
 					}
+
+					public ArrayList<Album> getAlbumsSharedWith(Integer id,
+							String ownerEmail) {
+						return null;
+					}
+
+					public Album getSharedAlbum(String albumName,
+							int userSharedToId, String userSharedEmail) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbumsByTag(int userId,
+							String tag) {
+						return null;
+					}
 				};
 				FileService mockFile = new FileService() {
 					public void create(File file) {
@@ -88,7 +105,7 @@ public class TestImagePage {
 					public File getFileOwn(int id, String name, int userId) {
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
+								null, PrivacyLevel.INHERIT_FROM_ALBUM);
 						File file = new File(1, "1", new byte[1], new byte[1],
 								album);
 						set.add(file);
@@ -111,7 +128,7 @@ public class TestImagePage {
 						ArrayList<File> list = new ArrayList<File>();
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
+								null, PrivacyLevel.INHERIT_FROM_ALBUM);
 						File file = new File(1, "1", new byte[1], new byte[1],
 								album);
 						set.add(file);
@@ -122,7 +139,16 @@ public class TestImagePage {
 
 					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
-						return null;
+						ArrayList<File> list = new ArrayList<File>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.INHERIT_FROM_ALBUM);
+						File file = new File(1, "1", new byte[1], new byte[1],
+								album);
+						set.add(file);
+						album.setFiles(set);
+						list.add(file);
+						return list;
 					}
 
 					public Long getCountAlbumFiles(int albumId) {
@@ -134,34 +160,32 @@ public class TestImagePage {
 						file.setPrivacyLevel(privacyLevel);
 					}
 
-					public ArrayList<File> getAlbumFilesOwn(int albumId,
-							String minPrivacyLevel) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						file.setPrivacyLevel(minPrivacyLevel);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
+					public File getFilePublic(int id, String name, int userId) {
+						return null;
 					}
 
-					public ArrayList<File> getAlbumFilesPaging(int albumId,
-							int first, int count, String minPrivacyLevel) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						file.setPrivacyLevel(minPrivacyLevel);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
+					public ArrayList<File> getAlbumFilesShared(int albumId,
+							int userId) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesSharedPaging(
+							int albumId, int userId, int first, int count) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesPublic(int albumId,
+							int userId) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesPublicPaging(
+							int albumId, int userId, int first, int count) {
+						return null;
+					}
+
+					public ArrayList<File> getFilesByTag(int userId, String tag) {
+						return null;
 					}
 				};
 				UserService mock = new UserService() {
@@ -185,7 +209,36 @@ public class TestImagePage {
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
+
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
+					}
 				};
+				FileShareInformationService mockFsi = new FileShareInformationService(){
+
+					public void create(FileShareInformation shareInformation) {
+					}
+
+					public void delete(FileShareInformation shareInformation) {
+					}
+
+					public ArrayList<FileShareInformation> getFileShares(
+							int fileId) {
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						User user2 = new User(2, USER_EMAIL_EXIST+"2", USER_PASS_YES);
+						album = new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.INHERIT_FROM_ALBUM);
+						File file = new File(1, "1", new byte[1], new byte[1],
+								album);
+						set.add(file);
+						album.setFiles(set);
+						ArrayList <FileShareInformation> list = new ArrayList<FileShareInformation>();
+						list.add(new FileShareInformation(null,file,user2));
+						return list;
+					}
+					
+				};
+				context.putBean("fsiBean",mockFsi);
 				context.putBean("userBean", mock);
 				context.putBean("fileBean", mockFile);
 				context.putBean("albumBean", mockAlbum);

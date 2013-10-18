@@ -1,7 +1,7 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
+import java.util.ArrayList;
 import java.util.Locale;
-
 
 import org.apache.wicket.Session;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -16,7 +16,6 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Profile;
-
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
 
 public class TestProfilePage {
@@ -43,6 +42,9 @@ public class TestProfilePage {
 					public User getUser(User userEmail) { return null; }
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+					}
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
 					}
 				};
 				context.putBean("albumBean", mock);

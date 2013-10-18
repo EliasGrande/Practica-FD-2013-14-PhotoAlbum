@@ -55,6 +55,10 @@ public class TestLoginPage {
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
+
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
+					}
 				};
 				AlbumService mockAlbum = new AlbumService() {
 					public void rename(Album album, String newName) {
@@ -86,6 +90,21 @@ public class TestLoginPage {
 							String privacyLevel) {
 						album.setPrivacyLevel(privacyLevel);
 
+					}
+
+					public ArrayList<Album> getAlbumsSharedWith(Integer id,
+							String ownerEmail) {
+						return null;
+					}
+
+					public Album getSharedAlbum(String albumName,
+							int userSharedToId, String userSharedEmail) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbumsByTag(int userId,
+							String tag) {
+						return null;
 					}
 				};
 				context.putBean("userBean", mock);

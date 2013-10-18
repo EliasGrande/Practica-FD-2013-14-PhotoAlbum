@@ -54,7 +54,7 @@ public class TestSharedBigPage {
 					public File getFileShared(int id, String name, int userId) {
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
+								null, PrivacyLevel.PRIVATE);
 						File file = new File(1, "1", new byte[1], new byte[1],
 								album);
 						set.add(file);
@@ -67,20 +67,13 @@ public class TestSharedBigPage {
 					}
 
 					public File getById(Integer id) {
-						return null;
+						return new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE));
 					}
 
 					public ArrayList<File> getAlbumFilesOwn(int albumId) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
+						return null;
 					}
 
 					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
@@ -94,35 +87,38 @@ public class TestSharedBigPage {
 
 					public void changePrivacyLevel(File file,
 							String privacyLevel) {
-						file.setPrivacyLevel(privacyLevel);
 					}
 
-					public ArrayList<File> getAlbumFilesOwn(int albumId,
-							String minPrivacyLevel) {
+					public File getFilePublic(int id, String name, int userId) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesShared(int albumId,
+							int userId) {
 						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
 						return list;
 					}
 
-					public ArrayList<File> getAlbumFilesPaging(int albumId,
-							int first, int count, String minPrivacyLevel) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
+					public ArrayList<File> getAlbumFilesSharedPaging(
+							int albumId, int userId, int first, int count) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesPublic(int albumId,
+							int userId) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesPublicPaging(
+							int albumId, int userId, int first, int count) {
+						return null;
+					}
+
+					public ArrayList<File> getFilesByTag(int userId, String tag) {
+						return null;
 					}
 				};
 				UserService mock = new UserService() {
@@ -145,6 +141,10 @@ public class TestSharedBigPage {
 
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+					}
+
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
 					}
 				};
 				context.putBean("userBean", mock);

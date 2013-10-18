@@ -3,6 +3,7 @@ package es.udc.fi.dc.photoalbum.test.pages;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
+import java.util.ArrayList;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -35,6 +36,9 @@ public class TestSignOut {
 					public User getUser(User userEmail) { return null; }
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+					}
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
 					}
 				};
 				context.putBean("userBean", mock);

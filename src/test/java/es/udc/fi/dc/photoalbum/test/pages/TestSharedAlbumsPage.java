@@ -1,11 +1,9 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import org.apache.wicket.Page;
@@ -18,9 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -30,27 +27,60 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedAlbums;
 public class TestSharedAlbumsPage {
 	private WicketApp wicketApp;
 	private WicketTester tester;
+	
 	{
 		this.wicketApp = new WicketApp() {
 			@Override
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
-				AlbumShareInformationService mockShare = new AlbumShareInformationService() {
-					public void create(AlbumShareInformation shareInformation) {
-						shareInformation.getUser().getShareInformation().add(shareInformation);
-						shareInformation.getAlbum().getShareInformation().add(shareInformation);
+				AlbumService mockAlbum = new AlbumService() {
+
+					public void create(Album album) {
 					}
-					public void delete(AlbumShareInformation shareInformation) {	}
-					public List<AlbumShareInformation> getShares(User userShared, User userSharedTo) {
-						ArrayList<AlbumShareInformation> list = new ArrayList<AlbumShareInformation>();
-						list.add(new AlbumShareInformation(1, new Album(1, ALBUM_NAME_EXIST, null, null, null, PrivacyLevel.SHAREABLE), new User()));
-						return list;
+
+					public void delete(Album album) {
 					}
-					public AlbumShareInformation getShare(String albumName, int userSharedToId, String userSharedEmail) {
+
+					public void rename(Album album, String newName) {
+					}
+
+					public void changePrivacyLevel(Album album,
+							String privacyLevel) {
+					}
+
+					public Album getById(Integer id) {
 						return null;
 					}
-					public ArrayList<AlbumShareInformation> getAlbumShares(int albumId) { return null; }
-					public ArrayList<AlbumShareInformation> getUserShares(int userId) { return null; }
+
+					public Album getAlbum(String name, int userId) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbums(Integer id) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbumsSharedWith(Integer id,
+							String ownerEmail) {
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1,"ALBUM_NAME_EXIST",null,null,null/**/,PrivacyLevel.PRIVATE));
+						return list;
+					}
+
+					public ArrayList<Album> getPublicAlbums() {
+						return null;
+					}
+
+					public Album getSharedAlbum(String albumName,
+							int userSharedToId, String userSharedEmail) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbumsByTag(int userId,
+							String tag) {
+						return null;
+					}
+					
 				};
 				UserService mockUser = new UserService() {
 					public void create(User user) { }
@@ -67,8 +97,11 @@ public class TestSharedAlbumsPage {
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 					}
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
+					}
 				};
-				context.putBean("shareBean", mockShare);
+				context.putBean("shareBean", mockAlbum);
 				context.putBean("userBean", mockUser);
 				getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
 			}

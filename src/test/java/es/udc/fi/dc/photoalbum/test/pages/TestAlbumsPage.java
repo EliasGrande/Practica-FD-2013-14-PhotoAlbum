@@ -66,6 +66,21 @@ public class TestAlbumsPage {
 							String privacyLevel) {
 						album.setPrivacyLevel(privacyLevel);
 					}
+
+					public ArrayList<Album> getAlbumsSharedWith(Integer id,
+							String ownerEmail) {
+						return null;
+					}
+
+					public Album getSharedAlbum(String albumName,
+							int userSharedToId, String userSharedEmail) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbumsByTag(int userId,
+							String tag) {
+						return null;
+					}
 				};
 				UserService mock = new UserService() {
 					public void create(User user) {
@@ -87,6 +102,10 @@ public class TestAlbumsPage {
 
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+					}
+
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
 					}
 				};
 				context.putBean("userBean", mock);

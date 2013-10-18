@@ -1,15 +1,16 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import junit.framework.Assert;
-
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -27,9 +28,7 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Upload;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
 
 public class TestUploadPage {
 
@@ -48,7 +47,7 @@ public class TestUploadPage {
 					public Album getAlbum(String name, int userId) {
 						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
 						Album album = new Album(1, ALBUM_NAME_EXIST, user,
-								null, null, PrivacyLevel.SHAREABLE);
+								null, null, PrivacyLevel.PRIVATE);
 						set.add(new File(1, "1", new byte[1], new byte[1],
 								album));
 						album.setFiles(set);
@@ -77,6 +76,21 @@ public class TestUploadPage {
 					public void changePrivacyLevel(Album album,
 							String privacyLevel) {
 						album.setPrivacyLevel(privacyLevel);
+					}
+
+					public ArrayList<Album> getAlbumsSharedWith(Integer id,
+							String ownerEmail) {
+						return null;
+					}
+
+					public Album getSharedAlbum(String albumName,
+							int userSharedToId, String userSharedEmail) {
+						return null;
+					}
+
+					public ArrayList<Album> getAlbumsByTag(int userId,
+							String tag) {
+						return null;
 					}
 				};
 				FileService mockFile = new FileService() {
@@ -119,34 +133,32 @@ public class TestUploadPage {
 						file.setPrivacyLevel(privacyLevel);
 					}
 
-					public ArrayList<File> getAlbumFilesOwn(int albumId,
-							String minPrivacyLevel) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						Album album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
-						File file = new File(albumId, "1", new byte[1], new byte[1],
-								album);
-						file.setPrivacyLevel(minPrivacyLevel);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
+					public File getFilePublic(int id, String name, int userId) {
+						return null;
 					}
 
-					public ArrayList<File> getAlbumFilesPaging(int albumId,
-							int first, int count, String minPrivacyLevel) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						Album album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.SHAREABLE);
-						File file = new File(albumId, "1", new byte[1], new byte[1],
-								album);
-						file.setPrivacyLevel(minPrivacyLevel);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
+					public ArrayList<File> getAlbumFilesShared(int albumId,
+							int userId) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesSharedPaging(
+							int albumId, int userId, int first, int count) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesPublic(int albumId,
+							int userId) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesPublicPaging(
+							int albumId, int userId, int first, int count) {
+						return null;
+					}
+
+					public ArrayList<File> getFilesByTag(int userId, String tag) {
+						return null;
 					}
 				};
 				UserService mock = new UserService() {
@@ -169,6 +181,10 @@ public class TestUploadPage {
 
 					public User getById(Integer id) {
 						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+					}
+
+					public ArrayList<User> getUsersSharingWith(int userId) {
+						return null;
 					}
 				};
 				context.putBean("userBean", mock);
@@ -198,12 +214,5 @@ public class TestUploadPage {
 		tester.assertComponent("upload:fileInput", FileUploadField.class);
 	}
 	
-	@Test
-	public void testChangePrivacy() {
-		tester.assertRenderedPage(Upload.class);
-		@SuppressWarnings("unchecked")
-		DropDownChoice<Album> dropDownChoice = (DropDownChoice<Album>) tester
-				.getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
-		Assert.assertEquals(3, dropDownChoice.getChoices().size());
-	}
+	
 }
