@@ -48,4 +48,6 @@ public interface FileService {
 	 * @return A list of files (empty if nothing found).
 	 */
 	ArrayList<File> getFilesByTag(int userId, String tag);
+	
+	ArrayList<File> getFilesByTagPaging(int userId, String tag, int first, int count);
 }

@@ -23,4 +23,6 @@ public interface FileDao extends GenericDao<File> {
 	Long getCountAlbumFiles(int albumId);
 	
 	ArrayList<File> getFilesByTag(int userId, String tag);
+	
+	ArrayList<File> getFilesByTagPaging(int userId, String tag, int first, int count);
 }

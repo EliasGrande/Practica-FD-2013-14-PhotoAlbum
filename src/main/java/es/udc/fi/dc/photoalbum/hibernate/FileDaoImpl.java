@@ -15,7 +15,37 @@ import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import java.util.ArrayList;
 
 public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
-
+	
+	private static String HQL_TAG_QUERY = "FROM File "
+			+ "WHERE id IN ("
+			// search files by tag
+			+ "SELECT file.id FROM FileTag "
+			+ "WHERE tag = :tag"
+		+ ")"
+		+ "AND"
+		+ "("
+			// public files
+			+ "privacyLevel = :publicPrivacyLevel "
+			// files shared with userId
+			+ "OR id IN ("
+				+ "SELECT file.id FROM FileShareInformation "
+				+ "WHERE user.id = :userId"
+			+ ")"
+			// inherit files
+			+ "OR ("
+				+ "privacyLevel = :inheritPrivacyLevel "
+				+ "AND ("
+					// from public albums
+					+ "album.privacyLevel = :publicPrivacyLevel "
+					// from albums shared with userId
+					+ "OR album.id IN ("
+						+ "SELECT album.id FROM AlbumShareInformation "
+						+ "WHERE user.id = :userId"
+					+ ")"
+				+ ")"
+			+ ")"
+		+ ")";
+	
 	public void create(File file) {
 		getHibernateTemplate().save(file);
 	}
@@ -161,46 +191,32 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<File> getFilesByTag(int userId, String tag) {
-		
-		String hql = "FROM File "
-				+ "WHERE id IN ("
-					// search files by tag
-					+ "SELECT file.id FROM FileTag "
-					+ "WHERE tag = :tag"
-				+ ")"
-				+ "AND"
-				+ "("
-					// public files
-					+ "privacyLevel = :publicPrivacyLevel "
-					// files shared with userId
-					+ "OR id IN ("
-						+ "SELECT file.id FROM FileShareInformation "
-						+ "WHERE user.id = :userId"
-					+ ")"
-					// inherit files
-					+ "OR ("
-						+ "privacyLevel = :inheritPrivacyLevel "
-						+ "AND ("
-							// from public albums
-							+ "album.privacyLevel = :publicPrivacyLevel "
-							// from albums shared with userId
-							+ "OR album.id IN ("
-								+ "SELECT album.id FROM AlbumShareInformation "
-								+ "WHERE user.id = :userId"
-							+ ")"
-						+ ")"
-					+ ")"
-				+ ")";
-		
 		return (ArrayList<File>) getHibernateTemplate()
 				.getSessionFactory()
 				.getCurrentSession()
-				.createQuery(hql)
+				.createQuery(HQL_TAG_QUERY)
 				.setParameter("tag", tag)
 				.setParameter("userId", userId)
 				.setParameter("inheritPrivacyLevel",
 						PrivacyLevel.INHERIT_FROM_ALBUM)
 				.setParameter("publicPrivacyLevel",
 						PrivacyLevel.PUBLIC).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<File> getFilesByTagPaging(int userId, String tag,
+			int first, int count) {
+		return (ArrayList<File>) getHibernateTemplate()
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(HQL_TAG_QUERY)
+				.setParameter("tag", tag)
+				.setParameter("userId", userId)
+				.setParameter("inheritPrivacyLevel",
+						PrivacyLevel.INHERIT_FROM_ALBUM)
+				.setParameter("publicPrivacyLevel",
+						PrivacyLevel.PUBLIC)
+				.setFirstResult(first)
+				.setMaxResults(count).list();
 	}
 }
