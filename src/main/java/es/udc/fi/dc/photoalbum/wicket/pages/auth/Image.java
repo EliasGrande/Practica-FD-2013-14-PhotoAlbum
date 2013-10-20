@@ -31,15 +31,18 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.FileTagService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.NavigateForm;
+import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileOwnModel;
@@ -55,6 +58,8 @@ public class Image extends BasePageAuth {
 	private UserService userService;
 	@SpringBean
 	private FileShareInformationService shareInformationService;
+	@SpringBean
+	private FileTagService fileTagService;
 	private FileOwnModel fileOwnModel;
 	private PageParameters parameters;
 	private Album selectedAlbum;
@@ -84,9 +89,12 @@ public class Image extends BasePageAuth {
 			add(createFormDelete());
 			add(createFormMove());
 			add(createFormPrivacyLevel());
+			add(createAddTagForm());
 			add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
 					(new PageParameters()).add("album", name)));
 			add(createShareForm());
+			DataView<FileTag> dataView2 = FileTagsDataView();
+			add(dataView2);
 		} else {
 			throw new RestartResponseException(ErrorPage404.class);
 		}
@@ -94,13 +102,16 @@ public class Image extends BasePageAuth {
 
 	private DataView<FileShareInformation> createShareDataView() {
 		final List<FileShareInformation> list = new ArrayList<FileShareInformation>(
-				shareInformationService.getFileShares(this.fileOwnModel.getObject().getId()));
+				shareInformationService.getFileShares(this.fileOwnModel
+						.getObject().getId()));
 		DataView<FileShareInformation> dataView = new DataView<FileShareInformation>(
 				"pageable", new ListDataProvider<FileShareInformation>(list)) {
 
 			protected void populateItem(Item<FileShareInformation> item) {
-				final FileShareInformation shareInformation = item.getModelObject();
-				item.add(new Label("email", shareInformation.getUser().getEmail()));
+				final FileShareInformation shareInformation = item
+						.getModelObject();
+				item.add(new Label("email", shareInformation.getUser()
+						.getEmail()));
 				item.add(new Link<Void>("delete") {
 					public void onClick() {
 						shareInformationService.delete(shareInformation);
@@ -108,14 +119,14 @@ public class Image extends BasePageAuth {
 								null).getString());
 						setResponsePage(new Image(parameters));
 					}
-					
-				});	
+
+				});
 			}
 		};
 		dataView.setItemsPerPage(ITEMS_PER_PAGE);
 		return dataView;
 	}
-	
+
 	private NonCachingImage createNonCachingImage() {
 		return new NonCachingImage("img", new BlobImageResource() {
 			protected Blob getBlob() {
@@ -236,7 +247,8 @@ public class Image extends BasePageAuth {
 		form.setDefaultModel(new Model<User>(user));
 		RequiredTextField<String> shareEmail = new RequiredTextField<String>(
 				"shareEmail", new PropertyModel<String>(user, "email"));
-		if (fileOwnModel.getObject().getPrivacyLevel().equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
+		if (fileOwnModel.getObject().getPrivacyLevel()
+				.equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
 			shareEmail.setEnabled(false);
 		} else {
 			shareEmail.setEnabled(true);
@@ -250,6 +262,50 @@ public class Image extends BasePageAuth {
 		form.add(feedback);
 		form.add(new MyAjaxButton("ajax-button", form, feedback));
 		return form;
+	}
+
+	private Form<FileTag> createAddTagForm() {
+		Form<FileTag> form = new Form<FileTag>("formAddTag") {
+			@Override
+			public void onSubmit() {
+				FileTag tag = new FileTag(fileOwnModel.getObject(),
+						getModelObject().getTag());
+				fileTagService.create(tag);
+				info(new StringResourceModel("tag.added", this, null)
+						.getString());
+				setResponsePage(new Upload(parameters));
+			}
+		};
+		FileTag tag = new FileTag();
+		form.setDefaultModel(new Model<FileTag>(tag));
+		RequiredTextField<String> newTag = new RequiredTextField<String>(
+				"newTag", new PropertyModel<String>(tag, "tag"));
+		newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
+		form.add(newTag);
+		FeedbackPanel feedback = new FeedbackPanel("feedback");
+		feedback.setOutputMarkupId(true);
+		form.add(feedback);
+		form.add(new MyAjaxButton("ajax-button", form, feedback));
+		return form;
+	}
+
+	private DataView<FileTag> FileTagsDataView() {
+		final List<FileTag> list = new ArrayList<FileTag>(
+				fileTagService.getTags(this.fileOwnModel.getObject().getId()));
+		DataView<FileTag> dataView = new DataView<FileTag>("pageable",
+				new ListDataProvider<FileTag>(list)) {
+
+			@Override
+			protected void populateItem(Item<FileTag> item) {
+				PageParameters pars = new PageParameters();
+				pars.add("tag", item.getModelObject().getTag());
+				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
+						"link", BaseTags.class, pars);
+				bpl.add(new Label("tagName", item.getModelObject().getTag()));
+				item.add(bpl);
+			}
+		};
+		return dataView;
 	}
 
 	@Override

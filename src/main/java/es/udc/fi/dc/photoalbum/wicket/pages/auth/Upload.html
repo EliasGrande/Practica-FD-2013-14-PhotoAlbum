@@ -23,6 +23,23 @@
 					</fieldset>
 				</div>
 			</form>
+			<form wicket:id="formAddTag">
+				<table>
+					<tr>
+						<td><p><wicket:message key="tag.newTag" /> <input wicket:id="newTag" type="text" /></p></td>
+						<td><input type="submit" wicket:id="ajax-button" class="g-button-small"
+							wicket:message="value:tag.submit" /></td>
+						<td><div wicket:id="feedback"></div></td>
+					</tr>
+				</table>
+			</form>
+			<wicket:message key="tag.objectTag" /><br/>
+			<div wicket:id="navigator" id="navigator"></div>
+			<table class="dataview">
+				<tr wicket:id="pageable">
+					<td width="200"><span wicket:id="link" wicket:id="tagName"></span></td>
+				</tr>
+			</table>			
 			<div wicket:id="uploadFeedback"></div> 
 			<br>
 			<div wicket:id="dataContainer">
