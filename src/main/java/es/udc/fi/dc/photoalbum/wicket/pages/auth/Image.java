@@ -38,6 +38,7 @@ import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.FileTagService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
+import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -65,6 +66,7 @@ public class Image extends BasePageAuth {
 	private Album selectedAlbum;
 	private PrivacyLevelOption selectedPrivacyLevel;
 	private static final int ITEMS_PER_PAGE = 20;
+	private static final int TAG_PER_PAGE = 5;
 
 	public Image(final PageParameters parameters) {
 		super(parameters);
@@ -93,8 +95,7 @@ public class Image extends BasePageAuth {
 			add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
 					(new PageParameters()).add("album", name)));
 			add(createShareForm());
-			DataView<FileTag> dataView2 = FileTagsDataView();
-			add(dataView2);
+			add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
 		} else {
 			throw new RestartResponseException(ErrorPage404.class);
 		}
@@ -268,18 +269,20 @@ public class Image extends BasePageAuth {
 		Form<FileTag> form = new Form<FileTag>("formAddTag") {
 			@Override
 			public void onSubmit() {
-				FileTag tag = new FileTag(fileOwnModel.getObject(),
-						getModelObject().getTag());
-				fileTagService.create(tag);
+				//FIXME Al insertar un tag repetido que ponga tag repetido
+				//FIXME Separar tags por palabras¿?¿?¿?
+				FileTag fTag = getModelObject();
+				fTag.setFile(fileOwnModel.getObject());
+				fileTagService.create(fTag);
 				info(new StringResourceModel("tag.added", this, null)
 						.getString());
-				setResponsePage(new Upload(parameters));
+				setResponsePage(new Image(parameters));
 			}
 		};
-		FileTag tag = new FileTag();
-		form.setDefaultModel(new Model<FileTag>(tag));
+		FileTag fTag = new FileTag();
+		form.setDefaultModel(new Model<FileTag>(fTag));
 		RequiredTextField<String> newTag = new RequiredTextField<String>(
-				"newTag", new PropertyModel<String>(tag, "tag"));
+				"newTag", new PropertyModel<String>(fTag, "tag"));
 		newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
 		form.add(newTag);
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
@@ -289,7 +292,7 @@ public class Image extends BasePageAuth {
 		return form;
 	}
 
-	private DataView<FileTag> FileTagsDataView() {
+	private DataView<FileTag> createFileTagsDataView() {
 		final List<FileTag> list = new ArrayList<FileTag>(
 				fileTagService.getTags(this.fileOwnModel.getObject().getId()));
 		DataView<FileTag> dataView = new DataView<FileTag>("pageable",
@@ -305,6 +308,7 @@ public class Image extends BasePageAuth {
 				item.add(bpl);
 			}
 		};
+		dataView.setItemsPerPage(TAG_PER_PAGE);
 		return dataView;
 	}
 

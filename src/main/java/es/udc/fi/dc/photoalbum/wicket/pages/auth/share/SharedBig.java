@@ -1,5 +1,9 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth.share;
 
+import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
@@ -13,28 +17,30 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
+import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.FileTagService;
+import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.SharedNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
-import es.udc.fi.dc.photoalbum.wicket.models.FileOwnModel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileSharedAlbum;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
-
-import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
 
 @SuppressWarnings("serial")
 public class SharedBig extends BasePageAuth {
 
 	@SpringBean
 	private FileTagService fileTagService;
-	private FileOwnModel fileOwnModel;
+	@SpringBean
+	private FileService fileService;
+	
 	private FileSharedAlbum fileSharedAlbum;
+	private File file;
+	private static final int TAG_PER_PAGE = 5;
 	
 
 	public SharedBig(final PageParameters parameters) {
@@ -52,18 +58,13 @@ public class SharedBig extends BasePageAuth {
 							.equals(name)))) {
 				throw new RestartResponseException(ErrorPage404.class);
 			}
-			FileOwnModel fileOwnModel = new FileOwnModel(id, name,
-					((MySession) Session.get()).getuId());
-			this.fileOwnModel = fileOwnModel;
-			if (fileOwnModel.getObject() == null) {
-				throw new RestartResponseException(ErrorPage404.class);
-			}
+			File file = fileService.getById(id);
+			this.file = file;
 			add(new SharedNavigateForm<Void>("formNavigate", fileSharedAlbum
 					.getObject().getAlbum().getId(), userId, fileSharedAlbum
 					.getObject().getId(),SharedBig.class));
+			add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
 			add(createNonCachingImage());
-			DataView<FileTag> dataView = FileTagsDataView();
-			add(dataView);
 			PageParameters newPars = new PageParameters();
 			newPars.add("album", name);
 			newPars.add("user", fileSharedAlbum.getObject().getAlbum()
@@ -83,9 +84,9 @@ public class SharedBig extends BasePageAuth {
 		});
 	}
 	
-	private DataView<FileTag> FileTagsDataView() {
+	private DataView<FileTag> createFileTagsDataView() {
 		final List<FileTag> list = new ArrayList<FileTag>(
-				fileTagService.getTags(this.fileOwnModel.getObject().getId()));
+				fileTagService.getTags(file.getId()));
 		DataView<FileTag> dataView = new DataView<FileTag>("pageable",
 				new ListDataProvider<FileTag>(list)) {
 
@@ -99,6 +100,7 @@ public class SharedBig extends BasePageAuth {
 				item.add(bpl);
 			}
 		};
+		dataView.setItemsPerPage(TAG_PER_PAGE);
 		return dataView;
 	}
 

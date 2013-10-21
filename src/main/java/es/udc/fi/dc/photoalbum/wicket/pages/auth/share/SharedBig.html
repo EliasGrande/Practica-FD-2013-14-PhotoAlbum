@@ -5,19 +5,21 @@
 	<wicket:extend>
 		<div id="Content">
 			<a wicket:id="linkBack" id="linkBack"><wicket:message key="image.linkBack" /></a><br /><br />
+			<wicket:message key="tag.objectTag" /><br/>
+			<div wicket:id="fileTagDataContainer">
+				<div wicket:id="fileTagNavigator" id="fileTagNavigator"></div>
+				<table class="dataview">
+					<tr wicket:id="pageable">
+						<td width="200"><a wicket:id="link" class="tagsClass"><span wicket:id="tagName"></span></a></td>
+					</tr>
+				</table>	
+			</div>			
 			<form wicket:id="formNavigate">
 				<input type="submit" class="g-button-navigate-big" wicket:id="back"
 					wicket:message="value:image.back" /> <input type="submit" class="g-button-navigate-big"
 					wicket:id="forward" wicket:message="value:image.forward" />
 			</form>
 			<br /> <img wicket:id="img" id="image"/>
-			<wicket:message key="tag.objectTag" /><br/>
-			<div wicket:id="navigator" id="navigator"></div>
-			<table class="dataview">
-				<tr wicket:id="pageable">
-					<td width="200"><span wicket:id="link" wicket:id="tagName"></span></td>
-				</tr>
-			</table>				
 		</div>
 	</wicket:extend>
 </body>

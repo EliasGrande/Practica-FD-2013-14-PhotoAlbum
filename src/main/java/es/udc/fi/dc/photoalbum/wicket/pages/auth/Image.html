@@ -70,9 +70,8 @@
 						<form wicket:id="formAddTag">
 							<table>
 								<tr>
-									<td><p><wicket:message key="tag.newTag" /> <input wicket:id="newTag" type="text" /></p></td>
-									<td><input type="submit" wicket:id="ajax-button" class="g-button-small"
-										wicket:message="value:tag.submit" /></td>
+									<td><p><wicket:message key="tag.name" /> <input wicket:id="newTag" type="text" /></p></td>
+									<td><input type="submit" wicket:id="ajax-button" class="g-button-small" wicket:message="value:tag.submit" /></td>
 									<td><div wicket:id="feedback"></div></td>
 								</tr>
 							</table>
@@ -91,12 +90,14 @@
 				</tr>
 			</table>
 			<wicket:message key="tag.objectTag" /><br/>
-			<div wicket:id="navigator" id="navigator"></div>
-			<table class="dataview">
-				<tr wicket:id="pageable">
-					<td width="200"><span wicket:id="link" wicket:id="tagName"></span></td>
-				</tr>
-			</table>				
+			<div wicket:id="fileTagDataContainer">
+				<div wicket:id="fileTagNavigator" id="filemTagNavigator"></div>
+				<table class="dataview">
+					<tr wicket:id="pageable">
+						<td width="200"><a wicket:id="link" class="tagsClass"><span wicket:id="tagName"></span></a></td>
+					</tr>
+				</table>	
+			</div>				
 			<form wicket:id="formNavigate">
 				<input type="submit" class="g-button-navigate-big" wicket:id="back"
 					wicket:message="value:image.back" /> <input type="submit" class="g-button-navigate-big"

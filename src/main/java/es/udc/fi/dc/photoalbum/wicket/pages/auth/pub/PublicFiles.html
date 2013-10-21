@@ -5,6 +5,15 @@
 	<wicket:extend>
 		<div id="Content">
 			<a wicket:id="linkBack" id="linkBack"><wicket:message key="publicFiles.linkBackToAlbums" /></a><br /><br />
+			<wicket:message key="tag.objectTag" /><br/>
+			<div wicket:id="albumTagDataContainer">
+				<div wicket:id="albumTagNavigator" id="albumTagNavigator"></div>
+				<table class="dataview">
+					<tr wicket:id="pageable">
+						<td width="200"><a wicket:id="link" class="tagsClass"><span wicket:id="tagName"></span></a></td>
+					</tr>
+				</table>	
+			</div>	
 			<div wicket:id="dataContainer">
 				<div wicket:id="navigator" id="navigator"></div>
 				<table class="dataview" cellpadding="10%">
