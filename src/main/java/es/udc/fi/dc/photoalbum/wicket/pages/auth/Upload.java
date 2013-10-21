@@ -53,6 +53,7 @@ public class Upload extends BasePageAuth {
 	private static final int SIZE = 200;
 	private FeedbackPanel feedback;
 	private PageParameters parameters;
+	private static final int TAG_PER_PAGE = 5;
 
 	public Upload(PageParameters parameters) {
 		super(parameters);
@@ -75,8 +76,7 @@ public class Upload extends BasePageAuth {
 		add(createUplooadForm());
 		add(new AjaxDataView("dataContainer", "navigator", createFileDataView()));
 		add(createAddTagForm());
-		DataView<AlbumTag> dataView = AlbumTagsDataView();
-		add(dataView);
+		add(new AjaxDataView("dataAlbumTagContainer","albumTagNavigator",createAlbumTagsDataView()));
 	}
 
 	private DataView<File> createFileDataView() {
@@ -156,18 +156,20 @@ public class Upload extends BasePageAuth {
 		Form<AlbumTag> form = new Form<AlbumTag>("formAddTag") {
 			@Override
 			public void onSubmit() {
-				AlbumTag tag = new AlbumTag(am.getObject(), getModelObject()
-						.getTag());
-				albumTagService.create(tag);
+				//FIXME Al insertar un tag repetido que ponga tag repetido
+				//FIXME Separar tags por palabras¿?¿?¿?
+				AlbumTag aTag = getModelObject();
+				aTag.setAlbum(am.getObject());
+				albumTagService.create(aTag);
 				info(new StringResourceModel("tag.added", this, null)
 						.getString());
 				setResponsePage(new Upload(parameters));
 			}
 		};
-		AlbumTag tag = new AlbumTag();
-		form.setDefaultModel(new Model<AlbumTag>(tag));
+		AlbumTag aTag = new AlbumTag();
+		form.setDefaultModel(new Model<AlbumTag>(aTag));
 		RequiredTextField<String> newTag = new RequiredTextField<String>(
-				"newTag", new PropertyModel<String>(tag, "tag"));
+				"newTag", new PropertyModel<String>(aTag, "tag"));
 		newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
 		form.add(newTag);
 		FeedbackPanel feedback = new FeedbackPanel("feedback");
@@ -177,7 +179,7 @@ public class Upload extends BasePageAuth {
 		return form;
 	}
 
-	private DataView<AlbumTag> AlbumTagsDataView() {
+	private DataView<AlbumTag> createAlbumTagsDataView() {
 		final List<AlbumTag> list = new ArrayList<AlbumTag>(
 				albumTagService.getTags(this.am.getObject().getId()));
 		DataView<AlbumTag> dataView = new DataView<AlbumTag>("pageable",
@@ -186,13 +188,14 @@ public class Upload extends BasePageAuth {
 			@Override
 			protected void populateItem(Item<AlbumTag> item) {
 				PageParameters pars = new PageParameters();
-				pars.add("tag", item.getModelObject().getTag());
+				pars.add("tagName", item.getModelObject().getTag());
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"link", BaseTags.class, pars);
 				bpl.add(new Label("tagName", item.getModelObject().getTag()));
 				item.add(bpl);
 			}
 		};
+		dataView.setItemsPerPage(TAG_PER_PAGE);
 		return dataView;
 	}
 

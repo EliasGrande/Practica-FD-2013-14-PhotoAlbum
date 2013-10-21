@@ -4,7 +4,6 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
@@ -29,10 +28,8 @@ import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicFileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
-import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 
 @SuppressWarnings("serial")
 public class PublicFiles extends BasePageAuth {
@@ -43,25 +40,18 @@ public class PublicFiles extends BasePageAuth {
 	private UserService userService;
 	@SpringBean
 	private AlbumTagService albumTagService;
-	private AlbumModel am;
 	private static final int ITEMS_PER_PAGE = 10;
+	private static final int TAG_PER_PAGE = 5;
 	private Album album;
 	
 	public PublicFiles(final PageParameters parameters) {
 		super(parameters);
 		int albumId = parameters.get("albumId").toInt();
 		this.album = albumService.getById(albumId);
-		String name = parameters.get("album").toString();
-		add(new Label("album", name));
-		AlbumModel am = new AlbumModel(name);
-		this.am = am;
-		if (am.getObject() == null) {
-			throw new RestartResponseException(ErrorPage404.class);
-		}
-		DataView<AlbumTag> dataView = AlbumTagsDataView();
-		add(dataView);
+		
 		add(new BookmarkablePageLink<Void>("linkBack", PublicAlbums.class, null));
 		add(new AjaxDataView("dataContainer", "navigator", createDataView()));
+		add(new AjaxDataView("albumTagDataContainer","albumTagNavigator",createAlbumTagsDataView()));
 	}
 
 	private DataView<File> createDataView() {
@@ -92,22 +82,23 @@ public class PublicFiles extends BasePageAuth {
 		return dataView;
 	}
 	
-	private DataView<AlbumTag> AlbumTagsDataView() {
+	private DataView<AlbumTag> createAlbumTagsDataView() {
 		final List<AlbumTag> list = new ArrayList<AlbumTag>(
-				albumTagService.getTags(this.am.getObject().getId()));
+				albumTagService.getTags(album.getId()));
 		DataView<AlbumTag> dataView = new DataView<AlbumTag>("pageable",
 				new ListDataProvider<AlbumTag>(list)) {
 
 			@Override
 			protected void populateItem(Item<AlbumTag> item) {
 				PageParameters pars = new PageParameters();
-				pars.add("tag", item.getModelObject().getTag());
+				pars.add("tagName", item.getModelObject().getTag());
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"link", BaseTags.class, pars);
 				bpl.add(new Label("tagName", item.getModelObject().getTag()));
 				item.add(bpl);
 			}
 		};
+		dataView.setItemsPerPage(TAG_PER_PAGE);
 		return dataView;
 	}
 	
