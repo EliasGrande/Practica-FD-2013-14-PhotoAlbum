@@ -43,12 +43,12 @@ import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.NavigateForm;
-import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileOwnModel;
 import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelOption;
 import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelsModel;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 @SuppressWarnings("serial")
 public class Image extends BasePageAuth {

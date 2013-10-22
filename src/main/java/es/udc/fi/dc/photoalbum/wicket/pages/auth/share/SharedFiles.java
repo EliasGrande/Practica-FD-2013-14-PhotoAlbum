@@ -27,10 +27,10 @@ import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.SharedFileListDataProvider;
-import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 @SuppressWarnings("serial")
 public class SharedFiles extends BasePageAuth {

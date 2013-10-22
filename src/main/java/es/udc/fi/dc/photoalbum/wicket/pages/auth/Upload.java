@@ -35,8 +35,8 @@ import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.FileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
-import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 @SuppressWarnings("serial")
 public class Upload extends BasePageAuth {
