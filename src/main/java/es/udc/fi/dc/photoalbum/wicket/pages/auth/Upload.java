@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BlobImageResource;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -186,13 +187,22 @@ public class Upload extends BasePageAuth {
 				new ListDataProvider<AlbumTag>(list)) {
 
 			@Override
-			protected void populateItem(Item<AlbumTag> item) {
+			protected void populateItem(final Item<AlbumTag> item) {
 				PageParameters pars = new PageParameters();
 				pars.add("tag", item.getModelObject().getTag());
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"link", BaseTags.class, pars);
 				bpl.add(new Label("tagName", item.getModelObject().getTag()));
 				item.add(bpl);
+				item.add(new Link<Void> ("delete") {
+					public void onClick() {
+						albumTagService.delete(item.getModelObject());
+						info(new StringResourceModel("tag.deleted", this,
+								null).getString());
+						setResponsePage(new Upload(parameters));
+					}
+					
+				});
 			}
 		};
 		dataView.setItemsPerPage(TAG_PER_PAGE);

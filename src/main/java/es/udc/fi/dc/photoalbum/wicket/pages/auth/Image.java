@@ -299,13 +299,22 @@ public class Image extends BasePageAuth {
 				new ListDataProvider<FileTag>(list)) {
 
 			@Override
-			protected void populateItem(Item<FileTag> item) {
+			protected void populateItem(final Item<FileTag> item) {
 				PageParameters pars = new PageParameters();
 				pars.add("tag", item.getModelObject().getTag());
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"link", BaseTags.class, pars);
 				bpl.add(new Label("tagName", item.getModelObject().getTag()));
 				item.add(bpl);
+				item.add(new Link<Void> ("delete") {
+					public void onClick() {
+						fileTagService.delete(item.getModelObject());
+						info(new StringResourceModel("tag.deleted", this,
+								null).getString());
+						setResponsePage(new Image(parameters));
+					}
+					
+				});
 			}
 		};
 		dataView.setItemsPerPage(TAG_PER_PAGE);
