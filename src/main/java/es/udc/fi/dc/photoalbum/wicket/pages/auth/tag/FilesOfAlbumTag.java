@@ -1,4 +1,4 @@
-package es.udc.fi.dc.photoalbum.wicket.pages.auth.pub;
+package es.udc.fi.dc.photoalbum.wicket.pages.auth.tag;
 
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -29,10 +29,9 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicFileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 @SuppressWarnings("serial")
-public class PublicFiles extends BasePageAuth {
+public class FilesOfAlbumTag extends BasePageAuth {
 
 	@SpringBean
 	private AlbumService albumService;
@@ -40,16 +39,22 @@ public class PublicFiles extends BasePageAuth {
 	private UserService userService;
 	@SpringBean
 	private AlbumTagService albumTagService;
-	private static final int ITEMS_PER_PAGE = 10;
+
 	private static final int TAG_PER_PAGE = 5;
+	private static final int ITEMS_PER_PAGE = 10;
 	private Album album;
+	private String tag;
 	
-	public PublicFiles(final PageParameters parameters) {
+	public FilesOfAlbumTag(final PageParameters parameters) {
 		super(parameters);
 		int albumId = parameters.get("albumId").toInt();
+		String tag = parameters.get("tag").toString();
 		this.album = albumService.getById(albumId);
+		this.tag = tag;
 		
-		add(new BookmarkablePageLink<Void>("linkBack", PublicAlbums.class, null));
+		PageParameters newPars = new PageParameters();
+		newPars.add("tagName", tag);
+		add(new BookmarkablePageLink<Void>("linkBack", BaseTags.class, newPars));
 		add(new AjaxDataView("dataContainer", "navigator", createDataView()));
 		add(new AjaxDataView("albumTagDataContainer","albumTagNavigator",createAlbumTagsDataView()));
 	}
@@ -67,8 +72,9 @@ public class PublicFiles extends BasePageAuth {
 				
 				pars.add("fid", idFile);
 				pars.add("albumId", album.getId());
+				pars.add("tag", tag);
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
-						"big", PublicFilesBig.class, pars);
+						"big", FilesOfAlbumTagBig.class, pars);
 				bpl.add(new NonCachingImage("img", new BlobImageResource() {
 					protected Blob getBlob() {
 						return BlobFromFile.getSmall(item.getModelObject());

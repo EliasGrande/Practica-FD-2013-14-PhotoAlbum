@@ -1,4 +1,4 @@
-package es.udc.fi.dc.photoalbum.wicket.pages.auth.pub;
+package es.udc.fi.dc.photoalbum.wicket.pages.auth.tag;
 
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -22,38 +22,40 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.FileTagService;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
+import es.udc.fi.dc.photoalbum.wicket.FilesOfAlbumTagNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
-import es.udc.fi.dc.photoalbum.wicket.PublicNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 
 @SuppressWarnings("serial")
-public class PublicFilesBig extends BasePageAuth{
+public class FilesOfAlbumTagBig extends BasePageAuth{
 
 	@SpringBean
 	private FileService fileService;
 	@SpringBean
 	private FileTagService fileTagService;
+	
 	private File file;
+	
 	private static final int TAG_PER_PAGE = 5;
 	
-	public PublicFilesBig(final PageParameters parameters) {
-		super(parameters);		
-		
+	public FilesOfAlbumTagBig(final PageParameters parameters) {
+		super(parameters);	
 		int id = parameters.get("fid").toInt();
 		int albumId = parameters.get("albumId").toInt();
+		String tag = parameters.get("tag").toString();
 		File auxFile = fileService.getById(id);
 		this.file = auxFile;
 
-		add(new PublicNavigateForm<Void>("formNavigate", albumId,
-				((MySession) Session.get()).getuId(), id, PublicFilesBig.class));
-		add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
+		add(new FilesOfAlbumTagNavigateForm<Void>("formNavigate",tag ,albumId,
+				((MySession) Session.get()).getuId(), id, FilesOfAlbumTagBig.class));
 		add(createNonCachingImage());
+		add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
 		PageParameters newPars = new PageParameters();
 		newPars.add("albumId", albumId);
+		newPars.add("tag", tag);
 		
-		add(new BookmarkablePageLink<Void>("linkBack", PublicFiles.class,
+		add(new BookmarkablePageLink<Void>("linkBack", FilesOfAlbumTag.class,
 				newPars));	
 	}
 
@@ -64,7 +66,7 @@ public class PublicFilesBig extends BasePageAuth{
 			}
 		});
 	}
-	
+
 	private DataView<FileTag> createFileTagsDataView() {
 		final List<FileTag> list = new ArrayList<FileTag>(
 				fileTagService.getTags(file.getId()));
@@ -84,7 +86,7 @@ public class PublicFilesBig extends BasePageAuth{
 		dataView.setItemsPerPage(TAG_PER_PAGE);
 		return dataView;
 	}
-
+	
 	@Override
 	public void renderHead(IHeaderResponse response) {
 		response.renderCSSReference("css/SharedBig.css");

@@ -15,17 +15,34 @@ import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import java.util.ArrayList;
 
 public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
-	
-	private static String HQL_TAG_QUERY = "FROM File "
-			+ "WHERE id IN ("
-			// search files by tag
+
+	/**
+	 * Query for File: Search files by tag returning only the ones viewable by
+	 * userId.
+	 * 
+	 * Parameters:
+	 *    - (String) tag
+	 *    - (int) userId
+	 *    - (String) inheritPrivacyLevel
+	 *    - (String) publicPrivacyLevel
+	 */
+	private static String HQL_QUERY_FILES_BY_TAG =
+		"FROM File "
+		// search files by tag
+		+ "WHERE id IN ("
 			+ "SELECT file.id FROM FileTag "
 			+ "WHERE tag = :tag"
 		+ ")"
+		// files viewable by userId
 		+ "AND"
 		+ "("
+			// files owned by userId
+			+ "album.id IN ("
+				+ "SELECT id FROM Album "
+				+ "WHERE user.id = :userId"
+			+ ")"
 			// public files
-			+ "privacyLevel = :publicPrivacyLevel "
+			+ "OR privacyLevel = :publicPrivacyLevel "
 			// files shared with userId
 			+ "OR id IN ("
 				+ "SELECT file.id FROM FileShareInformation "
@@ -194,7 +211,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 		return (ArrayList<File>) getHibernateTemplate()
 				.getSessionFactory()
 				.getCurrentSession()
-				.createQuery(HQL_TAG_QUERY)
+				.createQuery(HQL_QUERY_FILES_BY_TAG)
 				.setParameter("tag", tag)
 				.setParameter("userId", userId)
 				.setParameter("inheritPrivacyLevel",
@@ -209,7 +226,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements FileDao {
 		return (ArrayList<File>) getHibernateTemplate()
 				.getSessionFactory()
 				.getCurrentSession()
-				.createQuery(HQL_TAG_QUERY)
+				.createQuery(HQL_QUERY_FILES_BY_TAG)
 				.setParameter("tag", tag)
 				.setParameter("userId", userId)
 				.setParameter("inheritPrivacyLevel",

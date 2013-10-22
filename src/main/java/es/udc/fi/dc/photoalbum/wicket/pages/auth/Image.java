@@ -43,12 +43,12 @@ import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.NavigateForm;
-import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileOwnModel;
 import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelOption;
 import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelsModel;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 @SuppressWarnings("serial")
 public class Image extends BasePageAuth {
@@ -301,7 +301,7 @@ public class Image extends BasePageAuth {
 			@Override
 			protected void populateItem(final Item<FileTag> item) {
 				PageParameters pars = new PageParameters();
-				pars.add("tag", item.getModelObject().getTag());
+				pars.add("tagName", item.getModelObject().getTag());
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"link", BaseTags.class, pars);
 				bpl.add(new Label("tagName", item.getModelObject().getTag()));

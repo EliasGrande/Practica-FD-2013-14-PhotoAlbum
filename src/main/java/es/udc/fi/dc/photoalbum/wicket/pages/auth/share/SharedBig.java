@@ -25,10 +25,10 @@ import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.SharedNavigateForm;
-import es.udc.fi.dc.photoalbum.wicket.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.models.FileSharedAlbum;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 @SuppressWarnings("serial")
 public class SharedBig extends BasePageAuth {
@@ -93,7 +93,7 @@ public class SharedBig extends BasePageAuth {
 			@Override
 			protected void populateItem(Item<FileTag> item) {
 				PageParameters pars = new PageParameters();
-				pars.add("tag", item.getModelObject().getTag());
+				pars.add("tagName", item.getModelObject().getTag());
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"link", BaseTags.class, pars);
 				bpl.add(new Label("tagName", item.getModelObject().getTag()));

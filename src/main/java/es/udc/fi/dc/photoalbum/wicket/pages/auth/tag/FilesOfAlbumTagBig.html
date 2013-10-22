@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<head></head>
+<body>
+	<wicket:extend>
+		<div id="Content">
+			<a wicket:id="linkBack" id="linkBack"><wicket:message key="filesOfAlbumTagBig.linkBack" /></a><br /><br />
+			<wicket:message key="tag.objectTag" /><br/>
+			<div wicket:id="fileTagDataContainer">
+				<div wicket:id="fileTagNavigator" id="fileTagNavigator"></div>
+				<table class="dataview">
+					<tr wicket:id="pageable">
+						<td width="200"><a wicket:id="link" class="tagsClass"><span wicket:id="tagName"></span></a></td>
+					</tr>
+				</table>	
+			</div>
+			<form wicket:id="formNavigate">
+				<input type="submit" class="g-button-navigate-big" wicket:id="back"
+					wicket:message="value:image.back" /> <input type="submit" class="g-button-navigate-big"
+					wicket:id="forward" wicket:message="value:image.forward" />
+			</form>
+			<br /> <img wicket:id="img" id="image"/>
+		</div>
+	</wicket:extend>
+</body>
+</html>

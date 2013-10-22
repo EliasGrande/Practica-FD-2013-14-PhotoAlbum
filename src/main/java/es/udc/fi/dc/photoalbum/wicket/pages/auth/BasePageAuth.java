@@ -5,6 +5,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.pub.PublicAlbums;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedUsers;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.SearchByTag;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.BasePage;
 
 @SuppressWarnings("serial")
@@ -15,6 +16,7 @@ public class BasePageAuth extends BasePage {
 		add(new BookmarkablePageLink<Void>("albums", Albums.class));
 		add(new BookmarkablePageLink<Void>("sharedUsers", SharedUsers.class));
 		add(new BookmarkablePageLink<Void>("publicAlbums", PublicAlbums.class));
+		add(new BookmarkablePageLink<Void>("searchByTag",SearchByTag.class));
 		add(new BookmarkablePageLink<Void>("profile", Profile.class));
 
 	}

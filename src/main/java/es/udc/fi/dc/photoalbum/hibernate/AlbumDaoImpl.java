@@ -78,6 +78,14 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 			+ ")"
 		+ ")";
 	
+	/**
+	 * Restriction for Album: The owner is userId.
+	 * 
+	 * Parameters:
+	 *    - (int) userId
+	 */
+	private static final String HQL_RESTRICTION_IM_THE_OWNER = "(user.id = :userId)";
+	
 	private Query createQuery(String hql) {
 		return getHibernateTemplate()
 				.getSessionFactory()
@@ -194,8 +202,10 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements AlbumDao {
 					+ "SELECT album.id FROM AlbumTag "
 					+ "WHERE tag = :tag"
 				+ ")"
+				// albums viewable by the user
 				+ "AND ("
-						// albums viewable by the user
+						+ HQL_RESTRICTION_IM_THE_OWNER
+						+ " OR "
 						+ HQL_RESTRICTION_ALBUMS_SHARED_WITH
 						+ " OR "
 						+ HQL_RESTRICTION_ALBUMS_PUBLIC

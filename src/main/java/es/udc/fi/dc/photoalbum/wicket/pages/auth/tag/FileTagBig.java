@@ -1,4 +1,4 @@
-package es.udc.fi.dc.photoalbum.wicket.pages.auth.pub;
+package es.udc.fi.dc.photoalbum.wicket.pages.auth.tag;
 
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -23,38 +23,38 @@ import es.udc.fi.dc.photoalbum.spring.FileTagService;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
-import es.udc.fi.dc.photoalbum.wicket.PublicNavigateForm;
+import es.udc.fi.dc.photoalbum.wicket.TagNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
-
 
 @SuppressWarnings("serial")
-public class PublicFilesBig extends BasePageAuth{
+public class FileTagBig extends BasePageAuth {
 
 	@SpringBean
 	private FileService fileService;
 	@SpringBean
 	private FileTagService fileTagService;
+
 	private File file;
 	private static final int TAG_PER_PAGE = 5;
-	
-	public PublicFilesBig(final PageParameters parameters) {
-		super(parameters);		
-		
+
+	public FileTagBig(PageParameters parameters) {
+		super(parameters);
 		int id = parameters.get("fid").toInt();
-		int albumId = parameters.get("albumId").toInt();
+		String tag = parameters.get("tag").toString();
+
 		File auxFile = fileService.getById(id);
 		this.file = auxFile;
 
-		add(new PublicNavigateForm<Void>("formNavigate", albumId,
-				((MySession) Session.get()).getuId(), id, PublicFilesBig.class));
-		add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
+		add(new TagNavigateForm<Void>("formNavigate", tag,
+				((MySession) Session.get()).getuId(), id, FileTagBig.class));
 		add(createNonCachingImage());
+		add(new AjaxDataView("fileTagDataContainer", "fileTagNavigator",
+				createFileTagsDataView()));
+
 		PageParameters newPars = new PageParameters();
-		newPars.add("albumId", albumId);
-		
-		add(new BookmarkablePageLink<Void>("linkBack", PublicFiles.class,
-				newPars));	
+		newPars.add("tagName", tag);
+
+		add(new BookmarkablePageLink<Void>("linkBack", BaseTags.class, newPars));
 	}
 
 	private NonCachingImage createNonCachingImage() {
@@ -64,7 +64,7 @@ public class PublicFilesBig extends BasePageAuth{
 			}
 		});
 	}
-	
+
 	private DataView<FileTag> createFileTagsDataView() {
 		final List<FileTag> list = new ArrayList<FileTag>(
 				fileTagService.getTags(file.getId()));
@@ -89,4 +89,5 @@ public class PublicFilesBig extends BasePageAuth{
 	public void renderHead(IHeaderResponse response) {
 		response.renderCSSReference("css/SharedBig.css");
 	}
+
 }
