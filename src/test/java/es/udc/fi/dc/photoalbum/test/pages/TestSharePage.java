@@ -171,6 +171,11 @@ public class TestSharePage {
 					public ArrayList<File> getFilesByTag(int userId, String tag) {
 						return null;
 					}
+
+					public ArrayList<File> getFilesByTagPaging(int userId,
+							String tag, int first, int count) {
+						return null;
+					}
 				};
 				AlbumShareInformationService mockShare = new AlbumShareInformationService() {
 					public void create(AlbumShareInformation shareInformation) {

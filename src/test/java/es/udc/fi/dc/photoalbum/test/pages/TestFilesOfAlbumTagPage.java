@@ -17,7 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
@@ -30,13 +29,12 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedFiles;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.pub.PublicFiles;
 
-public class TestSharedFilesPage {
+public class TestFilesOfAlbumTagPage {
 
 	private WicketApp wicketApp;
 	private WicketTester tester;
-
 	{
 		this.wicketApp = new WicketApp() {
 			@Override
@@ -71,24 +69,27 @@ public class TestSharedFilesPage {
 				AlbumService mockAlbum = new AlbumService() {
 
 					public void create(Album album) {
-						
+
 					}
 
 					public void delete(Album album) {
-						
+
 					}
 
 					public void rename(Album album, String newName) {
-						
+
 					}
 
 					public void changePrivacyLevel(Album album,
 							String privacyLevel) {
-						
+
 					}
 
 					public Album getById(Integer id) {
-						return null;
+						return new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE);
+
 					}
 
 					public Album getAlbum(String name, int userId) {
@@ -110,16 +111,14 @@ public class TestSharedFilesPage {
 
 					public Album getSharedAlbum(String albumName,
 							int userSharedToId, String userSharedEmail) {
-						
-						return new Album(1,ALBUM_NAME_EXIST,new User(1, USER_EMAIL_EXIST, USER_PASS_YES),null,null,PrivacyLevel.PRIVATE);
+						return null;
 					}
 
 					public ArrayList<Album> getAlbumsByTag(int userId,
 							String tag) {
 						return new ArrayList<Album>();
 					}
-					
-					
+
 				};
 				FileService mockFile = new FileService() {
 					public File getFileShared(int id, String name, int userId) {
@@ -132,7 +131,8 @@ public class TestSharedFilesPage {
 
 					public File getById(Integer id) {
 						return new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+								new Album(1, ALBUM_NAME_EXIST, new User(1,
+										USER_EMAIL_EXIST, USER_PASS_YES), null,
 										null, PrivacyLevel.PRIVATE));
 					}
 
@@ -169,30 +169,32 @@ public class TestSharedFilesPage {
 
 					public ArrayList<File> getAlbumFilesShared(int albumId,
 							int userId) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesSharedPaging(
 							int albumId, int userId, int first, int count) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesPublic(int albumId,
 							int userId) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1,
+										USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesPublicPaging(
 							int albumId, int userId, int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1,
+										USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getFilesByTag(int userId, String tag) {
@@ -206,7 +208,7 @@ public class TestSharedFilesPage {
 				};
 				FileTagService mockFileTag = new FileTagService() {
 
-					public void create(FileTag fileTag) {						
+					public void create(FileTag fileTag) {
 					}
 
 					public void delete(FileTag fileTag) {
@@ -219,7 +221,7 @@ public class TestSharedFilesPage {
 					public ArrayList<FileTag> getTags(int fileId) {
 						return new ArrayList<FileTag>();
 					}
-					
+
 				};
 				AlbumTagService mockAlbumTag = new AlbumTagService() {
 
@@ -236,7 +238,7 @@ public class TestSharedFilesPage {
 					public ArrayList<AlbumTag> getTags(int albumId) {
 						return new ArrayList<AlbumTag>();
 					}
-					
+
 				};
 				context.putBean("userBean", mockUser);
 				context.putBean("albumBean", mockAlbum);
@@ -254,9 +256,9 @@ public class TestSharedFilesPage {
 		this.tester = new WicketTester(this.wicketApp);
 		((MySession) Session.get()).setuId(1);
 		PageParameters pars = new PageParameters();
-		pars.add("album", ALBUM_NAME_EXIST);
-		pars.add("user", USER_EMAIL_EXIST);
-		Page page = new SharedFiles(pars);
+		pars.add("albumId", 1);
+		pars.add("tag", "pruebaTag");
+		Page page = new PublicFiles(pars);
 		this.tester.startPage(page);
 		tester.assertVisible("signout");
 		this.tester.getSession().setLocale(new Locale("ru", "RU"));
@@ -264,6 +266,6 @@ public class TestSharedFilesPage {
 
 	@Test
 	public void testRendered() {
-		tester.assertRenderedPage(SharedFiles.class);
+		tester.assertRenderedPage(PublicFiles.class);
 	}
 }

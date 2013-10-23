@@ -20,8 +20,10 @@ import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.FileService;
+import es.udc.fi.dc.photoalbum.spring.FileTagService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -73,12 +75,20 @@ public class TestPublicFilesBigPage {
 					}
 
 					public ArrayList<File> getAlbumFilesOwn(int albumId) {
-						return null;
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
-						return null;
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public Long getCountAlbumFiles(int albumId) {
@@ -95,12 +105,20 @@ public class TestPublicFilesBigPage {
 
 					public ArrayList<File> getAlbumFilesShared(int albumId,
 							int userId) {
-						return null;
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesSharedPaging(
 							int albumId, int userId, int first, int count) {
-						return null;
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesPublic(int albumId,
@@ -122,7 +140,20 @@ public class TestPublicFilesBigPage {
 					}
 
 					public ArrayList<File> getFilesByTag(int userId, String tag) {
-						return null;
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
+					}
+
+					public ArrayList<File> getFilesByTagPaging(int userId,
+							String tag, int first, int count) {
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 				};
 				UserService mock = new UserService() {
@@ -148,11 +179,29 @@ public class TestPublicFilesBigPage {
 					}
 
 					public ArrayList<User> getUsersSharingWith(int userId) {
+						return new ArrayList<User>();
+					}
+				};
+				FileTagService mockFileTag = new FileTagService() {
+
+					public void create(FileTag fileTag) {						
+					}
+
+					public void delete(FileTag fileTag) {
+					}
+
+					public FileTag getTag(int fileId, String tag) {
 						return null;
 					}
+
+					public ArrayList<FileTag> getTags(int fileId) {
+						return new ArrayList<FileTag>();
+					}
+					
 				};
 				context.putBean("userBean", mock);
 				context.putBean("fileBean", mockFile);
+				context.putBean("fileTagBean", mockFileTag);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
 			}

@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
@@ -15,19 +16,23 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
+import es.udc.fi.dc.photoalbum.spring.AlbumTagService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Upload;
 
 public class TestUploadPage {
@@ -66,11 +71,11 @@ public class TestUploadPage {
 					}
 
 					public ArrayList<Album> getAlbums(Integer id) {
-						return null;
+						return new ArrayList<Album>();
 					}
 
 					public ArrayList<Album> getPublicAlbums() {
-						return null;
+						return new ArrayList<Album>();
 					}
 
 					public void changePrivacyLevel(Album album,
@@ -80,7 +85,7 @@ public class TestUploadPage {
 
 					public ArrayList<Album> getAlbumsSharedWith(Integer id,
 							String ownerEmail) {
-						return null;
+						return new ArrayList<Album>();
 					}
 
 					public Album getSharedAlbum(String albumName,
@@ -90,7 +95,7 @@ public class TestUploadPage {
 
 					public ArrayList<Album> getAlbumsByTag(int userId,
 							String tag) {
-						return null;
+						return new ArrayList<Album>();
 					}
 				};
 				FileService mockFile = new FileService() {
@@ -121,7 +126,7 @@ public class TestUploadPage {
 
 					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public Long getCountAlbumFiles(int albumId) {
@@ -139,26 +144,31 @@ public class TestUploadPage {
 
 					public ArrayList<File> getAlbumFilesShared(int albumId,
 							int userId) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesSharedPaging(
 							int albumId, int userId, int first, int count) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesPublic(int albumId,
 							int userId) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesPublicPaging(
 							int albumId, int userId, int first, int count) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getFilesByTag(int userId, String tag) {
-						return null;
+						return new ArrayList<File>();
+					}
+
+					public ArrayList<File> getFilesByTagPaging(int userId,
+							String tag, int first, int count) {
+						return new ArrayList<File>();
 					}
 				};
 				UserService mock = new UserService() {
@@ -184,12 +194,30 @@ public class TestUploadPage {
 					}
 
 					public ArrayList<User> getUsersSharingWith(int userId) {
+						return new ArrayList<User>();
+					}
+				};
+				AlbumTagService mockAlbumTag = new AlbumTagService() {
+
+					public void create(AlbumTag albumTag) {
+					}
+
+					public void delete(AlbumTag albumTag) {
+					}
+
+					public AlbumTag getTag(int albumId, String tag) {
 						return null;
 					}
+
+					public ArrayList<AlbumTag> getTags(int albumId) {
+						return new ArrayList<AlbumTag>();
+					}
+					
 				};
 				context.putBean("userBean", mock);
 				context.putBean("albumBean", mockAlbum);
 				context.putBean("fileBean", mockFile);
+				context.putBean("albumTagBean", mockAlbumTag);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
 			}
@@ -214,5 +242,13 @@ public class TestUploadPage {
 		tester.assertComponent("upload:fileInput", FileUploadField.class);
 	}
 	
+	@Test
+	public void testAddTag() {
+		FormTester formTester = this.tester.newFormTester("formAddTag");
+		formTester.setValue("newTag", TAG_NAME_EXIST);
+		formTester.submit();
+		this.tester.assertNoErrorMessage();
+		tester.assertRenderedPage(Upload.class);
+	}
 	
 }

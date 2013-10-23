@@ -3,6 +3,7 @@ package es.udc.fi.dc.photoalbum.test.pages;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,6 +19,7 @@ import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +27,12 @@ import org.junit.Test;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
+import es.udc.fi.dc.photoalbum.spring.FileTagService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
@@ -41,6 +45,7 @@ public class TestImagePage {
 	private WicketTester tester;
 	private Album album;
 	private Set<File> set = new HashSet<File>();
+
 
 	{
 		this.wicketApp = new WicketApp() {
@@ -72,7 +77,7 @@ public class TestImagePage {
 					}
 
 					public ArrayList<Album> getPublicAlbums() {
-						return null;
+						return new ArrayList<Album>();
 					}
 
 					public void changePrivacyLevel(Album album,
@@ -82,7 +87,7 @@ public class TestImagePage {
 
 					public ArrayList<Album> getAlbumsSharedWith(Integer id,
 							String ownerEmail) {
-						return null;
+						return new ArrayList<Album>();
 					}
 
 					public Album getSharedAlbum(String albumName,
@@ -92,7 +97,7 @@ public class TestImagePage {
 
 					public ArrayList<Album> getAlbumsByTag(int userId,
 							String tag) {
-						return null;
+						return new ArrayList<Album>();
 					}
 				};
 				FileService mockFile = new FileService() {
@@ -166,26 +171,31 @@ public class TestImagePage {
 
 					public ArrayList<File> getAlbumFilesShared(int albumId,
 							int userId) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesSharedPaging(
 							int albumId, int userId, int first, int count) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesPublic(int albumId,
 							int userId) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getAlbumFilesPublicPaging(
 							int albumId, int userId, int first, int count) {
-						return null;
+						return new ArrayList<File>();
 					}
 
 					public ArrayList<File> getFilesByTag(int userId, String tag) {
-						return null;
+						return new ArrayList<File>();
+					}
+
+					public ArrayList<File> getFilesByTagPaging(int userId,
+							String tag, int first, int count) {
+						return new ArrayList<File>();
 					}
 				};
 				UserService mock = new UserService() {
@@ -211,7 +221,7 @@ public class TestImagePage {
 					}
 
 					public ArrayList<User> getUsersSharingWith(int userId) {
-						return null;
+						return new ArrayList<User>();
 					}
 				};
 				FileShareInformationService mockFsi = new FileShareInformationService(){
@@ -238,10 +248,28 @@ public class TestImagePage {
 					}
 					
 				};
+				FileTagService mockFileTag = new FileTagService() {
+
+					public void create(FileTag fileTag) {						
+					}
+
+					public void delete(FileTag fileTag) {
+					}
+
+					public FileTag getTag(int fileId, String tag) {
+						return null;
+					}
+
+					public ArrayList<FileTag> getTags(int fileId) {
+						return new ArrayList<FileTag>();
+					}
+					
+				};
 				context.putBean("fsiBean",mockFsi);
 				context.putBean("userBean", mock);
 				context.putBean("fileBean", mockFile);
 				context.putBean("albumBean", mockAlbum);
+				context.putBean("fileTagBean", mockFileTag);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
 			}
@@ -291,5 +319,14 @@ public class TestImagePage {
 		DropDownChoice<File> dropDownChoice = (DropDownChoice<File>) tester
 				.getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
 		Assert.assertEquals(3, dropDownChoice.getChoices().size());
+	}
+	
+	@Test
+	public void testAddTag() {
+		FormTester formTester = this.tester.newFormTester("formAddTag");
+		formTester.setValue("newTag", TAG_NAME_EXIST);
+		formTester.submit();
+		this.tester.assertNoErrorMessage();
+		tester.assertRenderedPage(Image.class);
 	}
 }

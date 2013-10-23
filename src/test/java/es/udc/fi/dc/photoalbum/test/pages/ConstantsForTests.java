@@ -11,4 +11,6 @@ public final class ConstantsForTests {
 	public static final String USER_PASS_NO_LETTERS = "12345678";
 	public static final String ALBUM_NAME_EXIST = "2";
 	public static final String ALBUM_NAME_NOT_EXIST = "1";
+	public static final String TAG_NAME_EXIST = "tag1";
+	public static final String TAG_NAME_NOT_EXIST = "tag2";	
 }
