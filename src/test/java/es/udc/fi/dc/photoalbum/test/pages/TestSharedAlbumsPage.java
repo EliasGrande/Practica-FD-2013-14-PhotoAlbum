@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
@@ -113,6 +114,7 @@ public class TestSharedAlbumsPage {
 		this.tester = new WicketTester(this.wicketApp);
 		((MySession) Session.get()).setuId(1);
 		PageParameters pars = new PageParameters();
+		pars.add("album", ALBUM_NAME_EXIST);
 		pars.add("user", USER_EMAIL_EXIST);
 		Page page = new SharedAlbums(pars);
 		this.tester.startPage(page);

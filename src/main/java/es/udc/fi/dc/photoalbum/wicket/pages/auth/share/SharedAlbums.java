@@ -41,8 +41,6 @@ public class SharedAlbums extends BasePageAuth {
 			if (userService.getUser(user) == null) {
 				throw new RestartResponseException(ErrorPage404.class);
 			}
-			String name = parameters.get("album").toString();
-			add(new Label("album", name));
 			this.user = user;
 			add(new AjaxDataView("dataContainer", "navigator",
 					createShareDataView()));
