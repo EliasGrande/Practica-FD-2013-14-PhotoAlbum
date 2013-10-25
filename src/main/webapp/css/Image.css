@@ -41,14 +41,56 @@
 	background-color: #b5b5b5;
 }
 
-#extra td {
-	padding: 0px 10px;
-}
-
 #linkBack {
 	color: black;
 }
 
 #image {
 	max-width: 100%;
+}
+
+.subContentTop {
+	widht:100%;
+	height: 10cm;
+	margin-bottom: 1cm;
+}
+.feedBackClass{
+	width:80%;
+	heigh: 12%;
+	float: left;
+}
+.backDeleteClass {
+	width: 50%;
+	heigh: 12%;
+	float: left;
+}
+.formMoveClass {
+	width: 50%;
+	heigh: 12%;
+	float: left;
+}	
+.formShareClass {
+	width: 50%;
+	heigh: 12%;
+	float: left;
+}
+.formAddTagClass {
+	width: 50%;
+	heigh: 12%;
+	float: left;
+}
+.formPrivacyLevelClass {
+	width: 100%;
+	heigh: 12%;
+	float: left;
+}
+.navigatorShareClass {
+	width: 50%;
+	heigh: 50%;
+	float: left;
+}
+.fileTagDataClass {
+	width: 50%;
+	heigh: 50%;
+	float: left;
 }

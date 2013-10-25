@@ -107,3 +107,31 @@
 	padding: 2px 1px 1px 5px;
 	font-size: 12pt;
 }
+
+.subContentTop {
+	widht:100%;
+	height: 5cm;
+	margin-bottom: 1cm;
+}
+.uploadFormClass {
+	width: 50%;
+	height: 50%;
+	float: left;
+}
+.tagsDataClass {
+	width: 50%;
+	height: 80%;
+	float: left;
+}
+.addTagFormClass {
+	float: left;
+	width: 50%;
+	height: 50%;
+}
+
+.feedBackClass {
+	float: left;
+}
+.navigatorClass {
+	float: left;
+}

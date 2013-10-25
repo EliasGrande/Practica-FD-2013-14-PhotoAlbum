@@ -4,102 +4,94 @@
 <body>
 	<wicket:extend>
 		<div id="Content">
-			<table id="extra">
-				<tr>
-					<td><a wicket:id="linkBack" id="linkBack"><wicket:message key="image.linkBack" /></a></td>
-					<td>
-						<form wicket:id="formDelete">
-							<input type="submit" class="g-button-small" wicket:message="value:image.delete" />
-						</form>
-					</td>
-					<td>
-						<form wicket:id="formMove">
-							<table>
-								<tr>
-									<td>
-										<p>
-											<wicket:message key="image.moveTitle" />
-											<select wicket:id="albums"></select>
-										</p>
-									</td>
-									<td><input type="submit" class="g-button-small" wicket:message="value:image.move" /></td>
-									<td>
-										<div align="center" wicket:id="feedback"></div>
-									</td>
-								</tr>
-							</table>
-						</form>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2"></td>
-					<td>
-						<form wicket:id="form">
-							<table>
-								<tr>
-									<td><p><wicket:message key="share.email" /> <input wicket:id="shareEmail" type="text" /></p></td>
-									<td><input type="submit" wicket:id="ajax-button" class="g-button-small"
-										wicket:message="value:share.submit" /></td>
-									<td><div wicket:id="feedback"></div></td>
-								</tr>
-							</table>
-						</form>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2"></td>
-					<td>
-						<form wicket:id="formPrivacyLevel">
-							<table>
-								<tr>
-									<td>
-										<p>
-											<wicket:message key="privacyLevel.changeTitle" />
-											<select wicket:id="privacyLevels"></select>
-										</p>
-									</td>
-									<td><input type="submit" class="g-button-small" wicket:message="value:privacyLevel.change" /></td>
-								</tr>
-							</table>
-						</form>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2"></td>
-					<td>
-						<form wicket:id="formAddTag">
-							<table>
-								<tr>
-									<td><p><wicket:message key="tag.name" /> <input wicket:id="newTag" type="text" /></p></td>
-									<td><input type="submit" wicket:id="ajax-button" class="g-button-small" wicket:message="value:tag.submit" /></td>
-									<td><div wicket:id="feedback"></div></td>
-								</tr>
-							</table>
-						</form>
-					</td>
-				</tr>
-
-			</table>
-			<wicket:message key="share.yourFileShare" /><br/>
-			<div wicket:id="navigator" id="navigator"></div>
-			<table class="dataview">
-				<tr wicket:id="pageable">
-					<td width="200"><span wicket:id="email"></span></td>
-					<td><a wicket:id="delete"><img src="images/minus.png"
-							wicket:message="title:albums.delete"></a></td>
-				</tr>
-			</table>
-			<wicket:message key="tag.objectTag" /><br/>
-			<div wicket:id="fileTagDataContainer">
-				<div wicket:id="fileTagNavigator" id="filemTagNavigator"></div>
-				<table class="dataview">
-					<tr wicket:id="pageable">
-						<td width="200"><a wicket:id="link" class="tagsClass"><span wicket:id="tagName"></span></a></td>
-						<td><a wicket:id="delete"><img src="images/minus.png"
-							wicket:message="title:albums.delete"></a></td>
-					</tr>
-				</table>	
-			</div>				
+			<div wicket:id="feedback" class="feedBackClass"></div>
+			<div class="subContentTop">
+				<div class="backDeleteClass">
+					<table >
+						<tr>
+							<td><a wicket:id="linkBack" id="linkBack"><wicket:message key="image.linkBack" /></a></td>
+							<td>
+								<form wicket:id="formDelete">
+									<input type="submit" class="g-button-small" wicket:message="value:image.delete" />
+								</form>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="formMoveClass">
+					<form wicket:id="formMove">
+						<table>
+							<tr>
+								<td>
+									<p>
+										<wicket:message key="image.moveTitle" />
+										<select wicket:id="albums"></select>
+									</p>
+								</td>
+								<td><input type="submit" class="g-button-small" wicket:message="value:image.move" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="formShareClass">
+					<form wicket:id="form">
+						<table>
+							<tr>
+								<td><p><wicket:message key="share.email" /> <input wicket:id="shareEmail" type="text" /></p></td>
+								<td><input type="submit" wicket:id="ajax-button" class="g-button-small"
+									wicket:message="value:share.submit" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="formAddTagClass">
+					<form wicket:id="formAddTag">
+						<table>
+							<tr>
+								<td><p><wicket:message key="tag.name" /> <input wicket:id="newTag" type="text" /></p></td>
+								<td><input type="submit" wicket:id="ajax-button" class="g-button-small" wicket:message="value:tag.submit" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="formPrivacyLevelClass">
+					<form wicket:id="formPrivacyLevel">
+						<table>
+							<tr>
+								<td>
+									<p>
+										<wicket:message key="privacyLevel.changeTitle" />
+										<select wicket:id="privacyLevels"></select>
+									</p>
+								</td>
+								<td><input type="submit" class="g-button-small" wicket:message="value:privacyLevel.change" /></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div class="navigatorShareClass">
+					<wicket:message key="share.yourFileShare" /><br/>
+					<div wicket:id="navigator" id="navigator"></div>
+					<table class="dataview">
+						<tr wicket:id="pageable">
+							<td width="200"><span wicket:id="email"></span></td>
+							<td><a wicket:id="delete"><img src="images/minus.png"
+									wicket:message="title:albums.delete"></a></td>
+						</tr>
+					</table>
+				</div>
+				<div wicket:id="fileTagDataContainer" class="fileTagDataClass">
+				<wicket:message key="tag.objectTag" /><br/>
+					<div wicket:id="fileTagNavigator" id="filemTagNavigator"></div>
+					<table class="dataview">
+						<tr wicket:id="pageable">
+							<td width="200"><a wicket:id="link" class="tagsClass"><span wicket:id="tagName"></span></a></td>
+							<td><a wicket:id="delete"><img src="images/minus.png"
+								wicket:message="title:albums.delete"></a></td>
+						</tr>
+					</table>	
+				</div>			
+			</div>	
 			<form wicket:id="formNavigate">
 				<input type="submit" class="g-button-navigate-big" wicket:id="back"
 					wicket:message="value:image.back" /> <input type="submit" class="g-button-navigate-big"
