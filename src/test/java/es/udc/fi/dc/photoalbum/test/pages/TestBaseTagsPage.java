@@ -18,12 +18,15 @@ import org.junit.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
+import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.pub.PublicAlbums;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 
 public class TestBaseTagsPage {
 	private WicketApp wicketApp;
@@ -72,15 +75,23 @@ public class TestBaseTagsPage {
 					}
 
 					public Album getById(Integer id) {
-						return null;
+						return new Album(1,ALBUM_NAME_EXIST,new User(1, USER_EMAIL_EXIST, USER_PASS_YES),null,null,PrivacyLevel.PRIVATE);
 					}
 
 					public ArrayList<Album> getAlbums(Integer id) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public ArrayList<Album> getPublicAlbums() {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public void changePrivacyLevel(Album album,
@@ -90,7 +101,11 @@ public class TestBaseTagsPage {
 
 					public ArrayList<Album> getAlbumsSharedWith(Integer id,
 							String ownerEmail) {
-						return null;
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public Album getSharedAlbum(String albumName,
@@ -100,11 +115,115 @@ public class TestBaseTagsPage {
 
 					public ArrayList<Album> getAlbumsByTag(int userId,
 							String tag) {
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
+					}
+				};
+				FileService mockFile = new FileService() {
+					public File getFileShared(int id, String name, int userId) {
 						return null;
+					}
+
+					public File getFileOwn(int id, String name, int userId) {
+						return null;
+					}
+
+					public File getById(Integer id) {
+						return new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE));
+					}
+
+					public ArrayList<File> getAlbumFilesOwn(int albumId) {
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
+					}
+
+					public void delete(File file) {
+					}
+
+					public void create(File file) {
+					}
+
+					public void changeAlbum(File file, Album album) {
+					}
+
+					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
+							int first, int count) {
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
+					}
+
+					public Long getCountAlbumFiles(int albumId) {
+						return null;
+					}
+
+					public void changePrivacyLevel(File file,
+							String privacyLevel) {
+						file.setPrivacyLevel(privacyLevel);
+					}
+
+					public File getFilePublic(int id, String name, int userId) {
+						return null;
+					}
+
+					public ArrayList<File> getAlbumFilesShared(int albumId,
+							int userId) {
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
+					}
+
+					public ArrayList<File> getAlbumFilesSharedPaging(
+							int albumId, int userId, int first, int count) {
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
+					}
+
+					public ArrayList<File> getAlbumFilesPublic(int albumId,
+							int userId) {
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
+					}
+
+					public ArrayList<File> getAlbumFilesPublicPaging(
+							int albumId, int userId, int first, int count) {
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
+					}
+
+					public ArrayList<File> getFilesByTag(int userId, String tag) {
+						return new ArrayList<File>();
+					}
+
+					public ArrayList<File> getFilesByTagPaging(int userId,
+							String tag, int first, int count) {
+						return new ArrayList<File>();
 					}
 				};
 				context.putBean("albumBean", mockAlbum);
 				context.putBean("userBean", mockUser);
+				context.putBean("filBean", mockFile);
 				getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
 			}
 		};
@@ -115,8 +234,9 @@ public class TestBaseTagsPage {
 		this.tester = new WicketTester(this.wicketApp);
 		((MySession) Session.get()).setuId(1);
 		PageParameters pars = new PageParameters();
-		pars.add("user", USER_EMAIL_EXIST);
-		Page page = new PublicAlbums(pars);
+		pars.add("tagName", "pruebaTag");
+		//pars.add("album", ALBUM_NAME_EXIST);
+		Page page = new BaseTags(pars);
 		this.tester.startPage(page);
 		tester.assertVisible("signout");
 		this.tester.getSession().setLocale(new Locale("ru", "RU"));
@@ -124,6 +244,6 @@ public class TestBaseTagsPage {
 
 	@Test
 	public void testRendered() {
-		tester.assertRenderedPage(PublicAlbums.class);
+		tester.assertRenderedPage(BaseTags.class);
 	}
 }

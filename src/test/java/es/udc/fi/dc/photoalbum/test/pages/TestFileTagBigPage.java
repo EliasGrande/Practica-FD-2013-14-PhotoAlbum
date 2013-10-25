@@ -96,16 +96,28 @@ public class TestFileTagBigPage {
 					}
 
 					public ArrayList<Album> getAlbums(Integer id) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public ArrayList<Album> getAlbumsSharedWith(Integer id,
 							String ownerEmail) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public ArrayList<Album> getPublicAlbums() {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public Album getSharedAlbum(String albumName,
@@ -115,7 +127,11 @@ public class TestFileTagBigPage {
 
 					public ArrayList<Album> getAlbumsByTag(int userId,
 							String tag) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
+								null, PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 				};
@@ -264,7 +280,10 @@ public class TestFileTagBigPage {
 					}
 
 					public ArrayList<AlbumTag> getTags(int albumId) {
-						return new ArrayList<AlbumTag>();
+						ArrayList<AlbumTag> list = new ArrayList<AlbumTag>();
+						list.add(new AlbumTag(new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+								null, PrivacyLevel.PRIVATE), "tag"));
+						return list;
 					}
 
 				};

@@ -29,7 +29,7 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.pub.PublicFiles;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.FilesOfAlbumTag;
 
 public class TestFilesOfAlbumTagPage {
 
@@ -97,16 +97,28 @@ public class TestFilesOfAlbumTagPage {
 					}
 
 					public ArrayList<Album> getAlbums(Integer id) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public ArrayList<Album> getAlbumsSharedWith(Integer id,
 							String ownerEmail) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public ArrayList<Album> getPublicAlbums() {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public Album getSharedAlbum(String albumName,
@@ -116,7 +128,11 @@ public class TestFilesOfAlbumTagPage {
 
 					public ArrayList<Album> getAlbumsByTag(int userId,
 							String tag) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 				};
@@ -137,7 +153,11 @@ public class TestFilesOfAlbumTagPage {
 					}
 
 					public ArrayList<File> getAlbumFilesOwn(int albumId) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public void delete(File file) {
@@ -151,7 +171,11 @@ public class TestFilesOfAlbumTagPage {
 
 					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public Long getCountAlbumFiles(int albumId) {
@@ -169,12 +193,20 @@ public class TestFilesOfAlbumTagPage {
 
 					public ArrayList<File> getAlbumFilesShared(int albumId,
 							int userId) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesSharedPaging(
 							int albumId, int userId, int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesPublic(int albumId,
@@ -198,12 +230,22 @@ public class TestFilesOfAlbumTagPage {
 					}
 
 					public ArrayList<File> getFilesByTag(int userId, String tag) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1,
+										USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getFilesByTagPaging(int userId,
 							String tag, int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1,
+										USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 				};
 				FileTagService mockFileTag = new FileTagService() {
@@ -219,7 +261,11 @@ public class TestFilesOfAlbumTagPage {
 					}
 
 					public ArrayList<FileTag> getTags(int fileId) {
-						return new ArrayList<FileTag>();
+						ArrayList<FileTag> list = new ArrayList<FileTag>();
+						list.add(new FileTag(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)), "tag"));
+						return list;
 					}
 
 				};
@@ -236,7 +282,10 @@ public class TestFilesOfAlbumTagPage {
 					}
 
 					public ArrayList<AlbumTag> getTags(int albumId) {
-						return new ArrayList<AlbumTag>();
+						ArrayList<AlbumTag> list = new ArrayList<AlbumTag>();
+						list.add(new AlbumTag(new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE), "tag"));
+						return list;
 					}
 
 				};
@@ -258,7 +307,7 @@ public class TestFilesOfAlbumTagPage {
 		PageParameters pars = new PageParameters();
 		pars.add("albumId", 1);
 		pars.add("tag", "pruebaTag");
-		Page page = new PublicFiles(pars);
+		Page page = new FilesOfAlbumTag(pars);
 		this.tester.startPage(page);
 		tester.assertVisible("signout");
 		this.tester.getSession().setLocale(new Locale("ru", "RU"));
@@ -266,6 +315,6 @@ public class TestFilesOfAlbumTagPage {
 
 	@Test
 	public void testRendered() {
-		tester.assertRenderedPage(PublicFiles.class);
+		tester.assertRenderedPage(FilesOfAlbumTag.class);
 	}
 }
