@@ -65,8 +65,10 @@ public class Image extends BasePageAuth {
 	private PageParameters parameters;
 	private Album selectedAlbum;
 	private PrivacyLevelOption selectedPrivacyLevel;
+	private FeedbackPanel feedback;
 	private static final int ITEMS_PER_PAGE = 20;
 	private static final int TAG_PER_PAGE = 5;
+	private static final int EMAIL_PER_PAGE=5;
 
 	public Image(final PageParameters parameters) {
 		super(parameters);
@@ -82,6 +84,10 @@ public class Image extends BasePageAuth {
 				throw new RestartResponseException(ErrorPage404.class);
 			}
 			this.parameters = parameters;
+			FeedbackPanel feedback = new FeedbackPanel("feedback");
+			feedback.setOutputMarkupId(true);
+			this.feedback = feedback;
+			add(feedback);
 			add(new NavigateForm<Void>("formNavigate", am.getObject().getId(),
 					fileOwnModel.getObject().getId(), Image.class));
 			DataView<FileShareInformation> dataView = createShareDataView();
@@ -124,7 +130,7 @@ public class Image extends BasePageAuth {
 				});
 			}
 		};
-		dataView.setItemsPerPage(ITEMS_PER_PAGE);
+		dataView.setItemsPerPage(EMAIL_PER_PAGE);
 		return dataView;
 	}
 
@@ -167,7 +173,6 @@ public class Image extends BasePageAuth {
 		listAlbums.setLabel(new StringResourceModel("image.moveAlbum", this,
 				null));
 		form.add(listAlbums);
-		form.add(new FeedbackPanel("feedback"));
 		return form;
 	}
 
@@ -258,9 +263,6 @@ public class Image extends BasePageAuth {
 				null));
 		shareEmail.add(EmailAddressValidator.getInstance());
 		form.add(shareEmail);
-		FeedbackPanel feedback = new FeedbackPanel("feedback");
-		feedback.setOutputMarkupId(true);
-		form.add(feedback);
 		form.add(new MyAjaxButton("ajax-button", form, feedback));
 		return form;
 	}
@@ -285,9 +287,6 @@ public class Image extends BasePageAuth {
 				"newTag", new PropertyModel<String>(fTag, "tag"));
 		newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
 		form.add(newTag);
-		FeedbackPanel feedback = new FeedbackPanel("feedback");
-		feedback.setOutputMarkupId(true);
-		form.add(feedback);
 		form.add(new MyAjaxButton("ajax-button", form, feedback));
 		return form;
 	}

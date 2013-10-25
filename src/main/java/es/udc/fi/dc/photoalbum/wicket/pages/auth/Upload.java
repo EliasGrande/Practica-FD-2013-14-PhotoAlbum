@@ -173,9 +173,6 @@ public class Upload extends BasePageAuth {
 				"newTag", new PropertyModel<String>(aTag, "tag"));
 		newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
 		form.add(newTag);
-		FeedbackPanel feedback = new FeedbackPanel("feedback");
-		feedback.setOutputMarkupId(true);
-		form.add(feedback);
 		form.add(new MyAjaxButton("ajax-button", form, feedback));
 		return form;
 	}
