@@ -8,6 +8,7 @@ import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformationDao;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileDao;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformationDao;
+import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 import java.util.ArrayList;
@@ -66,6 +67,10 @@ public class FileServiceImpl implements FileService {
 	// IMPLEMENTATION
 
 	public void create(File file) {
+		//FIXME Descomentar
+		/*LikeAndDislike likeAndDislike = new LikeAndDislike();
+		likeAndDislikeDao.create(likeAndDislike);
+		file.setLikeAndDislike(likeAndDislike);*/
 		fileDao.create(file);
 	}
 
@@ -186,5 +191,17 @@ public class FileServiceImpl implements FileService {
 	public ArrayList<File> getFilesByTagPaging(int userId, String tag,
 			int first, int count) {
 		return fileDao.getFilesByTagPaging(userId, tag, first, count);
+	}
+
+	@Override
+	public void voteLike(File file) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void voteDislike(File file) {
+		// TODO Auto-generated method stub
+		
 	}
 }

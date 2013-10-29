@@ -32,6 +32,10 @@
 		class="es.udc.fi.dc.photoalbum.spring.FileTagServiceImpl">
 		<property name="fileTagDao" ref="fileTagDao" />
 	</bean>
+	<bean id="commentService" class="es.udc.fi.dc.photoalbum.spring.CommentServiceImpl">
+		<!-- Falta añadir el property y los daos nuevos -->
+	</bean>
+	
 
 	<!-- DAOs -->
 	<bean id="albumDao" class="es.udc.fi.dc.photoalbum.hibernate.AlbumDaoImpl">

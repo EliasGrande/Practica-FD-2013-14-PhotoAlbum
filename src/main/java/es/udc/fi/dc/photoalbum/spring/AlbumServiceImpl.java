@@ -21,6 +21,10 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	public void create(Album album) {
+		//FIXME Descomentar
+		/*LikeAndDislike likeAndDislike = new LikeAndDislike();
+		likeAndDislikeDao.create(likeAndDislike);
+		album.setLikeAndDislike(likeAndDislike);*/
 		albumDao.create(album);
 	}
 
@@ -64,5 +68,17 @@ public class AlbumServiceImpl implements AlbumService {
 
 	public ArrayList<Album> getAlbumsByTag(int userId, String tag) {
 		return albumDao.getAlbumsByTag(userId, tag);
+	}
+
+	@Override
+	public void voteLike(Album album) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void voteDislike(Album album) {
+		// TODO Auto-generated method stub
+		
 	}
 }

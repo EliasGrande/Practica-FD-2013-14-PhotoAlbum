@@ -20,7 +20,8 @@ public class File implements Serializable {
 	private byte[] fileSmall;
 	private Album album;
 	private Set<FileShareInformation> shareInformation = new HashSet<FileShareInformation>();
-
+	private LikeAndDislike likeAndDislike;
+	
 	public File() { 
 		privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
 	}
@@ -99,5 +100,14 @@ public class File implements Serializable {
 
 	public void setAlbum(Album album) {
 		this.album = album;
+	}
+
+	//FIXME Arreglar tabla
+	public LikeAndDislike getLikeAndDislike() {
+		return likeAndDislike;
+	}
+
+	public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
+		this.likeAndDislike = likeAndDislike;
 	}
 }

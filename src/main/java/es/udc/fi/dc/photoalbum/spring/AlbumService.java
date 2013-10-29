@@ -38,4 +38,8 @@ public interface AlbumService {
 	 * @return A list of albums (empty if nothing found).
 	 */
 	ArrayList<Album> getAlbumsByTag(int userId, String tag);
+	
+	void voteLike(Album album);
+	
+	void voteDislike(Album album);
 }

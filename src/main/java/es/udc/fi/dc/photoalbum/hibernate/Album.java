@@ -19,6 +19,7 @@ public class Album implements Serializable {
 	private String privacyLevel;
 	private Set<File> files = new HashSet<File>();
 	private Set<AlbumShareInformation> shareInformation = new HashSet<AlbumShareInformation>();
+	private LikeAndDislike likeAndDislike;
 
 	public Album() {
 		privacyLevel = PrivacyLevel.PRIVATE;
@@ -89,5 +90,14 @@ public class Album implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	//FIXME Arreglar tabla
+	public LikeAndDislike getLikeAndDislike() {
+		return likeAndDislike;
+	}
+
+	public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
+		this.likeAndDislike = likeAndDislike;
 	}
 }
