@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.spring;
 
+import java.util.ArrayList;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
@@ -9,12 +11,22 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileDao;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformationDao;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
+import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislikeDao;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
-
-import java.util.ArrayList;
 
 @Transactional
 public class FileServiceImpl implements FileService {
+	
+	/*LikeAndDislike*/
+	private LikeAndDislikeDao likeAndDislikeDao;
+	
+	public LikeAndDislikeDao getLikeAndDislikeDao() {
+		return this.likeAndDislikeDao;
+	}
+
+	public void setLikeAndDislikeDao(LikeAndDislikeDao likeAndDislikeDao) {
+		this.likeAndDislikeDao = likeAndDislikeDao;
+	}
 	
 	// FILE DAO
 
@@ -67,10 +79,9 @@ public class FileServiceImpl implements FileService {
 	// IMPLEMENTATION
 
 	public void create(File file) {
-		//FIXME Descomentar
-		/*LikeAndDislike likeAndDislike = new LikeAndDislike();
+		LikeAndDislike likeAndDislike = new LikeAndDislike();
 		likeAndDislikeDao.create(likeAndDislike);
-		file.setLikeAndDislike(likeAndDislike);*/
+		file.setLikeAndDislike(likeAndDislike);
 		fileDao.create(file);
 	}
 

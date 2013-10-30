@@ -92,7 +92,8 @@ public class Album implements Serializable {
 		this.name = name;
 	}
 	
-	//FIXME Arreglar tabla
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "LIKE_DISLIKE_ID")
 	public LikeAndDislike getLikeAndDislike() {
 		return likeAndDislike;
 	}

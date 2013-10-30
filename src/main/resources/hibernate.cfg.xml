@@ -14,5 +14,8 @@
 		<mapping class="es.udc.fi.dc.photoalbum.hibernate.FileShareInformation" />
 		<mapping class="es.udc.fi.dc.photoalbum.hibernate.AlbumTag" />
 		<mapping class="es.udc.fi.dc.photoalbum.hibernate.FileTag" />
+		<mapping class="es.udc.fi.dc.photoalbum.hibernate.Comment" />
+		<mapping class="es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike" />
+		<mapping class="es.udc.fi.dc.photoalbum.hibernate.Voted" />
 	</session-factory>
 </hibernate-configuration>

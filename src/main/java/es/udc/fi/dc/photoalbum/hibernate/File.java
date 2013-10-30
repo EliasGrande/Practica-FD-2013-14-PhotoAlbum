@@ -101,8 +101,10 @@ public class File implements Serializable {
 	public void setAlbum(Album album) {
 		this.album = album;
 	}
-
-	//FIXME Arreglar tabla
+	
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "LIKE_DISLIKE_ID")
 	public LikeAndDislike getLikeAndDislike() {
 		return likeAndDislike;
 	}

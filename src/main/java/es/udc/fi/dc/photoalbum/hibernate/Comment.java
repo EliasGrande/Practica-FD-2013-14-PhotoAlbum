@@ -1,9 +1,26 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-//TODO
-public class Comment {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+//FIXME ¿?¿? Bidireccionalidad de ALBUM Y FILE ¿?¿?¿?
+@Entity
+@Table(name = "COMMENT")
+@SuppressWarnings("serial")
+public class Comment implements Serializable{
+	
 	private Integer id;
 	private LikeAndDislike likeAndDislike;
 	private User user;
@@ -11,7 +28,6 @@ public class Comment {
 	private String textComment;
 	private Album album;
 	private File file;
-	private long version;
 	
 	public Comment(){
 		
@@ -26,6 +42,9 @@ public class Comment {
 		this.file = file;
 	}
 
+	@Id
+	@Column(name = "ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return id;
 	}
@@ -34,6 +53,8 @@ public class Comment {
 		this.id = id;
 	}
 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "LIKE_DISLIKE_ID")
 	public LikeAndDislike getLikeAndDislike() {
 		return likeAndDislike;
 	}
@@ -42,6 +63,8 @@ public class Comment {
 		this.likeAndDislike = likeAndDislike;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "USER_ID")
 	public User getUser() {
 		return user;
 	}
@@ -50,6 +73,8 @@ public class Comment {
 		this.user = user;
 	}
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DATE")
 	public Calendar getDate() {
 		return date;
 	}
@@ -58,6 +83,7 @@ public class Comment {
 		this.date = date;
 	}
 
+	@Column(name = "TEXT")
 	public String getTextComment() {
 		return textComment;
 	}
@@ -65,7 +91,10 @@ public class Comment {
 	public void setTextComment(String textComment) {
 		this.textComment = textComment;
 	}
-
+	
+	//El optional dice que Album puede ser null
+	@ManyToOne(optional=true, fetch=FetchType.LAZY)
+	@JoinColumn(name = "ALBUM_ID")
 	public Album getAlbum() {
 		return album;
 	}
@@ -73,7 +102,9 @@ public class Comment {
 	public void setAlbum(Album album) {
 		this.album = album;
 	}
-
+	
+	@ManyToOne(optional=true, fetch=FetchType.LAZY)
+	@JoinColumn(name = "FILE_ID")
 	public File getFile() {
 		return file;
 	}
@@ -81,15 +112,5 @@ public class Comment {
 	public void setFile(File file) {
 		this.file = file;
 	}
-
-	public long getVersion() {
-		return version;
-	}
-
-	public void setVersion(long version) {
-		this.version = version;
-	}
-	
-	
 	
 }
