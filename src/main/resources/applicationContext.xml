@@ -41,7 +41,7 @@
 		
 		<!-- Falta añadir el property y los daos nuevos -->
 	</bean>
-	<bean id="likeAndDislikeService" class="es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService">
+	<bean id="likeAndDislikeService" class="es.udc.fi.dc.photoalbum.spring.LikeAndDislikeServiceImpl">
 		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
 	</bean>
 	
