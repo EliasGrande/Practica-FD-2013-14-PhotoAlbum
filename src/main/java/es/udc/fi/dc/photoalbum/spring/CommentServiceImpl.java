@@ -28,40 +28,28 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public void LikeComment(Comment comment) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void DislikeComment(Comment comment) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public ArrayList<Comment> getComments(Album album) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Comment>();
 	}
 
 	@Override
 	public ArrayList<Comment> getComments(File file) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Comment>();
 	}
 
 	@Override
 	public ArrayList<Comment> getCommentsPaging(Album album, int first,
 			int count) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Comment>();
 	}
 
 	@Override
 	public ArrayList<Comment> getCommentsPaging(File file, int first, int count) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<Comment>();
 	}
 
 }

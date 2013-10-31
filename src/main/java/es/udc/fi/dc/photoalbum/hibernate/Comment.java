@@ -15,7 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-//FIXME ¿?¿? Bidireccionalidad de ALBUM Y FILE ¿?¿?¿?
+
 @Entity
 @Table(name = "COMMENT")
 @SuppressWarnings("serial")
@@ -25,7 +25,7 @@ public class Comment implements Serializable{
 	private LikeAndDislike likeAndDislike;
 	private User user;
 	private Calendar date;
-	private String textComment;
+	private String text;
 	private Album album;
 	private File file;
 	
@@ -34,10 +34,10 @@ public class Comment implements Serializable{
 	}
 	
 	public Comment(LikeAndDislike likeAndDislike, User user,
-			String textComment, Album album, File file) {
+			String text, Album album, File file) {
 		this.likeAndDislike = likeAndDislike;
 		this.user = user;
-		this.textComment = textComment;
+		this.text = text;
 		this.album = album;
 		this.file = file;
 	}
@@ -84,12 +84,12 @@ public class Comment implements Serializable{
 	}
 
 	@Column(name = "TEXT")
-	public String getTextComment() {
-		return textComment;
+	public String getText() {
+		return text;
 	}
 
-	public void setTextComment(String textComment) {
-		this.textComment = textComment;
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 	//El optional dice que Album puede ser null

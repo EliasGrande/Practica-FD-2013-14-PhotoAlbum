@@ -15,10 +15,6 @@ public interface CommentService {
 	
 	void delete(Comment comment);
 	
-	void LikeComment(Comment comment);
-	
-	void DislikeComment(Comment comment);
-	
 	ArrayList<Comment> getComments(Album album);
 
 	ArrayList<Comment> getComments(File file);
