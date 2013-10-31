@@ -26,8 +26,7 @@ public class CommentServiceImpl implements CommentService{
 		// TODO Auto-generated method stub
 		
 	}
-
-
+	
 	public ArrayList<Comment> getComments(Album album) {
 		// TODO Auto-generated method stub
 		return new ArrayList<Comment>();
