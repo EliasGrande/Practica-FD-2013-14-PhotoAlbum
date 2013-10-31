@@ -103,7 +103,7 @@ public class File implements Serializable {
 	}
 	
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "LIKE_DISLIKE_ID")
 	public LikeAndDislike getLikeAndDislike() {
 		return likeAndDislike;

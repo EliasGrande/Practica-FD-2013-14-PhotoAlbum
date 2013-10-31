@@ -53,7 +53,7 @@ public class Comment implements Serializable{
 		this.id = id;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "LIKE_DISLIKE_ID")
 	public LikeAndDislike getLikeAndDislike() {
 		return likeAndDislike;
