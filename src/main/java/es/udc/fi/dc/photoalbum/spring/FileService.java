@@ -50,8 +50,5 @@ public interface FileService {
 	ArrayList<File> getFilesByTag(int userId, String tag);
 	
 	ArrayList<File> getFilesByTagPaging(int userId, String tag, int first, int count);
-	
-	void voteLike(File file);
-	
-	void voteDislike(File file);	
+		
 }

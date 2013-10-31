@@ -203,16 +203,4 @@ public class FileServiceImpl implements FileService {
 			int first, int count) {
 		return fileDao.getFilesByTagPaging(userId, tag, first, count);
 	}
-
-	@Override
-	public void voteLike(File file) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void voteDislike(File file) {
-		// TODO Auto-generated method stub
-		
-	}
 }

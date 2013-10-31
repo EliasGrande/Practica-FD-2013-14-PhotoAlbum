@@ -85,17 +85,5 @@ public class AlbumServiceImpl implements AlbumService {
 		return albumDao.getAlbumsByTag(userId, tag);
 	}
 
-	@Override
-	public void voteLike(Album album) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void voteDislike(Album album) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	
 }
