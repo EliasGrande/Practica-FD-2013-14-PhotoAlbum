@@ -1,11 +1,17 @@
 package es.udc.fi.dc.photoalbum.spring;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislikeDao;
 import es.udc.fi.dc.photoalbum.hibernate.User;
+import es.udc.fi.dc.photoalbum.hibernate.Voted;
+import es.udc.fi.dc.photoalbum.hibernate.VotedDao;
 
-public class LikeAndDislikeServiceImpl implements LikeAndDislikeService{
+@Transactional
+public class LikeAndDislikeServiceImpl implements LikeAndDislikeService {
 
+	/* LikeAndDislikeDao */
 	private LikeAndDislikeDao likeAndDislikeDao;
 
 	public LikeAndDislikeDao getLikeAndDislikeDao() {
@@ -16,13 +22,50 @@ public class LikeAndDislikeServiceImpl implements LikeAndDislikeService{
 		this.likeAndDislikeDao = likeAndDislikeDao;
 	}
 
+	/* VotedDao */
+	private VotedDao votedDao;
+
+	public VotedDao getVotedDao() {
+		return this.votedDao;
+	}
+
+	public void setVotedDao(VotedDao votedDao) {
+		this.votedDao = votedDao;
+	}
+
+	/* IMPLEMENTATION */
+
 	public void voteLike(LikeAndDislike likeAndDislike, User user) {
-		// TODO Auto-generated method stub
-		
+		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
+		if(voted != null){
+			if(voted.getUserVote().compareTo("LIKE")==0){
+				likeAndDislike.setLike(likeAndDislike.getLike() - 1);
+				likeAndDislikeDao.update(likeAndDislike);
+				votedDao.delete(voted);
+			}
+		}else{
+			voted = new Voted(likeAndDislike, user,"LIKE");
+			votedDao.create(voted);
+			likeAndDislike.setLike(likeAndDislike.getLike() + 1);
+			likeAndDislikeDao.update(likeAndDislike);
+		}
 	}
+
 	public void voteDislike(LikeAndDislike likeAndDislike, User user) {
-		// TODO Auto-generated method stub
-		
+		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
+		if(voted != null){
+			if(voted.getUserVote().compareTo("DISLIKE")==0){
+				likeAndDislike.setDislike(likeAndDislike.getDislike() - 1);
+				likeAndDislikeDao.update(likeAndDislike);
+				votedDao.delete(voted);
+			}
+		}else{
+			voted = new Voted(likeAndDislike, user,"DISLIKE");
+			votedDao.create(voted);
+			likeAndDislike.setDislike(likeAndDislike.getDislike() + 1);
+			likeAndDislikeDao.update(likeAndDislike);
+		}
 	}
+
 
 }

@@ -86,7 +86,9 @@ public class FileServiceImpl implements FileService {
 	}
 
 	public void delete(File file) {
+		LikeAndDislike lad = file.getLikeAndDislike();
 		fileDao.delete(file);
+		likeAndDislikeDao.delete(lad);
 	}
 
 	public File getFileOwn(int id, String name, int userId) {

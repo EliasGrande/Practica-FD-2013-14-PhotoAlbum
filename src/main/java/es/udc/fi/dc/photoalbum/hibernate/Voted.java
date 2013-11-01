@@ -19,13 +19,15 @@ public class Voted implements Serializable{
 	private Integer id;
 	private LikeAndDislike likeAndDislike;
 	private User user;
+	private String userVote;
 	
 	public Voted(){
 	}
 	
-	public Voted(LikeAndDislike likeAndDislike, User user){
+	public Voted(LikeAndDislike likeAndDislike, User user, String userVote){
 		this.likeAndDislike = likeAndDislike;
 		this.user = user;
+		this.userVote = userVote;
 	}
 	
 	@Id
@@ -54,5 +56,14 @@ public class Voted implements Serializable{
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	/*Guarda si el usuario user, ha votado a like o dislike*/
+	@Column(name = "USER_VOTE")
+	public String getUserVote() {
+		return userVote;
+	}
+
+	public void setUserVote(String userVote) {
+		this.userVote = userVote;
 	}
 }

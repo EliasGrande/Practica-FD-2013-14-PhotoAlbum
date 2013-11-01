@@ -30,7 +30,7 @@ public class Comment implements Serializable{
 	private File file;
 	
 	public Comment(){
-		
+		this.date = Calendar.getInstance();
 	}
 	
 	public Comment(LikeAndDislike likeAndDislike, User user,
@@ -40,6 +40,7 @@ public class Comment implements Serializable{
 		this.text = text;
 		this.album = album;
 		this.file = file;
+		this.date = Calendar.getInstance();
 	}
 
 	@Id

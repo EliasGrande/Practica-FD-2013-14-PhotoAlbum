@@ -35,7 +35,6 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 	
 	
-	
 	public void create(Album album) {
 		LikeAndDislike likeAndDislike = new LikeAndDislike();
 		likeAndDislikeDao.create(likeAndDislike);
@@ -44,7 +43,9 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	public void delete(Album album) {
+		LikeAndDislike lad = album.getLikeAndDislike();
 		albumDao.delete(album);
+		likeAndDislikeDao.delete(lad);
 	}
 
 	public Album getAlbum(String name, int userId) {
