@@ -63,10 +63,6 @@ public class SharedBig extends BasePageAuth {
 			}
 			File file = fileService.getById(id);
 			this.file = file;
-			LikeAndDislike likeAndDislike = file.getLikeAndDislike();
-			this.likeAndDislike = likeAndDislike;
-			// TODO: LazyInitializationException: could not initialize proxy - no Session
-			likeAndDislike.getLike(); // force lazy initialization
 			add(new SharedNavigateForm<Void>("formNavigate", fileSharedAlbum
 					.getObject().getAlbum().getId(), userId, fileSharedAlbum
 					.getObject().getId(),SharedBig.class));
