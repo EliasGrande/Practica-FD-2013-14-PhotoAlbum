@@ -30,6 +30,7 @@ import es.udc.fi.dc.photoalbum.wicket.PublicFileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
+import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
 @SuppressWarnings("serial")
 public class PublicFiles extends BasePageAuth {
@@ -52,6 +53,7 @@ public class PublicFiles extends BasePageAuth {
 		add(new BookmarkablePageLink<Void>("linkBack", PublicAlbums.class, null));
 		add(new AjaxDataView("dataContainer", "navigator", createDataView()));
 		add(new AjaxDataView("albumTagDataContainer","albumTagNavigator",createAlbumTagsDataView()));
+		add(new CommentAndVotePanel("commentAndVote", this, album));
 	}
 
 	private DataView<File> createDataView() {

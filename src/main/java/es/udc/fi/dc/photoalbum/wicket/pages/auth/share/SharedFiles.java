@@ -31,6 +31,7 @@ import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
+import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
 @SuppressWarnings("serial")
 public class SharedFiles extends BasePageAuth {
@@ -64,6 +65,7 @@ public class SharedFiles extends BasePageAuth {
 				parameters.remove("album")));
 		add(new AjaxDataView("dataContainer", "navigator", createDataView()));
 		add(new AjaxDataView("albumTagDataContainer","albumTagNavigator",createAlbumTagsDataView()));
+		add(new CommentAndVotePanel("commentAndVote", this, album));
 	}
 
 	private DataView<File> createDataView() {

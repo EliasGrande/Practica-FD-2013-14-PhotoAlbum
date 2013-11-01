@@ -38,6 +38,7 @@ import es.udc.fi.dc.photoalbum.wicket.FileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
+import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
 @SuppressWarnings("serial")
 public class Upload extends BasePageAuth {
@@ -78,6 +79,7 @@ public class Upload extends BasePageAuth {
 		add(new AjaxDataView("dataContainer", "navigator", createFileDataView()));
 		add(createAddTagForm());
 		add(new AjaxDataView("dataAlbumTagContainer","albumTagNavigator",createAlbumTagsDataView()));
+		add(new CommentAndVotePanel("commentAndVote", this, am.getObject()));
 	}
 
 	private DataView<File> createFileDataView() {

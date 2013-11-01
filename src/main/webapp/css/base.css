@@ -51,3 +51,7 @@ input {
 input[type=checkbox] {
 	width: auto;
 }
+
+.hidden {
+	display: none !important;
+}

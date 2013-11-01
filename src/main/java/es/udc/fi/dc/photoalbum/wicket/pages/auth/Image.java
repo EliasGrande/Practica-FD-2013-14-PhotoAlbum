@@ -49,6 +49,7 @@ import es.udc.fi.dc.photoalbum.wicket.models.FileOwnModel;
 import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelOption;
 import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelsModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
+import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
 @SuppressWarnings("serial")
 public class Image extends BasePageAuth {
@@ -66,7 +67,6 @@ public class Image extends BasePageAuth {
 	private Album selectedAlbum;
 	private PrivacyLevelOption selectedPrivacyLevel;
 	private FeedbackPanel feedback;
-	private static final int ITEMS_PER_PAGE = 20;
 	private static final int TAG_PER_PAGE = 5;
 	private static final int EMAIL_PER_PAGE=5;
 
@@ -102,6 +102,7 @@ public class Image extends BasePageAuth {
 					(new PageParameters()).add("album", name)));
 			add(createShareForm());
 			add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
+			add(new CommentAndVotePanel("commentAndVote", this, fileOwnModel.getObject()));
 		} else {
 			throw new RestartResponseException(ErrorPage404.class);
 		}

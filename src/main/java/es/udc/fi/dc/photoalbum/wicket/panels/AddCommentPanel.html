@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<body>
+	<wicket:panel>
+		<form wicket:id="addCommentForm">
+			<div class="addCommentForm">
+				<label><wicket:message key="comments.add.title" /></label>
+				<textarea wicket:id="text" rows="5" cols="25"></textarea>
+				<input type="submit" wicket:message="value:comments.add.submit" />
+				<span class="maxLength">
+					<label><wicket:message key="comments.add.maxLength" />:</label>
+					<span wicket:id="maxLength"></span>
+				</span>
+			</div>
+		</form>
+	</wicket:panel>
+</body>
+</html>

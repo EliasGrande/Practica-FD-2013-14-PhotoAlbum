@@ -19,6 +19,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
+import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.FileTagService;
 import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
@@ -29,6 +30,7 @@ import es.udc.fi.dc.photoalbum.wicket.models.FileSharedAlbum;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
+import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
 @SuppressWarnings("serial")
 public class SharedBig extends BasePageAuth {
@@ -40,6 +42,7 @@ public class SharedBig extends BasePageAuth {
 	
 	private FileSharedAlbum fileSharedAlbum;
 	private File file;
+	LikeAndDislike likeAndDislike;
 	private static final int TAG_PER_PAGE = 5;
 	
 
@@ -60,6 +63,10 @@ public class SharedBig extends BasePageAuth {
 			}
 			File file = fileService.getById(id);
 			this.file = file;
+			LikeAndDislike likeAndDislike = file.getLikeAndDislike();
+			this.likeAndDislike = likeAndDislike;
+			// TODO: LazyInitializationException: could not initialize proxy - no Session
+			likeAndDislike.getLike(); // force lazy initialization
 			add(new SharedNavigateForm<Void>("formNavigate", fileSharedAlbum
 					.getObject().getAlbum().getId(), userId, fileSharedAlbum
 					.getObject().getId(),SharedBig.class));
@@ -71,6 +78,7 @@ public class SharedBig extends BasePageAuth {
 					.getUser().getEmail());
 			add(new BookmarkablePageLink<Void>("linkBack", SharedFiles.class,
 					newPars));
+			add(new CommentAndVotePanel("commentAndVote", this, file));
 		} else {
 			throw new RestartResponseException(ErrorPage404.class);
 		}

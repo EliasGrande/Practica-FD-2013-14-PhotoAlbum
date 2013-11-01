@@ -26,6 +26,7 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
+import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
 
 @SuppressWarnings("serial")
@@ -54,7 +55,9 @@ public class PublicFilesBig extends BasePageAuth{
 		newPars.add("albumId", albumId);
 		
 		add(new BookmarkablePageLink<Void>("linkBack", PublicFiles.class,
-				newPars));	
+				newPars));
+		
+		add(new CommentAndVotePanel("commentAndVote", this, file));
 	}
 
 	private NonCachingImage createNonCachingImage() {
