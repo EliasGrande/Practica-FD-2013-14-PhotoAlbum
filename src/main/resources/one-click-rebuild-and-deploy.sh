@@ -17,7 +17,7 @@ TOMCAT_START=$TOMCAT_HOME/bin/startup.sh
 TOMCAT_STOP=$TOMCAT_HOME/bin/shutdown.sh
 TOMCAT_CLEAN="rm -Rv $TOMCAT_HOME/webapps/$PROJECT_NAME $TOMCAT_HOME/work/Catalina/localhost/$PROJECT_NAME"
 CD_PROJECT="cd $ECLIPSE_WORKSPACE/$PROJECT_NAME"
-MAVEN_INSTALL="$MAVEN_HOME/bin/mvn install"
+MAVEN_INSTALL="$MAVEN_HOME/bin/mvn install -Dmaven.test.skip=true"
 
 # (1) stop tomcat
 echo
