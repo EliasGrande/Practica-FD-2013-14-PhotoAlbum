@@ -1,6 +1,10 @@
 package es.udc.fi.dc.photoalbum.utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
@@ -12,22 +16,38 @@ public class RandomDataGenerator {
 	
 	private static final String LOREN_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?";
 	private static final String LOREN_IPSUM_SIMPLE = LOREN_IPSUM.replaceAll("[^a-z]","");
+	private static final long BEGIN_TIME = (new Date()).getTime();
+	private static final long END_TIME = BEGIN_TIME - (1000L*3600L*24L*365L*2L);
 	
 	private static int id = 0;
 
 	public static int randomInt(int min, int max) {
 		return min + (int)Math.round(Math.random() * ((max - min) + 1));
 	}
+
+	public static long randomLong(long min, long max) {
+		return min + Math.round(Math.random() * ((max - min) + 1));
+	}
+	
+	public static Calendar randomCalendar() {
+		Calendar calendar = Calendar.getInstance();
+		Date date = new Date();
+		date.setTime(randomLong(BEGIN_TIME, END_TIME));
+		calendar.setTime(date);
+		return calendar;
+	}
 	
 	public static Comment randomComment(File file) {
 		Comment comment = new Comment(randomLikeAndDislike(), randomUser(), randomText(), null, file);
 		comment.setId(++id);
+		comment.setDate(randomCalendar());
 		return comment;
 	}
 	
 	public static Comment randomComment(Album album) {
 		Comment comment = new Comment(randomLikeAndDislike(), randomUser(), randomText(), album, null);
 		comment.setId(++id);
+		comment.setDate(randomCalendar());
 		return comment;
 	}
 	

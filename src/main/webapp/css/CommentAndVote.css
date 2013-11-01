@@ -120,10 +120,14 @@
 	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
 	border-color: #BBB;
 }
-.comment .user {
+.comment .user_and_date {
 	color: #2793E6;
 	font-weight: bold;
 	margin: 10px 10px 2px 10px;
+}
+.comment .user_and_date .date {
+	font-weight: normal;
+	float: right;
 }
 .comment .text {
 	padding: 10px;

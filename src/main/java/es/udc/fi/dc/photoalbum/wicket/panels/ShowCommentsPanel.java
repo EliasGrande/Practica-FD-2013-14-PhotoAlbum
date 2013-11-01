@@ -1,5 +1,10 @@
 package es.udc.fi.dc.photoalbum.wicket.panels;
 
+import java.text.DateFormat;
+import java.util.Locale;
+import java.util.TimeZone;
+
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.ComponentTag;
@@ -13,16 +18,17 @@ import org.apache.wicket.markup.html.panel.Panel;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.utils.TimeAgoCalendarFormat;
+import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.models.CommentsModel;
 
 @SuppressWarnings("serial")
 public class ShowCommentsPanel extends Panel {
 	
-	private Album album;
-	private File file;
 	private CommentsModel commentsModel;
+	private TimeAgoCalendarFormat calendarFormat;
 	
-	public static final int COMMENTS_PER_PANEL = 10;
+	private static final int COMMENTS_PER_PANEL = 10;
 
 	public ShowCommentsPanel(String id, Album album) {
 		this(id, album, null);
@@ -32,12 +38,12 @@ public class ShowCommentsPanel extends Panel {
 		this(id, null, file);
 	}
 
-	private ShowCommentsPanel(String id, Album _album, File _file) {
+	private ShowCommentsPanel(String id, Album album, File file) {
 		super(id);
-		album = _album;
-		file = _file;
 		commentsModel = new CommentsModel(album, file, COMMENTS_PER_PANEL);
+		calendarFormat = new TimeAgoCalendarFormat(this);
 		
+		// ajax data container
 		final WebMarkupContainer commentContainer = new WebMarkupContainer("commentContainer");
 		commentContainer.setOutputMarkupId(true);
 		add(commentContainer);
@@ -47,6 +53,7 @@ public class ShowCommentsPanel extends Panel {
 			protected void populateItem(ListItem<Comment> item) {
 				Comment comment = item.getModelObject();
 				item.add(new Label("user",comment.getUser().getEmail()));
+				item.add(new Label("date", calendarFormat.format(comment.getDate())));
 				item.add(new Label("text",comment.getText()));
 				item.add(new VotePanel("vote", comment.getLikeAndDislike()));
 			}
