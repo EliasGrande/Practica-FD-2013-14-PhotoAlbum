@@ -6,8 +6,7 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 public interface LikeAndDislikeService {
 
 	/**
-	 * Add new like vote to object likeAndDislike, but if the user 
-	 * had voted like before, remove the vote.
+	 * Add new like vote to object likeAndDislike.
 	 * 
 	 * @param likeAndDislike
 	 *            Object that will be update with a like.
@@ -17,8 +16,7 @@ public interface LikeAndDislikeService {
 	void voteLike(LikeAndDislike likeAndDislike, User user);
 
 	/**
-	 * Add new dislike vote to object likeAndDislike, but if the user
-	 * had voted dislike before, remove the vote.
+	 * Add new dislike vote to object likeAndDislike.
 	 * 
 	 * @param likeAndDislike
 	 *            Object that will be update with a dislike.

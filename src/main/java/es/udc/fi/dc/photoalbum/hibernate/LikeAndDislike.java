@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Version;
 
 @Entity
 @Table(name = "LIKE_DISLIKE")
@@ -18,7 +17,6 @@ public class LikeAndDislike implements Serializable{
 	private Integer id;
 	private Integer like;
 	private Integer dislike;
-	private long version;
 	
 	public LikeAndDislike(){
 		this.like = 0;
@@ -52,15 +50,6 @@ public class LikeAndDislike implements Serializable{
 
 	public void setDislike(Integer dislike) {
 		this.dislike = dislike;
-	}
-
-	@Version
-	public long getVersion() {
-		return version;
-	}
-
-	public void setVersion(long version) {
-		this.version = version;
 	}
 	
 	

@@ -159,8 +159,6 @@ public class Upload extends BasePageAuth {
 		Form<AlbumTag> form = new Form<AlbumTag>("formAddTag") {
 			@Override
 			public void onSubmit() {
-				//FIXME Al insertar un tag repetido que ponga tag repetido
-				//FIXME Separar tags por palabras¿?¿?¿?
 				AlbumTag aTag = getModelObject();
 				aTag.setAlbum(am.getObject());
 				albumTagService.create(aTag);

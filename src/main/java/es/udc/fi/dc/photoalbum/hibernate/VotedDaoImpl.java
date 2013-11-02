@@ -12,6 +12,10 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 		getHibernateTemplate().delete(voted);
 	}
 
+	public void update(Voted voted){
+		getHibernateTemplate().update(voted);
+	}
+	
 	public Voted get(int likeAndDislikeId, int userId) {
 		String hql = "SELECT v "
 				+ "FROM Voted v "

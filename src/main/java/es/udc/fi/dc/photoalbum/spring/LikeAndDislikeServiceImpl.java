@@ -37,10 +37,12 @@ public class LikeAndDislikeServiceImpl implements LikeAndDislikeService {
 
 	public void voteLike(LikeAndDislike likeAndDislike, User user) {
 		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
-		if((voted != null)&&(voted.getUserVote().compareTo("LIKE")==0)){
-			likeAndDislike.setLike(likeAndDislike.getLike() - 1);
+		if(voted != null){
+			voted.setUserVote("LIKE");
+			votedDao.update(voted);
+			likeAndDislike.setLike(likeAndDislike.getLike() + 1);
+			likeAndDislike.setDislike(likeAndDislike.getDislike() - 1);
 			likeAndDislikeDao.update(likeAndDislike);
-			votedDao.delete(voted);
 		}else{
 			voted = new Voted(likeAndDislike, user,"LIKE");
 			votedDao.create(voted);
@@ -51,10 +53,12 @@ public class LikeAndDislikeServiceImpl implements LikeAndDislikeService {
 
 	public void voteDislike(LikeAndDislike likeAndDislike, User user) {
 		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
-		if((voted != null)&&(voted.getUserVote().compareTo("DISLIKE")==0)){
-			likeAndDislike.setDislike(likeAndDislike.getDislike() - 1);
+		if(voted != null){
+			voted.setUserVote("DISLIKE");
+			votedDao.update(voted);
+			likeAndDislike.setLike(likeAndDislike.getLike() - 1);
+			likeAndDislike.setDislike(likeAndDislike.getDislike() + 1);
 			likeAndDislikeDao.update(likeAndDislike);
-			votedDao.delete(voted);
 		}else{
 			voted = new Voted(likeAndDislike, user,"DISLIKE");
 			votedDao.create(voted);

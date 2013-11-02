@@ -27,7 +27,6 @@ public class SearchByTag extends BasePageAuth{
 				PageParameters pars = new PageParameters();
 				pars.add("tagName", tag.getValue());
 				setResponsePage(BaseTags.class,pars);
-				//FIXME Hacer lo del contains aqui?
 				
 			}
 		};

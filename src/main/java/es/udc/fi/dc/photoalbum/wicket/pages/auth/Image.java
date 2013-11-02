@@ -272,8 +272,6 @@ public class Image extends BasePageAuth {
 		Form<FileTag> form = new Form<FileTag>("formAddTag") {
 			@Override
 			public void onSubmit() {
-				//FIXME Al insertar un tag repetido que ponga tag repetido
-				//FIXME Separar tags por palabras¿?¿?¿?
 				FileTag fTag = getModelObject();
 				fTag.setFile(fileOwnModel.getObject());
 				fileTagService.create(fTag);
