@@ -139,7 +139,7 @@
 
 .comment .vote {
 	margin: 6px 0 6px 8px;
-    width: 590px;
+    width: 598px;
 }
 .vote .like, .vote .dislike {
 	width: 20px;
@@ -176,4 +176,26 @@
 }
 .comment:hover .vote {
 	opacity: 0.9;
+}
+.vote .like a,
+.vote .dislike a,
+.vote .like span,
+.vote .dislike span {
+	width: 16px;
+	height: 16px;
+	background: url("../images/thumb_up.png");
+	float: right;
+}
+.vote .like span {
+	background: url("../images/thumb_up_gray.png");
+}
+.vote .dislike a {
+	background: url("../images/thumb_down.png");
+}
+.vote .dislike span {
+	background: url("../images/thumb_down_gray.png");
+}
+.vote .like span,
+.vote .dislike span {
+	opacity: 0.5;
 }

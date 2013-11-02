@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.wicket.panels;
 
+import java.lang.reflect.Constructor;
+
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.WebPage;
@@ -9,9 +11,11 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.CommentService;
@@ -37,9 +41,9 @@ public class AddCommentPanel extends Panel {
 		this(id, responsePage, null, file);
 	}
 
-	private AddCommentPanel(String id, WebPage _responsePage, Album _album, File _file) {
+	private AddCommentPanel(String id, WebPage responsePage, Album _album, File _file) {
 		super(id);
-		this.responsePage = _responsePage;
+		this.responsePage = responsePage;
 		this.album = _album;
 		this.file = _file;
 
@@ -53,9 +57,8 @@ public class AddCommentPanel extends Panel {
 						.getuId());
 				String textString = text.getModelObject();
 				
-				// TODO: use Comment.MAX_TEXT_LENGTH
 				int len = textString.length();
-				int maxLen = 1000;
+				int maxLen = Comment.MAX_TEXT_LENGTH;
 				if (len > maxLen) {
 					error(new StringResourceModel("comments.add.error.maxlength", this, null)
 							.getString().replace("{MAX_LENGTH}",  String.valueOf(maxLen)));
@@ -68,7 +71,7 @@ public class AddCommentPanel extends Panel {
 						commentService.create(user, album, textString);
 					info(new StringResourceModel("comments.add.created", this, null)
 							.getString());
-					setResponsePage(responsePage);
+					setResponsePage(newResponsePage());
 				} catch (RuntimeException e) {
 					error(new StringResourceModel("comments.add.exception", this, null)
 							.getString());
@@ -79,8 +82,7 @@ public class AddCommentPanel extends Panel {
 		add(form);
 		form.add(text);
 
-		// TODO: use Comment.MAX_TEXT_LENGTH
-		form.add(new Label("maxLength", String.valueOf(1000)));
+		form.add(new Label("maxLength", String.valueOf(Comment.MAX_TEXT_LENGTH)));
 	}
 	
 	@Override
@@ -89,5 +91,24 @@ public class AddCommentPanel extends Panel {
 				"http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js");
 		response.renderJavaScriptReference("js/AddCommentPanel.js");
 		response.renderCSSReference("css/CommentAndVote.css");
+	}
+
+	/**
+	 * Instancia un nuevo objeto WebPage de la clase de responsePage y con los
+	 * PageParameters de response page.
+	 */
+	@SuppressWarnings("rawtypes")
+	public WebPage newResponsePage() {
+		try {
+			Class[] parameterTypes = new Class[] { PageParameters.class };
+			Constructor constructor = this.responsePage.getClass()
+					.getDeclaredConstructor(parameterTypes);
+			constructor.setAccessible(true);
+			return (WebPage) constructor.newInstance(this.responsePage
+					.getPageParameters());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return this.responsePage;
+		}
 	}
 }

@@ -15,8 +15,6 @@ import javax.persistence.Version;
 @SuppressWarnings("serial")
 public class LikeAndDislike implements Serializable{
 	
-	public static final int MAX_TEXT_LENGTH = 500;
-	
 	private Integer id;
 	private Integer like;
 	private Integer dislike;

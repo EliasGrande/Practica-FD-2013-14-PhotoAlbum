@@ -29,6 +29,8 @@ public class Comment implements Serializable{
 	private Album album;
 	private File file;
 	
+	public static final int MAX_TEXT_LENGTH = 500;
+	
 	public Comment(){
 		this.date = Calendar.getInstance();
 	}

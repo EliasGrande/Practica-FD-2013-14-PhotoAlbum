@@ -2,22 +2,22 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 <body>
 	<wicket:panel>
-		<table class="vote">
-			<tr>
-				<td class="likes">
-					<wicket:message key="vote.count.like" />: <span wicket:id="likeCount"></span>
-					(<span wicket:id="likePercent"></span>%)
-				</td>
-				<td class="dislikes">
-					<wicket:message key="vote.count.dislike" />: <span wicket:id="dislikeCount"></span>
-					(<span wicket:id="dislikePercent"></span>%)
-				</td>
-				<td class="like"><a wicket:id="likeLink"><img src="images/thumb_up.png"
-						wicket:message="title:vote.button.like"></a></td>
-				<td class="dislike"><a wicket:id="dislikeLink"><img src="images/thumb_down.png"
-						wicket:message="title:vote.button.dislike"></a></td>
-			</tr>
-		</table>
+		<div wicket:id="voteContainer">
+			<table class="vote">
+				<tr>
+					<td class="likes">
+						<wicket:message key="vote.count.like" />: <span wicket:id="likeCount"></span>
+						(<span wicket:id="likePercent"></span>%)
+					</td>
+					<td class="dislikes">
+						<wicket:message key="vote.count.dislike" />: <span wicket:id="dislikeCount"></span>
+						(<span wicket:id="dislikePercent"></span>%)
+					</td>
+					<td class="like"><a wicket:id="likeLink"></a></td>
+					<td class="dislike"><a wicket:id="dislikeLink"></a></td>
+				</tr>
+			</table>
+		</div>
 	</wicket:panel>
 </body>
 </html>

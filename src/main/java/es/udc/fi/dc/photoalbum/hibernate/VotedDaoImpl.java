@@ -13,9 +13,9 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 	}
 
 	public Voted get(int likeAndDislikeId, int userId) {
-		String hql = "SELECT v"
-				+ "FROM Voted v"
-				+ "WHERE v.likeAndDislike.id = :likeAndDislikeId"
+		String hql = "SELECT v "
+				+ "FROM Voted v "
+				+ "WHERE v.likeAndDislike.id = :likeAndDislikeId "
 				+ "AND v.user.id = :userId";
 		
 		return (Voted) getHibernateTemplate()
