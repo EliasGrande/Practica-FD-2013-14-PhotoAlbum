@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.Voted;
 import es.udc.fi.dc.photoalbum.hibernate.VotedDao;
 
@@ -30,7 +29,7 @@ public class VotedServiceImpl implements VotedService{
 	}
 
 	public ArrayList<Voted> getVoted(
-			ArrayList<LikeAndDislike> likeAndDislikeList, int userId) {
-		return votedDao.getVoted(likeAndDislikeList, userId);
+			ArrayList<Integer> likeAndDislikeIdList, int userId) {
+		return votedDao.getVoted(likeAndDislikeIdList, userId);
 	}
 }

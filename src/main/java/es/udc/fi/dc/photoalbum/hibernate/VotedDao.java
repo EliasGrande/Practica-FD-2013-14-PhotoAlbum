@@ -8,5 +8,5 @@ public interface VotedDao extends GenericDao<Voted> {
 	
 	Voted get(int likeAndDislikeId, int userId);
 	
-	ArrayList<Voted> getVoted(ArrayList<LikeAndDislike> likeAndDislikeList, int userId);
+	ArrayList<Voted> getVoted(ArrayList<Integer> likeAndDislikeIdList, int userId);
 }

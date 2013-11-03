@@ -9,6 +9,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.Session;
+import es.udc.fi.dc.photoalbum.wicket.MySession;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
@@ -34,7 +36,8 @@ public class ShowCommentsPanel extends Panel {
 
 	private ShowCommentsPanel(String id, Album album, File file) {
 		super(id);
-		commentsModel = new CommentsModel(album, file, COMMENTS_PER_PANEL);
+		int userId = ((MySession)Session.get()).getuId();
+		commentsModel = new CommentsModel(album, file, COMMENTS_PER_PANEL, userId);
 		calendarFormat = new TimeAgoCalendarFormat(this);
 		
 		// ajax data container
@@ -48,10 +51,9 @@ public class ShowCommentsPanel extends Panel {
 				Comment comment = item.getModelObject();
 				item.add(new Label("user",comment.getUser().getEmail()));
 				item.add(new Label("date", calendarFormat.format(comment.getDate())));
-				item.add(new Label("text",comment.getText()));
-				//TODO Recuperar previamente todos los Voted asociados para que no haga tropecientas consultas
-				//para obtenerlos, las ventajas del paginado al carajo si no se arregla eso.
-				item.add(new VotePanel("vote", comment.getLikeAndDislike()));
+				item.add(new Label("text", comment.getText()));
+				item.add(new VotePanel("vote", comment.getLikeAndDislike(),
+						commentsModel.getVoted(comment)));
 			}
 		};
 		commentContainer.add(commentsView);

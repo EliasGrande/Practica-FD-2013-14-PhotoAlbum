@@ -26,12 +26,12 @@ public class VotePanel extends Panel {
 	@SpringBean
 	private LikeAndDislikeService likeAndDislikeService;
 	@SpringBean
-	private UserService userService;
-	@SpringBean
 	private VotedService votedService;
+	@SpringBean
+	private UserService userService;
 	
 	private LikeAndDislike likeAndDislike;
-	private User user;
+	private int userId;
 	private boolean votedLike;
 	private boolean votedDislike;
 	
@@ -48,11 +48,10 @@ public class VotePanel extends Panel {
 	private VotePanel(String id, LikeAndDislike _likeAndDislike, Voted _voted, boolean getVoted) {
 		super(id);
 		likeAndDislike = _likeAndDislike;
-		user = userService.getById(((MySession) Session.get()).getuId());
+		userId = ((MySession) Session.get()).getuId();
 		Voted voted = _voted;
-		voted = (getVoted) ? votedService.getVoted(
-				likeAndDislike.getId(), ((MySession) Session.get()).getuId())
-				: _voted;
+		voted = (getVoted) ? votedService.getVoted(likeAndDislike.getId(),
+				userId) : _voted;
 		if (voted == null) {
 			votedLike = false;
 			votedDislike = false;
@@ -124,7 +123,7 @@ public class VotePanel extends Panel {
 			@Override
 			public void vote() {
 				likeAndDislike = likeAndDislikeService.voteDislike(likeAndDislike,
-						user);
+						userService.getById(userId));
 				votedDislike = true;
 				votedLike = false;
 			}
@@ -203,13 +202,14 @@ public class VotePanel extends Panel {
 
 		public void vote() {
 			likeAndDislike = likeAndDislikeService.voteLike(likeAndDislike,
-					user);
+					userService.getById(userId));
 			votedDislike = false;
 			votedLike = true;
 		}
 
 		private void unvote() {
-			likeAndDislike = likeAndDislikeService.unvote(likeAndDislike, user);
+			likeAndDislike = likeAndDislikeService.unvote(likeAndDislike,
+					userService.getById(userId));
 			votedLike = false;
 			votedDislike = false;
 		}

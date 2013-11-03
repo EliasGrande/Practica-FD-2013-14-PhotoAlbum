@@ -35,7 +35,7 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 
 	@SuppressWarnings("unchecked")
 	public ArrayList<Voted> getVoted(
-			ArrayList<LikeAndDislike> likeAndDislikeList, int userId) {
+			ArrayList<Integer> likeAndDislikeIdList, int userId) {
 		String queryString = "Select v "
 				+ "FROM Voted v "
 				+ "WHERE v.user.id = :userId "
@@ -47,7 +47,7 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 				.getCurrentSession()
 				.createQuery(queryString)
 				.setParameter("userId", userId)
-				.setParameterList("lalIds", likeAndDislikeList)
+				.setParameterList("lalIds", likeAndDislikeIdList)
 				.list();
 	}
 
