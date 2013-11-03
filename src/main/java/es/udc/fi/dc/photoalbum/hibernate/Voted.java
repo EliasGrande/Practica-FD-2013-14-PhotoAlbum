@@ -15,6 +15,9 @@ import javax.persistence.Table;
 @Table(name = "VOTED")
 @SuppressWarnings("serial")
 public class Voted implements Serializable{
+
+	public static final String LIKE = "LIKE";
+	public static final String DISLIKE = "DISLIKE";
 	
 	private Integer id;
 	private LikeAndDislike likeAndDislike;

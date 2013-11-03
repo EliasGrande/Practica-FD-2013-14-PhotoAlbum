@@ -137,27 +137,27 @@
 /* VOTE */
 /********/
 
-.comment .vote {
+.comment .votePanel {
 	margin: 6px 0 6px 8px;
     width: 598px;
 }
-.vote .like, .vote .dislike {
+.votePanel .like, .votePanel .dislike {
 	width: 20px;
 }
-.vote .likes {
+.votePanel .likes {
 	width: 30%;
 }
-.vote .likes span {
+.votePanel .likes span {
     color: #090;
 }
-.vote .dislikes span {
+.votePanel .dislikes span {
     color: #900;
 }
-.vote {
+.votePanel {
 	font-size: 0.95em;
     font-style: italic;
 }
-.voteBig .vote {
+.voteBig .votePanel {
 	width: 100%;
 }
 .voteBig {
@@ -171,31 +171,25 @@
 	border-radius: 5px;
 	clear: both;
 }
-.comment .vote {
+.comment .votePanel {
 	opacity:0.4;
 }
-.comment:hover .vote {
+.comment:hover .votePanel {
 	opacity: 0.9;
 }
-.vote .like a,
-.vote .dislike a,
-.vote .like span,
-.vote .dislike span {
+.votePanel .like a,
+.votePanel .dislike a {
 	width: 16px;
 	height: 16px;
 	background: url("../images/thumb_up.png");
 	float: right;
 }
-.vote .like span {
-	background: url("../images/thumb_up_gray.png");
+.votePanel .like a.unvote {
+	background: url("../images/thumb_up_delete.png");
 }
-.vote .dislike a {
+.votePanel .dislike a {
 	background: url("../images/thumb_down.png");
 }
-.vote .dislike span {
-	background: url("../images/thumb_down_gray.png");
-}
-.vote .like span,
-.vote .dislike span {
-	opacity: 0.5;
+.votePanel .dislike a.unvote {
+	background: url("../images/thumb_down_delete.png");
 }

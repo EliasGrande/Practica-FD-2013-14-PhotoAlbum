@@ -1,10 +1,5 @@
 package es.udc.fi.dc.photoalbum.wicket.panels;
 
-import java.text.DateFormat;
-import java.util.Locale;
-import java.util.TimeZone;
-
-import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.ComponentTag;
@@ -19,7 +14,6 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.utils.TimeAgoCalendarFormat;
-import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.models.CommentsModel;
 
 @SuppressWarnings("serial")
@@ -55,6 +49,8 @@ public class ShowCommentsPanel extends Panel {
 				item.add(new Label("user",comment.getUser().getEmail()));
 				item.add(new Label("date", calendarFormat.format(comment.getDate())));
 				item.add(new Label("text",comment.getText()));
+				//TODO Recuperar previamente todos los Voted asociados para que no haga tropecientas consultas
+				//para obtenerlos, las ventajas del paginado al carajo si no se arregla eso.
 				item.add(new VotePanel("vote", comment.getLikeAndDislike()));
 			}
 		};

@@ -16,7 +16,12 @@ public class LikeAndDislikeDaoImpl extends HibernateDaoSupport implements LikeAn
 	
 	public LikeAndDislike update(LikeAndDislike likeAndDislike) {
 		getHibernateTemplate().update(likeAndDislike);
-		return getHibernateTemplate().get(LikeAndDislike.class, likeAndDislike.getId());
+		return likeAndDislike;
+	}
+
+	@Override
+	public LikeAndDislike get(int likeAndDislikeId) {
+		return getHibernateTemplate().get(LikeAndDislike.class, likeAndDislikeId);
 	}
 	
 }

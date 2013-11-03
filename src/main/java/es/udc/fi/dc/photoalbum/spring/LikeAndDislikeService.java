@@ -31,7 +31,7 @@ public interface LikeAndDislikeService {
 	 * @param likeAndDislike Object that wil be updated.
 	 * @param user User that had voted.
 	 */
-	LikeAndDislike unVote(LikeAndDislike likeAndDislike, User user);
+	LikeAndDislike unvote(LikeAndDislike likeAndDislike, User user);
 	
 	/**
 	 * Check if the user had voted.
