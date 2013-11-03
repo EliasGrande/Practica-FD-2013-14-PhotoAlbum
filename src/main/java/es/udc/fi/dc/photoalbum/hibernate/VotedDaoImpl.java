@@ -39,12 +39,7 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 		String queryString = "Select v "
 				+ "FROM Voted v "
 				+ "WHERE v.user.id = :userId "
-				+ "AND v.likeAndDislike.id IN ( ";
-		for(LikeAndDislike lal: likeAndDislikeList){
-			queryString+=lal.getId()+" ";
-		}
-		
-		queryString+= ") "
+				+ "AND v.likeAndDislike.id IN (:lalIds) "
 				+ "ORDER BY v.likeAndDislike.id DESC";
 		
 		return (ArrayList<Voted>) getHibernateTemplate()
@@ -52,6 +47,7 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 				.getCurrentSession()
 				.createQuery(queryString)
 				.setParameter("userId", userId)
+				.setParameterList("lalIds", likeAndDislikeList)
 				.list();
 	}
 
