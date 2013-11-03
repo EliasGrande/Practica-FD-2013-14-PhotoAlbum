@@ -8,7 +8,7 @@ echo "--> [exec] cd \"$script_dir\""
 cd "$script_dir"
 
 echo
-echo "--> Going to project folder..."
+echo "--> Going to workspace folder..."
 echo "--> [exec] cd ../../../.."
 cd ../../../..
 
