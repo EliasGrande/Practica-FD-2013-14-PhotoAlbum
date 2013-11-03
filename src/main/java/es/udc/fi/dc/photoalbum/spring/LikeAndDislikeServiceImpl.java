@@ -35,37 +35,55 @@ public class LikeAndDislikeServiceImpl implements LikeAndDislikeService {
 
 	/* IMPLEMENTATION */
 
-	public void voteLike(LikeAndDislike likeAndDislike, User user) {
+	public LikeAndDislike voteLike(LikeAndDislike likeAndDislike, User user) {
 		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
-		if(voted != null){
+		if (voted != null) {
 			voted.setUserVote("LIKE");
 			votedDao.update(voted);
 			likeAndDislike.setLike(likeAndDislike.getLike() + 1);
 			likeAndDislike.setDislike(likeAndDislike.getDislike() - 1);
-			likeAndDislikeDao.update(likeAndDislike);
-		}else{
-			voted = new Voted(likeAndDislike, user,"LIKE");
+		} else {
+			voted = new Voted(likeAndDislike, user, "LIKE");
 			votedDao.create(voted);
 			likeAndDislike.setLike(likeAndDislike.getLike() + 1);
-			likeAndDislikeDao.update(likeAndDislike);
 		}
+		return likeAndDislikeDao.update(likeAndDislike);
 	}
 
-	public void voteDislike(LikeAndDislike likeAndDislike, User user) {
+	public LikeAndDislike voteDislike(LikeAndDislike likeAndDislike, User user) {
 		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
-		if(voted != null){
+		if (voted != null) {
 			voted.setUserVote("DISLIKE");
 			votedDao.update(voted);
 			likeAndDislike.setLike(likeAndDislike.getLike() - 1);
 			likeAndDislike.setDislike(likeAndDislike.getDislike() + 1);
-			likeAndDislikeDao.update(likeAndDislike);
-		}else{
-			voted = new Voted(likeAndDislike, user,"DISLIKE");
+		} else {
+			voted = new Voted(likeAndDislike, user, "DISLIKE");
 			votedDao.create(voted);
 			likeAndDislike.setDislike(likeAndDislike.getDislike() + 1);
-			likeAndDislikeDao.update(likeAndDislike);
 		}
+		return likeAndDislikeDao.update(likeAndDislike);
 	}
 
+	public LikeAndDislike unVote(LikeAndDislike likeAndDislike, User user) {
+		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
+		switch (voted.getUserVote()) {
+		case "LIKE":
+			likeAndDislike.setLike(likeAndDislike.getLike()-1);
+			break;
+		case "DISLIKE":
+			likeAndDislike.setDislike(likeAndDislike.getDislike()-1);
+			break;
+		}
+		votedDao.delete(voted);
+		return likeAndDislikeDao.update(likeAndDislike);
+
+	}
+
+	public boolean userHasVoted(LikeAndDislike likeAndDislike, User user) {
+		Voted voted = votedDao.get(likeAndDislike.getId(), user.getId());
+		
+		return voted==null?false:true;
+	}
 
 }

@@ -45,6 +45,9 @@
 		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
 		<property name="votedDao" ref="votedDao" />
 	</bean>
+	<bean id="votedService" class="es.udc.fi.dc.photoalbum.spring.VotedServiceImpl">
+		<property name="votedDao" ref="votedDao" />
+	</bean>
 	
 
 	<!-- DAOs -->

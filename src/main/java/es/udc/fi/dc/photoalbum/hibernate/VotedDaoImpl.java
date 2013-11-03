@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import java.util.ArrayList;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
@@ -29,6 +31,28 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 		.setParameter("likeAndDislikeId", likeAndDislikeId)
 		.setParameter("userId", userId)
 		.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Voted> getVoted(
+			ArrayList<LikeAndDislike> likeAndDislikeList, int userId) {
+		String queryString = "Select v "
+				+ "FROM Voted v "
+				+ "WHERE v.user.id = :userId "
+				+ "AND v.likeAndDislike.id IN ( ";
+		for(LikeAndDislike lal: likeAndDislikeList){
+			queryString+=lal.getId()+" ";
+		}
+		
+		queryString+= ") "
+				+ "ORDER BY v.likeAndDislike.id DESC";
+		
+		return (ArrayList<Voted>) getHibernateTemplate()
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(queryString)
+				.setParameter("userId", userId)
+				.list();
 	}
 
 }

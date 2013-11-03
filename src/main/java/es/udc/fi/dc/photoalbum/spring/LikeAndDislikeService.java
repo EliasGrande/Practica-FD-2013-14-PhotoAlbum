@@ -13,7 +13,7 @@ public interface LikeAndDislikeService {
 	 * @param user
 	 *            User that votes.
 	 */
-	void voteLike(LikeAndDislike likeAndDislike, User user);
+	LikeAndDislike voteLike(LikeAndDislike likeAndDislike, User user);
 
 	/**
 	 * Add new dislike vote to object likeAndDislike.
@@ -23,6 +23,22 @@ public interface LikeAndDislikeService {
 	 * @param user
 	 *            User that votes.
 	 */
-	void voteDislike(LikeAndDislike likeAndDislike, User user);
+	LikeAndDislike voteDislike(LikeAndDislike likeAndDislike, User user);
 
+	/**
+	 * Remove a vote.
+	 * 
+	 * @param likeAndDislike Object that wil be updated.
+	 * @param user User that had voted.
+	 */
+	LikeAndDislike unVote(LikeAndDislike likeAndDislike, User user);
+	
+	/**
+	 * Check if the user had voted.
+	 * 
+	 * @param likeAndDislike 
+	 * @param user
+	 * @return True if the user voted, false if the user not voted.
+	 */
+	boolean userHasVoted(LikeAndDislike likeAndDislike, User user);
 }
