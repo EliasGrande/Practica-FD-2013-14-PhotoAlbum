@@ -36,11 +36,14 @@ public class VotedDaoImpl extends HibernateDaoSupport implements VotedDao {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Voted> getVoted(
 			ArrayList<Integer> likeAndDislikeIdList, int userId) {
+		if(likeAndDislikeIdList.size() == 0){
+			return new ArrayList<Voted>();
+		}
 		String queryString = "Select v "
 				+ "FROM Voted v "
 				+ "WHERE v.user.id = :userId "
 				+ "AND v.likeAndDislike.id IN (:lalIds) "
-				+ "ORDER BY v.likeAndDislike.id DESC";
+				+ "ORDER BY v.id DESC";
 		
 		return (ArrayList<Voted>) getHibernateTemplate()
 				.getSessionFactory()
