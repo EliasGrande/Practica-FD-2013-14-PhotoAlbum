@@ -57,9 +57,7 @@ public class Login extends BasePage {
 					} else {
 						session.setuId(userDB.getId());
 					}
-					// if (!continueToOriginalDestination()) {
 					setResponsePage(Albums.class);
-					// }
 				} else {
 					error(new StringResourceModel("login.noSuchUser", this,
 							null).getString());

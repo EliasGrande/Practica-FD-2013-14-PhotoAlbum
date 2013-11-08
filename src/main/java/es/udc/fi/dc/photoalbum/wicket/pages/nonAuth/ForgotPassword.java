@@ -43,19 +43,9 @@ public class ForgotPassword extends BasePage {
 				} else {
 					String randomPass = RandomString.generate();
 					existedUser.setPassword(MD5.getHash(randomPass));
-					/*
-					 * try { Mail mail = new Mail(existedUser.getEmail());
-					 * mail.sendPass(randomPass, Session.get().getLocale());
-					 */
 					System.out.println(randomPass);
-					/* userService.update(existedUser); */
 					info(new StringResourceModel("forgotPassword.complete",
 							this, null).getString());
-					/*
-					 * } catch (EmailException e) { error(new
-					 * StringResourceModel("forgotPassword.error", this,
-					 * null).getString()); }
-					 */
 				}
 			}
 		};

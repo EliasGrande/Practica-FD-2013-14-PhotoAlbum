@@ -45,17 +45,8 @@ public class Register extends BasePage {
 				user.setEmail(user.getEmail().toLowerCase());
 				user.setPassword(MD5.getHash(user.getPassword()));
 				try {
-					/*
-					 * Mail mail = new Mail(user.getEmail());
-					 * mail.sendRegister(Session.get().getLocale());
-					 */
 					userService.create(user);
 					setResponsePage(RegistryCompleted.class);
-					/*
-					 * { catch (EmailException e){ error(new
-					 * StringResourceModel("register.EmailError", this,
-					 * null).getString());
-					 */
 				} catch (DataIntegrityViolationException e) {
 					error(new StringResourceModel("register.alreadyExist",
 							this, null).getString());
