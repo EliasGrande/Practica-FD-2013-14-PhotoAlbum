@@ -24,103 +24,103 @@ import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 @SuppressWarnings("serial")
 public class File implements Serializable {
 
-	private Integer id;
-	private String name;
-	private String privacyLevel;
-	private byte[] file;
-	private byte[] fileSmall;
-	private Album album;
-	private Set<FileShareInformation> shareInformation = new HashSet<FileShareInformation>();
-	private LikeAndDislike likeAndDislike;
-	
-	public File() { 
-		privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
-	}
+    private Integer id;
+    private String name;
+    private String privacyLevel;
+    private byte[] file;
+    private byte[] fileSmall;
+    private Album album;
+    private Set<FileShareInformation> shareInformation = new HashSet<FileShareInformation>();
+    private LikeAndDislike likeAndDislike;
 
-	public File(Integer id, String name, byte[] file, byte[] fileSmall,
-			Album album) {
-		this.id = id;
-		this.name = name;
-		this.privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
-		this.file = Arrays.copyOf(file, file.length);
-		this.fileSmall = Arrays.copyOf(fileSmall, fileSmall.length);
-		this.album = album;
-	}
+    public File() {
+        privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
+    }
 
-	@OneToMany(mappedBy = "file", fetch = FetchType.LAZY)
-	public Set<FileShareInformation> getShareInformation() {
-		return shareInformation;
-	}
+    public File(Integer id, String name, byte[] file,
+            byte[] fileSmall, Album album) {
+        this.id = id;
+        this.name = name;
+        this.privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
+        this.file = Arrays.copyOf(file, file.length);
+        this.fileSmall = Arrays.copyOf(fileSmall, fileSmall.length);
+        this.album = album;
+    }
 
-	public void setShareInformation(Set<FileShareInformation> shareInformation) {
-		this.shareInformation = shareInformation;
-	}
+    @OneToMany(mappedBy = "file", fetch = FetchType.LAZY)
+    public Set<FileShareInformation> getShareInformation() {
+        return shareInformation;
+    }
 
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer getId() {
-		return this.id;
-	}
+    public void setShareInformation(
+            Set<FileShareInformation> shareInformation) {
+        this.shareInformation = shareInformation;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return this.id;
+    }
 
-	@Column(name = "NAME")
-	public String getName() {
-		return this.name;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Column(name = "NAME")
+    public String getName() {
+        return this.name;
+    }
 
-	@Column(name = "PRIVACY_LEVEL")
-	public String getPrivacyLevel() {
-		return privacyLevel;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPrivacyLevel(String privacyLevel) {
-		this.privacyLevel = privacyLevel;
-	}
+    @Column(name = "PRIVACY_LEVEL")
+    public String getPrivacyLevel() {
+        return privacyLevel;
+    }
 
-	@Column(name = "FILE")
-	public byte[] getFile() {
-		return file;
-	}
+    public void setPrivacyLevel(String privacyLevel) {
+        this.privacyLevel = privacyLevel;
+    }
 
-	public void setFile(byte[] file) {
-		this.file = Arrays.copyOf(file, file.length);
-	}
+    @Column(name = "FILE")
+    public byte[] getFile() {
+        return file;
+    }
 
-	@Column(name = "FILE_SMALL")
-	public byte[] getFileSmall() {
-		return fileSmall;
-	}
+    public void setFile(byte[] file) {
+        this.file = Arrays.copyOf(file, file.length);
+    }
 
-	public void setFileSmall(byte[] fileSmall) {
-		this.fileSmall = Arrays.copyOf(fileSmall, fileSmall.length);
-	}
+    @Column(name = "FILE_SMALL")
+    public byte[] getFileSmall() {
+        return fileSmall;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "ALBUM_ID")
-	public Album getAlbum() {
-		return this.album;
-	}
+    public void setFileSmall(byte[] fileSmall) {
+        this.fileSmall = Arrays.copyOf(fileSmall, fileSmall.length);
+    }
 
-	public void setAlbum(Album album) {
-		this.album = album;
-	}
-	
-	
-	@OneToOne
-	@JoinColumn(name = "LIKE_DISLIKE_ID")
-	public LikeAndDislike getLikeAndDislike() {
-		return likeAndDislike;
-	}
+    @ManyToOne
+    @JoinColumn(name = "ALBUM_ID")
+    public Album getAlbum() {
+        return this.album;
+    }
 
-	public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
-		this.likeAndDislike = likeAndDislike;
-	}
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "LIKE_DISLIKE_ID")
+    public LikeAndDislike getLikeAndDislike() {
+        return likeAndDislike;
+    }
+
+    public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
+        this.likeAndDislike = likeAndDislike;
+    }
 }

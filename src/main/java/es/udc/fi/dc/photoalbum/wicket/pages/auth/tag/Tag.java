@@ -3,25 +3,23 @@ package es.udc.fi.dc.photoalbum.wicket.pages.auth.tag;
 import java.io.Serializable;
 
 @SuppressWarnings("serial")
-public class Tag implements Serializable{
+public class Tag implements Serializable {
 
-	private String value;
-	
-	public Tag(){
-	}
+    private String value;
 
-	
-	public Tag(String value){
-		this.setValue(value);
-	}
+    public Tag() {
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public Tag(String value) {
+        this.setValue(value);
+    }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
 }

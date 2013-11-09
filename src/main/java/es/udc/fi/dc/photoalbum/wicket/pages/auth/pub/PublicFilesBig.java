@@ -47,15 +47,16 @@ public class PublicFilesBig extends BasePageAuth {
         this.file = auxFile;
 
         add(new PublicNavigateForm<Void>("formNavigate", albumId,
-                ((MySession) Session.get()).getuId(), id, PublicFilesBig.class));
-        add(new AjaxDataView("fileTagDataContainer", "fileTagNavigator",
-                createFileTagsDataView()));
+                ((MySession) Session.get()).getuId(), id,
+                PublicFilesBig.class));
+        add(new AjaxDataView("fileTagDataContainer",
+                "fileTagNavigator", createFileTagsDataView()));
         add(createNonCachingImage());
         PageParameters newPars = new PageParameters();
         newPars.add("albumId", albumId);
 
-        add(new BookmarkablePageLink<Void>("linkBack", PublicFiles.class,
-                newPars));
+        add(new BookmarkablePageLink<Void>("linkBack",
+                PublicFiles.class, newPars));
 
         add(new CommentAndVotePanel("commentAndVote", this, file));
     }
@@ -71,8 +72,8 @@ public class PublicFilesBig extends BasePageAuth {
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
                 fileTagService.getTags(file.getId()));
-        DataView<FileTag> dataView = new DataView<FileTag>("pageable",
-                new ListDataProvider<FileTag>(list)) {
+        DataView<FileTag> dataView = new DataView<FileTag>(
+                "pageable", new ListDataProvider<FileTag>(list)) {
 
             @Override
             protected void populateItem(Item<FileTag> item) {
@@ -80,7 +81,8 @@ public class PublicFilesBig extends BasePageAuth {
                 pars.add("tagName", item.getModelObject().getTag());
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "link", BaseTags.class, pars);
-                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                bpl.add(new Label("tagName", item.getModelObject()
+                        .getTag()));
                 item.add(bpl);
             }
         };

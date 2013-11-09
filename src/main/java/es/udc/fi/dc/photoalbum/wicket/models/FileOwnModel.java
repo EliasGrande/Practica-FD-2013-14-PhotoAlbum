@@ -10,20 +10,20 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 @SuppressWarnings("serial")
 public class FileOwnModel extends LoadableDetachableModel<File> {
 
-	@SpringBean
-	private FileService fileService;
-	private int id;
-	private String name;
-	private int userId;
+    @SpringBean
+    private FileService fileService;
+    private int id;
+    private String name;
+    private int userId;
 
-	public FileOwnModel(int id, String name, int userId) {
-		this.id = id;
-		this.name = name;
-		this.userId = userId;
-		Injector.get().inject(this);
-	}
+    public FileOwnModel(int id, String name, int userId) {
+        this.id = id;
+        this.name = name;
+        this.userId = userId;
+        Injector.get().inject(this);
+    }
 
-	protected File load() {
-		return fileService.getFileOwn(id, name, userId);
-	}
+    protected File load() {
+        return fileService.getFileOwn(id, name, userId);
+    }
 }

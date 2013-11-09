@@ -24,8 +24,9 @@ public class TimeAgoCalendarFormat implements Serializable {
     }
 
     public String format(Calendar calendar) {
-        long secondsAgo = (long) Math.floor(((new Date()).getTime() - calendar
-                .getTimeInMillis()) / 1000L);
+        long secondsAgo = (long) Math
+                .floor(((new Date()).getTime() - calendar
+                        .getTimeInMillis()) / 1000L);
         if (secondsAgo < ONE_MINUTE)
             return timeAgo(secondsAgo, "second");
         else if (secondsAgo < ONE_HOUR)
@@ -43,10 +44,10 @@ public class TimeAgoCalendarFormat implements Serializable {
     }
 
     private String timeAgo(long unitsAgo, String unitName) {
-        return (unitsAgo <= 1) ? new StringResourceModel("timeAgo." + unitName
-                + ".one", component, null).getString()
-                : new StringResourceModel("timeAgo." + unitName + ".many",
-                        component, null).getString().replace("%l",
-                        String.valueOf(unitsAgo));
+        return (unitsAgo <= 1) ? new StringResourceModel("timeAgo."
+                + unitName + ".one", component, null).getString()
+                : new StringResourceModel("timeAgo." + unitName
+                        + ".many", component, null).getString()
+                        .replace("%l", String.valueOf(unitsAgo));
     }
 }

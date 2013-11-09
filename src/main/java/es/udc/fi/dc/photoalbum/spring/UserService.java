@@ -6,17 +6,17 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 
 public interface UserService {
 
-	void create(User user);
+    void create(User user);
 
-	void delete(User user);
+    void delete(User user);
 
-	void update(User user);
+    void update(User user);
 
-	User getUser(String email, String password);
+    User getUser(String email, String password);
 
-	User getUser(User userEmail);
+    User getUser(User userEmail);
 
-	User getById(Integer id);
+    User getById(Integer id);
 
-	ArrayList<User> getUsersSharingWith(int userId);
+    ArrayList<User> getUsersSharingWith(int userId);
 }

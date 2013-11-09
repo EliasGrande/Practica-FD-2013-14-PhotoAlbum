@@ -6,12 +6,12 @@ import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 
 public interface AlbumShareInformationService {
 
-	void create(AlbumShareInformation shareInformation);
+    void create(AlbumShareInformation shareInformation);
 
-	void delete(AlbumShareInformation shareInformation);
+    void delete(AlbumShareInformation shareInformation);
 
-	AlbumShareInformation getShare(String albumName, int userSharedToId,
-			String userSharedEmail);
+    AlbumShareInformation getShare(String albumName,
+            int userSharedToId, String userSharedEmail);
 
-	ArrayList<AlbumShareInformation> getAlbumShares(int albumId);
+    ArrayList<AlbumShareInformation> getAlbumShares(int albumId);
 }

@@ -12,25 +12,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 @SuppressWarnings("serial")
-public class SharedFilesModel extends LoadableDetachableModel<ArrayList<File>> {
+public class SharedFilesModel extends
+        LoadableDetachableModel<ArrayList<File>> {
 
-	@SpringBean
-	private FileService fileService;
-	private int albumId;
-	private int userId;
+    @SpringBean
+    private FileService fileService;
+    private int albumId;
+    private int userId;
 
-	public SharedFilesModel(int albumId, int userId) {
-		this.albumId = albumId;
-		this.userId = userId;
-		Injector.get().inject(this);
-	}
-	
-	@Override
-	protected ArrayList<File> load() {
-		ArrayList<File> list = new ArrayList<File>(
-				fileService.getAlbumFilesShared(albumId, userId));
-		Collections.sort(list, new FileComparator());
-		return list;
-	}
-	
+    public SharedFilesModel(int albumId, int userId) {
+        this.albumId = albumId;
+        this.userId = userId;
+        Injector.get().inject(this);
+    }
+
+    @Override
+    protected ArrayList<File> load() {
+        ArrayList<File> list = new ArrayList<File>(
+                fileService.getAlbumFilesShared(albumId, userId));
+        Collections.sort(list, new FileComparator());
+        return list;
+    }
+
 }

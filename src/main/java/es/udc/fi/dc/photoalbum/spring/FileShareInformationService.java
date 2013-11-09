@@ -6,9 +6,9 @@ import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 
 public interface FileShareInformationService {
 
-	void create(FileShareInformation shareInformation);
+    void create(FileShareInformation shareInformation);
 
-	void delete(FileShareInformation shareInformation);
+    void delete(FileShareInformation shareInformation);
 
-	ArrayList<FileShareInformation> getFileShares(int fileId);
+    ArrayList<FileShareInformation> getFileShares(int fileId);
 }

@@ -76,29 +76,35 @@ public class Upload extends BasePageAuth {
         this.feedback = feedback;
         this.parameters = parameters;
         add(createUplooadForm());
-        add(new AjaxDataView("dataContainer", "navigator", createFileDataView()));
+        add(new AjaxDataView("dataContainer", "navigator",
+                createFileDataView()));
         add(createAddTagForm());
-        add(new AjaxDataView("dataAlbumTagContainer", "albumTagNavigator",
-                createAlbumTagsDataView()));
-        add(new CommentAndVotePanel("commentAndVote", this, am.getObject()));
+        add(new AjaxDataView("dataAlbumTagContainer",
+                "albumTagNavigator", createAlbumTagsDataView()));
+        add(new CommentAndVotePanel("commentAndVote", this,
+                am.getObject()));
     }
 
     private DataView<File> createFileDataView() {
-        int count = fileService.getCountAlbumFiles(am.getObject().getId())
-                .intValue();
+        int count = fileService.getCountAlbumFiles(
+                am.getObject().getId()).intValue();
         DataView<File> dataView = new DataView<File>("pageable",
-                new FileListDataProvider(count, am.getObject().getId())) {
+                new FileListDataProvider(count, am.getObject()
+                        .getId())) {
             public void populateItem(final Item<File> item) {
                 PageParameters pars = new PageParameters();
                 pars.add("album", am.getObject().getName());
-                pars.add("fid", Integer.toString(item.getModelObject().getId()));
+                pars.add("fid", Integer.toString(item
+                        .getModelObject().getId()));
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "big", Image.class, pars);
-                bpl.add(new NonCachingImage("img", new BlobImageResource() {
-                    protected Blob getBlob() {
-                        return BlobFromFile.getSmall(item.getModelObject());
-                    }
-                }));
+                bpl.add(new NonCachingImage("img",
+                        new BlobImageResource() {
+                            protected Blob getBlob() {
+                                return BlobFromFile.getSmall(item
+                                        .getModelObject());
+                            }
+                        }));
                 item.add(bpl);
             }
         };
@@ -119,33 +125,44 @@ public class Upload extends BasePageAuth {
                     for (FileUpload upload : uploads) {
                         try {
                             byte[] bFile = upload.getBytes();
-                            System.out.println(upload.getContentType());
-                            if (upload.getClientFileName().matches(
-                                    "(.+(\\.(?i)(jpg|jpeg|bmp|png))$)")) {
-                                File file = new File(null,
-                                        upload.getClientFileName(), bFile,
-                                        ResizeImage.resize(bFile, SIZE,
+                            System.out.println(upload
+                                    .getContentType());
+                            if (upload
+                                    .getClientFileName()
+                                    .matches(
+                                            "(.+(\\.(?i)(jpg|jpeg|bmp|png))$)")) {
+                                File file = new File(
+                                        null,
+                                        upload.getClientFileName(),
+                                        bFile,
+                                        ResizeImage.resize(
+                                                bFile,
+                                                SIZE,
                                                 upload.getContentType()),
                                         am.getObject());
                                 fileService.create(file);
                                 Upload.this.info("saved file: "
                                         + upload.getClientFileName());
-                                setResponsePage(new Upload(getPageParameters()));
+                                setResponsePage(new Upload(
+                                        getPageParameters()));
                             } else {
-                                Upload.this.error(new StringResourceModel(
-                                        "upload.wrongFormat", this, null)
-                                        .getString()
-                                        + upload.getClientFileName());
+                                Upload.this
+                                        .error(new StringResourceModel(
+                                                "upload.wrongFormat",
+                                                this, null)
+                                                .getString()
+                                                + upload.getClientFileName());
                             }
                         } catch (Exception e) {
-                            Upload.this.error(new StringResourceModel(
-                                    "upload.wrongFormat", this, null)
-                                    .getString());
+                            Upload.this
+                                    .error(new StringResourceModel(
+                                            "upload.wrongFormat",
+                                            this, null).getString());
                         }
                     }
                 } else {
-                    error(new StringResourceModel("upload.noFiles", this, null)
-                            .getString());
+                    error(new StringResourceModel("upload.noFiles",
+                            this, null).getString());
                 }
             }
         };
@@ -172,7 +189,8 @@ public class Upload extends BasePageAuth {
         form.setDefaultModel(new Model<AlbumTag>(aTag));
         RequiredTextField<String> newTag = new RequiredTextField<String>(
                 "newTag", new PropertyModel<String>(aTag, "tag"));
-        newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
+        newTag.setLabel(new StringResourceModel("upload.tagField",
+                this, null));
         form.add(newTag);
         form.add(new MyAjaxButton("ajax-button", form, feedback));
         return form;
@@ -181,8 +199,8 @@ public class Upload extends BasePageAuth {
     private DataView<AlbumTag> createAlbumTagsDataView() {
         final List<AlbumTag> list = new ArrayList<AlbumTag>(
                 albumTagService.getTags(this.am.getObject().getId()));
-        DataView<AlbumTag> dataView = new DataView<AlbumTag>("pageable",
-                new ListDataProvider<AlbumTag>(list)) {
+        DataView<AlbumTag> dataView = new DataView<AlbumTag>(
+                "pageable", new ListDataProvider<AlbumTag>(list)) {
 
             @Override
             protected void populateItem(final Item<AlbumTag> item) {
@@ -190,13 +208,14 @@ public class Upload extends BasePageAuth {
                 pars.add("tagName", item.getModelObject().getTag());
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "link", BaseTags.class, pars);
-                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                bpl.add(new Label("tagName", item.getModelObject()
+                        .getTag()));
                 item.add(bpl);
                 item.add(new Link<Void>("delete") {
                     public void onClick() {
                         albumTagService.delete(item.getModelObject());
-                        info(new StringResourceModel("tag.deleted", this, null)
-                                .getString());
+                        info(new StringResourceModel("tag.deleted",
+                                this, null).getString());
                         setResponsePage(new Upload(parameters));
                     }
 

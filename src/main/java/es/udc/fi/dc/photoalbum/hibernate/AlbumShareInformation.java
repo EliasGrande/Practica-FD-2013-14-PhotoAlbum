@@ -8,47 +8,47 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class AlbumShareInformation implements Serializable {
 
-	private Integer id;
-	private Album album;
-	private User user;
+    private Integer id;
+    private Album album;
+    private User user;
 
-	public AlbumShareInformation() {
-	}
+    public AlbumShareInformation() {
+    }
 
-	public AlbumShareInformation(Integer id, Album album, User user) {
-		this.id = id;
-		this.album = album;
-		this.user = user;
-	}
+    public AlbumShareInformation(Integer id, Album album, User user) {
+        this.id = id;
+        this.album = album;
+        this.user = user;
+    }
 
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer getId() {
-		return this.id;
-	}
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "ALBUM_ID")
-	public Album getAlbum() {
-		return album;
-	}
+    @ManyToOne
+    @JoinColumn(name = "ALBUM_ID")
+    public Album getAlbum() {
+        return album;
+    }
 
-	public void setAlbum(Album album) {
-		this.album = album;
-	}
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "USER_ID")
-	public User getUser() {
-		return user;
-	}
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

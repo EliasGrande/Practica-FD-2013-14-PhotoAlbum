@@ -9,20 +9,20 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 
 @SuppressWarnings("serial")
 public class FileSharedAlbum extends LoadableDetachableModel<File> {
-	@SpringBean
-	private FileService fileService;
-	private int id;
-	private String name;
-	private int userId;
+    @SpringBean
+    private FileService fileService;
+    private int id;
+    private String name;
+    private int userId;
 
-	public FileSharedAlbum(int id, String name, int userId) {
-		this.id = id;
-		this.name = name;
-		this.userId = userId;
-		Injector.get().inject(this);
-	}
+    public FileSharedAlbum(int id, String name, int userId) {
+        this.id = id;
+        this.name = name;
+        this.userId = userId;
+        Injector.get().inject(this);
+    }
 
-	protected File load() {
-		return fileService.getFileShared(id, name, userId);
-	}
+    protected File load() {
+        return fileService.getFileShared(id, name, userId);
+    }
 }

@@ -61,11 +61,12 @@ public class SharedFiles extends BasePageAuth {
         } else {
             throw new RestartResponseException(ErrorPage404.class);
         }
-        add(new BookmarkablePageLink<Void>("linkBack", SharedAlbums.class,
-                parameters.remove("album")));
-        add(new AjaxDataView("dataContainer", "navigator", createDataView()));
-        add(new AjaxDataView("albumTagDataContainer", "albumTagNavigator",
-                createAlbumTagsDataView()));
+        add(new BookmarkablePageLink<Void>("linkBack",
+                SharedAlbums.class, parameters.remove("album")));
+        add(new AjaxDataView("dataContainer", "navigator",
+                createDataView()));
+        add(new AjaxDataView("albumTagDataContainer",
+                "albumTagNavigator", createAlbumTagsDataView()));
         add(new CommentAndVotePanel("commentAndVote", this, album));
     }
 
@@ -74,19 +75,23 @@ public class SharedFiles extends BasePageAuth {
         LoadableDetachableModel<ArrayList<File>> ldm = new SharedFilesModel(
                 this.album.getId(), userId);
         DataView<File> dataView = new DataView<File>("pageable",
-                new SharedFileListDataProvider(ldm.getObject().size(),
-                        this.album.getId(), userId)) {
+                new SharedFileListDataProvider(
+                        ldm.getObject().size(), this.album.getId(),
+                        userId)) {
             public void populateItem(final Item<File> item) {
                 PageParameters pars = new PageParameters();
                 pars.add("album", album.getName());
-                pars.add("fid", Integer.toString(item.getModelObject().getId()));
+                pars.add("fid", Integer.toString(item
+                        .getModelObject().getId()));
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "big", SharedBig.class, pars);
-                bpl.add(new NonCachingImage("img", new BlobImageResource() {
-                    protected Blob getBlob() {
-                        return BlobFromFile.getSmall(item.getModelObject());
-                    }
-                }));
+                bpl.add(new NonCachingImage("img",
+                        new BlobImageResource() {
+                            protected Blob getBlob() {
+                                return BlobFromFile.getSmall(item
+                                        .getModelObject());
+                            }
+                        }));
                 item.add(bpl);
             }
         };
@@ -97,8 +102,8 @@ public class SharedFiles extends BasePageAuth {
     private DataView<AlbumTag> createAlbumTagsDataView() {
         final List<AlbumTag> list = new ArrayList<AlbumTag>(
                 albumTagService.getTags(album.getId()));
-        DataView<AlbumTag> dataView = new DataView<AlbumTag>("pageable",
-                new ListDataProvider<AlbumTag>(list)) {
+        DataView<AlbumTag> dataView = new DataView<AlbumTag>(
+                "pageable", new ListDataProvider<AlbumTag>(list)) {
 
             @Override
             protected void populateItem(Item<AlbumTag> item) {
@@ -106,7 +111,8 @@ public class SharedFiles extends BasePageAuth {
                 pars.add("tagName", item.getModelObject().getTag());
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "link", BaseTags.class, pars);
-                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                bpl.add(new Label("tagName", item.getModelObject()
+                        .getTag()));
                 item.add(bpl);
             }
         };

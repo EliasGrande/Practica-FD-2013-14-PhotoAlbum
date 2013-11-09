@@ -39,22 +39,25 @@ public class VotePanel extends Panel {
         this(id, likeAndDislike, null, true);
     }
 
-    public VotePanel(String id, LikeAndDislike likeAndDislike, Voted voted) {
+    public VotePanel(String id, LikeAndDislike likeAndDislike,
+            Voted voted) {
         this(id, likeAndDislike, voted, false);
     }
 
-    // El getVoted es para decirle que lo recupere de bd en vez de usar el que
+    // El getVoted es para decirle que lo recupere de bd en vez de
+    // usar el que
     // le pasan,
-    // una lógica algo rebuscada pero es para mantener simples los constructores
+    // una lógica algo rebuscada pero es para mantener simples los
+    // constructores
     // públicos.
-    private VotePanel(String id, LikeAndDislike _likeAndDislike, Voted _voted,
-            boolean getVoted) {
+    private VotePanel(String id, LikeAndDislike _likeAndDislike,
+            Voted _voted, boolean getVoted) {
         super(id);
         likeAndDislike = _likeAndDislike;
         userId = ((MySession) Session.get()).getuId();
         Voted voted = _voted;
-        voted = (getVoted) ? votedService.getVoted(likeAndDislike.getId(),
-                userId) : _voted;
+        voted = (getVoted) ? votedService.getVoted(
+                likeAndDislike.getId(), userId) : _voted;
         if (voted == null) {
             votedLike = false;
             votedDislike = false;
@@ -69,9 +72,11 @@ public class VotePanel extends Panel {
         voteContainer.setOutputMarkupId(true);
         add(voteContainer);
 
-        // info de votos y porcentajes (algo cerdo poner tanto Model pero es
+        // info de votos y porcentajes (algo cerdo poner tanto Model
+        // pero es
         // para
-        // que se actualicen los datos al "refrescar" el contenedor por ajax)
+        // que se actualicen los datos al "refrescar" el contenedor
+        // por ajax)
 
         // like count
         voteContainer.add(new Label("likeCount", new Model<String>() {
@@ -82,37 +87,46 @@ public class VotePanel extends Panel {
         }));
 
         // like percent
-        voteContainer.add(new Label("likePercent", new Model<String>() {
-            @Override
-            public String getObject() {
-                int likes = likeAndDislike.getLike();
-                int count = likeAndDislike.getDislike() + likes;
-                int percent = (count > 0) ? (int) (likes * 100 / count) : 0;
-                return String.valueOf(percent);
-            }
-        }));
+        voteContainer.add(new Label("likePercent",
+                new Model<String>() {
+                    @Override
+                    public String getObject() {
+                        int likes = likeAndDislike.getLike();
+                        int count = likeAndDislike.getDislike()
+                                + likes;
+                        int percent = (count > 0) ? (int) (likes * 100 / count)
+                                : 0;
+                        return String.valueOf(percent);
+                    }
+                }));
 
         // dislike count
-        voteContainer.add(new Label("dislikeCount", new Model<String>() {
-            @Override
-            public String getObject() {
-                return String.valueOf(likeAndDislike.getDislike());
-            }
-        }));
+        voteContainer.add(new Label("dislikeCount",
+                new Model<String>() {
+                    @Override
+                    public String getObject() {
+                        return String.valueOf(likeAndDislike
+                                .getDislike());
+                    }
+                }));
 
         // dislike percent
-        voteContainer.add(new Label("dislikePercent", new Model<String>() {
-            @Override
-            public String getObject() {
-                int dislikes = likeAndDislike.getDislike();
-                int count = likeAndDislike.getLike() + dislikes;
-                int percent = (count > 0) ? (int) (dislikes * 100 / count) : 0;
-                return String.valueOf(percent);
-            }
-        }));
+        voteContainer.add(new Label("dislikePercent",
+                new Model<String>() {
+                    @Override
+                    public String getObject() {
+                        int dislikes = likeAndDislike.getDislike();
+                        int count = likeAndDislike.getLike()
+                                + dislikes;
+                        int percent = (count > 0) ? (int) (dislikes * 100 / count)
+                                : 0;
+                        return String.valueOf(percent);
+                    }
+                }));
 
         // like link
-        AjaxLink<String> likeLink = new LikeLink("likeLink", voteContainer);
+        AjaxLink<String> likeLink = new LikeLink("likeLink",
+                voteContainer);
         voteContainer.add(likeLink);
 
         // dislike link
@@ -139,9 +153,11 @@ public class VotePanel extends Panel {
         voteContainer.add(dislikeLink);
     }
 
-    // Parecen una estupidez esto 3 gets, pero hay que hacerlo así para que los
+    // Parecen una estupidez esto 3 gets, pero hay que hacerlo así
+    // para que los
     // cargue de forma retardada
-    // si los recupero en el contructor wicket me dice que como no se ha añadido
+    // si los recupero en el contructor wicket me dice que como no se
+    // ha añadido
     // aún a la página usará la
     // la traducción que le de la gana.
 
@@ -151,13 +167,13 @@ public class VotePanel extends Panel {
     }
 
     private String getDislikeTitle() {
-        return new StringResourceModel("vote.button.dislike", this, null)
-                .getString();
+        return new StringResourceModel("vote.button.dislike", this,
+                null).getString();
     }
 
     private String getUnvoteTitle() {
-        return new StringResourceModel("vote.button.unvote", this, null)
-                .getString();
+        return new StringResourceModel("vote.button.unvote", this,
+                null).getString();
     }
 
     @Override
@@ -186,7 +202,8 @@ public class VotePanel extends Panel {
             add(new AttributeModifier("title", new Model<String>() {
                 @Override
                 public String getObject() {
-                    return isVoted() ? getUnvoteTitle() : getVoteTitle();
+                    return isVoted() ? getUnvoteTitle()
+                            : getVoteTitle();
                 }
             }));
         }
@@ -211,15 +228,15 @@ public class VotePanel extends Panel {
         }
 
         public void vote() {
-            likeAndDislike = likeAndDislikeService.voteLike(likeAndDislike,
-                    userService.getById(userId));
+            likeAndDislike = likeAndDislikeService.voteLike(
+                    likeAndDislike, userService.getById(userId));
             votedDislike = false;
             votedLike = true;
         }
 
         private void unvote() {
-            likeAndDislike = likeAndDislikeService.unvote(likeAndDislike,
-                    userService.getById(userId));
+            likeAndDislike = likeAndDislikeService.unvote(
+                    likeAndDislike, userService.getById(userId));
             votedLike = false;
             votedDislike = false;
         }

@@ -7,7 +7,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public class AlbumTagDaoImpl extends HibernateDaoSupport implements AlbumTagDao {
+public class AlbumTagDaoImpl extends HibernateDaoSupport implements
+        AlbumTagDao {
 
     @SuppressWarnings("unchecked")
     public AlbumTag getTag(int albumId, String tag) {
@@ -17,7 +18,8 @@ public class AlbumTagDaoImpl extends HibernateDaoSupport implements AlbumTagDao 
                                 .forClass(AlbumTag.class)
                                 .createAlias("album", "al")
                                 .add(Restrictions.eq("tag", tag))
-                                .add(Restrictions.eq("al.id", albumId))
+                                .add(Restrictions
+                                        .eq("al.id", albumId))
                                 .setResultTransformer(
                                         Criteria.DISTINCT_ROOT_ENTITY));
 
@@ -30,11 +32,14 @@ public class AlbumTagDaoImpl extends HibernateDaoSupport implements AlbumTagDao 
 
     @SuppressWarnings("unchecked")
     public ArrayList<AlbumTag> getTags(int albumId) {
-        return (ArrayList<AlbumTag>) getHibernateTemplate().findByCriteria(
-                DetachedCriteria.forClass(AlbumTag.class)
-                        .createCriteria("album")
-                        .add(Restrictions.eq("id", albumId))
-                        .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
+        return (ArrayList<AlbumTag>) getHibernateTemplate()
+                .findByCriteria(
+                        DetachedCriteria
+                                .forClass(AlbumTag.class)
+                                .createCriteria("album")
+                                .add(Restrictions.eq("id", albumId))
+                                .setResultTransformer(
+                                        Criteria.DISTINCT_ROOT_ENTITY));
     }
 
     public void create(AlbumTag albumTag) {

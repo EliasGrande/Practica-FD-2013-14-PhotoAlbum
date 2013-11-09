@@ -8,32 +8,33 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 
 @SuppressWarnings("serial")
-public class FileModelForNavigate extends LoadableDetachableModel<File> {
-	private Integer id;
-	@SpringBean
-	private FileService fileService;
+public class FileModelForNavigate extends
+        LoadableDetachableModel<File> {
+    private Integer id;
+    @SpringBean
+    private FileService fileService;
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public FileModelForNavigate(Integer id) {
-		this.id = id;
-		Injector.get().inject(this);
-	}
+    public FileModelForNavigate(Integer id) {
+        this.id = id;
+        Injector.get().inject(this);
+    }
 
-	@Override
-	protected File load() {
-		if (this.id == -1) {
-			return null;
-		} else {
-			System.out.println(this.id);
-			return fileService.getById(this.id);
-		}
+    @Override
+    protected File load() {
+        if (this.id == -1) {
+            return null;
+        } else {
+            System.out.println(this.id);
+            return fileService.getById(this.id);
+        }
 
-	}
+    }
 }

@@ -15,52 +15,52 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 @SuppressWarnings("serial")
 public class MySession extends WebSession {
 
-	@SpringBean
-	private UserService userService;
-	private Integer uId;
+    @SpringBean
+    private UserService userService;
+    private Integer uId;
 
-	public Integer getuId() {
-		return uId;
-	}
+    public Integer getuId() {
+        return uId;
+    }
 
-	public void setuId(Integer uId) {
-		this.uId = uId;
-	}
+    public void setuId(Integer uId) {
+        this.uId = uId;
+    }
 
-	public MySession(Request request) {
-		super(request);
-		Injector.get().inject(this);
-	}
+    public MySession(Request request) {
+        super(request);
+        Injector.get().inject(this);
+    }
 
-	/**
-	 * Checks if user is Authenticated
-	 * 
-	 * @return boolean
-	 */
-	public boolean isAuthenticated() {
-		return (this.uId != null);
-	}
+    /**
+     * Checks if user is Authenticated
+     * 
+     * @return boolean
+     */
+    public boolean isAuthenticated() {
+        return (this.uId != null);
+    }
 
-	public boolean isAuthenticatedWithCookies() {
-		CookieUtils cu = new CookieUtils();
-		String email = cu.load("email");
-		String password = cu.load("password");
-		if ((email != null) && (password != null)) {
-			User user = new User(null, email, password);
-			System.out.println(email + "              " + password);
-			System.out.println(user.getEmail() + user.getPassword());
-			User userDB = userService.getUser(user);
-			if (userDB == null) {
-				return false;
-			}
-			if (userDB.getPassword().equals(password)) {
-				this.uId = userDB.getId();
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
+    public boolean isAuthenticatedWithCookies() {
+        CookieUtils cu = new CookieUtils();
+        String email = cu.load("email");
+        String password = cu.load("password");
+        if ((email != null) && (password != null)) {
+            User user = new User(null, email, password);
+            System.out.println(email + "              " + password);
+            System.out.println(user.getEmail() + user.getPassword());
+            User userDB = userService.getUser(user);
+            if (userDB == null) {
+                return false;
+            }
+            if (userDB.getPassword().equals(password)) {
+                this.uId = userDB.getId();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

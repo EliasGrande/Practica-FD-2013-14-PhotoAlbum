@@ -17,34 +17,36 @@ import java.util.Locale;
 
 @SuppressWarnings("serial")
 public class BasePage extends WebPage {
-	@SpringBean
-	private UserService userService;
+    @SpringBean
+    private UserService userService;
 
-	public BasePage(final PageParameters parameters) {
-		super(parameters);
-		add(new DebugBar("debug"));
-		add(homePageLink("home").add(new Label("header", "Photo Album")));
-		add(new Link<Void>("goEnglish") {
-			public void onClick() {
-				getSession().setLocale(Locale.US);
-			}
-		});
-		add(new Link<Void>("goSpanish") {
-			public void onClick() {
-				getSession().setLocale(new Locale("es", "ES"));
-			}
-		});
-		add(new BookmarkablePageLink<Void>("signout", SignOut.class, null) {
-			@Override
-			public boolean isVisible() {
-				return ((MySession) Session.get()).isAuthenticated();
-			}
-		});
-		if (((MySession) Session.get()).isAuthenticated()) {
-			add(new Label("fullname", userService.getById(
-					((MySession) Session.get()).getuId()).getEmail()));
-		} else {
-			add(new Label("fullname"));
-		}
-	}
+    public BasePage(final PageParameters parameters) {
+        super(parameters);
+        add(new DebugBar("debug"));
+        add(homePageLink("home").add(
+                new Label("header", "Photo Album")));
+        add(new Link<Void>("goEnglish") {
+            public void onClick() {
+                getSession().setLocale(Locale.US);
+            }
+        });
+        add(new Link<Void>("goSpanish") {
+            public void onClick() {
+                getSession().setLocale(new Locale("es", "ES"));
+            }
+        });
+        add(new BookmarkablePageLink<Void>("signout", SignOut.class,
+                null) {
+            @Override
+            public boolean isVisible() {
+                return ((MySession) Session.get()).isAuthenticated();
+            }
+        });
+        if (((MySession) Session.get()).isAuthenticated()) {
+            add(new Label("fullname", userService.getById(
+                    ((MySession) Session.get()).getuId()).getEmail()));
+        } else {
+            add(new Label("fullname"));
+        }
+    }
 }

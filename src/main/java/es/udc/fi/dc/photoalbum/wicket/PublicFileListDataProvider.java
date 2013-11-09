@@ -14,41 +14,43 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 @SuppressWarnings("serial")
-public class PublicFileListDataProvider implements IDataProvider<File> {
-	@SpringBean
-	private FileService fileService;
-	private int size;
-	private int albumId;
-	private int userId;
+public class PublicFileListDataProvider implements
+        IDataProvider<File> {
+    @SpringBean
+    private FileService fileService;
+    private int size;
+    private int albumId;
+    private int userId;
 
-	public void detach() {
-	}
+    public void detach() {
+    }
 
-	public PublicFileListDataProvider(int size, int albumId, int userId) {
-		this.size = size;
-		this.albumId = albumId;
-		this.userId = userId;
-		Injector.get().inject(this);
-	}
+    public PublicFileListDataProvider(int size, int albumId,
+            int userId) {
+        this.size = size;
+        this.albumId = albumId;
+        this.userId = userId;
+        Injector.get().inject(this);
+    }
 
-	public Iterator<File> iterator(int first, int count) {
-		LoadableDetachableModel<ArrayList<File>> ldm = new PublicFilesModelPaging(
-				this.albumId, this.userId, first, count);
-		return ldm.getObject().iterator();
-	}
+    public Iterator<File> iterator(int first, int count) {
+        LoadableDetachableModel<ArrayList<File>> ldm = new PublicFilesModelPaging(
+                this.albumId, this.userId, first, count);
+        return ldm.getObject().iterator();
+    }
 
-	public int size() {
-		return this.size;
-	}
+    public int size() {
+        return this.size;
+    }
 
-	public IModel<File> model(File object) {
-		final Integer id = object.getId();
-		return new LoadableDetachableModel<File>() {
-			@Override
-			protected File load() {
-				return fileService.getById(id);
-			}
-		};
-	}
+    public IModel<File> model(File object) {
+        final Integer id = object.getId();
+        return new LoadableDetachableModel<File>() {
+            @Override
+            protected File load() {
+                return fileService.getById(id);
+            }
+        };
+    }
 
 }

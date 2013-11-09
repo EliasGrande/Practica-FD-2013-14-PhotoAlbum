@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 public interface AlbumDao extends GenericDao<Album> {
 
-	void rename(Album album, String newName);
-	
-	void changePrivacyLevel(Album album, String privacyLevel);
+    void rename(Album album, String newName);
 
-	Album getById(Integer id);
+    void changePrivacyLevel(Album album, String privacyLevel);
 
-	Album getAlbum(String name, int userId);
+    Album getById(Integer id);
 
-	ArrayList<Album> getAlbums(Integer id);
+    Album getAlbum(String name, int userId);
 
-	ArrayList<Album> getAlbumsSharedWith(Integer id, String ownerEmail);
-	
-	ArrayList<Album> getPublicAlbums();
-	
-	Album getSharedAlbum(String albumName, int userSharedToId,
-			String userSharedEmail);
-	
-	ArrayList<Album> getAlbumsByTag(int userId, String tag);
+    ArrayList<Album> getAlbums(Integer id);
+
+    ArrayList<Album> getAlbumsSharedWith(Integer id, String ownerEmail);
+
+    ArrayList<Album> getPublicAlbums();
+
+    Album getSharedAlbum(String albumName, int userSharedToId,
+            String userSharedEmail);
+
+    ArrayList<Album> getAlbumsByTag(int userId, String tag);
 }

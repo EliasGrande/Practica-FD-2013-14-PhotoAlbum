@@ -14,19 +14,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 @SuppressWarnings("serial")
-public class AlbumsModelFull extends LoadableDetachableModel<ArrayList<Album>> {
+public class AlbumsModelFull extends
+        LoadableDetachableModel<ArrayList<Album>> {
 
-	@SpringBean
-	private AlbumService albumService;
+    @SpringBean
+    private AlbumService albumService;
 
-	public AlbumsModelFull() {
-		Injector.get().inject(this);
-	}
+    public AlbumsModelFull() {
+        Injector.get().inject(this);
+    }
 
-	protected ArrayList<Album> load() {
-		ArrayList<Album> list = new ArrayList<Album>(
-				albumService.getAlbums(((MySession) Session.get()).getuId()));
-		Collections.sort(list, new AlbumsComparator());
-		return list;
-	}
+    protected ArrayList<Album> load() {
+        ArrayList<Album> list = new ArrayList<Album>(
+                albumService.getAlbums(((MySession) Session.get())
+                        .getuId()));
+        Collections.sort(list, new AlbumsComparator());
+        return list;
+    }
 }

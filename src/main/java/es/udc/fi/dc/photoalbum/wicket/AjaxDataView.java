@@ -11,24 +11,26 @@ import org.apache.wicket.markup.repeater.data.DataView;
 @SuppressWarnings("serial")
 public class AjaxDataView extends WebMarkupContainer {
 
-	/**
-	 * @param wmcId
-	 *            id of WebMarkupContainer
-	 * @param apnId
-	 *            id of AjaxPagingNavigator
-	 * @param dataView
-	 *            instance of DataView that will be paging using Ajax
-	 */
-	public AjaxDataView(String wmcId, String apnId, DataView<?> dataView) {
-		super(wmcId);
-		setOutputMarkupId(true);
-		AjaxPagingNavigator navigator = new AjaxPagingNavigator(apnId, dataView) {
-			@Override
-			protected void onAjaxEvent(AjaxRequestTarget target) {
-				target.add(AjaxDataView.this);
-			}
-		};
-		add(navigator);
-		add(dataView);
-	}
+    /**
+     * @param wmcId
+     *            id of WebMarkupContainer
+     * @param apnId
+     *            id of AjaxPagingNavigator
+     * @param dataView
+     *            instance of DataView that will be paging using Ajax
+     */
+    public AjaxDataView(String wmcId, String apnId,
+            DataView<?> dataView) {
+        super(wmcId);
+        setOutputMarkupId(true);
+        AjaxPagingNavigator navigator = new AjaxPagingNavigator(
+                apnId, dataView) {
+            @Override
+            protected void onAjaxEvent(AjaxRequestTarget target) {
+                target.add(AjaxDataView.this);
+            }
+        };
+        add(navigator);
+        add(dataView);
+    }
 }

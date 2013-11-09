@@ -16,45 +16,52 @@ import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.Register;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
 
 /**
- * Authorization Strategy (for Pages). If not authorized - can access only
- * Login, Register, ForgotPassword and RegistryCompleted pages. If authorized -
- * can't access Login, Register, ForgotPassword and RegistryCompleted pages.
+ * Authorization Strategy (for Pages). If not authorized - can access
+ * only Login, Register, ForgotPassword and RegistryCompleted pages.
+ * If authorized - can't access Login, Register, ForgotPassword and
+ * RegistryCompleted pages.
  */
 public class AuthorizationStrategy implements IAuthorizationStrategy {
 
-	public boolean isActionAuthorized(Component component, Action action) {
-		return true;
-	}
+    public boolean isActionAuthorized(Component component,
+            Action action) {
+        return true;
+    }
 
-	public <T extends IRequestableComponent> boolean isInstantiationAuthorized(
-			Class<T> componentClass) {
-		if (!Page.class.isAssignableFrom(componentClass)) {
-			return true;
-		}
-		if ((Login.class.isAssignableFrom(componentClass))
-				|| (Register.class.isAssignableFrom(componentClass))
-				|| (RegistryCompleted.class.isAssignableFrom(componentClass))
-				|| (ForgotPassword.class.isAssignableFrom(componentClass))) {
-			if (((MySession) Session.get()).isAuthenticated()
-					|| (((MySession) Session.get())
-							.isAuthenticatedWithCookies())) {
-				throw new RestartResponseAtInterceptPageException(Albums.class);
-			} else {
-				return true;
-			}
-		}
-		if (SignOut.class.isAssignableFrom(componentClass)) {
-			if (((MySession) Session.get()).isAuthenticated()
-					|| (((MySession) Session.get())
-							.isAuthenticatedWithCookies())) {
-				return true;
-			} else {
-				throw new RestartResponseAtInterceptPageException(Login.class);
-			}
-		}
-		if (!(((MySession) Session.get()).isAuthenticated())) {
-			throw new RestartResponseAtInterceptPageException(Login.class);
-		}
-		return true;
-	}
+    public <T extends IRequestableComponent> boolean isInstantiationAuthorized(
+            Class<T> componentClass) {
+        if (!Page.class.isAssignableFrom(componentClass)) {
+            return true;
+        }
+        if ((Login.class.isAssignableFrom(componentClass))
+                || (Register.class.isAssignableFrom(componentClass))
+                || (RegistryCompleted.class
+                        .isAssignableFrom(componentClass))
+                || (ForgotPassword.class
+                        .isAssignableFrom(componentClass))) {
+            if (((MySession) Session.get()).isAuthenticated()
+                    || (((MySession) Session.get())
+                            .isAuthenticatedWithCookies())) {
+                throw new RestartResponseAtInterceptPageException(
+                        Albums.class);
+            } else {
+                return true;
+            }
+        }
+        if (SignOut.class.isAssignableFrom(componentClass)) {
+            if (((MySession) Session.get()).isAuthenticated()
+                    || (((MySession) Session.get())
+                            .isAuthenticatedWithCookies())) {
+                return true;
+            } else {
+                throw new RestartResponseAtInterceptPageException(
+                        Login.class);
+            }
+        }
+        if (!(((MySession) Session.get()).isAuthenticated())) {
+            throw new RestartResponseAtInterceptPageException(
+                    Login.class);
+        }
+        return true;
+    }
 }

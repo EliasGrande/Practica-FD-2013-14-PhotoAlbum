@@ -35,29 +35,33 @@ public class ModalDelete extends WebPage {
         this.feedback = feedback;
         form.add(createButtonOk());
         form.add(createButtonCancel());
-        PasswordTextField password = new PasswordTextField("password",
-                new PropertyModel<String>(this, "pass"));
-        password.setLabel(new StringResourceModel("modalDelete.pass", this,
-                null));
+        PasswordTextField password = new PasswordTextField(
+                "password", new PropertyModel<String>(this, "pass"));
+        password.setLabel(new StringResourceModel("modalDelete.pass",
+                this, null));
         form.add(password);
         add(form);
     }
 
     private AjaxButton createButtonOk() {
         return new AjaxButton("buttonOk") {
-            public void onSubmit(AjaxRequestTarget target, Form<?> form) {
+            public void onSubmit(AjaxRequestTarget target,
+                    Form<?> form) {
                 User user = new User(null, userService.getById(
-                        ((MySession) Session.get()).getuId()).getEmail(), pass);
+                        ((MySession) Session.get()).getuId())
+                        .getEmail(), pass);
                 User userDB = userService.getUser(user.getEmail(),
                         user.getPassword());
                 if (!(userDB == null)) {
                     window.close(target);
-                    userService.delete(userService.getById(((MySession) Session
-                            .get()).getuId()));
+                    userService.delete(userService
+                            .getById(((MySession) Session.get())
+                                    .getuId()));
                     getSession().invalidate();
                 } else {
-                    error(new StringResourceModel("modalDelete.wrongPass",
-                            this, null).getString());
+                    error(new StringResourceModel(
+                            "modalDelete.wrongPass", this, null)
+                            .getString());
                     target.add(feedback);
                 }
             }
@@ -70,7 +74,8 @@ public class ModalDelete extends WebPage {
 
     private AjaxButton createButtonCancel() {
         return new AjaxButton("buttonCancel") {
-            public void onSubmit(AjaxRequestTarget target, Form<?> form) {
+            public void onSubmit(AjaxRequestTarget target,
+                    Form<?> form) {
                 window.close(target);
             }
 

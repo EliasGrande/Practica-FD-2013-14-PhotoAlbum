@@ -12,37 +12,36 @@ import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 
 @SuppressWarnings("serial")
-public class SearchByTag extends BasePageAuth{
+public class SearchByTag extends BasePageAuth {
 
-	public SearchByTag(PageParameters parameters) {
-		super(parameters);
-		add(createTagForm());
-	}
-	
-	private Form<Tag> createTagForm() {
-		Form<Tag> form = new Form<Tag>("form") {
-			@Override
-			protected void onSubmit() {
-				Tag tag = getModelObject();
-				PageParameters pars = new PageParameters();
-				pars.add("tagName", tag.getValue());
-				setResponsePage(BaseTags.class,pars);
-				
-			}
-		};
-		Tag tag = new Tag();
-		form.setDefaultModel(new Model<Tag>(tag));
-		RequiredTextField<String> tagName = new RequiredTextField<String>(
-				"tagName",new PropertyModel<String>(tag, "value"));
-		tagName.setLabel(new StringResourceModel("searchByTag.typeTag",
-				this, null));
-		form.add(tagName);
-		FeedbackPanel feedback = new FeedbackPanel("feedback");
-		feedback.setOutputMarkupId(true);
-		form.add(feedback);
-		form.add(new MyAjaxButton("ajax-button", form, feedback));
-		return form;
-	}
+    public SearchByTag(PageParameters parameters) {
+        super(parameters);
+        add(createTagForm());
+    }
 
+    private Form<Tag> createTagForm() {
+        Form<Tag> form = new Form<Tag>("form") {
+            @Override
+            protected void onSubmit() {
+                Tag tag = getModelObject();
+                PageParameters pars = new PageParameters();
+                pars.add("tagName", tag.getValue());
+                setResponsePage(BaseTags.class, pars);
+
+            }
+        };
+        Tag tag = new Tag();
+        form.setDefaultModel(new Model<Tag>(tag));
+        RequiredTextField<String> tagName = new RequiredTextField<String>(
+                "tagName", new PropertyModel<String>(tag, "value"));
+        tagName.setLabel(new StringResourceModel(
+                "searchByTag.typeTag", this, null));
+        form.add(tagName);
+        FeedbackPanel feedback = new FeedbackPanel("feedback");
+        feedback.setOutputMarkupId(true);
+        form.add(feedback);
+        form.add(new MyAjaxButton("ajax-button", form, feedback));
+        return form;
+    }
 
 }

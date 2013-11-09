@@ -88,8 +88,9 @@ public class Image extends BasePageAuth {
             feedback.setOutputMarkupId(true);
             this.feedback = feedback;
             add(feedback);
-            add(new NavigateForm<Void>("formNavigate", am.getObject().getId(),
-                    fileOwnModel.getObject().getId(), Image.class));
+            add(new NavigateForm<Void>("formNavigate", am.getObject()
+                    .getId(), fileOwnModel.getObject().getId(),
+                    Image.class));
             DataView<FileShareInformation> dataView = createShareDataView();
             add(dataView);
             add(new PagingNavigator("navigator", dataView));
@@ -98,11 +99,12 @@ public class Image extends BasePageAuth {
             add(createFormMove());
             add(createFormPrivacyLevel());
             add(createAddTagForm());
-            add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
-                    (new PageParameters()).add("album", name)));
+            add(new BookmarkablePageLink<Void>("linkBack",
+                    Upload.class, (new PageParameters()).add("album",
+                            name)));
             add(createShareForm());
-            add(new AjaxDataView("fileTagDataContainer", "fileTagNavigator",
-                    createFileTagsDataView()));
+            add(new AjaxDataView("fileTagDataContainer",
+                    "fileTagNavigator", createFileTagsDataView()));
             add(new CommentAndVotePanel("commentAndVote", this,
                     fileOwnModel.getObject()));
         } else {
@@ -112,21 +114,25 @@ public class Image extends BasePageAuth {
 
     private DataView<FileShareInformation> createShareDataView() {
         final List<FileShareInformation> list = new ArrayList<FileShareInformation>(
-                shareInformationService.getFileShares(this.fileOwnModel
-                        .getObject().getId()));
+                shareInformationService
+                        .getFileShares(this.fileOwnModel.getObject()
+                                .getId()));
         DataView<FileShareInformation> dataView = new DataView<FileShareInformation>(
-                "pageable", new ListDataProvider<FileShareInformation>(list)) {
+                "pageable",
+                new ListDataProvider<FileShareInformation>(list)) {
 
-            protected void populateItem(Item<FileShareInformation> item) {
+            protected void populateItem(
+                    Item<FileShareInformation> item) {
                 final FileShareInformation shareInformation = item
                         .getModelObject();
-                item.add(new Label("email", shareInformation.getUser()
-                        .getEmail()));
+                item.add(new Label("email", shareInformation
+                        .getUser().getEmail()));
                 item.add(new Link<Void>("delete") {
                     public void onClick() {
-                        shareInformationService.delete(shareInformation);
-                        info(new StringResourceModel("share.deleted", this,
-                                null).getString());
+                        shareInformationService
+                                .delete(shareInformation);
+                        info(new StringResourceModel("share.deleted",
+                                this, null).getString());
                         setResponsePage(new Image(parameters));
                     }
 
@@ -150,8 +156,8 @@ public class Image extends BasePageAuth {
             @Override
             public void onSubmit() {
                 fileService.delete(fileOwnModel.getObject());
-                info(new StringResourceModel("image.deleted", this, null)
-                        .getString());
+                info(new StringResourceModel("image.deleted", this,
+                        null).getString());
                 setResponsePage(new Upload(parameters.remove("fid")));
             }
         };
@@ -161,20 +167,21 @@ public class Image extends BasePageAuth {
         Form<Void> form = new Form<Void>("formMove") {
             @Override
             public void onSubmit() {
-                fileService
-                        .changeAlbum(fileOwnModel.getObject(), selectedAlbum);
-                info(new StringResourceModel("image.moved", this, null)
-                        .getString());
+                fileService.changeAlbum(fileOwnModel.getObject(),
+                        selectedAlbum);
+                info(new StringResourceModel("image.moved", this,
+                        null).getString());
                 setResponsePage(new Upload(parameters.remove("fid")));
             }
         };
-        DropDownChoice<Album> listAlbums = new DropDownChoice<Album>("albums",
-                new PropertyModel<Album>(this, "selectedAlbum"),
-                new AlbumsModel(fileOwnModel.getObject().getAlbum()),
+        DropDownChoice<Album> listAlbums = new DropDownChoice<Album>(
+                "albums", new PropertyModel<Album>(this,
+                        "selectedAlbum"), new AlbumsModel(
+                        fileOwnModel.getObject().getAlbum()),
                 new ChoiceRenderer<Album>("name", "id"));
         listAlbums.setRequired(true);
-        listAlbums.setLabel(new StringResourceModel("image.moveAlbum", this,
-                null));
+        listAlbums.setLabel(new StringResourceModel(
+                "image.moveAlbum", this, null));
         form.add(listAlbums);
         return form;
     }
@@ -184,23 +191,28 @@ public class Image extends BasePageAuth {
             @Override
             public void onSubmit() {
                 if (selectedPrivacyLevel != null
-                        && PrivacyLevel.validateFile(selectedPrivacyLevel
-                                .getValue())) {
-                    fileService.changePrivacyLevel(fileOwnModel.getObject(),
+                        && PrivacyLevel
+                                .validateFile(selectedPrivacyLevel
+                                        .getValue())) {
+                    fileService.changePrivacyLevel(
+                            fileOwnModel.getObject(),
                             selectedPrivacyLevel.getValue());
-                    info(new StringResourceModel("privacyLevel.changed", this,
-                            null).getString());
+                    info(new StringResourceModel(
+                            "privacyLevel.changed", this, null)
+                            .getString());
                 }
                 setResponsePage(new Image(parameters));
             }
         };
-        selectedPrivacyLevel = new PrivacyLevelOption(fileOwnModel.getObject()
-                .getPrivacyLevel(), this);
+        selectedPrivacyLevel = new PrivacyLevelOption(fileOwnModel
+                .getObject().getPrivacyLevel(), this);
         DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
-                "privacyLevels", new PropertyModel<PrivacyLevelOption>(this,
-                        "selectedPrivacyLevel"), new PrivacyLevelsModel(
-                        fileOwnModel.getObject(), this),
-                new ChoiceRenderer<PrivacyLevelOption>("label", "value"));
+                "privacyLevels",
+                new PropertyModel<PrivacyLevelOption>(this,
+                        "selectedPrivacyLevel"),
+                new PrivacyLevelsModel(fileOwnModel.getObject(), this),
+                new ChoiceRenderer<PrivacyLevelOption>("label",
+                        "value"));
         listPrivacyLevel.setRequired(true);
         listPrivacyLevel.setLabel(new StringResourceModel(
                 "privacyLevel.change", this, null));
@@ -216,19 +228,21 @@ public class Image extends BasePageAuth {
                 User user = getModelObject();
                 User existedUser = userService.getUser(user);
                 if (existedUser == null) {
-                    error(new StringResourceModel("share.noUser", this, null)
-                            .getString());
+                    error(new StringResourceModel("share.noUser",
+                            this, null).getString());
                 } else if (existedUser.getEmail().equals(
                         userService.getById(
                                 ((MySession) Session.get()).getuId())
                                 .getEmail())) {
-                    error(new StringResourceModel("share.yourself", this, null)
-                            .getString());
+                    error(new StringResourceModel("share.yourself",
+                            this, null).getString());
                 } else {
                     FileShareInformation shareInformation = new FileShareInformation(
-                            null, fileOwnModel.getObject(), existedUser);
+                            null, fileOwnModel.getObject(),
+                            existedUser);
                     ArrayList<FileShareInformation> getFileShares = shareInformationService
-                            .getFileShares(fileOwnModel.getObject().getId());
+                            .getFileShares(fileOwnModel.getObject()
+                                    .getId());
                     ListIterator<FileShareInformation> iter = getFileShares
                             .listIterator();
                     boolean comp = false;
@@ -241,13 +255,17 @@ public class Image extends BasePageAuth {
                         }
                     }
                     if (!comp) {
-                        shareInformationService.create(shareInformation);
-                        info(new StringResourceModel("share.shareFileSuccess",
-                                this, null).getString());
-                        setResponsePage(new Image(getPage().getPageParameters()));
+                        shareInformationService
+                                .create(shareInformation);
+                        info(new StringResourceModel(
+                                "share.shareFileSuccess", this, null)
+                                .getString());
+                        setResponsePage(new Image(getPage()
+                                .getPageParameters()));
                     } else {
-                        error(new StringResourceModel("share.alreadyExist",
-                                this, null).getString());
+                        error(new StringResourceModel(
+                                "share.alreadyExist", this, null)
+                                .getString());
                     }
                 }
             }
@@ -255,15 +273,16 @@ public class Image extends BasePageAuth {
         User user = new User();
         form.setDefaultModel(new Model<User>(user));
         RequiredTextField<String> shareEmail = new RequiredTextField<String>(
-                "shareEmail", new PropertyModel<String>(user, "email"));
+                "shareEmail",
+                new PropertyModel<String>(user, "email"));
         if (fileOwnModel.getObject().getPrivacyLevel()
                 .equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
             shareEmail.setEnabled(false);
         } else {
             shareEmail.setEnabled(true);
         }
-        shareEmail.setLabel(new StringResourceModel("share.emailField", this,
-                null));
+        shareEmail.setLabel(new StringResourceModel(
+                "share.emailField", this, null));
         shareEmail.add(EmailAddressValidator.getInstance());
         form.add(shareEmail);
         form.add(new MyAjaxButton("ajax-button", form, feedback));
@@ -286,7 +305,8 @@ public class Image extends BasePageAuth {
         form.setDefaultModel(new Model<FileTag>(fTag));
         RequiredTextField<String> newTag = new RequiredTextField<String>(
                 "newTag", new PropertyModel<String>(fTag, "tag"));
-        newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
+        newTag.setLabel(new StringResourceModel("upload.tagField",
+                this, null));
         form.add(newTag);
         form.add(new MyAjaxButton("ajax-button", form, feedback));
         return form;
@@ -294,9 +314,10 @@ public class Image extends BasePageAuth {
 
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
-                fileTagService.getTags(this.fileOwnModel.getObject().getId()));
-        DataView<FileTag> dataView = new DataView<FileTag>("pageable",
-                new ListDataProvider<FileTag>(list)) {
+                fileTagService.getTags(this.fileOwnModel.getObject()
+                        .getId()));
+        DataView<FileTag> dataView = new DataView<FileTag>(
+                "pageable", new ListDataProvider<FileTag>(list)) {
 
             @Override
             protected void populateItem(final Item<FileTag> item) {
@@ -304,13 +325,14 @@ public class Image extends BasePageAuth {
                 pars.add("tagName", item.getModelObject().getTag());
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "link", BaseTags.class, pars);
-                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                bpl.add(new Label("tagName", item.getModelObject()
+                        .getTag()));
                 item.add(bpl);
                 item.add(new Link<Void>("delete") {
                     public void onClick() {
                         fileTagService.delete(item.getModelObject());
-                        info(new StringResourceModel("tag.deleted", this, null)
-                                .getString());
+                        info(new StringResourceModel("tag.deleted",
+                                this, null).getString());
                         setResponsePage(new Image(parameters));
                     }
 

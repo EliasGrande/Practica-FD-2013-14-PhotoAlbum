@@ -16,42 +16,43 @@ import java.util.Iterator;
 @SuppressWarnings("serial")
 public class TagAlbumListDataProvider implements IDataProvider<Album> {
 
-	@SpringBean
-	private AlbumService albumService;
-	private int size;
-	private int userId;
-	private String tag;
+    @SpringBean
+    private AlbumService albumService;
+    private int size;
+    private int userId;
+    private String tag;
 
-	public TagAlbumListDataProvider(int size, int userId, String tag) {
-		this.userId = userId;
-		this.tag = tag;
-		this.size = size;
-		Injector.get().inject(this);
-	}
+    public TagAlbumListDataProvider(int size, int userId, String tag) {
+        this.userId = userId;
+        this.tag = tag;
+        this.size = size;
+        Injector.get().inject(this);
+    }
 
-	public void detach() {
-	}
+    public void detach() {
+    }
 
-	public Iterator<? extends Album> iterator(int first, int count) {
-		LoadableDetachableModel<ArrayList<Album>> ldm = new TagAlbumsModelFull(userId,tag);
-		int toIndex = first + count;
-		if (toIndex > ldm.getObject().size()) {
-			toIndex = ldm.getObject().size();
-		}
-		return ldm.getObject().subList(first, toIndex).iterator();
-	}
+    public Iterator<? extends Album> iterator(int first, int count) {
+        LoadableDetachableModel<ArrayList<Album>> ldm = new TagAlbumsModelFull(
+                userId, tag);
+        int toIndex = first + count;
+        if (toIndex > ldm.getObject().size()) {
+            toIndex = ldm.getObject().size();
+        }
+        return ldm.getObject().subList(first, toIndex).iterator();
+    }
 
-	public int size() {
-		return this.size;
-	}
+    public int size() {
+        return this.size;
+    }
 
-	public IModel<Album> model(Album object) {
-		final Integer id = object.getId();
-		return new LoadableDetachableModel<Album>() {
-			@Override
-			protected Album load() {
-				return albumService.getById(id);
-			}
-		};
-	}
+    public IModel<Album> model(Album object) {
+        final Integer id = object.getId();
+        return new LoadableDetachableModel<Album>() {
+            @Override
+            protected Album load() {
+                return albumService.getById(id);
+            }
+        };
+    }
 }

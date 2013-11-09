@@ -9,11 +9,11 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
  */
 public class AlbumsComparator implements Comparator<Album> {
 
-	public int compare(Album album1, Album album2) {
-		if (album1.getId() > album2.getId()) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
+    public int compare(Album album1, Album album2) {
+        if (album1.getId() > album2.getId()) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 }

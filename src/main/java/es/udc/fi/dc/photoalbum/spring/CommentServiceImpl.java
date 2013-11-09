@@ -13,73 +13,72 @@ import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislikeDao;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 
 @Transactional
-public class CommentServiceImpl implements CommentService{
-	
-	/* LikeAndDislikeDao */
-	private LikeAndDislikeDao likeAndDislikeDao;
+public class CommentServiceImpl implements CommentService {
 
-	public LikeAndDislikeDao getLikeAndDislikeDao() {
-		return this.likeAndDislikeDao;
-	}
+    /* LikeAndDislikeDao */
+    private LikeAndDislikeDao likeAndDislikeDao;
 
-	public void setLikeAndDislikeDao(LikeAndDislikeDao likeAndDislikeDao) {
-		this.likeAndDislikeDao = likeAndDislikeDao;
-	}
-	
-	/* CommentDao */
-	private CommentDao commentDao;
+    public LikeAndDislikeDao getLikeAndDislikeDao() {
+        return this.likeAndDislikeDao;
+    }
 
-	public CommentDao getCommentDao() {
-		return this.commentDao;
-	}
+    public void setLikeAndDislikeDao(
+            LikeAndDislikeDao likeAndDislikeDao) {
+        this.likeAndDislikeDao = likeAndDislikeDao;
+    }
 
-	public void setCommentDao(CommentDao commentDao) {
-		this.commentDao = commentDao;
-	}
-	
-	/*IMPLEMENTATION*/
+    /* CommentDao */
+    private CommentDao commentDao;
 
-	public void create(User userThatComment, Album album, String text) {
-		LikeAndDislike likeAndDislike = new LikeAndDislike();
-		likeAndDislikeDao.create(likeAndDislike);
-		Comment comment = new Comment(likeAndDislike, userThatComment, text, album, null);
-		commentDao.create(comment);
-	}
+    public CommentDao getCommentDao() {
+        return this.commentDao;
+    }
 
+    public void setCommentDao(CommentDao commentDao) {
+        this.commentDao = commentDao;
+    }
 
-	public void create(User userThatComment, File file, String text) {
-		LikeAndDislike likeAndDislike = new LikeAndDislike();
-		likeAndDislikeDao.create(likeAndDislike);
-		Comment comment = new Comment(likeAndDislike, userThatComment, text, null, file);
-		commentDao.create(comment);
-	}
+    /* IMPLEMENTATION */
 
+    public void create(User userThatComment, Album album, String text) {
+        LikeAndDislike likeAndDislike = new LikeAndDislike();
+        likeAndDislikeDao.create(likeAndDislike);
+        Comment comment = new Comment(likeAndDislike,
+                userThatComment, text, album, null);
+        commentDao.create(comment);
+    }
 
-	public void delete(Comment comment) {
-		LikeAndDislike lad = comment.getLikeAndDislike();
-		commentDao.delete(comment);
-		likeAndDislikeDao.delete(lad);
-		
-	}
-	
-	public ArrayList<Comment> getComments(Album album) {
-		return commentDao.getComments(album);
-	}
+    public void create(User userThatComment, File file, String text) {
+        LikeAndDislike likeAndDislike = new LikeAndDislike();
+        likeAndDislikeDao.create(likeAndDislike);
+        Comment comment = new Comment(likeAndDislike,
+                userThatComment, text, null, file);
+        commentDao.create(comment);
+    }
 
+    public void delete(Comment comment) {
+        LikeAndDislike lad = comment.getLikeAndDislike();
+        commentDao.delete(comment);
+        likeAndDislikeDao.delete(lad);
 
-	public ArrayList<Comment> getComments(File file) {
-		return commentDao.getComments(file);
-	}
+    }
 
+    public ArrayList<Comment> getComments(Album album) {
+        return commentDao.getComments(album);
+    }
 
-	public ArrayList<Comment> getCommentsPaging(Album album, int first,
-			int count) {
-		return commentDao.getCommentsPaging(album, first, count);
-	}
+    public ArrayList<Comment> getComments(File file) {
+        return commentDao.getComments(file);
+    }
 
+    public ArrayList<Comment> getCommentsPaging(Album album,
+            int first, int count) {
+        return commentDao.getCommentsPaging(album, first, count);
+    }
 
-	public ArrayList<Comment> getCommentsPaging(File file, int first, int count) {
-		return commentDao.getCommentsPaging(file, first, count);
-	}
+    public ArrayList<Comment> getCommentsPaging(File file, int first,
+            int count) {
+        return commentDao.getCommentsPaging(file, first, count);
+    }
 
 }

@@ -12,23 +12,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 @SuppressWarnings("serial")
-public class FilesModel extends LoadableDetachableModel<ArrayList<File>> {
+public class FilesModel extends
+        LoadableDetachableModel<ArrayList<File>> {
 
-	@SpringBean
-	private FileService fileService;
-	private int id;
+    @SpringBean
+    private FileService fileService;
+    private int id;
 
-	public FilesModel(int id) {
-		this.id = id;
-		Injector.get().inject(this);
-	}
+    public FilesModel(int id) {
+        this.id = id;
+        Injector.get().inject(this);
+    }
 
-	@Override
-	protected ArrayList<File> load() {
-		ArrayList<File> list = new ArrayList<File>(
-				fileService.getAlbumFilesOwn(id)
-		);
-		Collections.sort(list, new FileComparator());
-		return list;
-	}
+    @Override
+    protected ArrayList<File> load() {
+        ArrayList<File> list = new ArrayList<File>(
+                fileService.getAlbumFilesOwn(id));
+        Collections.sort(list, new FileComparator());
+        return list;
+    }
 }

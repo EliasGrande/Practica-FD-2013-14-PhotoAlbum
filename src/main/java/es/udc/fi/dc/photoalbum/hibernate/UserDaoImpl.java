@@ -13,7 +13,8 @@ import es.udc.fi.dc.photoalbum.utils.MD5;
 
 import java.util.ArrayList;
 
-public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
+public class UserDaoImpl extends HibernateDaoSupport implements
+        UserDao {
 
     public void create(User user) {
         getHibernateTemplate().save(user);
@@ -70,7 +71,8 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
     @SuppressWarnings("unchecked")
     public ArrayList<User> getUsersSharingWith(int userId) {
 
-        DetachedCriteria dc = DetachedCriteria.forClass(User.class, "user")
+        DetachedCriteria dc = DetachedCriteria
+                .forClass(User.class, "user")
                 .addOrder(Order.asc("user.email"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
@@ -82,8 +84,8 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
                 .createAlias("asi_al.user", "asi_al_us")
                 .add(Restrictions.eq("asi_us.id", userId))
                 .setProjection(Projections.property("asi_al_us.id"));
-        Criterion fromSharedAlbumsCr = Subqueries.propertyIn("user.id",
-                fromSharedAlbumsDc);
+        Criterion fromSharedAlbumsCr = Subqueries.propertyIn(
+                "user.id", fromSharedAlbumsDc);
 
         // from FileShareInformation
         DetachedCriteria fromSharedFilesDc = DetachedCriteria
@@ -93,12 +95,15 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
                 .createAlias("fsi_fi.album", "fsi_fi_al")
                 .createAlias("fsi_fi_al.user", "fsi_fi_al_us")
                 .add(Restrictions.eq("fsi_us.id", userId))
-                .setProjection(Projections.property("fsi_fi_al_us.id"));
-        Criterion fromSharedFilesCr = Subqueries.propertyIn("user.id",
-                fromSharedFilesDc);
+                .setProjection(
+                        Projections.property("fsi_fi_al_us.id"));
+        Criterion fromSharedFilesCr = Subqueries.propertyIn(
+                "user.id", fromSharedFilesDc);
 
-        return (ArrayList<User>) getHibernateTemplate().findByCriteria(
-                dc.add(Restrictions.disjunction().add(fromSharedAlbumsCr)
-                        .add(fromSharedFilesCr)));
+        return (ArrayList<User>) getHibernateTemplate()
+                .findByCriteria(
+                        dc.add(Restrictions.disjunction()
+                                .add(fromSharedAlbumsCr)
+                                .add(fromSharedFilesCr)));
     }
 }

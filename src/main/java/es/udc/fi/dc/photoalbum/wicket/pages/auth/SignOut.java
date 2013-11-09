@@ -10,12 +10,12 @@ import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_PASSWORD;
 @SuppressWarnings("serial")
 public class SignOut extends WebPage {
 
-	public SignOut(final PageParameters parameters) {
-		super(parameters);
-		CookieUtils cu = new CookieUtils();
-		cu.getSettings().setMaxAge(0);
-		cu.save(COOKIE_EMAIL, "");
-		cu.save(COOKIE_PASSWORD, "");
-		getSession().invalidate();
-	}
+    public SignOut(final PageParameters parameters) {
+        super(parameters);
+        CookieUtils cu = new CookieUtils();
+        cu.getSettings().setMaxAge(0);
+        cu.save(COOKIE_EMAIL, "");
+        cu.save(COOKIE_PASSWORD, "");
+        getSession().invalidate();
+    }
 }

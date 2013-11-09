@@ -19,7 +19,8 @@ public class TagFilesModelPaging extends
     private int first;
     private int count;
 
-    public TagFilesModelPaging(String tag, int userId, int first, int count) {
+    public TagFilesModelPaging(String tag, int userId, int first,
+            int count) {
         this.tag = tag;
         this.userId = userId;
         this.first = first;
@@ -29,7 +30,7 @@ public class TagFilesModelPaging extends
 
     @Override
     protected ArrayList<File> load() {
-        return new ArrayList<File>(fileService.getFilesByTagPaging(userId, tag,
-                first, count));
+        return new ArrayList<File>(fileService.getFilesByTagPaging(
+                userId, tag, first, count));
     }
 }

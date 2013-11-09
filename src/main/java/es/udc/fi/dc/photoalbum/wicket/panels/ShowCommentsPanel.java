@@ -37,8 +37,8 @@ public class ShowCommentsPanel extends Panel {
     private ShowCommentsPanel(String id, Album album, File file) {
         super(id);
         int userId = ((MySession) Session.get()).getuId();
-        commentsModel = new CommentsModel(album, file, COMMENTS_PER_PANEL,
-                userId);
+        commentsModel = new CommentsModel(album, file,
+                COMMENTS_PER_PANEL, userId);
         calendarFormat = new TimeAgoCalendarFormat(this);
 
         // ajax data container
@@ -47,17 +47,19 @@ public class ShowCommentsPanel extends Panel {
         commentContainer.setOutputMarkupId(true);
         add(commentContainer);
 
-        ListView<Comment> commentsView = new ListView<Comment>("comment",
-                commentsModel) {
+        ListView<Comment> commentsView = new ListView<Comment>(
+                "comment", commentsModel) {
             @Override
             protected void populateItem(ListItem<Comment> item) {
                 Comment comment = item.getModelObject();
-                item.add(new Label("user", comment.getUser().getEmail()));
-                item.add(new Label("date", calendarFormat.format(comment
-                        .getDate())));
+                item.add(new Label("user", comment.getUser()
+                        .getEmail()));
+                item.add(new Label("date", calendarFormat
+                        .format(comment.getDate())));
                 item.add(new Label("text", comment.getText()));
-                item.add(new VotePanel("vote", comment.getLikeAndDislike(),
-                        commentsModel.getVoted(comment)));
+                item.add(new VotePanel("vote", comment
+                        .getLikeAndDislike(), commentsModel
+                        .getVoted(comment)));
             }
         };
         commentContainer.add(commentsView);

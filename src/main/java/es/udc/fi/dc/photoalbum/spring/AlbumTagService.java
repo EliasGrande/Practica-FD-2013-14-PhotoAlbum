@@ -6,11 +6,11 @@ import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
 
 public interface AlbumTagService {
 
-	void create(AlbumTag albumTag);
+    void create(AlbumTag albumTag);
 
-	void delete(AlbumTag albumTag);
+    void delete(AlbumTag albumTag);
 
-	AlbumTag getTag(int albumId, String tag);
-	
-	ArrayList<AlbumTag> getTags(int albumId);
+    AlbumTag getTag(int albumId, String tag);
+
+    ArrayList<AlbumTag> getTags(int albumId);
 }

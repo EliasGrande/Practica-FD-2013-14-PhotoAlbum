@@ -15,29 +15,31 @@ import java.util.Collections;
 import java.util.Iterator;
 
 @SuppressWarnings("serial")
-public class AlbumsModel extends LoadableDetachableModel<ArrayList<Album>> {
+public class AlbumsModel extends
+        LoadableDetachableModel<ArrayList<Album>> {
 
-	@SpringBean
-	private AlbumService albumService;
-	private Album album;
+    @SpringBean
+    private AlbumService albumService;
+    private Album album;
 
-	public AlbumsModel(Album album) {
-		this.album = album;
-		Injector.get().inject(this);
-	}
+    public AlbumsModel(Album album) {
+        this.album = album;
+        Injector.get().inject(this);
+    }
 
-	protected ArrayList<Album> load() {
-		ArrayList<Album> list = new ArrayList<Album>(
-				albumService.getAlbums(((MySession) Session.get()).getuId()));
-		Iterator<Album> itr = list.iterator();
-		while (itr.hasNext()) {
-			Album album = itr.next();
-			if (album.getId().equals(this.album.getId())) {
-				itr.remove();
-				break;
-			}
-		}
-		Collections.sort(list, new AlbumsComparator());
-		return list;
-	}
+    protected ArrayList<Album> load() {
+        ArrayList<Album> list = new ArrayList<Album>(
+                albumService.getAlbums(((MySession) Session.get())
+                        .getuId()));
+        Iterator<Album> itr = list.iterator();
+        while (itr.hasNext()) {
+            Album album = itr.next();
+            if (album.getId().equals(this.album.getId())) {
+                itr.remove();
+                break;
+            }
+        }
+        Collections.sort(list, new AlbumsComparator());
+        return list;
+    }
 }

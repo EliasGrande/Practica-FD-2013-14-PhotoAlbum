@@ -25,60 +25,63 @@ import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.*;
 
 @SuppressWarnings("serial")
 public class Login extends BasePage {
-	@SpringBean
-	private UserService userService;
-	private FeedbackPanel feedback;
+    @SpringBean
+    private UserService userService;
+    private FeedbackPanel feedback;
 
-	public Login(final PageParameters parameters) {
-		super(parameters);
-		this.feedback = new FeedbackPanel("feedback");
-		this.feedback.setOutputMarkupId(true);
-		add(this.feedback);
-		add(createFormLogin());
-	}
+    public Login(final PageParameters parameters) {
+        super(parameters);
+        this.feedback = new FeedbackPanel("feedback");
+        this.feedback.setOutputMarkupId(true);
+        add(this.feedback);
+        add(createFormLogin());
+    }
 
-	private Form<User> createFormLogin() {
-		final CheckBox chk = new CheckBox("bool", Model.of(Boolean.FALSE));
-		Form<User> form = new Form<User>("form",
-				new CompoundPropertyModel<User>(new User())) {
-			@Override
-			protected void onSubmit() {
-				User user = getModelObject();
-				MySession session = (MySession) getSession();
-				User userDB = userService.getUser(user.getEmail(),
-						user.getPassword());
-				if (!(userDB == null)) {
-					if (chk.getModelObject()) {
-						CookieUtils cu = new CookieUtils();
-						cu.getSettings().setMaxAge(COOKIE_MAX_AGE);
-						cu.save(COOKIE_EMAIL, user.getEmail());
-						cu.save(COOKIE_PASSWORD,
-								MD5.getHash(user.getPassword()));
-					} else {
-						session.setuId(userDB.getId());
-					}
-					setResponsePage(Albums.class);
-				} else {
-					error(new StringResourceModel("login.noSuchUser", this,
-							null).getString());
-				}
-			}
-		};
-		RequiredTextField<String> email = new RequiredTextField<String>("email");
-		email.setLabel(new StringResourceModel("login.emailField", this, null));
-		email.add(EmailAddressValidator.getInstance());
-		PasswordTextField password = new PasswordTextField("password");
-		password.setLabel(new StringResourceModel("login.passwordField", this,
-				null));
-		form.add(email);
-		form.add(password);
-		form.add(new MyAjaxButton("ajax-button", form, feedback));
-		form.add(chk);
-		return form;
-	}
+    private Form<User> createFormLogin() {
+        final CheckBox chk = new CheckBox("bool",
+                Model.of(Boolean.FALSE));
+        Form<User> form = new Form<User>("form",
+                new CompoundPropertyModel<User>(new User())) {
+            @Override
+            protected void onSubmit() {
+                User user = getModelObject();
+                MySession session = (MySession) getSession();
+                User userDB = userService.getUser(user.getEmail(),
+                        user.getPassword());
+                if (!(userDB == null)) {
+                    if (chk.getModelObject()) {
+                        CookieUtils cu = new CookieUtils();
+                        cu.getSettings().setMaxAge(COOKIE_MAX_AGE);
+                        cu.save(COOKIE_EMAIL, user.getEmail());
+                        cu.save(COOKIE_PASSWORD,
+                                MD5.getHash(user.getPassword()));
+                    } else {
+                        session.setuId(userDB.getId());
+                    }
+                    setResponsePage(Albums.class);
+                } else {
+                    error(new StringResourceModel("login.noSuchUser",
+                            this, null).getString());
+                }
+            }
+        };
+        RequiredTextField<String> email = new RequiredTextField<String>(
+                "email");
+        email.setLabel(new StringResourceModel("login.emailField",
+                this, null));
+        email.add(EmailAddressValidator.getInstance());
+        PasswordTextField password = new PasswordTextField("password");
+        password.setLabel(new StringResourceModel(
+                "login.passwordField", this, null));
+        form.add(email);
+        form.add(password);
+        form.add(new MyAjaxButton("ajax-button", form, feedback));
+        form.add(chk);
+        return form;
+    }
 
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/Login.css");
-	}
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        response.renderCSSReference("css/Login.css");
+    }
 }

@@ -46,18 +46,18 @@ public class FilesOfAlbumTagBig extends BasePageAuth {
         File auxFile = fileService.getById(id);
         this.file = auxFile;
 
-        add(new FilesOfAlbumTagNavigateForm<Void>("formNavigate", tag, albumId,
-                ((MySession) Session.get()).getuId(), id,
-                FilesOfAlbumTagBig.class));
+        add(new FilesOfAlbumTagNavigateForm<Void>("formNavigate",
+                tag, albumId, ((MySession) Session.get()).getuId(),
+                id, FilesOfAlbumTagBig.class));
         add(createNonCachingImage());
-        add(new AjaxDataView("fileTagDataContainer", "fileTagNavigator",
-                createFileTagsDataView()));
+        add(new AjaxDataView("fileTagDataContainer",
+                "fileTagNavigator", createFileTagsDataView()));
         PageParameters newPars = new PageParameters();
         newPars.add("albumId", albumId);
         newPars.add("tag", tag);
 
-        add(new BookmarkablePageLink<Void>("linkBack", FilesOfAlbumTag.class,
-                newPars));
+        add(new BookmarkablePageLink<Void>("linkBack",
+                FilesOfAlbumTag.class, newPars));
     }
 
     private NonCachingImage createNonCachingImage() {
@@ -71,8 +71,8 @@ public class FilesOfAlbumTagBig extends BasePageAuth {
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
                 fileTagService.getTags(file.getId()));
-        DataView<FileTag> dataView = new DataView<FileTag>("pageable",
-                new ListDataProvider<FileTag>(list)) {
+        DataView<FileTag> dataView = new DataView<FileTag>(
+                "pageable", new ListDataProvider<FileTag>(list)) {
 
             @Override
             protected void populateItem(Item<FileTag> item) {
@@ -80,7 +80,8 @@ public class FilesOfAlbumTagBig extends BasePageAuth {
                 pars.add("tagName", item.getModelObject().getTag());
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "link", BaseTags.class, pars);
-                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                bpl.add(new Label("tagName", item.getModelObject()
+                        .getTag()));
                 item.add(bpl);
             }
         };

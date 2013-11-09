@@ -33,46 +33,46 @@ import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
 
 public class WicketApp extends WebApplication {
 
-	public WicketApp() {
-	}
+    public WicketApp() {
+    }
 
-	public Class<? extends Page> getHomePage() {
-		return Login.class;
-	}
+    public Class<? extends Page> getHomePage() {
+        return Login.class;
+    }
 
-	@Override
-	protected void init() {
-		super.init();
-		getComponentInstantiationListeners().add(
-				new SpringComponentInjector(this));
-		getSecuritySettings().setAuthorizationStrategy(
-				new AuthorizationStrategy());
-		mountPage("albums", Albums.class);
-		mountPage("error404", ErrorPage404.class);
-		mountPage("bigPic", Image.class);
-		mountPage("register", Register.class);
-		mountPage("registerCompleted", RegistryCompleted.class);
-		mountPage("share", Share.class);
-		mountPage("sharedAlbums", SharedAlbums.class);
-		mountPage("sharedBig", SharedBig.class);
-		mountPage("sharedFiles", SharedFiles.class);
-		mountPage("sharedUsers", SharedUsers.class);
-		mountPage("publicAlbums", PublicAlbums.class);
-		mountPage("publicFiles", PublicFiles.class);
-		mountPage("publicFilesBig", PublicFilesBig.class);
-		mountPage("pics", Upload.class);
-		mountPage("profile", Profile.class);
-		mountPage("forgotPassword", ForgotPassword.class);
-		mountPage("signOut", SignOut.class);
-		mountPage("baseTags", BaseTags.class);
-		mountPage("fileTagBig", FileTagBig.class);
-		mountPage("filesOfAlbumTag",FilesOfAlbumTag.class);
-		mountPage("filesOfAlbumTagBig",FilesOfAlbumTagBig.class);
-		mountPage("searchByTag",SearchByTag.class);
-	}
+    @Override
+    protected void init() {
+        super.init();
+        getComponentInstantiationListeners().add(
+                new SpringComponentInjector(this));
+        getSecuritySettings().setAuthorizationStrategy(
+                new AuthorizationStrategy());
+        mountPage("albums", Albums.class);
+        mountPage("error404", ErrorPage404.class);
+        mountPage("bigPic", Image.class);
+        mountPage("register", Register.class);
+        mountPage("registerCompleted", RegistryCompleted.class);
+        mountPage("share", Share.class);
+        mountPage("sharedAlbums", SharedAlbums.class);
+        mountPage("sharedBig", SharedBig.class);
+        mountPage("sharedFiles", SharedFiles.class);
+        mountPage("sharedUsers", SharedUsers.class);
+        mountPage("publicAlbums", PublicAlbums.class);
+        mountPage("publicFiles", PublicFiles.class);
+        mountPage("publicFilesBig", PublicFilesBig.class);
+        mountPage("pics", Upload.class);
+        mountPage("profile", Profile.class);
+        mountPage("forgotPassword", ForgotPassword.class);
+        mountPage("signOut", SignOut.class);
+        mountPage("baseTags", BaseTags.class);
+        mountPage("fileTagBig", FileTagBig.class);
+        mountPage("filesOfAlbumTag", FilesOfAlbumTag.class);
+        mountPage("filesOfAlbumTagBig", FilesOfAlbumTagBig.class);
+        mountPage("searchByTag", SearchByTag.class);
+    }
 
-	@Override
-	public Session newSession(Request request, Response response) {
-		return new MySession(request);
-	}
+    @Override
+    public Session newSession(Request request, Response response) {
+        return new MySession(request);
+    }
 }

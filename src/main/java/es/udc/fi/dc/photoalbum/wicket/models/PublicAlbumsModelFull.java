@@ -12,18 +12,20 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.utils.AlbumsComparator;
 
 @SuppressWarnings("serial")
-public class PublicAlbumsModelFull extends LoadableDetachableModel<ArrayList<Album>> {
+public class PublicAlbumsModelFull extends
+        LoadableDetachableModel<ArrayList<Album>> {
 
-	@SpringBean
-	private AlbumService albumService;
+    @SpringBean
+    private AlbumService albumService;
 
-	public PublicAlbumsModelFull() {
-		Injector.get().inject(this);
-	}
+    public PublicAlbumsModelFull() {
+        Injector.get().inject(this);
+    }
 
-	protected ArrayList<Album> load() {
-		ArrayList<Album> list = new ArrayList<Album>(albumService.getPublicAlbums());
-		Collections.sort(list, new AlbumsComparator());
-		return list;
-	}
+    protected ArrayList<Album> load() {
+        ArrayList<Album> list = new ArrayList<Album>(
+                albumService.getPublicAlbums());
+        Collections.sort(list, new AlbumsComparator());
+        return list;
+    }
 }

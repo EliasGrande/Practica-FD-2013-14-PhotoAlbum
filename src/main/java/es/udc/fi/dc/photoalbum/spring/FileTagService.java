@@ -6,11 +6,11 @@ import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 
 public interface FileTagService {
 
-	void create(FileTag fileTag);
+    void create(FileTag fileTag);
 
-	void delete(FileTag fileTag);
+    void delete(FileTag fileTag);
 
-	FileTag getTag(int fileId, String tag);
-	
-	ArrayList<FileTag> getTags(int fileId);
+    FileTag getTag(int fileId, String tag);
+
+    ArrayList<FileTag> getTags(int fileId);
 }

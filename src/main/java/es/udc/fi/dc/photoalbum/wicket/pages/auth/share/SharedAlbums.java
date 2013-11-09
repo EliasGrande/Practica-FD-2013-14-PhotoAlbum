@@ -25,52 +25,54 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class SharedAlbums extends BasePageAuth {
 
-	@SpringBean
-	private UserService userService;
-	@SpringBean
-	private AlbumService albumService;
-	private static final int ITEMS_PER_PAGE = 10;
-	private User user;
+    @SpringBean
+    private UserService userService;
+    @SpringBean
+    private AlbumService albumService;
+    private static final int ITEMS_PER_PAGE = 10;
+    private User user;
 
-	public SharedAlbums(final PageParameters parameters) {
-		super(parameters);
-		if (parameters.getNamedKeys().contains("user")) {
-			final String email = parameters.get("user").toString();
-			User user = new User();
-			user.setEmail(email);
-			if (userService.getUser(user) == null) {
-				throw new RestartResponseException(ErrorPage404.class);
-			}
-			this.user = user;
-			add(new AjaxDataView("dataContainer", "navigator",
-					createShareDataView()));
-		} else {
-			throw new RestartResponseException(ErrorPage404.class);
-		}
-	}
+    public SharedAlbums(final PageParameters parameters) {
+        super(parameters);
+        if (parameters.getNamedKeys().contains("user")) {
+            final String email = parameters.get("user").toString();
+            User user = new User();
+            user.setEmail(email);
+            if (userService.getUser(user) == null) {
+                throw new RestartResponseException(ErrorPage404.class);
+            }
+            this.user = user;
+            add(new AjaxDataView("dataContainer", "navigator",
+                    createShareDataView()));
+        } else {
+            throw new RestartResponseException(ErrorPage404.class);
+        }
+    }
 
-	private DataView<Album> createShareDataView() {
-		List<Album> list = albumService.getAlbumsSharedWith(
-				((MySession) Session.get()).getuId(), user.getEmail());
-		DataView<Album> dataView = new DataView<Album>(
-				"pageable", new ListDataProvider<Album>(list)) {
-			public void populateItem(final Item<Album> item) {
-				final Album album = item.getModelObject();
-				PageParameters pars = new PageParameters();
-				pars.add("user", user.getEmail());
-				pars.add("album", album.getName());
-				BookmarkablePageLink<Void> bp = new BookmarkablePageLink<Void>(
-						"link", SharedFiles.class, pars);
-				bp.add(new Label("name", album.getName()));
-				item.add(bp);
-			}
-		};
-		dataView.setItemsPerPage(ITEMS_PER_PAGE);
-		return dataView;
-	}
+    private DataView<Album> createShareDataView() {
+        List<Album> list = albumService
+                .getAlbumsSharedWith(
+                        ((MySession) Session.get()).getuId(),
+                        user.getEmail());
+        DataView<Album> dataView = new DataView<Album>("pageable",
+                new ListDataProvider<Album>(list)) {
+            public void populateItem(final Item<Album> item) {
+                final Album album = item.getModelObject();
+                PageParameters pars = new PageParameters();
+                pars.add("user", user.getEmail());
+                pars.add("album", album.getName());
+                BookmarkablePageLink<Void> bp = new BookmarkablePageLink<Void>(
+                        "link", SharedFiles.class, pars);
+                bp.add(new Label("name", album.getName()));
+                item.add(bp);
+            }
+        };
+        dataView.setItemsPerPage(ITEMS_PER_PAGE);
+        return dataView;
+    }
 
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/SharedAlbums.css");
-	}
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        response.renderCSSReference("css/SharedAlbums.css");
+    }
 }

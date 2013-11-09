@@ -29,65 +29,68 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 @SuppressWarnings("serial")
 public class FileTagBig extends BasePageAuth {
 
-	@SpringBean
-	private FileService fileService;
-	@SpringBean
-	private FileTagService fileTagService;
+    @SpringBean
+    private FileService fileService;
+    @SpringBean
+    private FileTagService fileTagService;
 
-	private File file;
-	private static final int TAG_PER_PAGE = 5;
+    private File file;
+    private static final int TAG_PER_PAGE = 5;
 
-	public FileTagBig(PageParameters parameters) {
-		super(parameters);
-		int id = parameters.get("fid").toInt();
-		String tag = parameters.get("tag").toString();
+    public FileTagBig(PageParameters parameters) {
+        super(parameters);
+        int id = parameters.get("fid").toInt();
+        String tag = parameters.get("tag").toString();
 
-		File auxFile = fileService.getById(id);
-		this.file = auxFile;
+        File auxFile = fileService.getById(id);
+        this.file = auxFile;
 
-		add(new TagNavigateForm<Void>("formNavigate", tag,
-				((MySession) Session.get()).getuId(), id, FileTagBig.class));
-		add(createNonCachingImage());
-		add(new AjaxDataView("fileTagDataContainer", "fileTagNavigator",
-				createFileTagsDataView()));
+        add(new TagNavigateForm<Void>("formNavigate", tag,
+                ((MySession) Session.get()).getuId(), id,
+                FileTagBig.class));
+        add(createNonCachingImage());
+        add(new AjaxDataView("fileTagDataContainer",
+                "fileTagNavigator", createFileTagsDataView()));
 
-		PageParameters newPars = new PageParameters();
-		newPars.add("tagName", tag);
+        PageParameters newPars = new PageParameters();
+        newPars.add("tagName", tag);
 
-		add(new BookmarkablePageLink<Void>("linkBack", BaseTags.class, newPars));
-	}
+        add(new BookmarkablePageLink<Void>("linkBack",
+                BaseTags.class, newPars));
+    }
 
-	private NonCachingImage createNonCachingImage() {
-		return new NonCachingImage("img", new BlobImageResource() {
-			protected Blob getBlob() {
-				return BlobFromFile.getBig(file);
-			}
-		});
-	}
+    private NonCachingImage createNonCachingImage() {
+        return new NonCachingImage("img", new BlobImageResource() {
+            protected Blob getBlob() {
+                return BlobFromFile.getBig(file);
+            }
+        });
+    }
 
-	private DataView<FileTag> createFileTagsDataView() {
-		final List<FileTag> list = new ArrayList<FileTag>(
-				fileTagService.getTags(file.getId()));
-		DataView<FileTag> dataView = new DataView<FileTag>("pageable",
-				new ListDataProvider<FileTag>(list)) {
+    private DataView<FileTag> createFileTagsDataView() {
+        final List<FileTag> list = new ArrayList<FileTag>(
+                fileTagService.getTags(file.getId()));
+        DataView<FileTag> dataView = new DataView<FileTag>(
+                "pageable", new ListDataProvider<FileTag>(list)) {
 
-			@Override
-			protected void populateItem(Item<FileTag> item) {
-				PageParameters pars = new PageParameters();
-				pars.add("tagName", item.getModelObject().getTag());
-				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
-						"link", BaseTags.class, pars);
-				bpl.add(new Label("tagName", item.getModelObject().getTag()));
-				item.add(bpl);
-			}
-		};
-		dataView.setItemsPerPage(TAG_PER_PAGE);
-		return dataView;
-	}
+            @Override
+            protected void populateItem(Item<FileTag> item) {
+                PageParameters pars = new PageParameters();
+                pars.add("tagName", item.getModelObject().getTag());
+                BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
+                        "link", BaseTags.class, pars);
+                bpl.add(new Label("tagName", item.getModelObject()
+                        .getTag()));
+                item.add(bpl);
+            }
+        };
+        dataView.setItemsPerPage(TAG_PER_PAGE);
+        return dataView;
+    }
 
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/SharedBig.css");
-	}
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        response.renderCSSReference("css/SharedBig.css");
+    }
 
 }

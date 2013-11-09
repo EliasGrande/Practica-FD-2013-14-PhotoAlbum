@@ -8,8 +8,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import java.util.ArrayList;
 
-public class FileShareInformationDaoImpl extends HibernateDaoSupport implements
-        FileShareInformationDao {
+public class FileShareInformationDaoImpl extends HibernateDaoSupport
+        implements FileShareInformationDao {
 
     public void create(FileShareInformation shareInformation) {
         getHibernateTemplate().save(shareInformation);
@@ -53,8 +53,8 @@ public class FileShareInformationDaoImpl extends HibernateDaoSupport implements
 
     public void deleteShares(int fileId) {
         String hql = "delete from FileShareInformation where file.id = :fileId";
-        getHibernateTemplate().getSessionFactory().getCurrentSession()
-                .createQuery(hql).setParameter("fileId", fileId)
-                .executeUpdate();
+        getHibernateTemplate().getSessionFactory()
+                .getCurrentSession().createQuery(hql)
+                .setParameter("fileId", fileId).executeUpdate();
     }
 }

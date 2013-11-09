@@ -11,25 +11,25 @@ import es.udc.fi.dc.photoalbum.hibernate.VotedDao;
 // en el LikeAndDislikeService, si no hago este también transaccional hibernate peta diciéndome
 // cosas nazis de que no existe una sesion y no puede hacer una no-transaccional blablabla...
 @Transactional
-public class VotedServiceImpl implements VotedService{
-	
-	/* VotedDao */
-	private VotedDao votedDao;
+public class VotedServiceImpl implements VotedService {
 
-	public VotedDao getVotedDao() {
-		return this.votedDao;
-	}
+    /* VotedDao */
+    private VotedDao votedDao;
 
-	public void setVotedDao(VotedDao votedDao) {
-		this.votedDao = votedDao;
-	}
+    public VotedDao getVotedDao() {
+        return this.votedDao;
+    }
 
-	public Voted getVoted(int likeAndDislikeId, int userId) {
-		return votedDao.get(likeAndDislikeId, userId);
-	}
+    public void setVotedDao(VotedDao votedDao) {
+        this.votedDao = votedDao;
+    }
 
-	public ArrayList<Voted> getVoted(
-			ArrayList<Integer> likeAndDislikeIdList, int userId) {
-		return votedDao.getVoted(likeAndDislikeIdList, userId);
-	}
+    public Voted getVoted(int likeAndDislikeId, int userId) {
+        return votedDao.get(likeAndDislikeId, userId);
+    }
+
+    public ArrayList<Voted> getVoted(
+            ArrayList<Integer> likeAndDislikeIdList, int userId) {
+        return votedDao.getVoted(likeAndDislikeIdList, userId);
+    }
 }

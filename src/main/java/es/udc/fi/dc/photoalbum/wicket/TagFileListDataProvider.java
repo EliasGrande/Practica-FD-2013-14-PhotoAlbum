@@ -15,40 +15,40 @@ import es.udc.fi.dc.photoalbum.wicket.models.TagFilesModelPaging;
 
 @SuppressWarnings("serial")
 public class TagFileListDataProvider implements IDataProvider<File> {
-	@SpringBean
-	private FileService fileService;
-	private int size;
-	private String tag;
-	private int userId;
+    @SpringBean
+    private FileService fileService;
+    private int size;
+    private String tag;
+    private int userId;
 
-	public void detach() {
-	}
+    public void detach() {
+    }
 
-	public TagFileListDataProvider(int size, String tag, int userId) {
-		this.size = size;
-		this.tag = tag;
-		this.userId = userId;
-		Injector.get().inject(this);
-	}
+    public TagFileListDataProvider(int size, String tag, int userId) {
+        this.size = size;
+        this.tag = tag;
+        this.userId = userId;
+        Injector.get().inject(this);
+    }
 
-	public Iterator<File> iterator(int first, int count) {
-		LoadableDetachableModel<ArrayList<File>> ldm = new TagFilesModelPaging(
-				tag, userId, first, count);
-		return ldm.getObject().iterator();
-	}
+    public Iterator<File> iterator(int first, int count) {
+        LoadableDetachableModel<ArrayList<File>> ldm = new TagFilesModelPaging(
+                tag, userId, first, count);
+        return ldm.getObject().iterator();
+    }
 
-	public int size() {
-		return this.size;
-	}
+    public int size() {
+        return this.size;
+    }
 
-	public IModel<File> model(File object) {
-		final Integer id = object.getId();
-		return new LoadableDetachableModel<File>() {
-			@Override
-			protected File load() {
-				return fileService.getById(id);
-			}
-		};
-	}
+    public IModel<File> model(File object) {
+        final Integer id = object.getId();
+        return new LoadableDetachableModel<File>() {
+            @Override
+            protected File load() {
+                return fileService.getById(id);
+            }
+        };
+    }
 
 }

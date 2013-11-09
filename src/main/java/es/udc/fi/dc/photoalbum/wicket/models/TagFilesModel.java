@@ -12,25 +12,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 @SuppressWarnings("serial")
-public class TagFilesModel extends LoadableDetachableModel<ArrayList<File>> {
+public class TagFilesModel extends
+        LoadableDetachableModel<ArrayList<File>> {
 
-	@SpringBean
-	private FileService fileService;
-	private String tag;
-	private int userId;
+    @SpringBean
+    private FileService fileService;
+    private String tag;
+    private int userId;
 
-	public TagFilesModel(String tag, int userId) {
-		this.tag = tag;
-		this.userId = userId;
-		Injector.get().inject(this);
-	}
-	
-	@Override
-	protected ArrayList<File> load() {
-		ArrayList<File> list = new ArrayList<File>(
-				fileService.getFilesByTag(userId, tag));
-		Collections.sort(list, new FileComparator());
-		return list;
-	}
-	
+    public TagFilesModel(String tag, int userId) {
+        this.tag = tag;
+        this.userId = userId;
+        Injector.get().inject(this);
+    }
+
+    @Override
+    protected ArrayList<File> load() {
+        ArrayList<File> list = new ArrayList<File>(
+                fileService.getFilesByTag(userId, tag));
+        Collections.sort(list, new FileComparator());
+        return list;
+    }
+
 }

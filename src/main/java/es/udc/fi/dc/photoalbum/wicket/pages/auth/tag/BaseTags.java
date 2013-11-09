@@ -48,8 +48,8 @@ public class BaseTags extends BasePageAuth {
                 userId, tag);
 
         DataView<Album> dataView = new DataView<Album>("pageable",
-                new TagAlbumListDataProvider(ldm.getObject().size(), userId,
-                        tag)) {
+                new TagAlbumListDataProvider(ldm.getObject().size(),
+                        userId, tag)) {
             public void populateItem(final Item<Album> item) {
                 Album album = item.getModelObject();
                 PageParameters pars = new PageParameters();
@@ -70,11 +70,11 @@ public class BaseTags extends BasePageAuth {
 
     private DataView<File> createFileDataView() {
         int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<ArrayList<File>> ldm = new TagFilesModel(tag,
-                userId);
-        DataView<File> dataView = new DataView<File>(
-                "pageable",
-                new TagFileListDataProvider(ldm.getObject().size(), tag, userId)) {
+        LoadableDetachableModel<ArrayList<File>> ldm = new TagFilesModel(
+                tag, userId);
+        DataView<File> dataView = new DataView<File>("pageable",
+                new TagFileListDataProvider(ldm.getObject().size(),
+                        tag, userId)) {
             public void populateItem(final Item<File> item) {
                 PageParameters pars = new PageParameters();
                 int idFile = item.getModelObject().getId();
@@ -82,11 +82,13 @@ public class BaseTags extends BasePageAuth {
                 pars.add("tag", tag);
                 BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                         "big", FileTagBig.class, pars);
-                bpl.add(new NonCachingImage("img", new BlobImageResource() {
-                    protected Blob getBlob() {
-                        return BlobFromFile.getSmall(item.getModelObject());
-                    }
-                }));
+                bpl.add(new NonCachingImage("img",
+                        new BlobImageResource() {
+                            protected Blob getBlob() {
+                                return BlobFromFile.getSmall(item
+                                        .getModelObject());
+                            }
+                        }));
                 item.add(bpl);
 
             }

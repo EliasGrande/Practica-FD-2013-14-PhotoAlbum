@@ -7,7 +7,8 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public class FileTagDaoImpl extends HibernateDaoSupport implements FileTagDao {
+public class FileTagDaoImpl extends HibernateDaoSupport implements
+        FileTagDao {
 
     @SuppressWarnings("unchecked")
     public FileTag getTag(int fileId, String tag) {
@@ -30,10 +31,14 @@ public class FileTagDaoImpl extends HibernateDaoSupport implements FileTagDao {
 
     @SuppressWarnings("unchecked")
     public ArrayList<FileTag> getTags(int fileId) {
-        return (ArrayList<FileTag>) getHibernateTemplate().findByCriteria(
-                DetachedCriteria.forClass(FileTag.class).createCriteria("file")
-                        .add(Restrictions.eq("id", fileId))
-                        .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY));
+        return (ArrayList<FileTag>) getHibernateTemplate()
+                .findByCriteria(
+                        DetachedCriteria
+                                .forClass(FileTag.class)
+                                .createCriteria("file")
+                                .add(Restrictions.eq("id", fileId))
+                                .setResultTransformer(
+                                        Criteria.DISTINCT_ROOT_ENTITY));
     }
 
     public void create(FileTag fileTag) {

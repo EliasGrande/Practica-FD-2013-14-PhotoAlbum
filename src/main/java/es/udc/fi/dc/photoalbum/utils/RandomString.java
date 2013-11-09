@@ -20,7 +20,8 @@ public final class RandomString {
         Random rng = new Random();
         char[] text = new char[LENGTH];
         for (int i = 0; i < LENGTH; i++) {
-            text[i] = CHARACTERS.charAt(rng.nextInt(CHARACTERS.length()));
+            text[i] = CHARACTERS.charAt(rng.nextInt(CHARACTERS
+                    .length()));
         }
         return new String(text);
     }

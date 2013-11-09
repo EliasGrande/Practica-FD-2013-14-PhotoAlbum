@@ -8,47 +8,47 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class AlbumTag implements Serializable {
 
-	private Integer id;
-	private Album album;
-	private String tag;
+    private Integer id;
+    private Album album;
+    private String tag;
 
-	public AlbumTag() {
+    public AlbumTag() {
 
-	}
+    }
 
-	public AlbumTag(Album album, String tag) {
-		this.album = album;
-		this.tag = tag;
-	}
+    public AlbumTag(Album album, String tag) {
+        this.album = album;
+        this.tag = tag;
+    }
 
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer getId() {
-		return this.id;
-	}
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "ALBUM_ID")
-	public Album getAlbum() {
-		return album;
-	}
+    @ManyToOne
+    @JoinColumn(name = "ALBUM_ID")
+    public Album getAlbum() {
+        return album;
+    }
 
-	public void setAlbum(Album album) {
-		this.album = album;
-	}
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
 
-	@Column(name = "TAG")
-	public String getTag() {
-		return tag;
-	}
+    @Column(name = "TAG")
+    public String getTag() {
+        return tag;
+    }
 
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
 }

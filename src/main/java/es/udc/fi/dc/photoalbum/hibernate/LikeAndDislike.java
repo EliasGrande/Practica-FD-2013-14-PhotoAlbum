@@ -12,45 +12,44 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "LIKE_DISLIKE")
 @SuppressWarnings("serial")
-public class LikeAndDislike implements Serializable{
-	
-	private Integer id;
-	private Integer like;
-	private Integer dislike;
-	
-	public LikeAndDislike(){
-		this.like = 0;
-		this.dislike = 0;
-	}
-	
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer getId() {
-		return id;
-	}
+public class LikeAndDislike implements Serializable {
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    private Integer id;
+    private Integer like;
+    private Integer dislike;
 
-	@Column(name = "LIKES")
-	public Integer getLike() {
-		return like;
-	}
+    public LikeAndDislike() {
+        this.like = 0;
+        this.dislike = 0;
+    }
 
-	public void setLike(Integer like) {
-		this.like = like;
-	}
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return id;
+    }
 
-	@Column(name = "DISLIKES")
-	public Integer getDislike() {
-		return dislike;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setDislike(Integer dislike) {
-		this.dislike = dislike;
-	}
-	
-	
+    @Column(name = "LIKES")
+    public Integer getLike() {
+        return like;
+    }
+
+    public void setLike(Integer like) {
+        this.like = like;
+    }
+
+    @Column(name = "DISLIKES")
+    public Integer getDislike() {
+        return dislike;
+    }
+
+    public void setDislike(Integer dislike) {
+        this.dislike = dislike;
+    }
+
 }

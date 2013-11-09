@@ -19,101 +19,101 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "COMMENT")
 @SuppressWarnings("serial")
-public class Comment implements Serializable{
-	
-	private Integer id;
-	private LikeAndDislike likeAndDislike;
-	private User user;
-	private Calendar date;
-	private String text;
-	private Album album;
-	private File file;
-	
-	public static final int MAX_TEXT_LENGTH = 500;
-	
-	public Comment(){
-		this.date = Calendar.getInstance();
-	}
-	
-	public Comment(LikeAndDislike likeAndDislike, User user,
-			String text, Album album, File file) {
-		this.likeAndDislike = likeAndDislike;
-		this.user = user;
-		this.text = text;
-		this.album = album;
-		this.file = file;
-		this.date = Calendar.getInstance();
-	}
+public class Comment implements Serializable {
 
-	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer getId() {
-		return id;
-	}
+    private Integer id;
+    private LikeAndDislike likeAndDislike;
+    private User user;
+    private Calendar date;
+    private String text;
+    private Album album;
+    private File file;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public static final int MAX_TEXT_LENGTH = 500;
 
-	@OneToOne
-	@JoinColumn(name = "LIKE_DISLIKE_ID")
-	public LikeAndDislike getLikeAndDislike() {
-		return likeAndDislike;
-	}
+    public Comment() {
+        this.date = Calendar.getInstance();
+    }
 
-	public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
-		this.likeAndDislike = likeAndDislike;
-	}
+    public Comment(LikeAndDislike likeAndDislike, User user,
+            String text, Album album, File file) {
+        this.likeAndDislike = likeAndDislike;
+        this.user = user;
+        this.text = text;
+        this.album = album;
+        this.file = file;
+        this.date = Calendar.getInstance();
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "USER_ID")
-	public User getUser() {
-		return user;
-	}
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return id;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "DATE")
-	public Calendar getDate() {
-		return date;
-	}
+    @OneToOne
+    @JoinColumn(name = "LIKE_DISLIKE_ID")
+    public LikeAndDislike getLikeAndDislike() {
+        return likeAndDislike;
+    }
 
-	public void setDate(Calendar date) {
-		this.date = date;
-	}
+    public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
+        this.likeAndDislike = likeAndDislike;
+    }
 
-	@Column(name = "TEXT")
-	public String getText() {
-		return text;
-	}
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    public User getUser() {
+        return user;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
-	
-	//El optional dice que Album puede ser null
-	@ManyToOne(optional=true, fetch=FetchType.LAZY)
-	@JoinColumn(name = "ALBUM_ID")
-	public Album getAlbum() {
-		return album;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setAlbum(Album album) {
-		this.album = album;
-	}
-	
-	@ManyToOne(optional=true, fetch=FetchType.LAZY)
-	@JoinColumn(name = "FILE_ID")
-	public File getFile() {
-		return file;
-	}
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE")
+    public Calendar getDate() {
+        return date;
+    }
 
-	public void setFile(File file) {
-		this.file = file;
-	}
-	
+    public void setDate(Calendar date) {
+        this.date = date;
+    }
+
+    @Column(name = "TEXT")
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    // El optional dice que Album puede ser null
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ALBUM_ID")
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "FILE_ID")
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
 }

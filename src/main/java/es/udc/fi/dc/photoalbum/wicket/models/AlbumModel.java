@@ -12,17 +12,17 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 @SuppressWarnings("serial")
 public class AlbumModel extends LoadableDetachableModel<Album> {
 
-	@SpringBean
-	private AlbumService albumService;
-	private String name;
+    @SpringBean
+    private AlbumService albumService;
+    private String name;
 
-	public AlbumModel(String name) {
-		this.name = name;
-		Injector.get().inject(this);
-	}
+    public AlbumModel(String name) {
+        this.name = name;
+        Injector.get().inject(this);
+    }
 
-	protected Album load() {
-		return this.albumService.getAlbum(name,
-				((MySession) Session.get()).getuId());
-	}
+    protected Album load() {
+        return this.albumService.getAlbum(name,
+                ((MySession) Session.get()).getuId());
+    }
 }

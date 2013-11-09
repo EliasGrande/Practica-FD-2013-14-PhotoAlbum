@@ -8,33 +8,35 @@ import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformationDao;
 import java.util.ArrayList;
 
 @Transactional
-public class AlbumShareInformationServiceImpl implements AlbumShareInformationService {
+public class AlbumShareInformationServiceImpl implements
+        AlbumShareInformationService {
 
-	private AlbumShareInformationDao albumShareInformationDao;
+    private AlbumShareInformationDao albumShareInformationDao;
 
-	public AlbumShareInformationDao getAlbumShareInformationDao() {
-		return this.albumShareInformationDao;
-	}
+    public AlbumShareInformationDao getAlbumShareInformationDao() {
+        return this.albumShareInformationDao;
+    }
 
-	public void setAlbumShareInformationDao(AlbumShareInformationDao shareInformationDao) {
-		this.albumShareInformationDao = shareInformationDao;
-	}
+    public void setAlbumShareInformationDao(
+            AlbumShareInformationDao shareInformationDao) {
+        this.albumShareInformationDao = shareInformationDao;
+    }
 
-	public void create(AlbumShareInformation shareInformation) {
-		albumShareInformationDao.create(shareInformation);
-	}
+    public void create(AlbumShareInformation shareInformation) {
+        albumShareInformationDao.create(shareInformation);
+    }
 
-	public void delete(AlbumShareInformation shareInformation) {
-		albumShareInformationDao.delete(shareInformation);
-	}
+    public void delete(AlbumShareInformation shareInformation) {
+        albumShareInformationDao.delete(shareInformation);
+    }
 
-	public AlbumShareInformation getShare(String albumName, int userSharedToId,
-			String userSharedEmail) {
-		return albumShareInformationDao.getShare(albumName, userSharedToId,
-				userSharedEmail);
-	}
+    public AlbumShareInformation getShare(String albumName,
+            int userSharedToId, String userSharedEmail) {
+        return albumShareInformationDao.getShare(albumName,
+                userSharedToId, userSharedEmail);
+    }
 
-	public ArrayList<AlbumShareInformation> getAlbumShares(int albumId) {
-		return albumShareInformationDao.getAlbumShares(albumId);
-	}
+    public ArrayList<AlbumShareInformation> getAlbumShares(int albumId) {
+        return albumShareInformationDao.getAlbumShares(albumId);
+    }
 }
