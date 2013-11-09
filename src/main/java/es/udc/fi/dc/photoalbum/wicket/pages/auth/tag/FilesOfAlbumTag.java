@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BlobImageResource;
@@ -15,6 +16,7 @@ import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
@@ -76,9 +78,10 @@ public class FilesOfAlbumTag extends BasePageAuth {
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"big", FilesOfAlbumTagBig.class, pars);
 				bpl.add(new NonCachingImage("img", new BlobImageResource() {
-					protected Blob getBlob() {
-						return BlobFromFile.getSmall(item.getModelObject());
-					}
+					
+                    protected Blob getBlob(Attributes arg0) {
+                        return BlobFromFile.getSmall(item.getModelObject());
+                    }
 				}));
 				item.add(bpl);
 				
@@ -110,6 +113,8 @@ public class FilesOfAlbumTag extends BasePageAuth {
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/SharedFiles.css");
+	    response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        FilesOfAlbumTag.class, "css/SharedFiles.css")));
 	}
 }

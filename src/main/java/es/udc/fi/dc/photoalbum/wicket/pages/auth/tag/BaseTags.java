@@ -4,7 +4,6 @@ import java.sql.Blob;
 import java.util.ArrayList;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BlobImageResource;
@@ -78,9 +77,10 @@ public class BaseTags extends BasePageAuth{
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"big", FileTagBig.class, pars);
 				bpl.add(new NonCachingImage("img", new BlobImageResource() {
-					protected Blob getBlob() {
-						return BlobFromFile.getSmall(item.getModelObject());
-					}
+					
+                    protected Blob getBlob(Attributes arg0) {
+                        return BlobFromFile.getSmall(item.getModelObject());
+                    }
 				}));
 				item.add(bpl);
 				
