@@ -4,6 +4,7 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EX
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.LIKE;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,19 +21,23 @@ import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.User;
+import es.udc.fi.dc.photoalbum.hibernate.Voted;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.AlbumTagService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
+import es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.spring.VotedService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Upload;
 
 public class TestUploadPage {
@@ -61,9 +66,14 @@ public class TestUploadPage {
 					}
 
 					public void delete(Album album) {
+						album.getUser().getAlbums().remove(album);
 					}
 
 					public void create(Album album) {
+						if (album.getName().equals(ALBUM_NAME_EXIST)) {
+							throw new DataIntegrityViolationException("");
+						}
+						album.getUser().getAlbums().add(album);
 					}
 
 					public Album getById(Integer id) {
@@ -71,11 +81,19 @@ public class TestUploadPage {
 					}
 
 					public ArrayList<Album> getAlbums(Integer id) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public ArrayList<Album> getPublicAlbums() {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public void changePrivacyLevel(Album album,
@@ -85,7 +103,11 @@ public class TestUploadPage {
 
 					public ArrayList<Album> getAlbumsSharedWith(Integer id,
 							String ownerEmail) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 
 					public Album getSharedAlbum(String albumName,
@@ -95,7 +117,11 @@ public class TestUploadPage {
 
 					public ArrayList<Album> getAlbumsByTag(int userId,
 							String tag) {
-						return new ArrayList<Album>();
+						ArrayList<Album> list = new ArrayList<Album>();
+						list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
+								USER_EMAIL_EXIST, USER_PASS_YES), null, null,
+								PrivacyLevel.PRIVATE));
+						return list;
 					}
 				};
 				FileService mockFile = new FileService() {
@@ -121,12 +147,20 @@ public class TestUploadPage {
 					}
 
 					public ArrayList<File> getAlbumFilesOwn(int albumId) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
 							int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public Long getCountAlbumFiles(int albumId) {
@@ -144,31 +178,55 @@ public class TestUploadPage {
 
 					public ArrayList<File> getAlbumFilesShared(int albumId,
 							int userId) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesSharedPaging(
 							int albumId, int userId, int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesPublic(int albumId,
 							int userId) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getAlbumFilesPublicPaging(
 							int albumId, int userId, int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getFilesByTag(int userId, String tag) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 
 					public ArrayList<File> getFilesByTagPaging(int userId,
 							String tag, int first, int count) {
-						return new ArrayList<File>();
+						ArrayList<File> list = new ArrayList<File>();
+						list.add(new File(1, "1", new byte[1], new byte[1],
+								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
+										null, PrivacyLevel.PRIVATE)));
+						return list;
 					}
 				};
 				UserService mock = new UserService() {
@@ -214,10 +272,84 @@ public class TestUploadPage {
 					}
 					
 				};
+				LikeAndDislikeService mockLikeAndDislike = new LikeAndDislikeService() {
+
+					public LikeAndDislike voteLike(
+							LikeAndDislike likeAndDislike, User user) {
+						Album album = new Album(1, ALBUM_NAME_EXIST, user,
+								null, null, PrivacyLevel.PRIVATE);
+						set.add(new File(1, "1", new byte[1], new byte[1],
+								album));
+						album.setFiles(set);
+						likeAndDislike.setId(1);
+						album.setLikeAndDislike(likeAndDislike);
+						user.getAlbums().add(album);
+						return album.getLikeAndDislike();
+					}
+
+					public LikeAndDislike voteDislike(
+							LikeAndDislike likeAndDislike, User user) {
+						Album album = new Album(1, ALBUM_NAME_EXIST, user,
+								null, null, PrivacyLevel.PRIVATE);
+						set.add(new File(1, "1", new byte[1], new byte[1],
+								album));
+						album.setFiles(set);
+						likeAndDislike.setId(1);
+						album.setLikeAndDislike(likeAndDislike);
+						user.getAlbums().add(album);
+						return album.getLikeAndDislike();
+					}
+
+					public LikeAndDislike unvote(LikeAndDislike likeAndDislike,
+							User user) {
+						Album album = new Album(1, ALBUM_NAME_EXIST, user,
+								null, null, PrivacyLevel.PRIVATE);
+						set.add(new File(1, "1", new byte[1], new byte[1],
+								album));
+						album.setFiles(set);
+						likeAndDislike.setId(1);
+						album.setLikeAndDislike(likeAndDislike);
+						user.getAlbums().add(album);
+						return album.getLikeAndDislike();
+					}
+
+					public boolean userHasVoted(LikeAndDislike likeAndDislike,
+							User user) {
+						return true;
+					}
+					
+				};
+				VotedService mockVotedService = new VotedService() {
+
+					public Voted getVoted(int likeAndDislikeId, int userId) {	
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						Album album = new Album(1, ALBUM_NAME_EXIST, user,
+								null, null, PrivacyLevel.PRIVATE);
+						user.getAlbums().add(album);
+						album.getLikeAndDislike().setId(50);
+						return new Voted(album.getLikeAndDislike(), user, LIKE);
+					}
+
+					public ArrayList<Voted> getVoted(
+							ArrayList<Integer> likeAndDislikeIdList, int userId) {
+						ArrayList<Voted> list = new ArrayList<Voted>();
+						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+						Album album = new Album(1, ALBUM_NAME_EXIST, user,
+								null, null, PrivacyLevel.PRIVATE);
+						user.getAlbums().add(album);
+						album.getLikeAndDislike().setId(50);
+						list.add(new Voted(album.getLikeAndDislike(), user, LIKE));
+						return list;
+					}
+					
+				};
+				
 				context.putBean("userBean", mock);
 				context.putBean("albumBean", mockAlbum);
 				context.putBean("fileBean", mockFile);
 				context.putBean("albumTagBean", mockAlbumTag);
+				context.putBean("likeAndDislikeBean", mockLikeAndDislike);
+				context.putBean("votedServiceBean", mockVotedService);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
 			}

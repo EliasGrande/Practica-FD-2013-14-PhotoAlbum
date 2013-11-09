@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.test.db;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -24,17 +25,22 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
+import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
+import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.AlbumTagService;
+import es.udc.fi.dc.photoalbum.spring.CommentService;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
 import es.udc.fi.dc.photoalbum.spring.FileTagService;
+import es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.spring.VotedService;
 import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
@@ -58,6 +64,12 @@ public class DaoTest {
 	private AlbumTagService albumTagService;
 	@Autowired
 	private FileTagService fileTagService;
+	@Autowired
+	private CommentService commentService;
+	@Autowired
+	private LikeAndDislikeService likeAndDislikeService;
+	@Autowired
+	private VotedService votedService;
 
 	@BeforeClass
 	public static void setUpJndi() throws NamingException {
@@ -947,7 +959,7 @@ public class DaoTest {
 		assertNull(fileTagAux);
 
 	}
-	
+
 	@Test
 	// Test GetFileTags [FileTagService]
 	public void testGetFileTags() {
@@ -968,7 +980,7 @@ public class DaoTest {
 		ArrayList<FileTag> tags = fileTagService.getTags(file.getId());
 		assertEquals(tag1, tags.get(0));
 		assertEquals(tag2, tags.get(1));
-		assertEquals(tag3, tags.get(2));		
+		assertEquals(tag3, tags.get(2));
 		assertEquals(tags.size(), 3);
 	}
 
@@ -992,14 +1004,15 @@ public class DaoTest {
 		this.albumTagService.create(tag2);
 		AlbumTag tag3 = new AlbumTag(album3, "tag");
 		this.albumTagService.create(tag3);
-		ArrayList<Album> albums = this.albumService.getAlbumsByTag(user.getId(), "tag");
-		assertEquals(albums.size(),3);
+		ArrayList<Album> albums = this.albumService.getAlbumsByTag(
+				user.getId(), "tag");
+		assertEquals(albums.size(), 3);
 		assertEquals(albums.get(0), album1);
 		assertEquals(albums.get(1), album2);
 		assertEquals(albums.get(2), album3);
-		
+
 	}
-	
+
 	@Test
 	// Test GetFilesByTag [FileService]
 	public void TestGetFilesByTag() {
@@ -1030,7 +1043,7 @@ public class DaoTest {
 		assertEquals(files.get(1), file2);
 		assertEquals(files.get(2), file3);
 	}
-	
+
 	@Test
 	// Test GetFilesByTagPaging [FileService]
 	public void TestGetFilesByTagPaging() {
@@ -1054,18 +1067,489 @@ public class DaoTest {
 		this.fileTagService.create(tag2);
 		FileTag tag3 = new FileTag(file3, "tag");
 		this.fileTagService.create(tag3);
-		
-		ArrayList<File> files = this.fileService.getFilesByTagPaging(user.getId(), "tag", 1, 2);
-		ArrayList<File> files2 = this.fileService.getFilesByTagPaging(user.getId(), "tag", 0, 3);
-		
+
+		ArrayList<File> files = this.fileService.getFilesByTagPaging(
+				user.getId(), "tag", 1, 2);
+		ArrayList<File> files2 = this.fileService.getFilesByTagPaging(
+				user.getId(), "tag", 0, 3);
+
 		assertEquals(files.size(), 2);
 		assertEquals(files.get(0), file2);
 		assertEquals(files.get(1), file3);
-		
+
 		assertEquals(files2.size(), 3);
 		assertEquals(files2.get(0), file1);
 		assertEquals(files2.get(1), file2);
 		assertEquals(files2.get(2), file3);
 	}
 
+	@Test
+	// Test CreateAndDeleteAlbumComment [CommentService]
+	public void testCreateAndDeleteAlbumComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		LikeAndDislike likeAndDislike = new LikeAndDislike();
+		Comment comment = new Comment(likeAndDislike, user, "Prueba comment",
+				album, null);
+		this.commentService.create(user, album, comment.getText());
+		assertNotNull(this.commentService.getComments(album));
+		// this.commentService.delete(comment);
+		// ArrayList<Comment> c = this.commentService.getComments(album);
+		// System.out.println ("--------------------------------------------- "
+		// + c.size());
+		// assertNull(this.commentService.getComments(album));
+	}
+
+	@Test
+	// Test CreateAndDeleteFileComment [CommentService]
+	public void testCreateAndDeleteFileComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		LikeAndDislike likeAndDislike = new LikeAndDislike();
+		Comment comment = new Comment(likeAndDislike, user, "Prueba comment",
+				null, file);
+		this.commentService.create(user, file, comment.getText());
+		assertNotNull(this.commentService.getComments(file));
+		// this.commentService.delete(comment);
+		// ArrayList<Comment> c = this.commentService.getComments(file);
+		// System.out.println ("--------------------------------------------- "
+		// + c.size());
+		// assertEquals(this.commentService.getComments(file).size(), 0);
+	}
+
+	@Test
+	// Test GetAlbumComments [CommentService]
+	public void testGetAlbumComments() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		LikeAndDislike likeAndDislike = new LikeAndDislike();
+		Comment comment1 = new Comment(likeAndDislike, user,
+				"Prueba comment 1", album, null);
+		this.commentService.create(user, album, comment1.getText());
+		Comment comment2 = new Comment(likeAndDislike, user,
+				"Prueba comment 2", album, null);
+		this.commentService.create(user, album, comment2.getText());
+		Comment comment3 = new Comment(likeAndDislike, user,
+				"Prueba comment 3", album, null);
+		this.commentService.create(user, album, comment3.getText());
+		assertEquals(this.commentService.getComments(album).size(), 3);
+		assertEquals(this.commentService.getComments(album).get(0).getText(),
+				comment3.getText());
+		assertEquals(this.commentService.getComments(album).get(1).getText(),
+				comment2.getText());
+		assertEquals(this.commentService.getComments(album).get(2).getText(),
+				comment1.getText());
+	}
+
+	@Test
+	// Test GetFileComments [CommentService]
+	public void testGetFileComments() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		LikeAndDislike likeAndDislike = new LikeAndDislike();
+		Comment comment1 = new Comment(likeAndDislike, user,
+				"Prueba comment 1", null, file);
+		this.commentService.create(user, file, comment1.getText());
+		Comment comment2 = new Comment(likeAndDislike, user,
+				"Prueba comment 2", null, file);
+		this.commentService.create(user, file, comment2.getText());
+		Comment comment3 = new Comment(likeAndDislike, user,
+				"Prueba comment 3", null, file);
+		this.commentService.create(user, file, comment3.getText());
+		assertEquals(this.commentService.getComments(file).size(), 3);
+		assertEquals(this.commentService.getComments(file).get(0).getText(),
+				comment3.getText());
+		assertEquals(this.commentService.getComments(file).get(1).getText(),
+				comment2.getText());
+		assertEquals(this.commentService.getComments(file).get(2).getText(),
+				comment1.getText());
+	}
+
+	@Test
+	// Test GetAlbumCommentsPaging [CommentService]
+	public void testGetAlbumCommentsPaging() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		LikeAndDislike likeAndDislike = new LikeAndDislike();
+		Comment comment1 = new Comment(likeAndDislike, user,
+				"Prueba comment 1", album, null);
+		this.commentService.create(user, album, comment1.getText());
+		Comment comment2 = new Comment(likeAndDislike, user,
+				"Prueba comment 2", album, null);
+		this.commentService.create(user, album, comment2.getText());
+		Comment comment3 = new Comment(likeAndDislike, user,
+				"Prueba comment 3", album, null);
+		this.commentService.create(user, album, comment3.getText());
+		assertEquals(this.commentService.getCommentsPaging(album, 0, 2).size(),
+				2);
+		assertEquals(this.commentService.getCommentsPaging(album, 2, 1).size(),
+				1);
+		assertEquals(this.commentService.getCommentsPaging(album, 2, 2).size(),
+				1);
+		assertEquals(this.commentService.getCommentsPaging(album, 3, 2).size(),
+				0);
+	}
+
+	@Test
+	// Test GetFileCommentsPaging [CommentService]
+	public void testGetFileCommentsPaging() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		LikeAndDislike likeAndDislike = new LikeAndDislike();
+		Comment comment1 = new Comment(likeAndDislike, user,
+				"Prueba comment 1", null, file);
+		this.commentService.create(user, file, comment1.getText());
+		Comment comment2 = new Comment(likeAndDislike, user,
+				"Prueba comment 2", null, file);
+		this.commentService.create(user, file, comment2.getText());
+		Comment comment3 = new Comment(likeAndDislike, user,
+				"Prueba comment 3", null, file);
+		this.commentService.create(user, file, comment3.getText());
+		assertEquals(this.commentService.getCommentsPaging(file, 0, 2).size(),
+				2);
+		assertEquals(this.commentService.getCommentsPaging(file, 2, 1).size(),
+				1);
+		assertEquals(this.commentService.getCommentsPaging(file, 2, 2).size(),
+				1);
+		assertEquals(this.commentService.getCommentsPaging(file, 3, 2).size(),
+				0);
+	}
+
+	@Test
+	// Test VoteLikeAndDislikeAlbum [LikeAndDislikeService]
+	public void testVoteLikeAndDislikeAlbum() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		this.likeAndDislikeService.voteLike(album.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteDislike(album.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				album.getLikeAndDislike(), user));
+	}
+
+	@Test
+	// Test VoteLikeAndDislikeFile [LikeAndDislikeService]
+	public void testVoteLikeAndDislikeFile() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		this.likeAndDislikeService.voteLike(file.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteDislike(file.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				file.getLikeAndDislike(), user));
+	}
+
+	@Test
+	// Test VoteLikeAndDislikeAlbumComment [LikeAndDislikeService]
+	public void testVoteLikeAndDislikeAlbumComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		Comment comment = new Comment(album.getLikeAndDislike(), user,
+				"Prueba comment", album, null);
+		this.commentService.create(user, album, comment.getText());
+		this.likeAndDislikeService.voteLike(comment.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteDislike(comment.getLikeAndDislike(),
+				user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+	}
+
+	@Test
+	// Test VoteLikeAndDislikeFileComment [LikeAndDislikeService]
+	public void testVoteLikeAndDislikeFileComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		Comment comment = new Comment(file.getLikeAndDislike(), user,
+				"Prueba comment", null, file);
+		this.commentService.create(user, file, comment.getText());
+		this.likeAndDislikeService.voteLike(comment.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteDislike(comment.getLikeAndDislike(),
+				user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+	}
+
+	@Test
+	// Test UnvoteLikeAndDisLikeAlbum [LikeAndDislikeService]
+	public void testUnvoteLikeAndDisLikeAlbum() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		this.likeAndDislikeService.voteLike(album.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				album.getLikeAndDislike(), user));
+		this.likeAndDislikeService.unvote(album.getLikeAndDislike(), user);
+		assertFalse(this.likeAndDislikeService.userHasVoted(
+				album.getLikeAndDislike(), user));
+	}
+
+	@Test
+	// Test UnvoteLikeAndDisLikeFile [LikeAndDislikeService]
+	public void testUnvoteLikeAndDisLikeFile() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		this.likeAndDislikeService.voteLike(file.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				file.getLikeAndDislike(), user));
+		this.likeAndDislikeService.unvote(file.getLikeAndDislike(), user);
+		assertFalse(this.likeAndDislikeService.userHasVoted(
+				file.getLikeAndDislike(), user));
+	}
+
+	@Test
+	// Test UnvoteLikeAndDisLikeAlbumComment [LikeAndDislikeService]
+	public void testUnvoteLikeAndDisLikeAlbumComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		Comment comment = new Comment(album.getLikeAndDislike(), user,
+				"Prueba comment", album, null);
+		this.commentService.create(user, album, comment.getText());
+		this.likeAndDislikeService.voteLike(comment.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+		this.likeAndDislikeService.unvote(comment.getLikeAndDislike(), user);
+		assertFalse(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+	}
+
+	@Test
+	// Test UnvoteLikeAndDisLikeFileComment [LikeAndDislikeService]
+	public void testUnvoteLikeAndDisLikeFileComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		Comment comment = new Comment(file.getLikeAndDislike(), user,
+				"Prueba comment", null, file);
+		this.commentService.create(user, file, comment.getText());
+		this.likeAndDislikeService.voteLike(comment.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+		this.likeAndDislikeService.unvote(comment.getLikeAndDislike(), user);
+		assertFalse(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+	}
+
+	@Test
+	public void testGetVotedAlbum() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		this.likeAndDislikeService.voteLike(album.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				album.getLikeAndDislike(), user));
+		assertNotNull(this.votedService.getVoted(album.getLikeAndDislike()
+				.getId(), user.getId()));
+		this.likeAndDislikeService.unvote(album.getLikeAndDislike(), user);
+		assertNull(this.votedService.getVoted(
+				album.getLikeAndDislike().getId(), user.getId()));
+	}
+
+	@Test
+	public void testGetVotedFile() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		this.likeAndDislikeService.voteLike(file.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				file.getLikeAndDislike(), user));
+		assertNotNull(this.votedService.getVoted(file.getLikeAndDislike()
+				.getId(), user.getId()));
+		this.likeAndDislikeService.unvote(file.getLikeAndDislike(), user);
+		assertNull(this.votedService.getVoted(file.getLikeAndDislike().getId(),
+				user.getId()));
+	}
+
+	@Test
+	// Test GetVotedAlbumComment [VotedService]
+	public void testGetVotedAlbumComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		Comment comment = new Comment(album.getLikeAndDislike(), user,
+				"Prueba comment", album, null);
+		this.commentService.create(user, album, comment.getText());
+		this.likeAndDislikeService.voteLike(comment.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteDislike(comment.getLikeAndDislike(),
+				user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+		assertNotNull(this.votedService.getVoted(comment.getLikeAndDislike()
+				.getId(), user.getId()));
+		this.likeAndDislikeService.unvote(comment.getLikeAndDislike(), user);
+		assertNull(this.votedService.getVoted(comment.getLikeAndDislike()
+				.getId(), user.getId()));
+	}
+
+	@Test
+	// Test VoteLikeAndDislikeFileComment [LikeAndDislikeService]
+	public void testGetVotedFileComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		File file = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file);
+		Comment comment = new Comment(file.getLikeAndDislike(), user,
+				"Prueba comment", null, file);
+		this.commentService.create(user, file, comment.getText());
+		this.likeAndDislikeService.voteLike(comment.getLikeAndDislike(), user);
+		assertTrue(this.likeAndDislikeService.userHasVoted(
+				comment.getLikeAndDislike(), user));
+		assertNotNull(this.votedService.getVoted(comment.getLikeAndDislike()
+				.getId(), user.getId()));
+		this.likeAndDislikeService.unvote(comment.getLikeAndDislike(), user);
+		assertNull(this.votedService.getVoted(comment.getLikeAndDislike()
+				.getId(), user.getId()));
+	}
+
+	@Test
+	public void testGetVotedListAlbum() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album1 = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album1);
+		Album album2 = new Album(null, "SecondAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album2);
+		Album album3 = new Album(null, "ThirdAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album3);
+		this.likeAndDislikeService.voteLike(album1.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteLike(album2.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteLike(album3.getLikeAndDislike(), user);
+		ArrayList<Integer> likeAndDislikeIdList = new ArrayList<Integer>();
+		likeAndDislikeIdList.add(album1.getLikeAndDislike().getId());
+		likeAndDislikeIdList.add(album2.getLikeAndDislike().getId());
+		likeAndDislikeIdList.add(album3.getLikeAndDislike().getId());
+		assertEquals(
+				this.votedService.getVoted(likeAndDislikeIdList, user.getId())
+						.size(), 3);
+	}
+
+	@Test
+	public void testGetVotedListFile() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PRIVATE);
+		this.albumService.create(album);
+		File file1 = new File(null, "Prueba1", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file1);
+		File file2 = new File(null, "Prueba2", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file2);
+		File file3 = new File(null, "Prueba3", new byte[] { 1 },
+				new byte[] { 2 }, album);
+		this.fileService.create(file3);
+		this.likeAndDislikeService.voteLike(file1.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteLike(file2.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteLike(file3.getLikeAndDislike(), user);
+		ArrayList<Integer> likeAndDislikeIdList = new ArrayList<Integer>();
+		likeAndDislikeIdList.add(file1.getLikeAndDislike().getId());
+		likeAndDislikeIdList.add(file2.getLikeAndDislike().getId());
+		likeAndDislikeIdList.add(file3.getLikeAndDislike().getId());
+		assertEquals(
+				this.votedService.getVoted(likeAndDislikeIdList, user.getId())
+						.size(), 3);
+	}
+	
+	@Test
+	public void testGetVotedListAlbumComment() {
+		User user = new User(null, "123", MD5.getHash("pass"));
+		this.userService.create(user);
+		Album album = new Album(null, "FirstAlbum", user, null, null,
+				PrivacyLevel.PUBLIC);
+		this.albumService.create(album);
+		Comment comment1 = new Comment(album.getLikeAndDislike(), user,
+				"Prueba comment 1", album, null);
+		this.commentService.create(user, album, comment1.getText());
+		Comment comment2 = new Comment(album.getLikeAndDislike(), user,
+				"Prueba comment 2", album, null);
+		this.commentService.create(user, album, comment2.getText());
+		Comment comment3 = new Comment(album.getLikeAndDislike(), user,
+				"Prueba comment 3", album, null);
+		this.commentService.create(user, album, comment3.getText());
+		this.likeAndDislikeService.voteLike(comment1.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteLike(comment2.getLikeAndDislike(), user);
+		this.likeAndDislikeService.voteLike(comment3.getLikeAndDislike(), user);
+		ArrayList<Integer> likeAndDislikeIdList = new ArrayList<Integer>();
+		likeAndDislikeIdList.add(comment1.getLikeAndDislike().getId());
+		likeAndDislikeIdList.add(comment2.getLikeAndDislike().getId());
+		likeAndDislikeIdList.add(comment3.getLikeAndDislike().getId());
+		assertEquals(
+				this.votedService.getVoted(likeAndDislikeIdList, user.getId())
+						.size(), 1);
+	}
 }

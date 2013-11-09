@@ -12,5 +12,7 @@ public final class ConstantsForTests {
 	public static final String ALBUM_NAME_EXIST = "2";
 	public static final String ALBUM_NAME_NOT_EXIST = "1";
 	public static final String TAG_NAME_EXIST = "tag1";
-	public static final String TAG_NAME_NOT_EXIST = "tag2";	
+	public static final String TAG_NAME_NOT_EXIST = "tag2";
+	public static final String LIKE = "LIKE";
+	public static final String DISLIKE = "DISLIKE";
 }
