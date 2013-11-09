@@ -75,7 +75,7 @@ public class Albums extends BasePageAuth {
 				item.add(modal);
 				modal.setPageCreator(new ModalWindow.PageCreator() {
 					public Page createPage() {
-						return new ModalRename(item.getModelObject(), modal);
+                        return new ModalRename(item.getModelObject(), modal);
 					}
 				});
 				modal.setTitle(new StringResourceModel("albums.rename", this,

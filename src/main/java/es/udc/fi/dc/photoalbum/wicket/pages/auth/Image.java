@@ -54,273 +54,275 @@ import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 @SuppressWarnings("serial")
 public class Image extends BasePageAuth {
 
-	@SpringBean
-	private FileService fileService;
-	@SpringBean
-	private UserService userService;
-	@SpringBean
-	private FileShareInformationService shareInformationService;
-	@SpringBean
-	private FileTagService fileTagService;
-	private FileOwnModel fileOwnModel;
-	private PageParameters parameters;
-	private Album selectedAlbum;
-	private PrivacyLevelOption selectedPrivacyLevel;
-	private FeedbackPanel feedback;
-	private static final int TAG_PER_PAGE = 5;
-	private static final int EMAIL_PER_PAGE=5;
+    @SpringBean
+    private FileService fileService;
+    @SpringBean
+    private UserService userService;
+    @SpringBean
+    private FileShareInformationService shareInformationService;
+    @SpringBean
+    private FileTagService fileTagService;
+    private FileOwnModel fileOwnModel;
+    private PageParameters parameters;
+    private Album selectedAlbum;
+    private PrivacyLevelOption selectedPrivacyLevel;
+    private FeedbackPanel feedback;
+    private static final int TAG_PER_PAGE = 5;
+    private static final int EMAIL_PER_PAGE = 5;
 
-	public Image(final PageParameters parameters) {
-		super(parameters);
-		if (parameters.getNamedKeys().contains("fid")
-				&& parameters.getNamedKeys().contains("album")) {
-			int id = parameters.get("fid").toInt();
-			String name = parameters.get("album").toString();
-			AlbumModel am = new AlbumModel(name);
-			FileOwnModel fileOwnModel = new FileOwnModel(id, name,
-					((MySession) Session.get()).getuId());
-			this.fileOwnModel = fileOwnModel;
-			if (fileOwnModel.getObject() == null) {
-				throw new RestartResponseException(ErrorPage404.class);
-			}
-			this.parameters = parameters;
-			FeedbackPanel feedback = new FeedbackPanel("feedback");
-			feedback.setOutputMarkupId(true);
-			this.feedback = feedback;
-			add(feedback);
-			add(new NavigateForm<Void>("formNavigate", am.getObject().getId(),
-					fileOwnModel.getObject().getId(), Image.class));
-			DataView<FileShareInformation> dataView = createShareDataView();
-			add(dataView);
-			add(new PagingNavigator("navigator", dataView));
-			add(createNonCachingImage());
-			add(createFormDelete());
-			add(createFormMove());
-			add(createFormPrivacyLevel());
-			add(createAddTagForm());
-			add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
-					(new PageParameters()).add("album", name)));
-			add(createShareForm());
-			add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
-			add(new CommentAndVotePanel("commentAndVote", this, fileOwnModel.getObject()));
-		} else {
-			throw new RestartResponseException(ErrorPage404.class);
-		}
-	}
+    public Image(final PageParameters parameters) {
+        super(parameters);
+        if (parameters.getNamedKeys().contains("fid")
+                && parameters.getNamedKeys().contains("album")) {
+            int id = parameters.get("fid").toInt();
+            String name = parameters.get("album").toString();
+            AlbumModel am = new AlbumModel(name);
+            FileOwnModel fileOwnModel = new FileOwnModel(id, name,
+                    ((MySession) Session.get()).getuId());
+            this.fileOwnModel = fileOwnModel;
+            if (fileOwnModel.getObject() == null) {
+                throw new RestartResponseException(ErrorPage404.class);
+            }
+            this.parameters = parameters;
+            FeedbackPanel feedback = new FeedbackPanel("feedback");
+            feedback.setOutputMarkupId(true);
+            this.feedback = feedback;
+            add(feedback);
+            add(new NavigateForm<Void>("formNavigate", am.getObject().getId(),
+                    fileOwnModel.getObject().getId(), Image.class));
+            DataView<FileShareInformation> dataView = createShareDataView();
+            add(dataView);
+            add(new PagingNavigator("navigator", dataView));
+            add(createNonCachingImage());
+            add(createFormDelete());
+            add(createFormMove());
+            add(createFormPrivacyLevel());
+            add(createAddTagForm());
+            add(new BookmarkablePageLink<Void>("linkBack", Upload.class,
+                    (new PageParameters()).add("album", name)));
+            add(createShareForm());
+            add(new AjaxDataView("fileTagDataContainer", "fileTagNavigator",
+                    createFileTagsDataView()));
+            add(new CommentAndVotePanel("commentAndVote", this,
+                    fileOwnModel.getObject()));
+        } else {
+            throw new RestartResponseException(ErrorPage404.class);
+        }
+    }
 
-	private DataView<FileShareInformation> createShareDataView() {
-		final List<FileShareInformation> list = new ArrayList<FileShareInformation>(
-				shareInformationService.getFileShares(this.fileOwnModel
-						.getObject().getId()));
-		DataView<FileShareInformation> dataView = new DataView<FileShareInformation>(
-				"pageable", new ListDataProvider<FileShareInformation>(list)) {
+    private DataView<FileShareInformation> createShareDataView() {
+        final List<FileShareInformation> list = new ArrayList<FileShareInformation>(
+                shareInformationService.getFileShares(this.fileOwnModel
+                        .getObject().getId()));
+        DataView<FileShareInformation> dataView = new DataView<FileShareInformation>(
+                "pageable", new ListDataProvider<FileShareInformation>(list)) {
 
-			protected void populateItem(Item<FileShareInformation> item) {
-				final FileShareInformation shareInformation = item
-						.getModelObject();
-				item.add(new Label("email", shareInformation.getUser()
-						.getEmail()));
-				item.add(new Link<Void>("delete") {
-					public void onClick() {
-						shareInformationService.delete(shareInformation);
-						info(new StringResourceModel("share.deleted", this,
-								null).getString());
-						setResponsePage(new Image(parameters));
-					}
+            protected void populateItem(Item<FileShareInformation> item) {
+                final FileShareInformation shareInformation = item
+                        .getModelObject();
+                item.add(new Label("email", shareInformation.getUser()
+                        .getEmail()));
+                item.add(new Link<Void>("delete") {
+                    public void onClick() {
+                        shareInformationService.delete(shareInformation);
+                        info(new StringResourceModel("share.deleted", this,
+                                null).getString());
+                        setResponsePage(new Image(parameters));
+                    }
 
-				});
-			}
-		};
-		dataView.setItemsPerPage(EMAIL_PER_PAGE);
-		return dataView;
-	}
+                });
+            }
+        };
+        dataView.setItemsPerPage(EMAIL_PER_PAGE);
+        return dataView;
+    }
 
-	private NonCachingImage createNonCachingImage() {
-		return new NonCachingImage("img", new BlobImageResource() {
-			protected Blob getBlob() {
-				return BlobFromFile.getBig(fileOwnModel.getObject());
-			}
-		});
-	}
+    private NonCachingImage createNonCachingImage() {
+        return new NonCachingImage("img", new BlobImageResource() {
+            protected Blob getBlob() {
+                return BlobFromFile.getBig(fileOwnModel.getObject());
+            }
+        });
+    }
 
-	private Form<Void> createFormDelete() {
-		return new Form<Void>("formDelete") {
-			@Override
-			public void onSubmit() {
-				fileService.delete(fileOwnModel.getObject());
-				info(new StringResourceModel("image.deleted", this, null)
-						.getString());
-				setResponsePage(new Upload(parameters.remove("fid")));
-			}
-		};
-	}
+    private Form<Void> createFormDelete() {
+        return new Form<Void>("formDelete") {
+            @Override
+            public void onSubmit() {
+                fileService.delete(fileOwnModel.getObject());
+                info(new StringResourceModel("image.deleted", this, null)
+                        .getString());
+                setResponsePage(new Upload(parameters.remove("fid")));
+            }
+        };
+    }
 
-	private Form<Void> createFormMove() {
-		Form<Void> form = new Form<Void>("formMove") {
-			@Override
-			public void onSubmit() {
-				fileService
-						.changeAlbum(fileOwnModel.getObject(), selectedAlbum);
-				info(new StringResourceModel("image.moved", this, null)
-						.getString());
-				setResponsePage(new Upload(parameters.remove("fid")));
-			}
-		};
-		DropDownChoice<Album> listAlbums = new DropDownChoice<Album>("albums",
-				new PropertyModel<Album>(this, "selectedAlbum"),
-				new AlbumsModel(fileOwnModel.getObject().getAlbum()),
-				new ChoiceRenderer<Album>("name", "id"));
-		listAlbums.setRequired(true);
-		listAlbums.setLabel(new StringResourceModel("image.moveAlbum", this,
-				null));
-		form.add(listAlbums);
-		return form;
-	}
+    private Form<Void> createFormMove() {
+        Form<Void> form = new Form<Void>("formMove") {
+            @Override
+            public void onSubmit() {
+                fileService
+                        .changeAlbum(fileOwnModel.getObject(), selectedAlbum);
+                info(new StringResourceModel("image.moved", this, null)
+                        .getString());
+                setResponsePage(new Upload(parameters.remove("fid")));
+            }
+        };
+        DropDownChoice<Album> listAlbums = new DropDownChoice<Album>("albums",
+                new PropertyModel<Album>(this, "selectedAlbum"),
+                new AlbumsModel(fileOwnModel.getObject().getAlbum()),
+                new ChoiceRenderer<Album>("name", "id"));
+        listAlbums.setRequired(true);
+        listAlbums.setLabel(new StringResourceModel("image.moveAlbum", this,
+                null));
+        form.add(listAlbums);
+        return form;
+    }
 
-	private Form<Void> createFormPrivacyLevel() {
-		Form<Void> form = new Form<Void>("formPrivacyLevel") {
-			@Override
-			public void onSubmit() {
-				if (selectedPrivacyLevel != null
-						&& PrivacyLevel.validateFile(selectedPrivacyLevel
-								.getValue())) {
-					fileService.changePrivacyLevel(fileOwnModel.getObject(),
-							selectedPrivacyLevel.getValue());
-					info(new StringResourceModel("privacyLevel.changed", this,
-							null).getString());
-				}
-				setResponsePage(new Image(parameters));
-			}
-		};
-		selectedPrivacyLevel = new PrivacyLevelOption(fileOwnModel.getObject()
-				.getPrivacyLevel(), this);
-		DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
-				"privacyLevels", new PropertyModel<PrivacyLevelOption>(this,
-						"selectedPrivacyLevel"), new PrivacyLevelsModel(
-						fileOwnModel.getObject(), this),
-				new ChoiceRenderer<PrivacyLevelOption>("label", "value"));
-		listPrivacyLevel.setRequired(true);
-		listPrivacyLevel.setLabel(new StringResourceModel(
-				"privacyLevel.change", this, null));
-		form.add(listPrivacyLevel);
+    private Form<Void> createFormPrivacyLevel() {
+        Form<Void> form = new Form<Void>("formPrivacyLevel") {
+            @Override
+            public void onSubmit() {
+                if (selectedPrivacyLevel != null
+                        && PrivacyLevel.validateFile(selectedPrivacyLevel
+                                .getValue())) {
+                    fileService.changePrivacyLevel(fileOwnModel.getObject(),
+                            selectedPrivacyLevel.getValue());
+                    info(new StringResourceModel("privacyLevel.changed", this,
+                            null).getString());
+                }
+                setResponsePage(new Image(parameters));
+            }
+        };
+        selectedPrivacyLevel = new PrivacyLevelOption(fileOwnModel.getObject()
+                .getPrivacyLevel(), this);
+        DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
+                "privacyLevels", new PropertyModel<PrivacyLevelOption>(this,
+                        "selectedPrivacyLevel"), new PrivacyLevelsModel(
+                        fileOwnModel.getObject(), this),
+                new ChoiceRenderer<PrivacyLevelOption>("label", "value"));
+        listPrivacyLevel.setRequired(true);
+        listPrivacyLevel.setLabel(new StringResourceModel(
+                "privacyLevel.change", this, null));
+        form.add(listPrivacyLevel);
 
-		return form;
-	}
+        return form;
+    }
 
-	private Form<User> createShareForm() {
-		Form<User> form = new Form<User>("form") {
-			@Override
-			protected void onSubmit() {
-				User user = getModelObject();
-				User existedUser = userService.getUser(user);
-				if (existedUser == null) {
-					error(new StringResourceModel("share.noUser", this, null)
-							.getString());
-				} else if (existedUser.getEmail().equals(
-						userService.getById(
-								((MySession) Session.get()).getuId())
-								.getEmail())) {
-					error(new StringResourceModel("share.yourself", this, null)
-							.getString());
-				} else {
-					FileShareInformation shareInformation = new FileShareInformation(
-							null, fileOwnModel.getObject(), existedUser);
-					ArrayList<FileShareInformation> getFileShares = shareInformationService
-							.getFileShares(fileOwnModel.getObject().getId());
-					ListIterator<FileShareInformation> iter = getFileShares
-							.listIterator();
-					boolean comp = false;
-					while (iter.hasNext() && (comp == false)) {
-						FileShareInformation item = (FileShareInformation) iter
-								.next();
-						String shMail = item.getUser().getEmail();
-						if (shMail == existedUser.getEmail()) {
-							comp = true;
-						}
-					}
-					if (!comp) {
-						shareInformationService.create(shareInformation);
-						info(new StringResourceModel("share.shareFileSuccess",
-								this, null).getString());
-						setResponsePage(new Image(getPage().getPageParameters()));
-					} else {
-						error(new StringResourceModel("share.alreadyExist",
-								this, null).getString());
-					}
-				}
-			}
-		};
-		User user = new User();
-		form.setDefaultModel(new Model<User>(user));
-		RequiredTextField<String> shareEmail = new RequiredTextField<String>(
-				"shareEmail", new PropertyModel<String>(user, "email"));
-		if (fileOwnModel.getObject().getPrivacyLevel()
-				.equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
-			shareEmail.setEnabled(false);
-		} else {
-			shareEmail.setEnabled(true);
-		}
-		shareEmail.setLabel(new StringResourceModel("share.emailField", this,
-				null));
-		shareEmail.add(EmailAddressValidator.getInstance());
-		form.add(shareEmail);
-		form.add(new MyAjaxButton("ajax-button", form, feedback));
-		return form;
-	}
+    private Form<User> createShareForm() {
+        Form<User> form = new Form<User>("form") {
+            @Override
+            protected void onSubmit() {
+                User user = getModelObject();
+                User existedUser = userService.getUser(user);
+                if (existedUser == null) {
+                    error(new StringResourceModel("share.noUser", this, null)
+                            .getString());
+                } else if (existedUser.getEmail().equals(
+                        userService.getById(
+                                ((MySession) Session.get()).getuId())
+                                .getEmail())) {
+                    error(new StringResourceModel("share.yourself", this, null)
+                            .getString());
+                } else {
+                    FileShareInformation shareInformation = new FileShareInformation(
+                            null, fileOwnModel.getObject(), existedUser);
+                    ArrayList<FileShareInformation> getFileShares = shareInformationService
+                            .getFileShares(fileOwnModel.getObject().getId());
+                    ListIterator<FileShareInformation> iter = getFileShares
+                            .listIterator();
+                    boolean comp = false;
+                    while (iter.hasNext() && (comp == false)) {
+                        FileShareInformation item = (FileShareInformation) iter
+                                .next();
+                        String shMail = item.getUser().getEmail();
+                        if (shMail == existedUser.getEmail()) {
+                            comp = true;
+                        }
+                    }
+                    if (!comp) {
+                        shareInformationService.create(shareInformation);
+                        info(new StringResourceModel("share.shareFileSuccess",
+                                this, null).getString());
+                        setResponsePage(new Image(getPage().getPageParameters()));
+                    } else {
+                        error(new StringResourceModel("share.alreadyExist",
+                                this, null).getString());
+                    }
+                }
+            }
+        };
+        User user = new User();
+        form.setDefaultModel(new Model<User>(user));
+        RequiredTextField<String> shareEmail = new RequiredTextField<String>(
+                "shareEmail", new PropertyModel<String>(user, "email"));
+        if (fileOwnModel.getObject().getPrivacyLevel()
+                .equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
+            shareEmail.setEnabled(false);
+        } else {
+            shareEmail.setEnabled(true);
+        }
+        shareEmail.setLabel(new StringResourceModel("share.emailField", this,
+                null));
+        shareEmail.add(EmailAddressValidator.getInstance());
+        form.add(shareEmail);
+        form.add(new MyAjaxButton("ajax-button", form, feedback));
+        return form;
+    }
 
-	private Form<FileTag> createAddTagForm() {
-		Form<FileTag> form = new Form<FileTag>("formAddTag") {
-			@Override
-			public void onSubmit() {
-				FileTag fTag = getModelObject();
-				fTag.setFile(fileOwnModel.getObject());
-				fileTagService.create(fTag);
-				info(new StringResourceModel("tag.added", this, null)
-						.getString());
-				setResponsePage(new Image(parameters));
-			}
-		};
-		FileTag fTag = new FileTag();
-		form.setDefaultModel(new Model<FileTag>(fTag));
-		RequiredTextField<String> newTag = new RequiredTextField<String>(
-				"newTag", new PropertyModel<String>(fTag, "tag"));
-		newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
-		form.add(newTag);
-		form.add(new MyAjaxButton("ajax-button", form, feedback));
-		return form;
-	}
+    private Form<FileTag> createAddTagForm() {
+        Form<FileTag> form = new Form<FileTag>("formAddTag") {
+            @Override
+            public void onSubmit() {
+                FileTag fTag = getModelObject();
+                fTag.setFile(fileOwnModel.getObject());
+                fileTagService.create(fTag);
+                info(new StringResourceModel("tag.added", this, null)
+                        .getString());
+                setResponsePage(new Image(parameters));
+            }
+        };
+        FileTag fTag = new FileTag();
+        form.setDefaultModel(new Model<FileTag>(fTag));
+        RequiredTextField<String> newTag = new RequiredTextField<String>(
+                "newTag", new PropertyModel<String>(fTag, "tag"));
+        newTag.setLabel(new StringResourceModel("upload.tagField", this, null));
+        form.add(newTag);
+        form.add(new MyAjaxButton("ajax-button", form, feedback));
+        return form;
+    }
 
-	private DataView<FileTag> createFileTagsDataView() {
-		final List<FileTag> list = new ArrayList<FileTag>(
-				fileTagService.getTags(this.fileOwnModel.getObject().getId()));
-		DataView<FileTag> dataView = new DataView<FileTag>("pageable",
-				new ListDataProvider<FileTag>(list)) {
+    private DataView<FileTag> createFileTagsDataView() {
+        final List<FileTag> list = new ArrayList<FileTag>(
+                fileTagService.getTags(this.fileOwnModel.getObject().getId()));
+        DataView<FileTag> dataView = new DataView<FileTag>("pageable",
+                new ListDataProvider<FileTag>(list)) {
 
-			@Override
-			protected void populateItem(final Item<FileTag> item) {
-				PageParameters pars = new PageParameters();
-				pars.add("tagName", item.getModelObject().getTag());
-				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
-						"link", BaseTags.class, pars);
-				bpl.add(new Label("tagName", item.getModelObject().getTag()));
-				item.add(bpl);
-				item.add(new Link<Void> ("delete") {
-					public void onClick() {
-						fileTagService.delete(item.getModelObject());
-						info(new StringResourceModel("tag.deleted", this,
-								null).getString());
-						setResponsePage(new Image(parameters));
-					}
-					
-				});
-			}
-		};
-		dataView.setItemsPerPage(TAG_PER_PAGE);
-		return dataView;
-	}
+            @Override
+            protected void populateItem(final Item<FileTag> item) {
+                PageParameters pars = new PageParameters();
+                pars.add("tagName", item.getModelObject().getTag());
+                BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
+                        "link", BaseTags.class, pars);
+                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                item.add(bpl);
+                item.add(new Link<Void>("delete") {
+                    public void onClick() {
+                        fileTagService.delete(item.getModelObject());
+                        info(new StringResourceModel("tag.deleted", this, null)
+                                .getString());
+                        setResponsePage(new Image(parameters));
+                    }
 
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/Image.css");
-	}
+                });
+            }
+        };
+        dataView.setItemsPerPage(TAG_PER_PAGE);
+        return dataView;
+    }
+
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        response.renderCSSReference("css/Image.css");
+    }
 }

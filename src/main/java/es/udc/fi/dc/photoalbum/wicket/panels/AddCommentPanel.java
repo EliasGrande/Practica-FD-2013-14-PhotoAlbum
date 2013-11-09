@@ -41,7 +41,8 @@ public class AddCommentPanel extends Panel {
 		this(id, responsePage, null, file);
 	}
 
-	private AddCommentPanel(String id, WebPage responsePage, Album _album, File _file) {
+	private AddCommentPanel(String id, WebPage responsePage, Album _album,
+			File _file) {
 		super(id);
 		this.responsePage = responsePage;
 		this.album = _album;
@@ -49,46 +50,47 @@ public class AddCommentPanel extends Panel {
 
 		final TextArea<String> text = new TextArea<String>("text", Model.of(""));
 		text.setRequired(true);
-		
+
 		Form<?> form = new Form<Void>("addCommentForm") {
 			@Override
 			protected void onSubmit() {
 				User user = userService.getById(((MySession) Session.get())
 						.getuId());
 				String textString = text.getModelObject();
-				
+
 				int len = textString.length();
 				int maxLen = Comment.MAX_TEXT_LENGTH;
 				if (len > maxLen) {
-					error(new StringResourceModel("comments.add.error.maxlength", this, null)
-							.getString().replace("{MAX_LENGTH}",  String.valueOf(maxLen)));
+					error(new StringResourceModel(
+							"comments.add.error.maxlength", this, null)
+							.getString().replace("{MAX_LENGTH}",
+									String.valueOf(maxLen)));
 					return;
 				}
 				try {
-					if (album==null)
+					if (album == null)
 						commentService.create(user, file, textString);
 					else
 						commentService.create(user, album, textString);
-					info(new StringResourceModel("comments.add.created", this, null)
-							.getString());
+					info(new StringResourceModel("comments.add.created", this,
+							null).getString());
 					setResponsePage(newResponsePage());
 				} catch (RuntimeException e) {
-					error(new StringResourceModel("comments.add.exception", this, null)
-							.getString());
+					error(new StringResourceModel("comments.add.exception",
+							this, null).getString());
 				}
 			}
 		};
-		
+
 		add(form);
 		form.add(text);
 
 		form.add(new Label("maxLength", String.valueOf(Comment.MAX_TEXT_LENGTH)));
 	}
-	
+
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderJavaScriptReference(
-				"http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js");
+		response.renderJavaScriptReference("http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js");
 		response.renderJavaScriptReference("js/AddCommentPanel.js");
 		response.renderCSSReference("css/CommentAndVote.css");
 	}

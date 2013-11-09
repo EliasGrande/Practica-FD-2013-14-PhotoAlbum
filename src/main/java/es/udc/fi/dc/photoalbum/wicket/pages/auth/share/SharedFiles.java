@@ -36,85 +36,86 @@ import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 @SuppressWarnings("serial")
 public class SharedFiles extends BasePageAuth {
 
-	@SpringBean
-	private AlbumService albumService;
-	@SpringBean
-	private AlbumTagService albumTagService;
+    @SpringBean
+    private AlbumService albumService;
+    @SpringBean
+    private AlbumTagService albumTagService;
 
-	private Album album;
-	private static final int ITEMS_PER_PAGE = 10;
-	private static final int TAG_PER_PAGE = 5;
+    private Album album;
+    private static final int ITEMS_PER_PAGE = 10;
+    private static final int TAG_PER_PAGE = 5;
 
-	public SharedFiles(final PageParameters parameters) {
-		super(parameters);
-		if ((parameters.getNamedKeys().contains("album"))
-				&& (parameters.getNamedKeys().contains("user"))) {
-			String name = parameters.get("album").toString();
-			String email = parameters.get("user").toString();
-			this.album = albumService.getSharedAlbum(name,
-					((MySession) Session.get()).getuId(), email);
-			if (this.album == null) {
-				throw new RestartResponseException(ErrorPage404.class);
-			}
-			add(new Label("album", name));
-			
-		} else {
-			throw new RestartResponseException(ErrorPage404.class);
-		}
-		add(new BookmarkablePageLink<Void>("linkBack", SharedAlbums.class,
-				parameters.remove("album")));
-		add(new AjaxDataView("dataContainer", "navigator", createDataView()));
-		add(new AjaxDataView("albumTagDataContainer","albumTagNavigator",createAlbumTagsDataView()));
-		add(new CommentAndVotePanel("commentAndVote", this, album));
-	}
+    public SharedFiles(final PageParameters parameters) {
+        super(parameters);
+        if ((parameters.getNamedKeys().contains("album"))
+                && (parameters.getNamedKeys().contains("user"))) {
+            String name = parameters.get("album").toString();
+            String email = parameters.get("user").toString();
+            this.album = albumService.getSharedAlbum(name,
+                    ((MySession) Session.get()).getuId(), email);
+            if (this.album == null) {
+                throw new RestartResponseException(ErrorPage404.class);
+            }
+            add(new Label("album", name));
 
-	private DataView<File> createDataView() {
-		int userId = ((MySession) Session.get()).getuId();
-		LoadableDetachableModel<ArrayList<File>> ldm = new SharedFilesModel(
-				this.album.getId(), userId);
-		DataView<File> dataView = new DataView<File>("pageable",
-				new SharedFileListDataProvider(ldm.getObject().size(),
-						this.album.getId(), userId)) {
-			public void populateItem(final Item<File> item) {
-				PageParameters pars = new PageParameters();
-				pars.add("album", album.getName());
-				pars.add("fid", Integer.toString(item.getModelObject().getId()));
-				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
-						"big", SharedBig.class, pars);
-				bpl.add(new NonCachingImage("img", new BlobImageResource() {
-					protected Blob getBlob() {
-						return BlobFromFile.getSmall(item.getModelObject());
-					}
-				}));
-				item.add(bpl);
-			}
-		};
-		dataView.setItemsPerPage(ITEMS_PER_PAGE);
-		return dataView;
-	}
-	
-	private DataView<AlbumTag> createAlbumTagsDataView() {
-		final List<AlbumTag> list = new ArrayList<AlbumTag>(
-				albumTagService.getTags(album.getId()));
-		DataView<AlbumTag> dataView = new DataView<AlbumTag>("pageable",
-				new ListDataProvider<AlbumTag>(list)) {
+        } else {
+            throw new RestartResponseException(ErrorPage404.class);
+        }
+        add(new BookmarkablePageLink<Void>("linkBack", SharedAlbums.class,
+                parameters.remove("album")));
+        add(new AjaxDataView("dataContainer", "navigator", createDataView()));
+        add(new AjaxDataView("albumTagDataContainer", "albumTagNavigator",
+                createAlbumTagsDataView()));
+        add(new CommentAndVotePanel("commentAndVote", this, album));
+    }
 
-			@Override
-			protected void populateItem(Item<AlbumTag> item) {
-				PageParameters pars = new PageParameters();
-				pars.add("tagName", item.getModelObject().getTag());
-				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
-						"link", BaseTags.class, pars);
-				bpl.add(new Label("tagName", item.getModelObject().getTag()));
-				item.add(bpl);
-			}
-		};
-		dataView.setItemsPerPage(TAG_PER_PAGE);
-		return dataView;
-	}
+    private DataView<File> createDataView() {
+        int userId = ((MySession) Session.get()).getuId();
+        LoadableDetachableModel<ArrayList<File>> ldm = new SharedFilesModel(
+                this.album.getId(), userId);
+        DataView<File> dataView = new DataView<File>("pageable",
+                new SharedFileListDataProvider(ldm.getObject().size(),
+                        this.album.getId(), userId)) {
+            public void populateItem(final Item<File> item) {
+                PageParameters pars = new PageParameters();
+                pars.add("album", album.getName());
+                pars.add("fid", Integer.toString(item.getModelObject().getId()));
+                BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
+                        "big", SharedBig.class, pars);
+                bpl.add(new NonCachingImage("img", new BlobImageResource() {
+                    protected Blob getBlob() {
+                        return BlobFromFile.getSmall(item.getModelObject());
+                    }
+                }));
+                item.add(bpl);
+            }
+        };
+        dataView.setItemsPerPage(ITEMS_PER_PAGE);
+        return dataView;
+    }
 
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/SharedFiles.css");
-	}
+    private DataView<AlbumTag> createAlbumTagsDataView() {
+        final List<AlbumTag> list = new ArrayList<AlbumTag>(
+                albumTagService.getTags(album.getId()));
+        DataView<AlbumTag> dataView = new DataView<AlbumTag>("pageable",
+                new ListDataProvider<AlbumTag>(list)) {
+
+            @Override
+            protected void populateItem(Item<AlbumTag> item) {
+                PageParameters pars = new PageParameters();
+                pars.add("tagName", item.getModelObject().getTag());
+                BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
+                        "link", BaseTags.class, pars);
+                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                item.add(bpl);
+            }
+        };
+        dataView.setItemsPerPage(TAG_PER_PAGE);
+        return dataView;
+    }
+
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        response.renderCSSReference("css/SharedFiles.css");
+    }
 }

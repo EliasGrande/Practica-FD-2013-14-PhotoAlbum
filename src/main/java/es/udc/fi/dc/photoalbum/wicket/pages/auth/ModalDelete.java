@@ -19,64 +19,64 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 
 @SuppressWarnings("serial")
 public class ModalDelete extends WebPage {
-	private String pass;
-	@SpringBean
-	private UserService userService;
-	private ModalWindow window;
-	private FeedbackPanel feedback;
+    private String pass;
+    @SpringBean
+    private UserService userService;
+    private ModalWindow window;
+    private FeedbackPanel feedback;
 
-	public ModalDelete(final ModalWindow window) {
-		this.window = window;
-		final Form<User> form = new Form<User>("form",
-				new CompoundPropertyModel<User>(new User()));
-		FeedbackPanel feedback = new FeedbackPanel("feedback");
-		feedback.setOutputMarkupId(true);
-		form.add(feedback);
-		this.feedback = feedback;
-		form.add(createButtonOk());
-		form.add(createButtonCancel());
-		PasswordTextField password = new PasswordTextField("password",
-				new PropertyModel<String>(this, "pass"));
-		password.setLabel(new StringResourceModel("modalDelete.pass", this,
-				null));
-		form.add(password);
-		add(form);
-	}
+    public ModalDelete(final ModalWindow window) {
+        this.window = window;
+        final Form<User> form = new Form<User>("form",
+                new CompoundPropertyModel<User>(new User()));
+        FeedbackPanel feedback = new FeedbackPanel("feedback");
+        feedback.setOutputMarkupId(true);
+        form.add(feedback);
+        this.feedback = feedback;
+        form.add(createButtonOk());
+        form.add(createButtonCancel());
+        PasswordTextField password = new PasswordTextField("password",
+                new PropertyModel<String>(this, "pass"));
+        password.setLabel(new StringResourceModel("modalDelete.pass", this,
+                null));
+        form.add(password);
+        add(form);
+    }
 
-	private AjaxButton createButtonOk() {
-		return new AjaxButton("buttonOk") {
-			public void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				User user = new User(null, userService.getById(
-						((MySession) Session.get()).getuId()).getEmail(), pass);
-				User userDB = userService.getUser(user.getEmail(),
-						user.getPassword());
-				if (!(userDB == null)) {
-					window.close(target);
-					userService.delete(userService.getById(((MySession) Session
-							.get()).getuId()));
-					getSession().invalidate();
-				} else {
-					error(new StringResourceModel("modalDelete.wrongPass",
-							this, null).getString());
-					target.add(feedback);
-				}
-			}
+    private AjaxButton createButtonOk() {
+        return new AjaxButton("buttonOk") {
+            public void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                User user = new User(null, userService.getById(
+                        ((MySession) Session.get()).getuId()).getEmail(), pass);
+                User userDB = userService.getUser(user.getEmail(),
+                        user.getPassword());
+                if (!(userDB == null)) {
+                    window.close(target);
+                    userService.delete(userService.getById(((MySession) Session
+                            .get()).getuId()));
+                    getSession().invalidate();
+                } else {
+                    error(new StringResourceModel("modalDelete.wrongPass",
+                            this, null).getString());
+                    target.add(feedback);
+                }
+            }
 
-			public void onError(AjaxRequestTarget target, Form<?> form) {
-				target.add(feedback);
-			}
-		};
-	}
+            public void onError(AjaxRequestTarget target, Form<?> form) {
+                target.add(feedback);
+            }
+        };
+    }
 
-	private AjaxButton createButtonCancel() {
-		return new AjaxButton("buttonCancel") {
-			public void onSubmit(AjaxRequestTarget target, Form<?> form) {
-				window.close(target);
-			}
+    private AjaxButton createButtonCancel() {
+        return new AjaxButton("buttonCancel") {
+            public void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                window.close(target);
+            }
 
-			public void onError(AjaxRequestTarget target, Form<?> form) {
-				window.close(target);
-			}
-		};
-	}
+            public void onError(AjaxRequestTarget target, Form<?> form) {
+                window.close(target);
+            }
+        };
+    }
 }

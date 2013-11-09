@@ -35,81 +35,81 @@ import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 @SuppressWarnings("serial")
 public class SharedBig extends BasePageAuth {
 
-	@SpringBean
-	private FileTagService fileTagService;
-	@SpringBean
-	private FileService fileService;
-	
-	private FileSharedAlbum fileSharedAlbum;
-	private File file;
-	LikeAndDislike likeAndDislike;
-	private static final int TAG_PER_PAGE = 5;
-	
+    @SpringBean
+    private FileTagService fileTagService;
+    @SpringBean
+    private FileService fileService;
 
-	public SharedBig(final PageParameters parameters) {
-		super(parameters);
-		if (parameters.getNamedKeys().contains("fid")
-				&& parameters.getNamedKeys().contains("album")) {
-			int id = parameters.get("fid").toInt();
-			String name = parameters.get("album").toString();
-			int userId = ((MySession) Session.get()).getuId();
-			FileSharedAlbum fileSharedAlbum = new FileSharedAlbum(id, name,
-					userId);
-			this.fileSharedAlbum = fileSharedAlbum;
-			if ((fileSharedAlbum.getObject() == null)
-					|| (!(fileSharedAlbum.getObject().getAlbum().getName()
-							.equals(name)))) {
-				throw new RestartResponseException(ErrorPage404.class);
-			}
-			File file = fileService.getById(id);
-			this.file = file;
-			add(new SharedNavigateForm<Void>("formNavigate", fileSharedAlbum
-					.getObject().getAlbum().getId(), userId, fileSharedAlbum
-					.getObject().getId(),SharedBig.class));
-			add(new AjaxDataView("fileTagDataContainer","fileTagNavigator",createFileTagsDataView()));
-			add(createNonCachingImage());
-			PageParameters newPars = new PageParameters();
-			newPars.add("album", name);
-			newPars.add("user", fileSharedAlbum.getObject().getAlbum()
-					.getUser().getEmail());
-			add(new BookmarkablePageLink<Void>("linkBack", SharedFiles.class,
-					newPars));
-			add(new CommentAndVotePanel("commentAndVote", this, file));
-		} else {
-			throw new RestartResponseException(ErrorPage404.class);
-		}
-	}
+    private FileSharedAlbum fileSharedAlbum;
+    private File file;
+    LikeAndDislike likeAndDislike;
+    private static final int TAG_PER_PAGE = 5;
 
-	private NonCachingImage createNonCachingImage() {
-		return new NonCachingImage("img", new BlobImageResource() {
-			protected Blob getBlob() {
-				return BlobFromFile.getBig(fileSharedAlbum.getObject());
-			}
-		});
-	}
-	
-	private DataView<FileTag> createFileTagsDataView() {
-		final List<FileTag> list = new ArrayList<FileTag>(
-				fileTagService.getTags(file.getId()));
-		DataView<FileTag> dataView = new DataView<FileTag>("pageable",
-				new ListDataProvider<FileTag>(list)) {
+    public SharedBig(final PageParameters parameters) {
+        super(parameters);
+        if (parameters.getNamedKeys().contains("fid")
+                && parameters.getNamedKeys().contains("album")) {
+            int id = parameters.get("fid").toInt();
+            String name = parameters.get("album").toString();
+            int userId = ((MySession) Session.get()).getuId();
+            FileSharedAlbum fileSharedAlbum = new FileSharedAlbum(id, name,
+                    userId);
+            this.fileSharedAlbum = fileSharedAlbum;
+            if ((fileSharedAlbum.getObject() == null)
+                    || (!(fileSharedAlbum.getObject().getAlbum().getName()
+                            .equals(name)))) {
+                throw new RestartResponseException(ErrorPage404.class);
+            }
+            File file = fileService.getById(id);
+            this.file = file;
+            add(new SharedNavigateForm<Void>("formNavigate", fileSharedAlbum
+                    .getObject().getAlbum().getId(), userId, fileSharedAlbum
+                    .getObject().getId(), SharedBig.class));
+            add(new AjaxDataView("fileTagDataContainer", "fileTagNavigator",
+                    createFileTagsDataView()));
+            add(createNonCachingImage());
+            PageParameters newPars = new PageParameters();
+            newPars.add("album", name);
+            newPars.add("user", fileSharedAlbum.getObject().getAlbum()
+                    .getUser().getEmail());
+            add(new BookmarkablePageLink<Void>("linkBack", SharedFiles.class,
+                    newPars));
+            add(new CommentAndVotePanel("commentAndVote", this, file));
+        } else {
+            throw new RestartResponseException(ErrorPage404.class);
+        }
+    }
 
-			@Override
-			protected void populateItem(Item<FileTag> item) {
-				PageParameters pars = new PageParameters();
-				pars.add("tagName", item.getModelObject().getTag());
-				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
-						"link", BaseTags.class, pars);
-				bpl.add(new Label("tagName", item.getModelObject().getTag()));
-				item.add(bpl);
-			}
-		};
-		dataView.setItemsPerPage(TAG_PER_PAGE);
-		return dataView;
-	}
+    private NonCachingImage createNonCachingImage() {
+        return new NonCachingImage("img", new BlobImageResource() {
+            protected Blob getBlob() {
+                return BlobFromFile.getBig(fileSharedAlbum.getObject());
+            }
+        });
+    }
 
-	@Override
-	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/SharedBig.css");
-	}
+    private DataView<FileTag> createFileTagsDataView() {
+        final List<FileTag> list = new ArrayList<FileTag>(
+                fileTagService.getTags(file.getId()));
+        DataView<FileTag> dataView = new DataView<FileTag>("pageable",
+                new ListDataProvider<FileTag>(list)) {
+
+            @Override
+            protected void populateItem(Item<FileTag> item) {
+                PageParameters pars = new PageParameters();
+                pars.add("tagName", item.getModelObject().getTag());
+                BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
+                        "link", BaseTags.class, pars);
+                bpl.add(new Label("tagName", item.getModelObject().getTag()));
+                item.add(bpl);
+            }
+        };
+        dataView.setItemsPerPage(TAG_PER_PAGE);
+        return dataView;
+    }
+
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        response.renderCSSReference("css/SharedBig.css");
+    }
 }

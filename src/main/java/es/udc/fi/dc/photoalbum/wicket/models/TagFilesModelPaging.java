@@ -10,24 +10,26 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class TagFilesModelPaging extends LoadableDetachableModel<ArrayList<File>> {
-	@SpringBean
-	private FileService fileService;
-	private String tag;
-	private int userId;
-	private int first;
-	private int count;
+public class TagFilesModelPaging extends
+        LoadableDetachableModel<ArrayList<File>> {
+    @SpringBean
+    private FileService fileService;
+    private String tag;
+    private int userId;
+    private int first;
+    private int count;
 
-	public TagFilesModelPaging(String tag, int userId, int first, int count) {
-		this.tag = tag;
-		this.userId = userId;
-		this.first = first;
-		this.count = count;
-		Injector.get().inject(this);
-	}
+    public TagFilesModelPaging(String tag, int userId, int first, int count) {
+        this.tag = tag;
+        this.userId = userId;
+        this.first = first;
+        this.count = count;
+        Injector.get().inject(this);
+    }
 
-	@Override
-	protected ArrayList<File> load() {
-		return new ArrayList<File>(fileService.getFilesByTagPaging(userId, tag, first, count));
-	}
+    @Override
+    protected ArrayList<File> load() {
+        return new ArrayList<File>(fileService.getFilesByTagPaging(userId, tag,
+                first, count));
+    }
 }
