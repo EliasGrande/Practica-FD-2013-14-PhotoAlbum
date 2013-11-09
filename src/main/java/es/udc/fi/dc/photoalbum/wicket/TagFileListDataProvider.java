@@ -31,13 +31,13 @@ public class TagFileListDataProvider implements IDataProvider<File> {
 		Injector.get().inject(this);
 	}
 
-	public Iterator<File> iterator(int first, int count) {
+	public Iterator<File> iterator(long first, long count) {
 		LoadableDetachableModel<ArrayList<File>> ldm = new TagFilesModelPaging(
-				tag, userId, first, count);
+				tag, userId, (int) first, (int) count);
 		return ldm.getObject().iterator();
 	}
 
-	public int size() {
+	public long size() {
 		return this.size;
 	}
 

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.RestartResponseException;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -23,6 +24,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 
@@ -94,7 +96,8 @@ public class Upload extends BasePageAuth {
 				BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
 						"big", Image.class, pars);
 				bpl.add(new NonCachingImage("img", new BlobImageResource() {
-					protected Blob getBlob() {
+				    /*FIXME ?¿?¿? Attributes van vacios, no se si funcionara*/
+					protected Blob getBlob(Attributes arg0) {
 						return BlobFromFile.getSmall(item.getModelObject());
 					}
 				}));
@@ -208,6 +211,7 @@ public class Upload extends BasePageAuth {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/Upload.css");
+	    response.render(CssHeaderItem
+                .forReference(new CssResourceReference(Upload.class,"css/Upload.css")));
 	}
 }

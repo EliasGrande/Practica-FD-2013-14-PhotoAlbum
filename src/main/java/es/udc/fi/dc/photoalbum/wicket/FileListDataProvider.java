@@ -30,13 +30,13 @@ public class FileListDataProvider implements IDataProvider<File> {
 		Injector.get().inject(this);
 	}
 
-	public Iterator<File> iterator(int first, int count) {
+	public Iterator<File> iterator(long first, long count) {
 		LoadableDetachableModel<ArrayList<File>> ldm = new FilesModelPaging(
-				this.id, first, count);
+				this.id, (int) first, (int) count);
 		return ldm.getObject().iterator();
 	}
 
-	public int size() {
+	public long size() {
 		return this.size;
 	}
 

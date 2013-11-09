@@ -32,16 +32,16 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
 	public void detach() {
 	}
 
-	public Iterator<? extends Album> iterator(int first, int count) {
+	public Iterator<? extends Album> iterator(long first, long count) {
 		LoadableDetachableModel<ArrayList<Album>> ldm = new TagAlbumsModelFull(userId,tag);
-		int toIndex = first + count;
+		long toIndex = first + count;
 		if (toIndex > ldm.getObject().size()) {
 			toIndex = ldm.getObject().size();
 		}
-		return ldm.getObject().subList(first, toIndex).iterator();
+		return ldm.getObject().subList((int) first, (int) toIndex).iterator();
 	}
 
-	public int size() {
+	public long size() {
 		return this.size;
 	}
 
