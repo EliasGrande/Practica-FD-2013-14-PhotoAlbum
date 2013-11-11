@@ -176,8 +176,8 @@ public class Share extends BasePageAuth {
         };
         selectedPrivacyLevel = new PrivacyLevelOption(am.getObject()
                 .getPrivacyLevel(), this);
-        DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
-                "privacyLevels",
+        DropDownChoice<PrivacyLevelOption> listPrivacyLevel = 
+                new DropDownChoice<PrivacyLevelOption>("privacyLevels",
                 new PropertyModel<PrivacyLevelOption>(this,
                         "selectedPrivacyLevel"),
                 new PrivacyLevelsModel(am.getObject(), this),

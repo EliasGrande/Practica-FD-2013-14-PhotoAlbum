@@ -11,6 +11,8 @@ import es.udc.fi.dc.photoalbum.hibernate.VotedDao;
 @Transactional
 public class LikeAndDislikeServiceImpl implements
         LikeAndDislikeService {
+    private static String LIKE= "LIKE";
+    private static String DISLIKE ="DISLIKE";
 
     /* LikeAndDislikeDao */
     private LikeAndDislikeDao likeAndDislikeDao;
@@ -43,9 +45,9 @@ public class LikeAndDislikeServiceImpl implements
                 user.getId());
         LikeAndDislike updatedLikeAndDislike;
         if (voted != null) {
-            if (voted.getUserVote().equals("LIKE"))
+            if (voted.getUserVote().equals(LIKE))
                 return voted.getLikeAndDislike();
-            voted.setUserVote("LIKE");
+            voted.setUserVote(LIKE);
             votedDao.update(voted);
             updatedLikeAndDislike = voted.getLikeAndDislike();
             updatedLikeAndDislike.setLike(updatedLikeAndDislike
@@ -55,7 +57,7 @@ public class LikeAndDislikeServiceImpl implements
         } else {
             updatedLikeAndDislike = likeAndDislikeDao
                     .get(likeAndDislike.getId());
-            voted = new Voted(updatedLikeAndDislike, user, "LIKE");
+            voted = new Voted(updatedLikeAndDislike, user, LIKE);
             votedDao.create(voted);
             updatedLikeAndDislike.setLike(updatedLikeAndDislike
                     .getLike() + 1);
@@ -69,9 +71,9 @@ public class LikeAndDislikeServiceImpl implements
                 user.getId());
         LikeAndDislike updatedLikeAndDislike;
         if (voted != null) {
-            if (voted.getUserVote().equals("DISLIKE"))
+            if (voted.getUserVote().equals(DISLIKE))
                 return voted.getLikeAndDislike();
-            voted.setUserVote("DISLIKE");
+            voted.setUserVote(DISLIKE);
             votedDao.update(voted);
             updatedLikeAndDislike = voted.getLikeAndDislike();
             updatedLikeAndDislike.setLike(updatedLikeAndDislike
@@ -81,7 +83,7 @@ public class LikeAndDislikeServiceImpl implements
         } else {
             updatedLikeAndDislike = likeAndDislikeDao
                     .get(likeAndDislike.getId());
-            voted = new Voted(updatedLikeAndDislike, user, "DISLIKE");
+            voted = new Voted(updatedLikeAndDislike, user, DISLIKE);
             votedDao.create(voted);
             updatedLikeAndDislike.setDislike(updatedLikeAndDislike
                     .getDislike() + 1);
@@ -97,10 +99,10 @@ public class LikeAndDislikeServiceImpl implements
                 .get(likeAndDislike.getId());
         if (voted == null)
             return updatedLikeAndDislike;
-        if (voted.getUserVote().equals("LIKE"))
+        if (voted.getUserVote().equals(LIKE))
             updatedLikeAndDislike.setLike(updatedLikeAndDislike
                     .getLike() - 1);
-        else if (voted.getUserVote().equals("DISLIKE"))
+        else if (voted.getUserVote().equals(DISLIKE))
             updatedLikeAndDislike.setDislike(updatedLikeAndDislike
                     .getDislike() - 1);
         votedDao.delete(voted);

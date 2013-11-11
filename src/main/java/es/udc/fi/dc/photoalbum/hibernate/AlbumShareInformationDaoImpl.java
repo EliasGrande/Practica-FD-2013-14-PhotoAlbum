@@ -40,7 +40,8 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
     public AlbumShareInformation getShare(String albumName,
             int userSharedToId, String userSharedEmail) {
         @SuppressWarnings("unchecked")
-        ArrayList<AlbumShareInformation> list = (ArrayList<AlbumShareInformation>) getHibernateTemplate()
+        ArrayList<AlbumShareInformation> list = 
+            (ArrayList<AlbumShareInformation>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(AlbumShareInformation.class)
@@ -64,7 +65,8 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
 
     public AlbumShareInformation getShare(int albumId, int userId) {
         @SuppressWarnings("unchecked")
-        ArrayList<AlbumShareInformation> list = (ArrayList<AlbumShareInformation>) getHibernateTemplate()
+        ArrayList<AlbumShareInformation> list = 
+            (ArrayList<AlbumShareInformation>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(AlbumShareInformation.class)

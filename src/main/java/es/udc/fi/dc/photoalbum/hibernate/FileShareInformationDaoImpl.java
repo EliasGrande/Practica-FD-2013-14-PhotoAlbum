@@ -34,7 +34,8 @@ public class FileShareInformationDaoImpl extends HibernateDaoSupport
 
     @SuppressWarnings("unchecked")
     public FileShareInformation getShare(int fileId, int userId) {
-        ArrayList<FileShareInformation> list = (ArrayList<FileShareInformation>) getHibernateTemplate()
+        ArrayList<FileShareInformation> list = 
+                (ArrayList<FileShareInformation>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(FileShareInformation.class)

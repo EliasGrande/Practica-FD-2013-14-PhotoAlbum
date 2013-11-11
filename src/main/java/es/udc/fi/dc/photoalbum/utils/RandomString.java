@@ -8,7 +8,8 @@ import java.util.Random;
 public final class RandomString {
 
     private static final int LENGTH = 10;
-    private static final String CHARACTERS = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String CHARACTERS = "1234567890abcdefghijklmnopqrstuvwxyz"
+            + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     private RandomString() {
     }
