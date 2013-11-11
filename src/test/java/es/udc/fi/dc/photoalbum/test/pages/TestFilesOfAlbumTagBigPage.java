@@ -1,10 +1,5 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
-
-import java.util.ArrayList;
 import java.util.Locale;
 
 import org.apache.wicket.Page;
@@ -16,17 +11,11 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
-import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.hibernate.FileTag;
-import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.AlbumService;
-import es.udc.fi.dc.photoalbum.spring.AlbumTagService;
-import es.udc.fi.dc.photoalbum.spring.FileService;
-import es.udc.fi.dc.photoalbum.spring.FileTagService;
-import es.udc.fi.dc.photoalbum.spring.UserService;
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
+import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.AlbumTagServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.FilesOfAlbumTagBig;
@@ -40,242 +29,11 @@ public class TestFilesOfAlbumTagBigPage {
 			@Override
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
-				UserService mockUser = new UserService() {
-					public void create(User user) {
-					}
-
-					public void delete(User user) {
-					}
-
-					public void update(User user) {
-					}
-
-					public User getUser(String email, String password) {
-						return null;
-					}
-
-					public User getUser(User userEmail) {
-						return null;
-					}
-
-					public User getById(Integer id) {
-						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-					}
-
-					public ArrayList<User> getUsersSharingWith(int userId) {
-						return new ArrayList<User>();
-					}
-				};
-				AlbumService mockAlbum = new AlbumService() {
-
-					public void create(Album album) {
-						
-					}
-
-					public void delete(Album album) {
-						
-					}
-
-					public void rename(Album album, String newName) {
-						
-					}
-
-					public void changePrivacyLevel(Album album,
-							String privacyLevel) {
-						
-					}
-
-					public Album getById(Integer id) {
-						return new Album(1,ALBUM_NAME_EXIST,new User(1, USER_EMAIL_EXIST, USER_PASS_YES),null,null,PrivacyLevel.PRIVATE);
-
-					}
-
-					public Album getAlbum(String name, int userId) {
-						return null;
-					}
-
-					public ArrayList<Album> getAlbums(Integer id) {
-						return new ArrayList<Album>();
-					}
-
-					public ArrayList<Album> getAlbumsSharedWith(Integer id,
-							String ownerEmail) {
-						return new ArrayList<Album>();
-					}
-
-					public ArrayList<Album> getPublicAlbums() {
-						return new ArrayList<Album>();
-					}
-
-					public Album getSharedAlbum(String albumName,
-							int userSharedToId, String userSharedEmail) {
-						return null;
-					}
-
-					public ArrayList<Album> getAlbumsByTag(int userId,
-							String tag) {
-						ArrayList<Album> list = new ArrayList<Album>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						list.add(new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.PRIVATE));
-						return list;
-					}
-					
-					
-				};
-				FileService mockFile = new FileService() {
-					public File getFileShared(int id, String name, int userId) {
-						return null;
-					}
-
-					public File getFileOwn(int id, String name, int userId) {
-						return null;
-					}
-
-					public File getById(Integer id) {
-						return new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE));
-					}
-
-					public ArrayList<File> getAlbumFilesOwn(int albumId) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-
-					public void delete(File file) {
-					}
-
-					public void create(File file) {
-					}
-
-					public void changeAlbum(File file, Album album) {
-					}
-
-					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
-							int first, int count) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-
-					public Long getCountAlbumFiles(int albumId) {
-						return null;
-					}
-
-					public void changePrivacyLevel(File file,
-							String privacyLevel) {
-						file.setPrivacyLevel(privacyLevel);
-					}
-
-					public File getFilePublic(int id, String name, int userId) {
-						return null;
-					}
-
-					public ArrayList<File> getAlbumFilesShared(int albumId,
-							int userId) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-
-					public ArrayList<File> getAlbumFilesSharedPaging(
-							int albumId, int userId, int first, int count) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-
-					public ArrayList<File> getAlbumFilesPublic(int albumId,
-							int userId) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-
-					public ArrayList<File> getAlbumFilesPublicPaging(
-							int albumId, int userId, int first, int count) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-
-					public ArrayList<File> getFilesByTag(int userId, String tag) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-
-					public ArrayList<File> getFilesByTagPaging(int userId,
-							String tag, int first, int count) {
-						ArrayList<File> list = new ArrayList<File>();
-						list.add(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)));
-						return list;
-					}
-				};
-				FileTagService mockFileTag = new FileTagService() {
-
-					public void create(FileTag fileTag) {						
-					}
-
-					public void delete(FileTag fileTag) {
-					}
-
-					public FileTag getTag(int fileId, String tag) {
-						return null;
-					}
-
-					public ArrayList<FileTag> getTags(int fileId) {
-						ArrayList<FileTag> list = new ArrayList<FileTag>();
-						list.add(new FileTag(new File(1, "1", new byte[1], new byte[1],
-								new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-										null, PrivacyLevel.PRIVATE)), "tag"));
-						return list;
-					}
-					
-				};
-				AlbumTagService mockAlbumTag = new AlbumTagService() {
-
-					public void create(AlbumTag albumTag) {
-					}
-
-					public void delete(AlbumTag albumTag) {
-					}
-
-					public AlbumTag getTag(int albumId, String tag) {
-						return null;
-					}
-
-					public ArrayList<AlbumTag> getTags(int albumId) {
-						ArrayList<AlbumTag> list = new ArrayList<AlbumTag>();
-						list.add(new AlbumTag(new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-								null, PrivacyLevel.PRIVATE), "tag"));
-						return list;
-					}
-					
-				};
-				context.putBean("userBean", mockUser);
-				context.putBean("albumBean", mockAlbum);
-				context.putBean("filBean", mockFile);
-				context.putBean("fileTagBean", mockFileTag);
-				context.putBean("albumTagBean", mockAlbumTag);
+				context.putBean("userBean", UserServiceMock.mock);
+                context.putBean("albumBean", AlbumServiceMock.mock);
+                context.putBean("fileBean", FileServiceMock.mock);
+                context.putBean("albumTagBean", AlbumTagServiceMock.mock);
+                context.putBean("fileTagBean", FileTagServiceMock.mock);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
 			}

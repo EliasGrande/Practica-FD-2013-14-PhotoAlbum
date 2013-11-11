@@ -1,6 +1,12 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
-import java.util.ArrayList;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_NOT;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_NOT_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_LENGTH;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_NO_LETTERS;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
+
 import java.util.Locale;
 
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -9,15 +15,10 @@ import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.dao.DataIntegrityViolationException;
 
-import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.Register;
-
-
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
 
 public class TestRegisterPage {
 
@@ -29,22 +30,7 @@ public class TestRegisterPage {
 			@Override
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
-				UserService mock = new UserService() {
-					public void create(User user) {
-						if (user.getEmail().equals(USER_EMAIL_EXIST)) {
-							throw new DataIntegrityViolationException("");
-						}
-					}
-					public void delete(User user) { }
-					public void update(User user) { }
-					public User getUser(String email, String password) { return null; }
-					public User getUser(User userEmail) { return null; }
-					public User getById(Integer id) { return null; }
-					public ArrayList<User> getUsersSharingWith(int userId) {
-						return null;
-					}
-				};
-				context.putBean("userBean", mock);
+				context.putBean("userBean", UserServiceMock.mock);
 				getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
 			}
 		};

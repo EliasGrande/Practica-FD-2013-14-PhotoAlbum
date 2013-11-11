@@ -15,4 +15,6 @@ public final class ConstantsForTests {
 	public static final String TAG_NAME_NOT_EXIST = "tag2";
 	public static final String LIKE = "LIKE";
 	public static final String DISLIKE = "DISLIKE";
+	public static final String COMMENT = "COMMENT";
+
 }

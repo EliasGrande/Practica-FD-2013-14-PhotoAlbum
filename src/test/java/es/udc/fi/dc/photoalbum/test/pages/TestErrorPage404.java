@@ -1,9 +1,5 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
-
-import java.util.ArrayList;
 import java.util.Locale;
 
 import org.apache.wicket.Session;
@@ -13,8 +9,7 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
@@ -28,33 +23,7 @@ public class TestErrorPage404 {
 			@Override
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
-				UserService mock = new UserService() {
-					public void create(User user) {
-					}
-
-					public void delete(User user) {
-					}
-
-					public void update(User user) {
-					}
-
-					public User getUser(String email, String password) {
-						return null;
-					}
-
-					public User getUser(User userEmail) {
-						return null;
-					}
-
-					public User getById(Integer id) {
-						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-					}
-
-					public ArrayList<User> getUsersSharingWith(int userId) {
-						return null;
-					}
-				};
-				context.putBean("userBean", mock);
+				context.putBean("userBean", UserServiceMock.mock);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
 			}

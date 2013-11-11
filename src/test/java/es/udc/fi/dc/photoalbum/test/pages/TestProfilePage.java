@@ -1,6 +1,10 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
-import java.util.ArrayList;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_LENGTH;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_NO;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_NO_LETTERS;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
+
 import java.util.Locale;
 
 import org.apache.wicket.Session;
@@ -11,12 +15,10 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.UserService;
+import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Profile;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.*;
 
 public class TestProfilePage {
 
@@ -28,26 +30,7 @@ public class TestProfilePage {
 			@Override
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
-				UserService mock = new UserService() {
-					public void create(User user) { }
-					public void delete(User user) { }
-					public void update(User user) { }
-					public User getUser(String email, String password) {
-						if ((email.equals(USER_EMAIL_EXIST)) && (password.equals(USER_PASS_YES))) {
-							return new User(null, email, password);
-						} else {
-							return null;
-						}
-					}
-					public User getUser(User userEmail) { return null; }
-					public User getById(Integer id) {
-						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-					}
-					public ArrayList<User> getUsersSharingWith(int userId) {
-						return null;
-					}
-				};
-				context.putBean("albumBean", mock);
+				context.putBean("userBean", UserServiceMock.mock);
 				getComponentInstantiationListeners().add(new SpringComponentInjector(this, context));
 			}
 		};

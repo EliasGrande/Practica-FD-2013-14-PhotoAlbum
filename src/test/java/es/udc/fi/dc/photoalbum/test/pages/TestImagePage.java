@@ -1,14 +1,9 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -26,15 +21,15 @@ import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
-import es.udc.fi.dc.photoalbum.hibernate.FileTag;
-import es.udc.fi.dc.photoalbum.hibernate.User;
-import es.udc.fi.dc.photoalbum.spring.AlbumService;
-import es.udc.fi.dc.photoalbum.spring.FileService;
-import es.udc.fi.dc.photoalbum.spring.FileShareInformationService;
-import es.udc.fi.dc.photoalbum.spring.FileTagService;
-import es.udc.fi.dc.photoalbum.spring.UserService;
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
+import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.AlbumTagServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.CommentServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.FileShareInformationServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.LikeAndDislikeServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Image;
@@ -43,233 +38,21 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.Upload;
 public class TestImagePage {
 	private WicketApp wicketApp;
 	private WicketTester tester;
-	private Album album;
-	private Set<File> set = new HashSet<File>();
-
 
 	{
 		this.wicketApp = new WicketApp() {
 			@Override
 			protected void init() {
 				ApplicationContextMock context = new ApplicationContextMock();
-				AlbumService mockAlbum = new AlbumService() {
-					public void rename(Album album, String newName) {
-					}
-
-					public Album getAlbum(String name, int userId) {
-						return album;
-					}
-
-					public void delete(Album album) {
-					}
-
-					public void create(Album album) {
-					}
-
-					public Album getById(Integer id) {
-						return null;
-					}
-
-					public ArrayList<Album> getAlbums(Integer id) {
-						ArrayList<Album> list = new ArrayList<Album>();
-						list.add(album);
-						return list;
-					}
-
-					public ArrayList<Album> getPublicAlbums() {
-						return new ArrayList<Album>();
-					}
-
-					public void changePrivacyLevel(Album album,
-							String privacyLevel) {
-						album.setPrivacyLevel(privacyLevel);
-					}
-
-					public ArrayList<Album> getAlbumsSharedWith(Integer id,
-							String ownerEmail) {
-						return new ArrayList<Album>();
-					}
-
-					public Album getSharedAlbum(String albumName,
-							int userSharedToId, String userSharedEmail) {
-						return null;
-					}
-
-					public ArrayList<Album> getAlbumsByTag(int userId,
-							String tag) {
-						return new ArrayList<Album>();
-					}
-				};
-				FileService mockFile = new FileService() {
-					public void create(File file) {
-					}
-
-					public void delete(File file) {
-					}
-
-					public File getFileOwn(int id, String name, int userId) {
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.INHERIT_FROM_ALBUM);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						set.add(file);
-						album.setFiles(set);
-						return file;
-					}
-
-					public File getFileShared(int id, String name, int userId) {
-						return null;
-					}
-
-					public void changeAlbum(File file, Album album) {
-					}
-
-					public File getById(Integer id) {
-						return null;
-					}
-
-					public ArrayList<File> getAlbumFilesOwn(int albumId) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.INHERIT_FROM_ALBUM);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
-					}
-
-					public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
-							int first, int count) {
-						ArrayList<File> list = new ArrayList<File>();
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.INHERIT_FROM_ALBUM);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						set.add(file);
-						album.setFiles(set);
-						list.add(file);
-						return list;
-					}
-
-					public Long getCountAlbumFiles(int albumId) {
-						return null;
-					}
-
-					public void changePrivacyLevel(File file,
-							String privacyLevel) {
-						file.setPrivacyLevel(privacyLevel);
-					}
-
-					public File getFilePublic(int id, String name, int userId) {
-						return null;
-					}
-
-					public ArrayList<File> getAlbumFilesShared(int albumId,
-							int userId) {
-						return new ArrayList<File>();
-					}
-
-					public ArrayList<File> getAlbumFilesSharedPaging(
-							int albumId, int userId, int first, int count) {
-						return new ArrayList<File>();
-					}
-
-					public ArrayList<File> getAlbumFilesPublic(int albumId,
-							int userId) {
-						return new ArrayList<File>();
-					}
-
-					public ArrayList<File> getAlbumFilesPublicPaging(
-							int albumId, int userId, int first, int count) {
-						return new ArrayList<File>();
-					}
-
-					public ArrayList<File> getFilesByTag(int userId, String tag) {
-						return new ArrayList<File>();
-					}
-
-					public ArrayList<File> getFilesByTagPaging(int userId,
-							String tag, int first, int count) {
-						return new ArrayList<File>();
-					}
-				};
-				UserService mock = new UserService() {
-					public void create(User user) {
-					}
-
-					public void delete(User user) {
-					}
-
-					public void update(User user) {
-					}
-
-					public User getUser(String email, String password) {
-						return null;
-					}
-
-					public User getUser(User userEmail) {
-						return null;
-					}
-
-					public User getById(Integer id) {
-						return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-					}
-
-					public ArrayList<User> getUsersSharingWith(int userId) {
-						return new ArrayList<User>();
-					}
-				};
-				FileShareInformationService mockFsi = new FileShareInformationService(){
-
-					public void create(FileShareInformation shareInformation) {
-					}
-
-					public void delete(FileShareInformation shareInformation) {
-					}
-
-					public ArrayList<FileShareInformation> getFileShares(
-							int fileId) {
-						User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-						User user2 = new User(2, USER_EMAIL_EXIST+"2", USER_PASS_YES);
-						album = new Album(1, ALBUM_NAME_EXIST, user, null,
-								null, PrivacyLevel.INHERIT_FROM_ALBUM);
-						File file = new File(1, "1", new byte[1], new byte[1],
-								album);
-						set.add(file);
-						album.setFiles(set);
-						ArrayList <FileShareInformation> list = new ArrayList<FileShareInformation>();
-						list.add(new FileShareInformation(null,file,user2));
-						return list;
-					}
-					
-				};
-				FileTagService mockFileTag = new FileTagService() {
-
-					public void create(FileTag fileTag) {						
-					}
-
-					public void delete(FileTag fileTag) {
-					}
-
-					public FileTag getTag(int fileId, String tag) {
-						return null;
-					}
-
-					public ArrayList<FileTag> getTags(int fileId) {
-						return new ArrayList<FileTag>();
-					}
-					
-				};
-				context.putBean("fsiBean",mockFsi);
-				context.putBean("userBean", mock);
-				context.putBean("fileBean", mockFile);
-				context.putBean("albumBean", mockAlbum);
-				context.putBean("fileTagBean", mockFileTag);
+				context.putBean("userBean", UserServiceMock.mock);
+                context.putBean("albumBean", AlbumServiceMock.mock);
+                context.putBean("fileBean", FileServiceMock.mock);
+                context.putBean("albumTagBean", AlbumTagServiceMock.mock);
+                context.putBean("fileTagBean", FileTagServiceMock.mock);
+                context.putBean("fileShareInformationBean", FileShareInformationServiceMock.mock);
+                context.putBean("likeAndDislikeBean", LikeAndDislikeServiceMock.mock);
+                context.putBean("votedServiceBean", VotedServiceMock.mock);
+                context.putBean("commentServiceBean", CommentServiceMock.mock);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
 			}
