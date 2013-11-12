@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 
@@ -10,5 +10,5 @@ public interface FileShareInformationService {
 
     void delete(FileShareInformation shareInformation);
 
-    ArrayList<FileShareInformation> getFileShares(int fileId);
+    List<FileShareInformation> getFileShares(int fileId);
 }

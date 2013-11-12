@@ -3,6 +3,7 @@ package es.udc.fi.dc.photoalbum.wicket.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.model.StringResourceModel;
@@ -33,7 +34,7 @@ public class PrivacyLevelOption implements Serializable {
                 + value.toLowerCase(), cmp, null).getString();
     }
 
-    public static ArrayList<PrivacyLevelOption> getAlbumOptions(
+    public static List<PrivacyLevelOption> getAlbumOptions(
             Component cmp) {
         ArrayList<PrivacyLevelOption> options = new ArrayList<PrivacyLevelOption>();
         Iterator<String> iterator = PrivacyLevel.LIST_ALBUM
@@ -43,7 +44,7 @@ public class PrivacyLevelOption implements Serializable {
         return options;
     }
 
-    public static ArrayList<PrivacyLevelOption> getFileOptions(
+    public static List<PrivacyLevelOption> getFileOptions(
             Component cmp) {
         ArrayList<PrivacyLevelOption> options = new ArrayList<PrivacyLevelOption>();
         Iterator<String> iterator = PrivacyLevel.LIST_FILE.iterator();

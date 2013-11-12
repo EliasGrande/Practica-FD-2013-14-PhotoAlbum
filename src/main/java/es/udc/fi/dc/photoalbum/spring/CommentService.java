@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.spring;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
@@ -50,7 +51,7 @@ public interface CommentService {
      *            It's the album they belong comments.
      * @return ArrayList<Comment> A list of album comments.
      */
-    ArrayList<Comment> getComments(Album album);
+    List<Comment> getComments(Album album);
 
     /**
      * Obtains all the comments for a file.
@@ -59,7 +60,7 @@ public interface CommentService {
      *            It's the file they belong comments.
      * @return ArrayList<Comment> A list of file comments.
      */
-    ArrayList<Comment> getComments(File file);
+    List<Comment> getComments(File file);
 
     /**
      * Obtains the comments for an album paginated.
@@ -72,7 +73,7 @@ public interface CommentService {
      *            The number of elements that will be obtains.
      * @return ArrayList<Comment> A list of album comments.
      */
-    ArrayList<Comment> getCommentsPaging(Album album, int first,
+    List<Comment> getCommentsPaging(Album album, int first,
             int count);
 
     /**
@@ -86,7 +87,7 @@ public interface CommentService {
      *            The number of elements that will be obtains.
      * @return ArrayList<Comment> A list of file comments.
      */
-    ArrayList<Comment> getCommentsPaging(File file, int first,
+    List<Comment> getCommentsPaging(File file, int first,
             int count);
 
 }

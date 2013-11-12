@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,11 +60,11 @@ public class AlbumServiceImpl implements AlbumService {
         return albumDao.getById(id);
     }
 
-    public ArrayList<Album> getAlbums(Integer id) {
+    public List<Album> getAlbums(Integer id) {
         return albumDao.getAlbums(id);
     }
 
-    public ArrayList<Album> getPublicAlbums() {
+    public List<Album> getPublicAlbums() {
         return albumDao.getPublicAlbums();
     }
 
@@ -72,7 +72,7 @@ public class AlbumServiceImpl implements AlbumService {
         albumDao.changePrivacyLevel(album, privacyLevel);
     }
 
-    public ArrayList<Album> getAlbumsSharedWith(Integer id,
+    public List<Album> getAlbumsSharedWith(Integer id,
             String ownerEmail) {
         return albumDao.getAlbumsSharedWith(id, ownerEmail);
     }
@@ -83,7 +83,7 @@ public class AlbumServiceImpl implements AlbumService {
                 userSharedEmail);
     }
 
-    public ArrayList<Album> getAlbumsByTag(int userId, String tag) {
+    public List<Album> getAlbumsByTag(int userId, String tag) {
         return albumDao.getAlbumsByTag(userId, tag);
     }
 

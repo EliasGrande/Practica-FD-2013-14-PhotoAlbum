@@ -72,7 +72,7 @@ public class SharedFiles extends BasePageAuth {
 
     private DataView<File> createDataView() {
         int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<ArrayList<File>> ldm = new SharedFilesModel(
+        LoadableDetachableModel<List<File>> ldm = new SharedFilesModel(
                 this.album.getId(), userId);
         DataView<File> dataView = new DataView<File>("pageable",
                 new SharedFileListDataProvider(

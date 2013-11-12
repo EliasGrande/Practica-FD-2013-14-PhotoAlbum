@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface UserDao extends GenericDao<User> {
 
@@ -30,5 +30,5 @@ public interface UserDao extends GenericDao<User> {
      * @return sorted list of users sharing files or albums with the
      *         user
      */
-    ArrayList<User> getUsersSharingWith(int userId);
+    List<User> getUsersSharingWith(int userId);
 }

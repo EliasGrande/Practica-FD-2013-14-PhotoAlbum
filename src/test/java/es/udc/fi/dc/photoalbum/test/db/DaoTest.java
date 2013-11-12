@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.NamingException;
 
@@ -284,7 +285,7 @@ public class DaoTest {
 		FileShareInformation fsi2 = new FileShareInformation(null, file, user3);
 		this.fileShareInformationService.create(fsi2);
 
-		ArrayList<FileShareInformation> fsil = this.fileShareInformationService
+		List<FileShareInformation> fsil = this.fileShareInformationService
 				.getFileShares(file.getId());
 
 		assertEquals(fsi, fsil.get(0));
@@ -321,16 +322,16 @@ public class DaoTest {
 		this.albumShareInformationService.create(albumShareInformation2);
 		this.albumShareInformationService.create(albumShareInformation3);
 
-		ArrayList<AlbumShareInformation> list1 = this.albumShareInformationService
+		List<AlbumShareInformation> list1 = this.albumShareInformationService
 				.getAlbumShares(album.getId());
 		assertEquals(albumShareInformation, list1.get(0));
 		assertEquals(albumShareInformation2, list1.get(1));
 
-		ArrayList<AlbumShareInformation> list2 = this.albumShareInformationService
+		List<AlbumShareInformation> list2 = this.albumShareInformationService
 				.getAlbumShares(album2.getId());
 		assertEquals(albumShareInformation3, list2.get(0));
 
-		ArrayList<AlbumShareInformation> list3 = this.albumShareInformationService
+		List<AlbumShareInformation> list3 = this.albumShareInformationService
 				.getAlbumShares(album3.getId());
 		assertEquals(list3.size(), 0);
 
@@ -376,13 +377,13 @@ public class DaoTest {
 		FileShareInformation fsi2 = new FileShareInformation(null, file, user);
 		this.fileShareInformationService.create(fsi2);
 
-		ArrayList<User> list = this.userService.getUsersSharingWith(user
+		List<User> list = this.userService.getUsersSharingWith(user
 				.getId());
-		ArrayList<User> list2 = this.userService.getUsersSharingWith(user2
+		List<User> list2 = this.userService.getUsersSharingWith(user2
 				.getId());
-		ArrayList<User> list3 = this.userService.getUsersSharingWith(user3
+		List<User> list3 = this.userService.getUsersSharingWith(user3
 				.getId());
-		ArrayList<User> list4 = this.userService.getUsersSharingWith(user4
+		List<User> list4 = this.userService.getUsersSharingWith(user4
 				.getId());
 
 		assertEquals("Share with user", list.size(), 1);
@@ -439,9 +440,9 @@ public class DaoTest {
 				PrivacyLevel.PRIVATE);
 		this.albumService.create(album3);
 
-		ArrayList<Album> list = this.albumService.getAlbums(user.getId());
-		ArrayList<Album> list2 = this.albumService.getAlbums(user2.getId());
-		ArrayList<Album> list3 = this.albumService.getAlbums(user3.getId());
+		List<Album> list = this.albumService.getAlbums(user.getId());
+		List<Album> list2 = this.albumService.getAlbums(user2.getId());
+		List<Album> list3 = this.albumService.getAlbums(user3.getId());
 
 		assertEquals(list.size(), 2);
 		assertEquals(list2.size(), 1);
@@ -477,9 +478,9 @@ public class DaoTest {
 				user2);
 		this.albumShareInformationService.create(asi2);
 
-		ArrayList<Album> list = this.albumService.getAlbumsSharedWith(
+		List<Album> list = this.albumService.getAlbumsSharedWith(
 				user2.getId(), user.getEmail());
-		ArrayList<Album> list2 = this.albumService.getAlbumsSharedWith(
+		List<Album> list2 = this.albumService.getAlbumsSharedWith(
 				user.getId(), user2.getEmail());
 
 		assertEquals(list.size(), 2);
@@ -507,19 +508,19 @@ public class DaoTest {
 				new byte[] { 2 }, album2);
 		this.fileService.create(file2);
 
-		ArrayList<Album> list = this.albumService.getPublicAlbums();
+		List<Album> list = this.albumService.getPublicAlbums();
 
 		assertEquals(list.size(), 1);
 
 		this.albumService.changePrivacyLevel(album2, PrivacyLevel.PRIVATE);
 
-		ArrayList<Album> list2 = this.albumService.getPublicAlbums();
+		List<Album> list2 = this.albumService.getPublicAlbums();
 
 		assertTrue(list2.isEmpty());
 
 		this.fileService.changePrivacyLevel(file, PrivacyLevel.PUBLIC);
 
-		ArrayList<Album> list3 = this.albumService.getPublicAlbums();
+		List<Album> list3 = this.albumService.getPublicAlbums();
 
 		assertEquals(list3.size(), 1);
 	}
@@ -707,7 +708,7 @@ public class DaoTest {
 				new byte[] { 2 }, album);
 		this.fileService.create(file3);
 
-		ArrayList<File> filesOwn = this.fileService.getAlbumFilesOwn(album
+		List<File> filesOwn = this.fileService.getAlbumFilesOwn(album
 				.getId());
 
 		assertEquals("Files own", filesOwn.size(), 3);
@@ -733,9 +734,9 @@ public class DaoTest {
 				new byte[] { 2 }, album);
 		this.fileService.create(file3);
 
-		ArrayList<File> filesOwn = this.fileService.getAlbumFilesOwnPaging(
+		List<File> filesOwn = this.fileService.getAlbumFilesOwnPaging(
 				album.getId(), 0, 2);
-		ArrayList<File> filesOwn2 = this.fileService.getAlbumFilesOwnPaging(
+		List<File> filesOwn2 = this.fileService.getAlbumFilesOwnPaging(
 				album.getId(), 2, 1);
 
 		assertEquals("Files own", filesOwn.size(), 2);
@@ -776,9 +777,9 @@ public class DaoTest {
 		FileShareInformation fsi = new FileShareInformation(null, file3, user2);
 		this.fileShareInformationService.create(fsi);
 
-		ArrayList<File> filesShared = this.fileService.getAlbumFilesShared(
+		List<File> filesShared = this.fileService.getAlbumFilesShared(
 				album.getId(), user2.getId());
-		ArrayList<File> filesShared2 = this.fileService.getAlbumFilesShared(
+		List<File> filesShared2 = this.fileService.getAlbumFilesShared(
 				album2.getId(), user2.getId());
 
 		assertEquals("Shared album", filesShared.size(), 2);
@@ -819,9 +820,9 @@ public class DaoTest {
 		FileShareInformation fsi = new FileShareInformation(null, file3, user2);
 		this.fileShareInformationService.create(fsi);
 
-		ArrayList<File> filesShared = this.fileService
+		List<File> filesShared = this.fileService
 				.getAlbumFilesSharedPaging(album.getId(), user2.getId(), 0, 1);
-		ArrayList<File> filesShared2 = this.fileService
+		List<File> filesShared2 = this.fileService
 				.getAlbumFilesSharedPaging(album.getId(), user2.getId(), 1, 1);
 
 		assertEquals(filesShared.size(), 1);
@@ -852,9 +853,9 @@ public class DaoTest {
 
 		this.fileService.changePrivacyLevel(file3, PrivacyLevel.PUBLIC);
 
-		ArrayList<File> filesPublic = this.fileService.getAlbumFilesPublic(
+		List<File> filesPublic = this.fileService.getAlbumFilesPublic(
 				album.getId(), user.getId());
-		ArrayList<File> filesPublic2 = this.fileService.getAlbumFilesPublic(
+		List<File> filesPublic2 = this.fileService.getAlbumFilesPublic(
 				album.getId(), user2.getId());
 
 		assertEquals("All the files (own album)", filesPublic.size(), 3);
@@ -862,7 +863,7 @@ public class DaoTest {
 
 		this.albumService.changePrivacyLevel(album, PrivacyLevel.PUBLIC);
 
-		ArrayList<File> filesPublic3 = this.fileService.getAlbumFilesPublic(
+		List<File> filesPublic3 = this.fileService.getAlbumFilesPublic(
 				album.getId(), user2.getId());
 		assertEquals("All the files", filesPublic3.size(), 3);
 
@@ -891,9 +892,9 @@ public class DaoTest {
 		this.fileService.create(file3);
 		this.albumService.changePrivacyLevel(album, PrivacyLevel.PUBLIC);
 
-		ArrayList<File> filesPublic = this.fileService
+		List<File> filesPublic = this.fileService
 				.getAlbumFilesPublicPaging(album.getId(), user.getId(), 0, 2);
-		ArrayList<File> filesPublic2 = this.fileService
+		List<File> filesPublic2 = this.fileService
 				.getAlbumFilesPublicPaging(album.getId(), user2.getId(), 2, 1);
 
 		assertEquals("All the files (own album)", filesPublic.size(), 2);
@@ -931,7 +932,7 @@ public class DaoTest {
 		this.albumTagService.create(tag1);
 		AlbumTag tag2 = new AlbumTag(album, "tag2");
 		this.albumTagService.create(tag2);
-		ArrayList<AlbumTag> tags = albumTagService.getTags(album.getId());
+		List<AlbumTag> tags = albumTagService.getTags(album.getId());
 		assertEquals(tag1, tags.get(0));
 		assertEquals(tag2, tags.get(1));
 		assertEquals(tags.size(), 2);
@@ -977,7 +978,7 @@ public class DaoTest {
 		this.fileTagService.create(tag2);
 		FileTag tag3 = new FileTag(file, "tag3");
 		this.fileTagService.create(tag3);
-		ArrayList<FileTag> tags = fileTagService.getTags(file.getId());
+		List<FileTag> tags = fileTagService.getTags(file.getId());
 		assertEquals(tag1, tags.get(0));
 		assertEquals(tag2, tags.get(1));
 		assertEquals(tag3, tags.get(2));
@@ -1004,7 +1005,7 @@ public class DaoTest {
 		this.albumTagService.create(tag2);
 		AlbumTag tag3 = new AlbumTag(album3, "tag");
 		this.albumTagService.create(tag3);
-		ArrayList<Album> albums = this.albumService.getAlbumsByTag(
+		List<Album> albums = this.albumService.getAlbumsByTag(
 				user.getId(), "tag");
 		assertEquals(albums.size(), 3);
 		assertEquals(albums.get(0), album1);
@@ -1036,7 +1037,7 @@ public class DaoTest {
 		this.fileTagService.create(tag2);
 		FileTag tag3 = new FileTag(file3, "tag");
 		this.fileTagService.create(tag3);
-		ArrayList<File> files = this.fileService.getFilesByTag(user.getId(),
+		List<File> files = this.fileService.getFilesByTag(user.getId(),
 				"tag");
 		assertEquals(files.size(), 3);
 		assertEquals(files.get(0), file1);
@@ -1068,9 +1069,9 @@ public class DaoTest {
 		FileTag tag3 = new FileTag(file3, "tag");
 		this.fileTagService.create(tag3);
 
-		ArrayList<File> files = this.fileService.getFilesByTagPaging(
+		List<File> files = this.fileService.getFilesByTagPaging(
 				user.getId(), "tag", 1, 2);
-		ArrayList<File> files2 = this.fileService.getFilesByTagPaging(
+		List<File> files2 = this.fileService.getFilesByTagPaging(
 				user.getId(), "tag", 0, 3);
 
 		assertEquals(files.size(), 2);

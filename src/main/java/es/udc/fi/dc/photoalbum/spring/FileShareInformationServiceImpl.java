@@ -1,11 +1,11 @@
 package es.udc.fi.dc.photoalbum.spring;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformationDao;
-
-import java.util.ArrayList;
 
 @Transactional
 public class FileShareInformationServiceImpl implements
@@ -30,7 +30,7 @@ public class FileShareInformationServiceImpl implements
         fileShareInformationDao.delete(shareInformation);
     }
 
-    public ArrayList<FileShareInformation> getFileShares(int fileId) {
+    public List<FileShareInformation> getFileShares(int fileId) {
         return fileShareInformationDao.getFileShares(fileId);
     }
 }

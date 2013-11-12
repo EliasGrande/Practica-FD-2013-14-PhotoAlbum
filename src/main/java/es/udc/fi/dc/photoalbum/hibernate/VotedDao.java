@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface VotedDao extends GenericDao<Voted> {
 
@@ -8,6 +8,6 @@ public interface VotedDao extends GenericDao<Voted> {
 
     Voted get(int likeAndDislikeId, int userId);
 
-    ArrayList<Voted> getVoted(
-            ArrayList<Integer> likeAndDislikeIdList, int userId);
+    List<Voted> getVoted(
+            List<Integer> likeAndDislikeIdList, int userId);
 }

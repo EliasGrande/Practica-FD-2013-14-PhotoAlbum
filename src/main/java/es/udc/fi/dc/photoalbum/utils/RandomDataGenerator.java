@@ -2,9 +2,8 @@ package es.udc.fi.dc.photoalbum.utils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
@@ -120,7 +119,7 @@ public class RandomDataGenerator {
                 + randomText(LOREN_IPSUM_SIMPLE, 2, 3);
     }
 
-    public static ArrayList<Comment> randomComments(File file,
+    public static List<Comment> randomComments(File file,
             int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();
         for (int i = 0; i < count; i++)
@@ -128,7 +127,7 @@ public class RandomDataGenerator {
         return list;
     }
 
-    public static ArrayList<Comment> randomComments(Album album,
+    public static List<Comment> randomComments(Album album,
             int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();
         for (int i = 0; i < count; i++)

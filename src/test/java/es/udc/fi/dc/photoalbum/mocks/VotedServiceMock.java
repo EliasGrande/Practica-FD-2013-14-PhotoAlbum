@@ -6,6 +6,7 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EX
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
@@ -29,8 +30,8 @@ public class VotedServiceMock {
             return new Voted(lal, user, LIKE);
         }
 
-        public ArrayList<Voted> getVoted(
-                ArrayList<Integer> likeAndDislikeIdList, int userId) {
+        public List<Voted> getVoted(
+                List<Integer> likeAndDislikeIdList, int userId) {
             ArrayList<Voted> list = new ArrayList<Voted>();
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user,

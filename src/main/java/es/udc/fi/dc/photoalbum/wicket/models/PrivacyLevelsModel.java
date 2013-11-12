@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.wicket.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.wicket.Component;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -7,13 +10,11 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 
-import java.util.ArrayList;
-
 @SuppressWarnings("serial")
 public class PrivacyLevelsModel extends
-        LoadableDetachableModel<ArrayList<PrivacyLevelOption>> {
+        LoadableDetachableModel<List<PrivacyLevelOption>> {
 
-    private ArrayList<PrivacyLevelOption> options;
+    private List<PrivacyLevelOption> options;
 
     // ya se que no usa el Album y File, solo me sirvo de ellos para
     // diferenciar
@@ -29,7 +30,7 @@ public class PrivacyLevelsModel extends
         Injector.get().inject(this);
     }
 
-    protected ArrayList<PrivacyLevelOption> load() {
+    protected List<PrivacyLevelOption> load() {
         return options;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumDaoImpl extends HibernateDaoSupport implements
         AlbumDao {
@@ -115,7 +116,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Album> getAlbums(Integer id) {
+    public List<Album> getAlbums(Integer id) {
         return (ArrayList<Album>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
@@ -127,7 +128,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Album> getPublicAlbums() {
+    public List<Album> getPublicAlbums() {
 
         String hql = "FROM Album WHERE "
                 + HQL_RESTRICTION_ALBUMS_PUBLIC;
@@ -145,7 +146,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Album> getAlbumsSharedWith(Integer userId,
+    public List<Album> getAlbumsSharedWith(Integer userId,
             String ownerEmail) {
 
         String hql = "FROM Album "
@@ -165,7 +166,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     public Album getSharedAlbum(String albumName, int userSharedToId,
             String userSharedEmail) {
         // get the album
-        ArrayList<Album> list = (ArrayList<Album>) getHibernateTemplate()
+        List<Album> list = (ArrayList<Album>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(Album.class)
@@ -189,7 +190,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Album> getAlbumsByTag(int userId, String tag) {
+    public List<Album> getAlbumsByTag(int userId, String tag) {
         String hql = "FROM Album "
                 // albums with the tag
                 + "WHERE id IN (" + "SELECT album.id FROM AlbumTag "

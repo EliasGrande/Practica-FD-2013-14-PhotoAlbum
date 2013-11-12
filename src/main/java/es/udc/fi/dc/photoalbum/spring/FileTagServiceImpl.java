@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.hibernate.FileTagDao;
@@ -33,7 +33,7 @@ public class FileTagServiceImpl implements FileTagService {
         return fileTagDao.getTag(fileId, tag);
     }
 
-    public ArrayList<FileTag> getTags(int fileId) {
+    public List<FileTag> getTags(int fileId) {
         return fileTagDao.getTags(fileId);
     }
 

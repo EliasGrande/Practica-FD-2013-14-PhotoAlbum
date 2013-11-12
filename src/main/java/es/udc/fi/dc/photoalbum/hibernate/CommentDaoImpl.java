@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -17,7 +18,7 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Comment> getComments(Album album) {
+    public List<Comment> getComments(Album album) {
         String hql = "SELECT c FROM Comment c "
                 + "WHERE c.album.id = :albumId "
                 + "ORDER BY c.date DESC";
@@ -29,7 +30,7 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Comment> getComments(File file) {
+    public List<Comment> getComments(File file) {
         String hql = "SELECT c FROM Comment c "
                 + "WHERE c.file.id = :fileId "
                 + "ORDER BY c.date DESC";
@@ -41,7 +42,7 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Comment> getCommentsPaging(Album album,
+    public List<Comment> getCommentsPaging(Album album,
             int first, int count) {
         String hql = "SELECT c FROM Comment c "
                 + "WHERE c.album.id = :albumId "
@@ -55,7 +56,7 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Comment> getCommentsPaging(File file, int first,
+    public List<Comment> getCommentsPaging(File file, int first,
             int count) {
         String hql = "SELECT c FROM Comment c "
                 + "WHERE c.file.id = :fileId "

@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -52,7 +52,7 @@ public class Albums extends BasePageAuth {
     }
 
     private DataView<Album> createAlbumDataView() {
-        LoadableDetachableModel<ArrayList<Album>> ldm = new AlbumsModelFull();
+        LoadableDetachableModel<List<Album>> ldm = new AlbumsModelFull();
         DataView<Album> dataView = new DataView<Album>("pageable",
                 new AlbumListDataProvider(ldm.getObject().size())) {
 

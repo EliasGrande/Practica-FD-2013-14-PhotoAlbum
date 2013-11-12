@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,8 +28,8 @@ public class VotedServiceImpl implements VotedService {
         return votedDao.get(likeAndDislikeId, userId);
     }
 
-    public ArrayList<Voted> getVoted(
-            ArrayList<Integer> likeAndDislikeIdList, int userId) {
+    public List<Voted> getVoted(
+            List<Integer> likeAndDislikeIdList, int userId) {
         return votedDao.getVoted(likeAndDislikeIdList, userId);
     }
 }

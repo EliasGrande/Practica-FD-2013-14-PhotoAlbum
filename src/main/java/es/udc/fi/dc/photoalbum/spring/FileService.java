@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
@@ -23,19 +23,19 @@ public interface FileService {
 
     File getFilePublic(int id, String name, int userId);
 
-    ArrayList<File> getAlbumFilesOwn(int albumId);
+    List<File> getAlbumFilesOwn(int albumId);
 
-    ArrayList<File> getAlbumFilesOwnPaging(int albumId, int first,
+    List<File> getAlbumFilesOwnPaging(int albumId, int first,
             int count);
 
-    ArrayList<File> getAlbumFilesShared(int albumId, int userId);
+    List<File> getAlbumFilesShared(int albumId, int userId);
 
-    ArrayList<File> getAlbumFilesSharedPaging(int albumId,
+    List<File> getAlbumFilesSharedPaging(int albumId,
             int userId, int first, int count);
 
-    ArrayList<File> getAlbumFilesPublic(int albumId, int userId);
+    List<File> getAlbumFilesPublic(int albumId, int userId);
 
-    ArrayList<File> getAlbumFilesPublicPaging(int albumId,
+    List<File> getAlbumFilesPublicPaging(int albumId,
             int userId, int first, int count);
 
     Long getCountAlbumFiles(int albumId);
@@ -50,9 +50,9 @@ public interface FileService {
      *            The file tag.
      * @return A list of files (empty if nothing found).
      */
-    ArrayList<File> getFilesByTag(int userId, String tag);
+    List<File> getFilesByTag(int userId, String tag);
 
-    ArrayList<File> getFilesByTagPaging(int userId, String tag,
+    List<File> getFilesByTagPaging(int userId, String tag,
             int first, int count);
 
 }

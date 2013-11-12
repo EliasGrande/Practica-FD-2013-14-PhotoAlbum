@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -10,8 +13,6 @@ import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.MD5;
-
-import java.util.ArrayList;
 
 public class UserDaoImpl extends HibernateDaoSupport implements
         UserDao {
@@ -69,7 +70,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<User> getUsersSharingWith(int userId) {
+    public List<User> getUsersSharingWith(int userId) {
 
         DetachedCriteria dc = DetachedCriteria
                 .forClass(User.class, "user")

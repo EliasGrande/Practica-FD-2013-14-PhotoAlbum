@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
@@ -30,7 +31,7 @@ public class FileTagDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<FileTag> getTags(int fileId) {
+    public List<FileTag> getTags(int fileId) {
         return (ArrayList<FileTag>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria

@@ -3,6 +3,8 @@ package es.udc.fi.dc.photoalbum.wicket.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -11,14 +13,13 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
-import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.Voted;
 import es.udc.fi.dc.photoalbum.spring.CommentService;
 import es.udc.fi.dc.photoalbum.spring.VotedService;
 
 @SuppressWarnings("serial")
 public class CommentsModel extends
-        LoadableDetachableModel<ArrayList<Comment>> {
+        LoadableDetachableModel<List<Comment>> {
 
     @SpringBean
     private CommentService commentService;
@@ -30,9 +31,9 @@ public class CommentsModel extends
     private File file;
     private int index;
     private int count;
-    private ArrayList<Comment> commentCache;
+    private List<Comment> commentCache;
     private boolean hasMoreComments;
-    private HashMap<Integer, Voted> voteCache;
+    private Map<Integer, Voted> voteCache;
 
     public CommentsModel(Album album, File file, int count, int userId) {
         this.userId = userId;
@@ -55,7 +56,7 @@ public class CommentsModel extends
     }
 
     @Override
-    protected ArrayList<Comment> load() {
+    protected List<Comment> load() {
         if (hasMore())
             getMore();
         return commentCache;
@@ -63,7 +64,7 @@ public class CommentsModel extends
 
     private void getMore() {
         // update commentCache
-        ArrayList<Comment> moreComments = (file == null) ? commentService
+        List<Comment> moreComments = (file == null) ? commentService
                 .getCommentsPaging(album, index, count + 1)
                 : commentService.getCommentsPaging(file, index,
                         count + 1);

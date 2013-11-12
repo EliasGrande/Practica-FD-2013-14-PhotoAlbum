@@ -13,10 +13,11 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class AlbumsModel extends
-        LoadableDetachableModel<ArrayList<Album>> {
+        LoadableDetachableModel<List<Album>> {
 
     @SpringBean
     private AlbumService albumService;
@@ -27,8 +28,8 @@ public class AlbumsModel extends
         Injector.get().inject(this);
     }
 
-    protected ArrayList<Album> load() {
-        ArrayList<Album> list = new ArrayList<Album>(
+    protected List<Album> load() {
+        List<Album> list = new ArrayList<Album>(
                 albumService.getAlbums(((MySession) Session.get())
                         .getuId()));
         Iterator<Album> itr = list.iterator();
@@ -40,6 +41,6 @@ public class AlbumsModel extends
             }
         }
         Collections.sort(list, new AlbumsComparator());
-        return list;
+        return (ArrayList<Album>) list;
     }
 }

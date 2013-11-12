@@ -34,7 +34,7 @@ public class SharedUsers extends BasePageAuth {
 
     private DataView<String> createDataView() {
         final HashSet<String> set = new HashSet<String>();
-        final ArrayList<User> list = userService
+        final List<User> list = userService
                 .getUsersSharingWith(((MySession) Session.get())
                         .getuId());
         for (User aList : list) {

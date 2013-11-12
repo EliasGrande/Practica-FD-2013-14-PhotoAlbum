@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface AlbumShareInformationDao extends
         GenericDao<AlbumShareInformation> {
@@ -8,7 +9,7 @@ public interface AlbumShareInformationDao extends
     /**
      * Lista de usuarios con los que se ha compartido un álbum.
      */
-    ArrayList<AlbumShareInformation> getAlbumShares(int albumId);
+    List<AlbumShareInformation> getAlbumShares(int albumId);
 
     /**
      * Recupera un objeto AlbumShareInformation concreto.

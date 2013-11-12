@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.wicket.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -7,11 +10,9 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 
-import java.util.ArrayList;
-
 @SuppressWarnings("serial")
 public class PublicFilesModelPaging extends
-        LoadableDetachableModel<ArrayList<File>> {
+        LoadableDetachableModel<List<File>> {
     @SpringBean
     private FileService fileService;
     private int albumId;
@@ -29,7 +30,7 @@ public class PublicFilesModelPaging extends
     }
 
     @Override
-    protected ArrayList<File> load() {
+    protected List<File> load() {
         return new ArrayList<File>(
                 fileService.getAlbumFilesPublicPaging(albumId,
                         userId, first, count));

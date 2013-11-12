@@ -1,10 +1,10 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface AlbumTagDao extends GenericDao<AlbumTag> {
 
     AlbumTag getTag(int albumId, String tag);
 
-    ArrayList<AlbumTag> getTags(int albumId);
+    List<AlbumTag> getTags(int albumId);
 }

@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.wicket;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
@@ -9,9 +12,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModelPaging;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 @SuppressWarnings("serial")
 public class SharedFileListDataProvider implements
@@ -34,7 +34,7 @@ public class SharedFileListDataProvider implements
     }
 
     public Iterator<File> iterator(int first, int count) {
-        LoadableDetachableModel<ArrayList<File>> ldm = new SharedFilesModelPaging(
+        LoadableDetachableModel<List<File>> ldm = new SharedFilesModelPaging(
                 this.albumId, this.userId, first, count);
         return ldm.getObject().iterator();
     }

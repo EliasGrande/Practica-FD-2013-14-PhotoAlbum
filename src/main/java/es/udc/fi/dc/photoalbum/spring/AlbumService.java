@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 
@@ -18,11 +18,11 @@ public interface AlbumService {
 
     Album getAlbum(String name, int userId);
 
-    ArrayList<Album> getAlbums(Integer id);
+    List<Album> getAlbums(Integer id);
 
-    ArrayList<Album> getAlbumsSharedWith(Integer id, String ownerEmail);
+    List<Album> getAlbumsSharedWith(Integer id, String ownerEmail);
 
-    ArrayList<Album> getPublicAlbums();
+    List<Album> getPublicAlbums();
 
     Album getSharedAlbum(String albumName, int userSharedToId,
             String userSharedEmail);
@@ -37,5 +37,5 @@ public interface AlbumService {
      *            The album tag.
      * @return A list of albums (empty if nothing found).
      */
-    ArrayList<Album> getAlbumsByTag(int userId, String tag);
+    List<Album> getAlbumsByTag(int userId, String tag);
 }

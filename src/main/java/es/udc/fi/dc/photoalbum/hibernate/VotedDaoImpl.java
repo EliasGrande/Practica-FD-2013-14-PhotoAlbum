@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -31,8 +32,8 @@ public class VotedDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<Voted> getVoted(
-            ArrayList<Integer> likeAndDislikeIdList, int userId) {
+    public List<Voted> getVoted(
+            List<Integer> likeAndDislikeIdList, int userId) {
         if (likeAndDislikeIdList.size() == 0) {
             return new ArrayList<Voted>();
         }

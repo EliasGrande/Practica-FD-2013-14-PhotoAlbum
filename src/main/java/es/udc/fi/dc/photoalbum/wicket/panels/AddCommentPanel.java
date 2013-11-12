@@ -96,7 +96,8 @@ public class AddCommentPanel extends Panel {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderJavaScriptReference("http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js");
+        response.renderJavaScriptReference("http://ajax.googleap"
+                + "is.com/ajax/libs/jquery/1.10.2/jquery.min.js");
         response.renderJavaScriptReference("js/AddCommentPanel.js");
         response.renderCSSReference("css/CommentAndVote.css");
     }

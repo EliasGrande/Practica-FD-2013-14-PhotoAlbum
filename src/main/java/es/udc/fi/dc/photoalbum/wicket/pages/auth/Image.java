@@ -241,7 +241,7 @@ public class Image extends BasePageAuth {
                     FileShareInformation shareInformation = new FileShareInformation(
                             null, fileOwnModel.getObject(),
                             existedUser);
-                    ArrayList<FileShareInformation> getFileShares = shareInformationService
+                    List<FileShareInformation> getFileShares = shareInformationService
                             .getFileShares(fileOwnModel.getObject()
                                     .getId());
                     ListIterator<FileShareInformation> iter = getFileShares

@@ -1,12 +1,13 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
-import java.util.ArrayList;
 
 public class FileShareInformationDaoImpl extends HibernateDaoSupport
         implements FileShareInformationDao {
@@ -20,7 +21,7 @@ public class FileShareInformationDaoImpl extends HibernateDaoSupport
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<FileShareInformation> getFileShares(int fileId) {
+    public List<FileShareInformation> getFileShares(int fileId) {
         return (ArrayList<FileShareInformation>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria

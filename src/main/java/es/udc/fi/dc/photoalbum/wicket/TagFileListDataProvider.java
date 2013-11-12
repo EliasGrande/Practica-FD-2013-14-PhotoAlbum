@@ -1,7 +1,7 @@
 package es.udc.fi.dc.photoalbum.wicket;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
@@ -32,7 +32,7 @@ public class TagFileListDataProvider implements IDataProvider<File> {
     }
 
     public Iterator<File> iterator(int first, int count) {
-        LoadableDetachableModel<ArrayList<File>> ldm = new TagFilesModelPaging(
+        LoadableDetachableModel<List<File>> ldm = new TagFilesModelPaging(
                 tag, userId, first, count);
         return ldm.getObject().iterator();
     }

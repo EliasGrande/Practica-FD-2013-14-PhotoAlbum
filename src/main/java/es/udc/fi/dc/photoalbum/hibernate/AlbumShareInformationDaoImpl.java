@@ -7,6 +7,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
         implements AlbumShareInformationDao {
@@ -92,7 +93,7 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
      *            Identificador del album.
      */
     @SuppressWarnings("unchecked")
-    public ArrayList<AlbumShareInformation> getAlbumShares(int albumId) {
+    public List<AlbumShareInformation> getAlbumShares(int albumId) {
         return (ArrayList<AlbumShareInformation>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria

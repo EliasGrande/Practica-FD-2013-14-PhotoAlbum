@@ -1,16 +1,16 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface CommentDao extends GenericDao<Comment> {
 
-    ArrayList<Comment> getComments(Album album);
+    List<Comment> getComments(Album album);
 
-    ArrayList<Comment> getComments(File file);
+    List<Comment> getComments(File file);
 
-    ArrayList<Comment> getCommentsPaging(Album album, int first,
+    List<Comment> getCommentsPaging(Album album, int first,
             int count);
 
-    ArrayList<Comment> getCommentsPaging(File file, int first,
+    List<Comment> getCommentsPaging(File file, int first,
             int count);
 }

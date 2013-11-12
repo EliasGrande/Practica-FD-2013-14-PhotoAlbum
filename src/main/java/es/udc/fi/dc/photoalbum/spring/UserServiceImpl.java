@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         return userDao.getById(id);
     }
 
-    public ArrayList<User> getUsersSharingWith(int userId) {
+    public List<User> getUsersSharingWith(int userId) {
         return userDao.getUsersSharingWith(userId);
     }
 

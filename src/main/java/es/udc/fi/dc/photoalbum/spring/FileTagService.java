@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 
@@ -12,5 +12,5 @@ public interface FileTagService {
 
     FileTag getTag(int fileId, String tag);
 
-    ArrayList<FileTag> getTags(int fileId);
+    List<FileTag> getTags(int fileId);
 }

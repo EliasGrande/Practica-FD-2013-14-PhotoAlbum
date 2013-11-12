@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.wicket;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
@@ -9,9 +12,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicAlbumsModelFull;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 @SuppressWarnings("serial")
 public class PublicAlbumListDataProvider implements
@@ -30,7 +30,7 @@ public class PublicAlbumListDataProvider implements
     }
 
     public Iterator<? extends Album> iterator(int first, int count) {
-        LoadableDetachableModel<ArrayList<Album>> ldm = new PublicAlbumsModelFull();
+        LoadableDetachableModel<List<Album>> ldm = new PublicAlbumsModelFull();
         int toIndex = first + count;
         if (toIndex > ldm.getObject().size()) {
             toIndex = ldm.getObject().size();

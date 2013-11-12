@@ -1,10 +1,9 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth.tag;
 
 import java.sql.Blob;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BlobImageResource;
@@ -44,7 +43,7 @@ public class BaseTags extends BasePageAuth {
 
     private DataView<Album> createAlbumDataView() {
         int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<ArrayList<Album>> ldm = new TagAlbumsModelFull(
+        LoadableDetachableModel<List<Album>> ldm = new TagAlbumsModelFull(
                 userId, tag);
 
         DataView<Album> dataView = new DataView<Album>("pageable",
@@ -70,7 +69,7 @@ public class BaseTags extends BasePageAuth {
 
     private DataView<File> createFileDataView() {
         int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<ArrayList<File>> ldm = new TagFilesModel(
+        LoadableDetachableModel<List<File>> ldm = new TagFilesModel(
                 tag, userId);
         DataView<File> dataView = new DataView<File>("pageable",
                 new TagFileListDataProvider(ldm.getObject().size(),

@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface AlbumDao extends GenericDao<Album> {
 
@@ -12,14 +12,14 @@ public interface AlbumDao extends GenericDao<Album> {
 
     Album getAlbum(String name, int userId);
 
-    ArrayList<Album> getAlbums(Integer id);
+    List<Album> getAlbums(Integer id);
 
-    ArrayList<Album> getAlbumsSharedWith(Integer id, String ownerEmail);
+    List<Album> getAlbumsSharedWith(Integer id, String ownerEmail);
 
-    ArrayList<Album> getPublicAlbums();
+    List<Album> getPublicAlbums();
 
     Album getSharedAlbum(String albumName, int userSharedToId,
             String userSharedEmail);
 
-    ArrayList<Album> getAlbumsByTag(int userId, String tag);
+    List<Album> getAlbumsByTag(int userId, String tag);
 }

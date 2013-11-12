@@ -1,11 +1,11 @@
 package es.udc.fi.dc.photoalbum.spring;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformationDao;
-
-import java.util.ArrayList;
 
 @Transactional
 public class AlbumShareInformationServiceImpl implements
@@ -36,7 +36,7 @@ public class AlbumShareInformationServiceImpl implements
                 userSharedToId, userSharedEmail);
     }
 
-    public ArrayList<AlbumShareInformation> getAlbumShares(int albumId) {
+    public List<AlbumShareInformation> getAlbumShares(int albumId) {
         return albumShareInformationDao.getAlbumShares(albumId);
     }
 }

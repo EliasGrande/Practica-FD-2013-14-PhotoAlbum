@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -136,11 +136,11 @@ public class FileServiceImpl implements FileService {
         return fileDao.getById(id);
     }
 
-    public ArrayList<File> getAlbumFilesOwn(int albumId) {
+    public List<File> getAlbumFilesOwn(int albumId) {
         return fileDao.getAlbumFilesOwn(albumId);
     }
 
-    public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
+    public List<File> getAlbumFilesOwnPaging(int albumId,
             int first, int count) {
         return fileDao.getAlbumFilesOwnPaging(albumId, first, count);
     }
@@ -164,17 +164,17 @@ public class FileServiceImpl implements FileService {
         return file;
     }
 
-    public ArrayList<File> getAlbumFilesShared(int albumId, int userId) {
+    public List<File> getAlbumFilesShared(int albumId, int userId) {
         return fileDao.getAlbumFilesShared(albumId, userId);
     }
 
-    public ArrayList<File> getAlbumFilesSharedPaging(int albumId,
+    public List<File> getAlbumFilesSharedPaging(int albumId,
             int userId, int first, int count) {
         return fileDao.getAlbumFilesSharedPaging(albumId, userId,
                 first, count);
     }
 
-    public ArrayList<File> getAlbumFilesPublic(int albumId, int userId) {
+    public List<File> getAlbumFilesPublic(int albumId, int userId) {
         Album album = albumDao.getById(albumId);
         if (album == null)
             return null;
@@ -188,7 +188,7 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    public ArrayList<File> getAlbumFilesPublicPaging(int albumId,
+    public List<File> getAlbumFilesPublicPaging(int albumId,
             int userId, int first, int count) {
         Album album = albumDao.getById(albumId);
         if (album == null)
@@ -204,11 +204,11 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    public ArrayList<File> getFilesByTag(int userId, String tag) {
+    public List<File> getFilesByTag(int userId, String tag) {
         return fileDao.getFilesByTag(userId, tag);
     }
 
-    public ArrayList<File> getFilesByTagPaging(int userId,
+    public List<File> getFilesByTagPaging(int userId,
             String tag, int first, int count) {
         return fileDao.getFilesByTagPaging(userId, tag, first, count);
     }

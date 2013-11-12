@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 
@@ -13,5 +13,5 @@ public interface AlbumShareInformationService {
     AlbumShareInformation getShare(String albumName,
             int userSharedToId, String userSharedEmail);
 
-    ArrayList<AlbumShareInformation> getAlbumShares(int albumId);
+    List<AlbumShareInformation> getAlbumShares(int albumId);
 }

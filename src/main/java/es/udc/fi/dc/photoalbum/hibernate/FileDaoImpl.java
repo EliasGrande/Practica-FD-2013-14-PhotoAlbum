@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -11,8 +14,6 @@ import org.hibernate.criterion.Subqueries;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
-
-import java.util.ArrayList;
 
 public class FileDaoImpl extends HibernateDaoSupport implements
         FileDao {
@@ -103,13 +104,13 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<File> getAlbumFilesOwn(int albumId) {
+    public List<File> getAlbumFilesOwn(int albumId) {
         return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId)
                 .list();
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
+    public List<File> getAlbumFilesOwnPaging(int albumId,
             int first, int count) {
         return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId)
                 .setFirstResult(first).setMaxResults(count).list();
@@ -178,13 +179,13 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<File> getAlbumFilesShared(int albumId, int userId) {
+    public List<File> getAlbumFilesShared(int albumId, int userId) {
         return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,
                 userId).list();
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<File> getAlbumFilesSharedPaging(int albumId,
+    public List<File> getAlbumFilesSharedPaging(int albumId,
             int userId, int first, int count) {
         return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,
                 userId).setFirstResult(first).setMaxResults(count)
@@ -211,7 +212,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<File> getFilesByTag(int userId, String tag) {
+    public List<File> getFilesByTag(int userId, String tag) {
         return (ArrayList<File>) getHibernateTemplate()
                 .getSessionFactory()
                 .getCurrentSession()
@@ -225,7 +226,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public ArrayList<File> getFilesByTagPaging(int userId,
+    public List<File> getFilesByTagPaging(int userId,
             String tag, int first, int count) {
         return (ArrayList<File>) getHibernateTemplate()
                 .getSessionFactory()

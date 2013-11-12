@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.wicket.models;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -13,7 +14,7 @@ import es.udc.fi.dc.photoalbum.utils.AlbumsComparator;
 
 @SuppressWarnings("serial")
 public class TagAlbumsModelFull extends
-        LoadableDetachableModel<ArrayList<Album>> {
+        LoadableDetachableModel<List<Album>> {
 
     @SpringBean
     private AlbumService albumService;
@@ -27,7 +28,7 @@ public class TagAlbumsModelFull extends
         Injector.get().inject(this);
     }
 
-    protected ArrayList<Album> load() {
+    protected List<Album> load() {
         ArrayList<Album> list = new ArrayList<Album>(
                 albumService.getAlbumsByTag(userId, tag));
         Collections.sort(list, new AlbumsComparator());
