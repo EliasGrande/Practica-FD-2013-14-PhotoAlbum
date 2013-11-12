@@ -46,11 +46,14 @@ public class RandomDataGenerator {
 
     public static int randomInt(int min, int max) {
         return min
-                + (int) Math.round(Math.random() * ((max - min) + 1));
+                + (int) Math.round(Math.random()
+                        * (double) ((max - min) + 1));
     }
 
     public static long randomLong(long min, long max) {
-        return min + Math.round(Math.random() * ((max - min) + 1));
+        return min
+                + Math.round(Math.random()
+                        * (double) ((max - min) + 1L));
     }
 
     public static Calendar randomCalendar() {
@@ -91,8 +94,7 @@ public class RandomDataGenerator {
     }
 
     public static String randomText() {
-        int beginIndex = randomInt(0,
-                Math.round(LOREN_IPSUM.length() / 2) - 1);
+        int beginIndex = randomInt(0, LOREN_IPSUM.length() / 2 - 1);
         int endIndex = randomInt(beginIndex + 5,
                 LOREN_IPSUM.length() - 1);
         return LOREN_IPSUM.substring(beginIndex, endIndex);
@@ -119,16 +121,14 @@ public class RandomDataGenerator {
                 + randomText(LOREN_IPSUM_SIMPLE, 2, 3);
     }
 
-    public static List<Comment> randomComments(File file,
-            int count) {
+    public static List<Comment> randomComments(File file, int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();
         for (int i = 0; i < count; i++)
             list.add(randomComment(file));
         return list;
     }
 
-    public static List<Comment> randomComments(Album album,
-            int count) {
+    public static List<Comment> randomComments(Album album, int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();
         for (int i = 0; i < count; i++)
             list.add(randomComment(album));

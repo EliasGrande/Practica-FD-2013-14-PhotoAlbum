@@ -24,9 +24,8 @@ public class TimeAgoCalendarFormat implements Serializable {
     }
 
     public String format(Calendar calendar) {
-        long secondsAgo = (long) Math
-                .floor(((new Date()).getTime() - calendar
-                        .getTimeInMillis()) / 1000L);
+        long secondsAgo = ((new Date()).getTime() - calendar
+                .getTimeInMillis()) / 1000L;
         if (secondsAgo < ONE_MINUTE)
             return timeAgo(secondsAgo, "second");
         else if (secondsAgo < ONE_HOUR)
