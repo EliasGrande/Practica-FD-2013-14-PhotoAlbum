@@ -75,7 +75,7 @@ public class SharedBig extends BasePageAuth {
                     .getAlbum().getUser().getEmail());
             add(new BookmarkablePageLink<Void>("linkBack",
                     SharedFiles.class, newPars));
-            add(new CommentAndVotePanel("commentAndVote", this, file));
+            add(new CommentAndVotePanel("commentAndVote", file));
         } else {
             throw new RestartResponseException(ErrorPage404.class);
         }

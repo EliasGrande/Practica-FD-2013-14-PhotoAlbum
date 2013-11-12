@@ -81,8 +81,7 @@ public class Upload extends BasePageAuth {
         add(createAddTagForm());
         add(new AjaxDataView("dataAlbumTagContainer",
                 "albumTagNavigator", createAlbumTagsDataView()));
-        add(new CommentAndVotePanel("commentAndVote", this,
-                am.getObject()));
+        add(new CommentAndVotePanel("commentAndVote", am.getObject()));
     }
 
     private DataView<File> createFileDataView() {

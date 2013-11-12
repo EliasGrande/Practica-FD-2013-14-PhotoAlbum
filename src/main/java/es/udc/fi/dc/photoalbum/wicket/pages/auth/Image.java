@@ -105,7 +105,7 @@ public class Image extends BasePageAuth {
             add(createShareForm());
             add(new AjaxDataView("fileTagDataContainer",
                     "fileTagNavigator", createFileTagsDataView()));
-            add(new CommentAndVotePanel("commentAndVote", this,
+            add(new CommentAndVotePanel("commentAndVote",
                     fileOwnModel.getObject()));
         } else {
             throw new RestartResponseException(ErrorPage404.class);

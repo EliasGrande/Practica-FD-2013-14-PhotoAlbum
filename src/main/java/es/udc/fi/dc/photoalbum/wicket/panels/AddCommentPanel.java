@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.wicket.panels;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
@@ -25,29 +26,67 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 @SuppressWarnings("serial")
 public class AddCommentPanel extends Panel {
 
+    /**
+     * @see {@link UserService}
+     */
     @SpringBean
     private UserService userService;
+
+    /**
+     * @see {@link CommentService}
+     */
     @SpringBean
     private CommentService commentService;
+
+    /**
+     * @see {@link #getAlbum()}
+     */
     private Album album;
+
+    /**
+     * @see {@link #getFile()}
+     */
     private File file;
-    private WebPage responsePage;
 
-    public AddCommentPanel(String id, WebPage responsePage,
-            Album album) {
-        this(id, responsePage, album, null);
+    /**
+     * Defines an {@link AddCommentPanel} object of an album.
+     * 
+     * @param id
+     *            wicket:id of the panel
+     * @param album
+     *            the {@link #album}
+     */
+    public AddCommentPanel(String id, Album album) {
+        this(id, album, null);
     }
 
-    public AddCommentPanel(String id, WebPage responsePage, File file) {
-        this(id, responsePage, null, file);
+    /**
+     * Defines an {@link AddCommentPanel} object of a file.
+     * 
+     * @param id
+     *            wicket:id of the panel
+     * @param file
+     *            the {@link #file}
+     */
+    public AddCommentPanel(String id, File file) {
+        this(id, null, file);
     }
 
-    private AddCommentPanel(String id, WebPage responsePage,
-            Album _album, File _file) {
+    /**
+     * Defines an {@link AddCommentPanel} object of a file or an
+     * album, either album or file must be null, but not both.
+     * 
+     * @param id
+     *            wicket:id of the panel
+     * @param album
+     *            the {@link #album}, or null for a file panel
+     * @param file
+     *            the {@link #file}, or null for an album panel
+     */
+    private AddCommentPanel(String id, Album album, File file) {
         super(id);
-        this.responsePage = responsePage;
-        this.album = _album;
-        this.file = _file;
+        this.album = album;
+        this.file = file;
 
         final TextArea<String> text = new TextArea<String>("text",
                 Model.of(""));
@@ -69,21 +108,17 @@ public class AddCommentPanel extends Panel {
                             String.valueOf(maxLen)));
                     return;
                 }
-                try {
-                    if (album == null)
-                        commentService.create(user, file, textString);
-                    else
-                        commentService
-                                .create(user, album, textString);
-                    info(new StringResourceModel(
-                            "comments.add.created", this, null)
-                            .getString());
-                    setResponsePage(newResponsePage());
-                } catch (RuntimeException e) {
-                    error(new StringResourceModel(
-                            "comments.add.exception", this, null)
-                            .getString());
+                if (getAlbum() == null) {
+                    commentService.create(user, getFile(),
+                            textString);
+                } else {
+                    commentService.create(user, getAlbum(),
+                            textString);
                 }
+                info(new StringResourceModel(
+                        "comments.add.created", this, null)
+                        .getString());
+                setResponsePage(newResponsePage());
             }
         };
 
@@ -94,6 +129,25 @@ public class AddCommentPanel extends Panel {
                 .valueOf(Comment.MAX_TEXT_LENGTH)));
     }
 
+    /**
+     * The album, or null if the panel is for a file.
+     */
+    public Album getAlbum() {
+        return album;
+    }
+
+    /**
+     * The file, or null if the panel is for an album.
+     */
+    public File getFile() {
+        return file;
+    }
+
+    /**
+     * Overrides {@link Panel#renderHead(IHeaderResponse)} adding the
+     * needed javascript and cascade style sheet references for this
+     * panel.
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         response.renderJavaScriptReference("http://ajax.googleap"
@@ -103,22 +157,30 @@ public class AddCommentPanel extends Panel {
     }
 
     /**
-     * Instancia un nuevo objeto WebPage de la clase de responsePage y
-     * con los PageParameters de response page.
+     * Returns a new instance of the page holding this component using
+     * the actual page class {@link Constructor} which overrides
+     * {@link Page(PageParameters)}, with the same parameters, to use
+     * it as response page on submit new comments.
+     * 
+     * @return New instance of the page holding this component
      */
     @SuppressWarnings("rawtypes")
-    public WebPage newResponsePage() {
+    private WebPage newResponsePage() {
         try {
             Class[] parameterTypes = new Class[] { PageParameters.class };
-            Constructor constructor = this.responsePage.getClass()
+            Constructor constructor = this.getPage().getClass()
                     .getDeclaredConstructor(parameterTypes);
             constructor.setAccessible(true);
-            return (WebPage) constructor
-                    .newInstance(this.responsePage
-                            .getPageParameters());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return this.responsePage;
+            return (WebPage) constructor.newInstance(this.getPage()
+                    .getPageParameters());
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
         }
     }
 }

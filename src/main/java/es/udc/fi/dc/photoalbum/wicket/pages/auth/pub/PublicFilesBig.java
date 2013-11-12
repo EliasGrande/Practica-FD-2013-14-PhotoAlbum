@@ -58,7 +58,7 @@ public class PublicFilesBig extends BasePageAuth {
         add(new BookmarkablePageLink<Void>("linkBack",
                 PublicFiles.class, newPars));
 
-        add(new CommentAndVotePanel("commentAndVote", this, file));
+        add(new CommentAndVotePanel("commentAndVote", file));
     }
 
     private NonCachingImage createNonCachingImage() {

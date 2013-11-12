@@ -56,7 +56,7 @@ public class PublicFiles extends BasePageAuth {
                 createDataView()));
         add(new AjaxDataView("albumTagDataContainer",
                 "albumTagNavigator", createAlbumTagsDataView()));
-        add(new CommentAndVotePanel("commentAndVote", this, album));
+        add(new CommentAndVotePanel("commentAndVote", album));
     }
 
     private DataView<File> createDataView() {
