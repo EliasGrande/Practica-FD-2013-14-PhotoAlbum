@@ -3,15 +3,17 @@ package es.udc.fi.dc.photoalbum.wicket.panels;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.Session;
-import es.udc.fi.dc.photoalbum.wicket.MySession;
 
+import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
@@ -81,6 +83,7 @@ public class ShowCommentsPanel extends Panel {
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/CommentAndVote.css");
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				ShowCommentsPanel.class, "css/CommentAndVote.css")));
 	}
 }

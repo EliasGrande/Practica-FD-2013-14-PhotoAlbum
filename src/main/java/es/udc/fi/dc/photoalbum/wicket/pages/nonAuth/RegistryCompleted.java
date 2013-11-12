@@ -1,7 +1,9 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.nonAuth;
 
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 
 @SuppressWarnings("serial")
 public class RegistryCompleted extends BasePage {
@@ -11,6 +13,7 @@ public class RegistryCompleted extends BasePage {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/RegistryCompleted.css");
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				RegistryCompleted.class, "css/RegistryCompleted.css")));
 	}
 }

@@ -3,7 +3,9 @@ package es.udc.fi.dc.photoalbum.wicket.panels;
 import java.lang.reflect.Constructor;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -11,7 +13,10 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.Url;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
@@ -21,6 +26,7 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.CommentService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
 
 @SuppressWarnings("serial")
 public class AddCommentPanel extends Panel {
@@ -87,10 +93,15 @@ public class AddCommentPanel extends Panel {
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderJavaScriptReference(
-				"http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js");
-		response.renderJavaScriptReference("js/AddCommentPanel.js");
-		response.renderCSSReference("css/CommentAndVote.css");
+		response.render(JavaScriptHeaderItem
+				.forReference(new JavaScriptResourceReference(
+						AddCommentPanel.class,
+						"http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")));
+		response.render(JavaScriptHeaderItem
+				.forReference(new JavaScriptResourceReference(
+						AddCommentPanel.class, "js/AddCommentPanel.js")));
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				AddCommentPanel.class, "css/CommentAndVote.css")));
 	}
 
 	/**

@@ -1,12 +1,14 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.nonAuth;
 
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
@@ -69,6 +71,7 @@ public class ForgotPassword extends BasePage {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/ForgotPassword.css");
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				ForgotPassword.class, "css/ForgotPassword.css")));
 	}
 }

@@ -4,16 +4,17 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
-import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.hibernate.Voted;
 import es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
@@ -152,7 +153,8 @@ public class VotePanel extends Panel {
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {
-		response.renderCSSReference("css/CommentAndVote.css");
+		response.render(CssHeaderItem.forReference(new CssResourceReference(
+				VotePanel.class, "css/CommentAndVote.css")));
 	}
 	
 	private class LikeLink extends AjaxLink<String> {
