@@ -93,6 +93,7 @@ public class AddCommentPanel extends Panel {
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {
+		super.renderHead(response);
 		response.render(JavaScriptHeaderItem
 				.forReference(new JavaScriptResourceReference(
 						AddCommentPanel.class,

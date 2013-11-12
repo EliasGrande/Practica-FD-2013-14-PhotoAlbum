@@ -13,6 +13,7 @@ public class RegistryCompleted extends BasePage {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
+		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				RegistryCompleted.class, "css/RegistryCompleted.css")));
 	}

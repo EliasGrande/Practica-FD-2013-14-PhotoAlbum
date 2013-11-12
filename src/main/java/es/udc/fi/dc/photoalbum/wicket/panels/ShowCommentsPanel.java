@@ -83,6 +83,7 @@ public class ShowCommentsPanel extends Panel {
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {
+		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				ShowCommentsPanel.class, "css/CommentAndVote.css")));
 	}

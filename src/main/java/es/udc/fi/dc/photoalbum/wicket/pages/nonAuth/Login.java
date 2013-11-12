@@ -82,6 +82,7 @@ public class Login extends BasePage {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
+		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				Login.class, "css/Login.css")));
 	}

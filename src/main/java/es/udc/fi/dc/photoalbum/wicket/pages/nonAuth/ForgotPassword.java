@@ -71,6 +71,7 @@ public class ForgotPassword extends BasePage {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
+		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				ForgotPassword.class, "css/ForgotPassword.css")));
 	}

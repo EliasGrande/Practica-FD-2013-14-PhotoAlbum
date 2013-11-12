@@ -153,6 +153,7 @@ public class VotePanel extends Panel {
 	
 	@Override
 	public void renderHead(IHeaderResponse response) {
+		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
 				VotePanel.class, "css/CommentAndVote.css")));
 	}
