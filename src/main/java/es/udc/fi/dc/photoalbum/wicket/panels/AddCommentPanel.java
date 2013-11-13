@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.wicket.panels;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.HttpURLConnection;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IHeaderResponse;
@@ -117,8 +118,6 @@ public class AddCommentPanel extends Panel {
      * 
      * @param text
      *            The comment text
-     * @param form
-     *            The comment form
      * @return {@code true} if the text is valid
      */
     private boolean validateComment(String text) {
@@ -197,9 +196,10 @@ public class AddCommentPanel extends Panel {
             ex = e;
         }
         // this should never happen
-        AbortWithHttpErrorCodeException error500 = new AbortWithHttpErrorCodeException(
-                500, ex.getMessage());
-        error500.setStackTrace(ex.getStackTrace());
-        throw error500;
+        AbortWithHttpErrorCodeException internalError = new AbortWithHttpErrorCodeException(
+                HttpURLConnection.HTTP_INTERNAL_ERROR,
+                ex.getMessage());
+        internalError.setStackTrace(ex.getStackTrace());
+        throw internalError;
     }
 }
