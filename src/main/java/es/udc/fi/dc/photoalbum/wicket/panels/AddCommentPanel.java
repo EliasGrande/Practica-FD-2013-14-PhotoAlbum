@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -22,7 +23,9 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.CommentService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
-
+/**
+ * Reusable panel for adding comments to files or albums.
+ */
 @SuppressWarnings("serial")
 public class AddCommentPanel extends Panel {
 
@@ -39,12 +42,12 @@ public class AddCommentPanel extends Panel {
     private CommentService commentService;
 
     /**
-     * @see {@link #getAlbum()}
+     * The album, or null if the panel is for a file.
      */
     private Album album;
 
     /**
-     * @see {@link #getFile()}
+     * The file, or null if the panel is for an album.
      */
     private File file;
 
@@ -92,61 +95,70 @@ public class AddCommentPanel extends Panel {
                 Model.of(""));
         text.setRequired(true);
 
-        Form<?> form = new Form<Void>("addCommentForm") {
+        Form<Void> form = new Form<Void>("addCommentForm") {
             @Override
             protected void onSubmit() {
-                User user = userService.getById(((MySession) Session
-                        .get()).getuId());
                 String textString = text.getModelObject();
-
-                int len = textString.length();
-                int maxLen = Comment.MAX_TEXT_LENGTH;
-                if (len > maxLen) {
-                    error(new StringResourceModel(
-                            "comments.add.error.maxlength", this,
-                            null).getString().replace("{MAX_LENGTH}",
-                            String.valueOf(maxLen)));
-                    return;
+                if (validateComment(textString)) {
+                    createComment(textString);
                 }
-                if (getAlbum() == null) {
-                    commentService.create(user, getFile(),
-                            textString);
-                } else {
-                    commentService.create(user, getAlbum(),
-                            textString);
-                }
-                info(new StringResourceModel(
-                        "comments.add.created", this, null)
-                        .getString());
                 setResponsePage(newResponsePage());
             }
         };
-
         add(form);
         form.add(text);
-
         form.add(new Label("maxLength", String
                 .valueOf(Comment.MAX_TEXT_LENGTH)));
     }
 
     /**
-     * The album, or null if the panel is for a file.
+     * Returns {@code true} if the comment text is valid or shows an
+     * error feedback and returns {@code false} if not.
+     * 
+     * @param text
+     *            The comment text
+     * @param form
+     *            The comment form
+     * @return {@code true} if the text is valid
      */
-    public Album getAlbum() {
-        return album;
+    private boolean validateComment(String text) {
+        int maxLength = Comment.MAX_TEXT_LENGTH;
+        if (text.length() > maxLength) {
+            error(new StringResourceModel(
+                    "comments.add.error.maxlength", this, null)
+                    .getString().replace("{MAX_LENGTH}",
+                            String.valueOf(maxLength)));
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
-     * The file, or null if the panel is for an album.
+     * Adds a comment and shows the success feedback.
+     * 
+     * @param text
+     *            The text of the comment
      */
-    public File getFile() {
-        return file;
+    private void createComment(String text) {
+        User user = userService.getById(((MySession) Session.get())
+                .getuId());
+        if (album == null) {
+            commentService.create(user, file, text);
+        } else {
+            commentService.create(user, album, text);
+        }
+        info(new StringResourceModel("comments.add.created", this,
+                null).getString());
     }
 
     /**
      * Overrides {@link Panel#renderHead(IHeaderResponse)} adding the
      * needed javascript and cascade style sheet references for this
      * panel.
+     * 
+     * @param response
+     *            Response object
      */
     @Override
     public void renderHead(IHeaderResponse response) {
@@ -164,23 +176,30 @@ public class AddCommentPanel extends Panel {
      * 
      * @return New instance of the page holding this component
      */
-    @SuppressWarnings("rawtypes")
     private WebPage newResponsePage() {
+        Exception ex;
         try {
+            @SuppressWarnings("rawtypes")
             Class[] parameterTypes = new Class[] { PageParameters.class };
+            @SuppressWarnings("rawtypes")
             Constructor constructor = this.getPage().getClass()
                     .getDeclaredConstructor(parameterTypes);
             constructor.setAccessible(true);
             return (WebPage) constructor.newInstance(this.getPage()
                     .getPageParameters());
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            ex = e;
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
+            ex = e;
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            ex = e;
         } catch (InstantiationException e) {
-            throw new RuntimeException(e);
+            ex = e;
         }
+        // this should never happen
+        AbortWithHttpErrorCodeException error500 = new AbortWithHttpErrorCodeException(
+                500, ex.getMessage());
+        error500.setStackTrace(ex.getStackTrace());
+        throw error500;
     }
 }
