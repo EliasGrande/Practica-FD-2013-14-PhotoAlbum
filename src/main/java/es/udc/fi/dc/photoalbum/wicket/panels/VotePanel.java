@@ -18,6 +18,10 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.spring.VotedService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 
+/**
+ * Reusable panel for showing {@link LikeAndDislike} info and allowing
+ * the user to vote.
+ */
 @SuppressWarnings("serial")
 public class VotePanel extends Panel {
 
