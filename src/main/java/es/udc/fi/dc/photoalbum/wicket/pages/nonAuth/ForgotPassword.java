@@ -17,6 +17,7 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.utils.RandomString;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
+import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 
 @SuppressWarnings("serial")
 public class ForgotPassword extends BasePage {
@@ -73,6 +74,6 @@ public class ForgotPassword extends BasePage {
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
-				ForgotPassword.class, "css/ForgotPassword.css")));
+		        ForgotPassword.class, "res/css/ForgotPassword.css")));
 	}
 }

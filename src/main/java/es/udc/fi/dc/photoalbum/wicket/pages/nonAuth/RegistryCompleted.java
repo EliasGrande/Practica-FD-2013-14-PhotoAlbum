@@ -5,6 +5,8 @@ import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
+import es.udc.fi.dc.photoalbum.wicket.WicketApp;
+
 @SuppressWarnings("serial")
 public class RegistryCompleted extends BasePage {
 	public RegistryCompleted(final PageParameters parameters) {
@@ -15,6 +17,6 @@ public class RegistryCompleted extends BasePage {
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
-				RegistryCompleted.class, "css/RegistryCompleted.css")));
+		        RegistryCompleted.class, "res/css/RegistryCompleted.css")));
 	}
 }

@@ -13,7 +13,6 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.request.Url;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
@@ -26,7 +25,6 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.CommentService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
-import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
 
 @SuppressWarnings("serial")
 public class AddCommentPanel extends Panel {
@@ -96,13 +94,9 @@ public class AddCommentPanel extends Panel {
 		super.renderHead(response);
 		response.render(JavaScriptHeaderItem
 				.forReference(new JavaScriptResourceReference(
-						AddCommentPanel.class,
-						"http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")));
-		response.render(JavaScriptHeaderItem
-				.forReference(new JavaScriptResourceReference(
-						AddCommentPanel.class, "js/AddCommentPanel.js")));
+						AddCommentPanel.class, "res/js/AddCommentPanel.js")));
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
-				AddCommentPanel.class, "css/CommentAndVote.css")));
+		        CommentAndVotePanel.class, "res/css/CommentAndVotePanel.css")));
 	}
 
 	/**

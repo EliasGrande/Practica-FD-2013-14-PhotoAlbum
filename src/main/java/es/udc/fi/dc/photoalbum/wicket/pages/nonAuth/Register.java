@@ -22,6 +22,7 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.PasswordPolicyValidator;
+import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 
 @SuppressWarnings("serial")
 public class Register extends BasePage {
@@ -89,6 +90,6 @@ public class Register extends BasePage {
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
-				Register.class, "css/Register.css")));
+		        Register.class, "res/css/Register.css")));
 	}
 }

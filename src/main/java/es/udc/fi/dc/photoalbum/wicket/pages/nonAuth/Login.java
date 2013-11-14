@@ -21,6 +21,7 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
+import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
 import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.*;
 
@@ -84,6 +85,6 @@ public class Login extends BasePage {
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
-				Login.class, "css/Login.css")));
+		        Login.class, "res/css/Login.css")));
 	}
 }
