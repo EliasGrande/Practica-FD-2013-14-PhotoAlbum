@@ -113,8 +113,9 @@ public class SharedBig extends BasePageAuth {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
 	    response.render(CssHeaderItem
                 .forReference(new CssResourceReference(
-                        SharedBig.class, "css/SharedBig.css")));
+                        SharedBig.class, "SharedBig.css")));
 	}
 }

@@ -94,9 +94,9 @@ public class AddCommentPanel extends Panel {
 		super.renderHead(response);
 		response.render(JavaScriptHeaderItem
 				.forReference(new JavaScriptResourceReference(
-						AddCommentPanel.class, "res/js/AddCommentPanel.js")));
+						AddCommentPanel.class, "AddCommentPanel.js")));
 		response.render(CssHeaderItem.forReference(new CssResourceReference(
-		        CommentAndVotePanel.class, "res/css/CommentAndVotePanel.css")));
+		        CommentAndVotePanel.class, "CommentAndVotePanel.css")));
 	}
 
 	/**

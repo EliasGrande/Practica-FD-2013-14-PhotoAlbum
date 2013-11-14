@@ -73,8 +73,9 @@ public class SharedAlbums extends BasePageAuth {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
 	    response.render(CssHeaderItem
                 .forReference(new CssResourceReference(
-                        SharedAlbums.class, "css/SharedAlbums.css")));
+                        SharedAlbums.class, "SharedAlbums.css")));
 	}
 }

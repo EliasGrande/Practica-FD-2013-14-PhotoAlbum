@@ -118,8 +118,9 @@ public class SharedFiles extends BasePageAuth {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
 	    response.render(CssHeaderItem
                 .forReference(new CssResourceReference(
-                        SharedFiles.class, "css/SharedFiles.css")));
+                        SharedFiles.class, "SharedFiles.css")));
 	}
 }

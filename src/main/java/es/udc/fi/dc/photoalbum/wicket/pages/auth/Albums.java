@@ -141,4 +141,11 @@ public class Albums extends BasePageAuth {
         return form;
     }
 
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        Albums.class, "Albums.css")));
+    }
 }

@@ -59,8 +59,9 @@ public class SharedUsers extends BasePageAuth {
 
 	@Override
 	public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
 	    response.render(CssHeaderItem
                 .forReference(new CssResourceReference(
-                        SharedUsers.class, "css/SharedUsers.css")));
+                        SharedUsers.class, "SharedUsers.css")));
 	}
 }

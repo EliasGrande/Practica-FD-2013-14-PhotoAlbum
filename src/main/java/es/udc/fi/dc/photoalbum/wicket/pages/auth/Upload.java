@@ -209,4 +209,11 @@ public class Upload extends BasePageAuth {
 		return dataView;
 	}
 
+    @Override
+    public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        Upload.class, "Upload.css")));
+    }
 }

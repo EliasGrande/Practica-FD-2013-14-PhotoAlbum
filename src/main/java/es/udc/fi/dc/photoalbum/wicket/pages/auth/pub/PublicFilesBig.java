@@ -27,6 +27,7 @@ import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedBig;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
@@ -94,6 +95,6 @@ public class PublicFilesBig extends BasePageAuth{
 	@Override
 	public void renderHead(IHeaderResponse response) {
 	    response.render(CssHeaderItem
-                .forReference(new CssResourceReference(PublicFilesBig.class,"css/SharedBig.css")));
+                .forReference(new CssResourceReference(SharedBig.class,"SharedBig.css")));
 	}
 }

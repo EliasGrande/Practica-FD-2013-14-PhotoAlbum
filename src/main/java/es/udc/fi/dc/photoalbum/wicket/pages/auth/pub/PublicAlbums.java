@@ -20,6 +20,7 @@ import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.PublicAlbumListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicAlbumsModelFull;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedAlbums;
 
 @SuppressWarnings("serial")
 public class PublicAlbums extends BasePageAuth {
@@ -63,8 +64,9 @@ public class PublicAlbums extends BasePageAuth {
 
     @Override
     public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
         response.render(CssHeaderItem
                 .forReference(new CssResourceReference(
-                        PublicAlbums.class, "css/SharedAlbums.css")));
+                        SharedAlbums.class, "SharedAlbums.css")));
     }
 }

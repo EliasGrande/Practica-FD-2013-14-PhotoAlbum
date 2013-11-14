@@ -31,6 +31,7 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicFileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedFiles;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
@@ -121,6 +122,6 @@ public class PublicFiles extends BasePageAuth {
     public void renderHead(IHeaderResponse response) {
         response.render(CssHeaderItem
                 .forReference(new CssResourceReference(
-                        PublicFiles.class, "css/SharedFiles.css")));
+                        SharedFiles.class, "SharedFiles.css")));
     }
 }

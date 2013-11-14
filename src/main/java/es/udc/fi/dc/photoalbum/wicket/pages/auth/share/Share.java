@@ -178,8 +178,9 @@ public class Share extends BasePageAuth {
 	}
 	@Override
 	public void renderHead(IHeaderResponse response) {
+        super.renderHead(response);
 	    response.render(CssHeaderItem
                 .forReference(new CssResourceReference(
-                        Share.class, "css/Share.css")));
+                        Share.class, "Share.css")));
 	}
 }

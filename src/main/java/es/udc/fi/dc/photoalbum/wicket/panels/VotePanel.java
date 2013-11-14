@@ -155,7 +155,7 @@ public class VotePanel extends Panel {
 	public void renderHead(IHeaderResponse response) {
 		super.renderHead(response);
         response.render(CssHeaderItem.forReference(new CssResourceReference(
-                CommentAndVotePanel.class, "res/css/CommentAndVotePanel.css")));
+                CommentAndVotePanel.class, "CommentAndVotePanel.css")));
 	}
 	
 	private class LikeLink extends AjaxLink<String> {
