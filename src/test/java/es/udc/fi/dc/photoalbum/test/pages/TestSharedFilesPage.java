@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.AlbumTagServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.CommentServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.LikeAndDislikeServiceMock;
@@ -41,6 +42,7 @@ public class TestSharedFilesPage {
                 context.putBean("albumTagBean", AlbumTagServiceMock.mock);
                 context.putBean("fileTagBean", FileTagServiceMock.mock);
                 context.putBean("likeAndDislikeBean", LikeAndDislikeServiceMock.mock);
+                context.putBean("commentServiceBean", CommentServiceMock.mock);
                 context.putBean("votedServiceBean", VotedServiceMock.mock);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));

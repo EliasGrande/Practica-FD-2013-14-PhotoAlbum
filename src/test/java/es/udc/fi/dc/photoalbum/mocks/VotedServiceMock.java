@@ -24,7 +24,6 @@ public class VotedServiceMock {
             Album album = new Album(1, ALBUM_NAME_EXIST, user, null, null, PrivacyLevel.PUBLIC);
             LikeAndDislike likeAndDislike = new LikeAndDislike();
             likeAndDislike.setId(50);
-            //album.setLikeAndDislike(likeAndDislike);
             user.getAlbums().add(album);
             Voted voted = new Voted(likeAndDislike, album.getUser(), LIKE);
             return voted;
@@ -37,7 +36,6 @@ public class VotedServiceMock {
             Album album = new Album(1, ALBUM_NAME_EXIST, user, null, null, PrivacyLevel.PUBLIC);
             LikeAndDislike likeAndDislike = new LikeAndDislike();
             likeAndDislike.setId(50);
-            //album.setLikeAndDislike(likeAndDislike);
             user.getAlbums().add(album);
             Voted voted = new Voted(likeAndDislike, album.getUser(), LIKE);
             list.add(voted);
@@ -46,43 +44,3 @@ public class VotedServiceMock {
         
     };
 }
-
-/*
-private static Album album = new Album();
-private static User user = new User();
-private static File file = new File();
-private static LikeAndDislike likeAndDislike = new LikeAndDislike();
-
-private static Set<File> set = new HashSet<File>();
-
-public static LikeAndDislike createLikeAndDislike () {
-    likeAndDislike.setId(50);
-    likeAndDislike.setDislike(2);
-    likeAndDislike.setId(2);
-    return likeAndDislike;
-}
-
-public static User createUser () {
-    user.setId(1);
-    user.setEmail(USER_EMAIL_EXIST);
-    user.setPassword(USER_PASS_YES);
-    return user;
-}
-
-public static Album createAlbum () {
-    album.setId(1);
-    album.setName(ALBUM_NAME_EXIST);
-    album.setUser(user);
-    file.setId(1);
-    file.setFile(new byte[1]);
-    file.setFileSmall(new byte[1]);
-    file.setLikeAndDislike(likeAndDislike);
-    file.setPrivacyLevel(PrivacyLevel.PUBLIC);
-    file.setAlbum(album);
-    set.add(file);
-    album.setFiles(set);
-    album.setLikeAndDislike(likeAndDislike);
-    album.setPrivacyLevel(PrivacyLevel.PUBLIC);
-    return album;
-}
-*/

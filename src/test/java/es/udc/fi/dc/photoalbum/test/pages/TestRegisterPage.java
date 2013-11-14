@@ -60,7 +60,7 @@ public class TestRegisterPage {
 		formTester.setValue("email", USER_EMAIL_NOT);
 		formTester.setValue("password", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("'123' не является правильным адресом e-mail.",
+		this.tester.assertErrorMessages("'Email' не является правильным адресом e-mail.",
                 "Поле 'Password' обязательно для ввода.",
                 "Поле 'Password confirmation' обязательно для ввода.");
 	}
@@ -71,7 +71,7 @@ public class TestRegisterPage {
 		formTester.setValue("email", USER_EMAIL_NOT);
 		formTester.setValue("password", USER_PASS_LENGTH);
 		formTester.submit();
-		this.tester.assertErrorMessages("'123' не является правильным адресом e-mail.",
+		this.tester.assertErrorMessages("'Email' не является правильным адресом e-mail.",
                 "Password must be at least 8 symbols",
                 "Поле 'Password confirmation' обязательно для ввода.");
 	}

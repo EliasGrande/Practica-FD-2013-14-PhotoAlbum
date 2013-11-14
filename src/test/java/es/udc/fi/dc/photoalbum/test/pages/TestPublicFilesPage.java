@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.AlbumTagServiceMock;
+import es.udc.fi.dc.photoalbum.mocks.CommentServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.LikeAndDislikeServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
@@ -35,6 +36,7 @@ public class TestPublicFilesPage {
                 context.putBean("fileBean", FileServiceMock.mock);
                 context.putBean("albumTagBean", AlbumTagServiceMock.mock);
                 context.putBean("likeAndDislikeBean", LikeAndDislikeServiceMock.mock);
+                context.putBean("commentServiceBean", CommentServiceMock.mock);
                 context.putBean("votedServiceBean", VotedServiceMock.mock);
                 
                 
