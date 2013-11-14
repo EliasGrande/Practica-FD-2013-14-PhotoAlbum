@@ -1,21 +1,23 @@
 package es.udc.fi.dc.photoalbum.wicket.panels;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.Session;
+import org.apache.wicket.request.resource.CssResourceReference;
 
-import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.utils.TimeAgoCalendarFormat;
+import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.models.CommentsModel;
 
 /**
@@ -141,7 +143,8 @@ public class ShowCommentsPanel extends Panel {
     }
 
     /**
-     * Creates the comments-view and adds it to the {@link #commentContainer}.
+     * Creates the comments-view and adds it to the
+     * {@link #commentContainer}.
      */
     private void makeCommentsView() {
         ListView<Comment> commentsView = new ListView<Comment>(
@@ -163,7 +166,8 @@ public class ShowCommentsPanel extends Panel {
     }
 
     /**
-     * Creates the more-link and adds it to the {@link #commentContainer}.
+     * Creates the more-link and adds it to the
+     * {@link #commentContainer}.
      */
     private void makeMoreLink() {
         AjaxLink<String> moreLink = new AjaxLink<String>(MORE_LINK_ID) {
@@ -191,6 +195,10 @@ public class ShowCommentsPanel extends Panel {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderCSSReference("css/CommentAndVote.css");
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        CommentAndVotePanel.class,
+                        "CommentAndVotePanel.css")));
     }
 }

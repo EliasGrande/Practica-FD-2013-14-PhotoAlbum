@@ -2,11 +2,13 @@ package es.udc.fi.dc.photoalbum.wicket.panels;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
@@ -168,10 +170,10 @@ public class VotePanel extends Panel {
             Voted voted, boolean requestVoted) {
 
         super(id);
-        
+
         // vote count info
         this.likeAndDislike = likeAndDislike;
-        
+
         // user vote info
         userId = ((MySession) Session.get()).getuId();
         Voted effectiveVoted = voted;
@@ -341,6 +343,10 @@ public class VotePanel extends Panel {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderCSSReference("css/CommentAndVote.css");
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        CommentAndVotePanel.class,
+                        "CommentAndVotePanel.css")));
     }
 }

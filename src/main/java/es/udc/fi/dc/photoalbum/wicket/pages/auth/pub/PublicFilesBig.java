@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BlobImageResource;
@@ -14,6 +15,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
@@ -25,6 +27,7 @@ import es.udc.fi.dc.photoalbum.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.PublicNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedBig;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
@@ -57,13 +60,12 @@ public class PublicFilesBig extends BasePageAuth {
 
         add(new BookmarkablePageLink<Void>("linkBack",
                 PublicFiles.class, newPars));
-
         add(new CommentAndVotePanel("commentAndVote", file));
     }
 
     private NonCachingImage createNonCachingImage() {
         return new NonCachingImage("img", new BlobImageResource() {
-            protected Blob getBlob() {
+            protected Blob getBlob(Attributes arg0) {
                 return BlobFromFile.getBig(file);
             }
         });
@@ -92,6 +94,9 @@ public class PublicFilesBig extends BasePageAuth {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderCSSReference("css/SharedBig.css");
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        SharedBig.class, "SharedBig.css")));
     }
 }

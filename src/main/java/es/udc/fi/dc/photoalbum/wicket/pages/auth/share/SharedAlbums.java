@@ -1,14 +1,18 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth.share;
 
+import java.util.List;
+
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
@@ -19,8 +23,6 @@ import es.udc.fi.dc.photoalbum.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
-
-import java.util.List;
 
 @SuppressWarnings("serial")
 public class SharedAlbums extends BasePageAuth {
@@ -73,6 +75,9 @@ public class SharedAlbums extends BasePageAuth {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderCSSReference("css/SharedAlbums.css");
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        SharedAlbums.class, "SharedAlbums.css")));
     }
 }

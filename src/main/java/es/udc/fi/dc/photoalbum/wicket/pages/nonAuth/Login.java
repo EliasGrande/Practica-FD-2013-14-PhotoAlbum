@@ -1,6 +1,11 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.nonAuth;
 
-import org.apache.wicket.markup.html.IHeaderResponse;
+import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_EMAIL;
+import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_MAX_AGE;
+import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_PASSWORD;
+
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
@@ -10,6 +15,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.cookies.CookieUtils;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
@@ -20,8 +26,6 @@ import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
-
-import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.*;
 
 @SuppressWarnings("serial")
 public class Login extends BasePage {
@@ -82,6 +86,9 @@ public class Login extends BasePage {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderCSSReference("css/Login.css");
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(Login.class,
+                        "Login.css")));
     }
 }
