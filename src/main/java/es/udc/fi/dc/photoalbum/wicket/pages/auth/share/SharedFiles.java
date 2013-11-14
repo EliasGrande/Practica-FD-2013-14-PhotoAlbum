@@ -89,7 +89,7 @@ public class SharedFiles extends BasePageAuth {
                         "big", SharedBig.class, pars);
                 bpl.add(new NonCachingImage("img",
                         new BlobImageResource() {
-
+                            @Override
                             protected Blob getBlob(Attributes arg0) {
                                 return BlobFromFile.getSmall(item
                                         .getModelObject());
@@ -107,7 +107,6 @@ public class SharedFiles extends BasePageAuth {
                 albumTagService.getTags(album.getId()));
         DataView<AlbumTag> dataView = new DataView<AlbumTag>(
                 "pageable", new ListDataProvider<AlbumTag>(list)) {
-
             @Override
             protected void populateItem(Item<AlbumTag> item) {
                 PageParameters pars = new PageParameters();

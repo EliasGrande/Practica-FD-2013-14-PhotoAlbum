@@ -40,7 +40,6 @@ public class PublicAlbums extends BasePageAuth {
 
     private DataView<Album> createDataView() {
         LoadableDetachableModel<List<Album>> ldm = new PublicAlbumsModelFull();
-
         DataView<Album> dataView = new DataView<Album>("pageable",
                 new PublicAlbumListDataProvider(ldm.getObject()
                         .size())) {

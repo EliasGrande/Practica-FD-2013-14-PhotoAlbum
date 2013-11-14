@@ -107,7 +107,6 @@ public class Image extends BasePageAuth {
             add(createShareForm());
             add(new AjaxDataView("fileTagDataContainer",
                     "fileTagNavigator", createFileTagsDataView()));
-
             add(new CommentAndVotePanel("commentAndVote",
                     fileOwnModel.getObject()));
         } else {
@@ -123,7 +122,6 @@ public class Image extends BasePageAuth {
         DataView<FileShareInformation> dataView = new DataView<FileShareInformation>(
                 "pageable",
                 new ListDataProvider<FileShareInformation>(list)) {
-
             protected void populateItem(
                     Item<FileShareInformation> item) {
                 final FileShareInformation shareInformation = item
@@ -138,7 +136,6 @@ public class Image extends BasePageAuth {
                                 this, null).getString());
                         setResponsePage(new Image(parameters));
                     }
-
                 });
             }
         };
@@ -221,7 +218,6 @@ public class Image extends BasePageAuth {
         listPrivacyLevel.setLabel(new StringResourceModel(
                 "privacyLevel.change", this, null));
         form.add(listPrivacyLevel);
-
         return form;
     }
 
@@ -322,7 +318,6 @@ public class Image extends BasePageAuth {
                         .getId()));
         DataView<FileTag> dataView = new DataView<FileTag>(
                 "pageable", new ListDataProvider<FileTag>(list)) {
-
             @Override
             protected void populateItem(final Item<FileTag> item) {
                 PageParameters pars = new PageParameters();

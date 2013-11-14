@@ -63,7 +63,7 @@ public class FileTagBig extends BasePageAuth {
 
     private NonCachingImage createNonCachingImage() {
         return new NonCachingImage("img", new BlobImageResource() {
-
+            @Override
             protected Blob getBlob(Attributes arg0) {
                 return BlobFromFile.getBig(file);
             }
@@ -75,7 +75,6 @@ public class FileTagBig extends BasePageAuth {
                 fileTagService.getTags(file.getId()));
         DataView<FileTag> dataView = new DataView<FileTag>(
                 "pageable", new ListDataProvider<FileTag>(list)) {
-
             @Override
             protected void populateItem(Item<FileTag> item) {
                 PageParameters pars = new PageParameters();
@@ -98,5 +97,4 @@ public class FileTagBig extends BasePageAuth {
                 .forReference(new CssResourceReference(
                         FileTagBig.class, "css/SharedBig.css")));
     }
-
 }
