@@ -347,10 +347,4 @@ public class Image extends BasePageAuth {
         return dataView;
     }
 
-    @Override
-    public void renderHead(IHeaderResponse response) {
-        response.render(CssHeaderItem
-                .forReference(new CssResourceReference(Image.class,
-                        "css/Image.css")));
-    }
 }

@@ -122,9 +122,4 @@ public class Profile extends BasePageAuth {
 		}
 	}
 
-	@Override
-	public void renderHead(IHeaderResponse response) {
-	    response.render(CssHeaderItem
-                .forReference(new CssResourceReference(Profile.class,"css/Profile.css")));
-	}
 }
