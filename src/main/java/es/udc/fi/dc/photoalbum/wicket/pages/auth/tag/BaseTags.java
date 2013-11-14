@@ -83,7 +83,8 @@ public class BaseTags extends BasePageAuth {
                         "big", FileTagBig.class, pars);
                 bpl.add(new NonCachingImage("img",
                         new BlobImageResource() {
-                            protected Blob getBlob() {
+
+                            protected Blob getBlob(Attributes arg0) {
                                 return BlobFromFile.getSmall(item
                                         .getModelObject());
                             }
@@ -96,5 +97,4 @@ public class BaseTags extends BasePageAuth {
         return dataView;
 
     }
-
 }

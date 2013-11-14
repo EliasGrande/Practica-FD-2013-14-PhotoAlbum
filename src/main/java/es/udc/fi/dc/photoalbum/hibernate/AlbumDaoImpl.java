@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.DetachedCriteria;
@@ -7,9 +10,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AlbumDaoImpl extends HibernateDaoSupport implements
         AlbumDao {

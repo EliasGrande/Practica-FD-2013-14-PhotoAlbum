@@ -140,8 +140,8 @@ public class FileServiceImpl implements FileService {
         return fileDao.getAlbumFilesOwn(albumId);
     }
 
-    public List<File> getAlbumFilesOwnPaging(int albumId,
-            int first, int count) {
+    public List<File> getAlbumFilesOwnPaging(int albumId, int first,
+            int count) {
         return fileDao.getAlbumFilesOwnPaging(albumId, first, count);
     }
 
@@ -208,8 +208,8 @@ public class FileServiceImpl implements FileService {
         return fileDao.getFilesByTag(userId, tag);
     }
 
-    public List<File> getFilesByTagPaging(int userId,
-            String tag, int first, int count) {
+    public List<File> getFilesByTagPaging(int userId, String tag,
+            int first, int count) {
         return fileDao.getFilesByTagPaging(userId, tag, first, count);
     }
 }

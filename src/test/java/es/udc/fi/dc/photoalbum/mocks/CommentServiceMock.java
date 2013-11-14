@@ -2,10 +2,9 @@ package es.udc.fi.dc.photoalbum.mocks;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.COMMENT;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.FILE_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.FILE_NAME_EXIST;
-
 
 import java.util.ArrayList;
 

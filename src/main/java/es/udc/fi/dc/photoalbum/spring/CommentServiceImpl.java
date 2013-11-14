@@ -1,6 +1,5 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -72,8 +71,8 @@ public class CommentServiceImpl implements CommentService {
         return commentDao.getComments(file);
     }
 
-    public List<Comment> getCommentsPaging(Album album,
-            int first, int count) {
+    public List<Comment> getCommentsPaging(Album album, int first,
+            int count) {
         return commentDao.getCommentsPaging(album, first, count);
     }
 

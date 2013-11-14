@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.image.resource.BlobImageResource;
@@ -14,6 +15,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
@@ -61,7 +63,8 @@ public class FileTagBig extends BasePageAuth {
 
     private NonCachingImage createNonCachingImage() {
         return new NonCachingImage("img", new BlobImageResource() {
-            protected Blob getBlob() {
+            @Override
+            protected Blob getBlob(Attributes arg0) {
                 return BlobFromFile.getBig(file);
             }
         });
@@ -72,7 +75,6 @@ public class FileTagBig extends BasePageAuth {
                 fileTagService.getTags(file.getId()));
         DataView<FileTag> dataView = new DataView<FileTag>(
                 "pageable", new ListDataProvider<FileTag>(list)) {
-
             @Override
             protected void populateItem(Item<FileTag> item) {
                 PageParameters pars = new PageParameters();
@@ -90,7 +92,9 @@ public class FileTagBig extends BasePageAuth {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderCSSReference("css/SharedBig.css");
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        FileTagBig.class, "css/SharedBig.css")));
     }
-
 }

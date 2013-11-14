@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.wicket;
 
+import java.util.Iterator;
+
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.request.component.IRequestablePage;
@@ -8,8 +10,6 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
-
-import java.util.Iterator;
 
 /**
  * Form for navigating back and forward through images

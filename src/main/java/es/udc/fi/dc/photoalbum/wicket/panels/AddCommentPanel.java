@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -15,6 +17,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
+import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
@@ -24,6 +28,7 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.CommentService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
+
 /**
  * Reusable panel for adding comments to files or albums.
  */
@@ -161,10 +166,14 @@ public class AddCommentPanel extends Panel {
      */
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderJavaScriptReference("http://ajax.googleap"
-                + "is.com/ajax/libs/jquery/1.10.2/jquery.min.js");
-        response.renderJavaScriptReference("js/AddCommentPanel.js");
-        response.renderCSSReference("css/CommentAndVote.css");
+        super.renderHead(response);
+        response.render(JavaScriptHeaderItem
+                .forReference(new JavaScriptResourceReference(
+                        AddCommentPanel.class, "AddCommentPanel.js")));
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(
+                        CommentAndVotePanel.class,
+                        "CommentAndVotePanel.css")));
     }
 
     /**

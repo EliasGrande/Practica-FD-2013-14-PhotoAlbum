@@ -7,7 +7,8 @@ import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.IHeaderResponse;
+import org.apache.wicket.markup.head.CssHeaderItem;
+import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -21,6 +22,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
@@ -141,6 +143,9 @@ public class Albums extends BasePageAuth {
 
     @Override
     public void renderHead(IHeaderResponse response) {
-        response.renderCSSReference("css/Albums.css");
+        super.renderHead(response);
+        response.render(CssHeaderItem
+                .forReference(new CssResourceReference(Albums.class,
+                        "Albums.css")));
     }
 }

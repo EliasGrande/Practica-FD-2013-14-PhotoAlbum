@@ -1,11 +1,11 @@
 package es.udc.fi.dc.photoalbum.wicket;
 
+import java.sql.Blob;
+import java.sql.SQLException;
+
 import javax.sql.rowset.serial.SerialBlob;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
-
-import java.sql.Blob;
-import java.sql.SQLException;
 
 /**
  * Gets Blob from File

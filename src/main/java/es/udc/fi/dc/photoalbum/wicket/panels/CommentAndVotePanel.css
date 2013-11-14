@@ -181,15 +181,15 @@
 .votePanel .dislike a {
 	width: 16px;
 	height: 16px;
-	background: url("../images/thumb_up.png");
+	background: url("../../../images/thumb_up.png");
 	float: right;
 }
 .votePanel .like a.unvote {
-	background: url("../images/thumb_up_delete.png");
+	background: url("../../../images/thumb_up_delete.png");
 }
 .votePanel .dislike a {
-	background: url("../images/thumb_down.png");
+	background: url("../../../images/thumb_down.png");
 }
 .votePanel .dislike a.unvote {
-	background: url("../images/thumb_down_delete.png");
+	background: url("../../../images/thumb_down_delete.png");
 }

@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
 
 import java.util.Locale;
 
@@ -25,7 +26,6 @@ import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Upload;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
 
 public class TestUploadPage {
 

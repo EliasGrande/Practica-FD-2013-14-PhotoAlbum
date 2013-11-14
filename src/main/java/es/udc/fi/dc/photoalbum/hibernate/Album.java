@@ -1,12 +1,22 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import javax.persistence.*;
-
-import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 @Entity
 @Table(name = "ALBUM")

@@ -1,13 +1,11 @@
 package es.udc.fi.dc.photoalbum.spring;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
-
 
 public interface CommentService {
 
@@ -48,8 +46,9 @@ public interface CommentService {
      * 
      * @param album
      *            It's the album they belong comments.
-    
-     * @return ArrayList<Comment> A list of album comments. */
+     * 
+     * @return ArrayList<Comment> A list of album comments.
+     */
     List<Comment> getComments(Album album);
 
     /**
@@ -57,8 +56,9 @@ public interface CommentService {
      * 
      * @param file
      *            It's the file they belong comments.
-    
-     * @return ArrayList<Comment> A list of file comments. */
+     * 
+     * @return ArrayList<Comment> A list of file comments.
+     */
     List<Comment> getComments(File file);
 
     /**
@@ -70,10 +70,10 @@ public interface CommentService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtains.
-    
-     * @return ArrayList<Comment> A list of album comments. */
-    List<Comment> getCommentsPaging(Album album, int first,
-            int count);
+     * 
+     * @return ArrayList<Comment> A list of album comments.
+     */
+    List<Comment> getCommentsPaging(Album album, int first, int count);
 
     /**
      * Obtains the comments for an file paginated.
@@ -84,9 +84,9 @@ public interface CommentService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtains.
-    
-     * @return ArrayList<Comment> A list of file comments. */
-    List<Comment> getCommentsPaging(File file, int first,
-            int count);
+     * 
+     * @return ArrayList<Comment> A list of file comments.
+     */
+    List<Comment> getCommentsPaging(File file, int first, int count);
 
 }

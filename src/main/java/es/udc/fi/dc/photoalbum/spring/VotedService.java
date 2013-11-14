@@ -8,6 +8,6 @@ public interface VotedService {
 
     Voted getVoted(int likeAndDislikeId, int userId);
 
-    List<Voted> getVoted(
-            List<Integer> likeAndDislikeIdList, int userId);
+    List<Voted> getVoted(List<Integer> likeAndDislikeIdList,
+            int userId);
 }

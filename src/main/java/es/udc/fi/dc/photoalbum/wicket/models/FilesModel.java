@@ -13,8 +13,7 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.utils.FileComparator;
 
 @SuppressWarnings("serial")
-public class FilesModel extends
-        LoadableDetachableModel<List<File>> {
+public class FilesModel extends LoadableDetachableModel<List<File>> {
 
     @SpringBean
     private FileService fileService;
