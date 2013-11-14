@@ -95,7 +95,7 @@ public class TestSharePage {
         formTester.setValue("shareEmail", USER_EMAIL_NOT);
         formTester.submit();
         this.tester
-                .assertErrorMessages("'123' не является правильным адресом e-mail.");
+                .assertErrorMessages("'Email' не является правильным адресом e-mail.");
     }
 
     @Test

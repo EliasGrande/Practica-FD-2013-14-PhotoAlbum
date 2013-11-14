@@ -61,8 +61,8 @@ public class TestLoginPage {
 		formTester.setValue("email", "");
 		formTester.setValue("password", "");
 		formTester.submit();
-		this.tester.assertErrorMessages("Field 'Email' is required.",
-				"Field 'Password' is required.");
+		this.tester.assertErrorMessages("'Email' is required.",
+				"'Password' is required.");
 	}
 
 	@Test
@@ -72,7 +72,7 @@ public class TestLoginPage {
 		formTester.setValue("password", "");
 		formTester.submit();
 		this.tester.assertErrorMessages(
-				"'123' не является правильным адресом e-mail.",
+				"'Email' не является правильным адресом e-mail.",
 				"Поле 'Password' обязательно для ввода.");
 	}
 
@@ -83,7 +83,7 @@ public class TestLoginPage {
 		formTester.setValue("password", USER_PASS_NO);
 		formTester.submit();
 		this.tester
-				.assertErrorMessages("'123' не является правильным адресом e-mail.");
+				.assertErrorMessages("'Email' не является правильным адресом e-mail.");
 	}
 
 	@Test
