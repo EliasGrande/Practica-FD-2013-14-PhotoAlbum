@@ -20,7 +20,6 @@ public class LikeAndDislikeDaoImpl extends HibernateDaoSupport
         return likeAndDislike;
     }
 
-    @Override
     public LikeAndDislike get(int likeAndDislikeId) {
         return getHibernateTemplate().get(LikeAndDislike.class,
                 likeAndDislikeId);

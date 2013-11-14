@@ -3,12 +3,8 @@ package es.udc.fi.dc.photoalbum.mocks;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
-
 
 import java.util.ArrayList;
-
-import org.springframework.dao.DataIntegrityViolationException;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
@@ -21,10 +17,6 @@ public class AlbumTagServiceMock {
     public static AlbumTagService mock = new AlbumTagService() {
 
         public void create(AlbumTag albumTag) {
-            if (albumTag.getTag().equals(TAG_NAME_EXIST)) {
-                throw new DataIntegrityViolationException("");
-            }
-            albumTag.setTag(albumTag.getTag());
         }
 
         public void delete(AlbumTag albumTag) {

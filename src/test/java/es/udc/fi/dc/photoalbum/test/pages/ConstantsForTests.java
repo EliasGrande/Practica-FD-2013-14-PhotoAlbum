@@ -16,5 +16,7 @@ public final class ConstantsForTests {
 	public static final String LIKE = "LIKE";
 	public static final String DISLIKE = "DISLIKE";
 	public static final String COMMENT = "COMMENT";
+	public static final String FILE_NAME_EXIST = "2";
+
 
 }

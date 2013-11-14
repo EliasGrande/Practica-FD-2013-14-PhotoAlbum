@@ -8,8 +8,7 @@ import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 
-/**
- */
+
 public interface CommentService {
 
     /**
@@ -49,8 +48,8 @@ public interface CommentService {
      * 
      * @param album
      *            It's the album they belong comments.
-     * @return ArrayList<Comment> A list of album comments.
-     */
+    
+     * @return ArrayList<Comment> A list of album comments. */
     List<Comment> getComments(Album album);
 
     /**
@@ -58,8 +57,8 @@ public interface CommentService {
      * 
      * @param file
      *            It's the file they belong comments.
-     * @return ArrayList<Comment> A list of file comments.
-     */
+    
+     * @return ArrayList<Comment> A list of file comments. */
     List<Comment> getComments(File file);
 
     /**
@@ -71,8 +70,8 @@ public interface CommentService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtains.
-     * @return ArrayList<Comment> A list of album comments.
-     */
+    
+     * @return ArrayList<Comment> A list of album comments. */
     List<Comment> getCommentsPaging(Album album, int first,
             int count);
 
@@ -85,8 +84,8 @@ public interface CommentService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtains.
-     * @return ArrayList<Comment> A list of file comments.
-     */
+    
+     * @return ArrayList<Comment> A list of file comments. */
     List<Comment> getCommentsPaging(File file, int first,
             int count);
 

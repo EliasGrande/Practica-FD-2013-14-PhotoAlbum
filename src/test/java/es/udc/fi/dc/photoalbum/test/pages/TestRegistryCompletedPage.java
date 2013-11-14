@@ -7,7 +7,6 @@ import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
@@ -16,9 +15,6 @@ import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
 public class TestRegistryCompletedPage {
     private WicketApp wicketApp;
     private WicketTester tester;
-
-    @Autowired
-    private UserServiceMock mock;
 
     {
         this.wicketApp = new WicketApp() {

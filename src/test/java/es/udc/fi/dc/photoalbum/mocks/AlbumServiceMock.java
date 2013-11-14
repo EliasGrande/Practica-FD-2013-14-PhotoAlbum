@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
@@ -21,7 +22,11 @@ public class AlbumServiceMock {
         public Album getAlbum(String name, int userId) {
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user,
-                    null, null, PrivacyLevel.PRIVATE);user.getAlbums().add(album);
+                    null, null, PrivacyLevel.PRIVATE);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            album.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
             return album;
         }
 
