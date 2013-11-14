@@ -23,14 +23,16 @@ public class AlbumTagServiceMock {
         }
 
         public AlbumTag getTag(int albumId, String tag) {
-            return new AlbumTag(new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                    null, PrivacyLevel.PRIVATE), "tag");
+            return new AlbumTag(new Album(1, ALBUM_NAME_EXIST,
+                    new User(1, USER_EMAIL_EXIST, USER_PASS_YES),
+                    null, null, PrivacyLevel.PRIVATE), "tag");
         }
 
         public ArrayList<AlbumTag> getTags(int albumId) {
             ArrayList<AlbumTag> list = new ArrayList<AlbumTag>();
-            list.add(new AlbumTag(new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE), "tag"));
+            list.add(new AlbumTag(new Album(1, ALBUM_NAME_EXIST,
+                    new User(1, USER_EMAIL_EXIST, USER_PASS_YES),
+                    null, null, PrivacyLevel.PRIVATE), "tag"));
             return list;
         }
 

@@ -43,9 +43,14 @@ public class FileServiceMock {
         }
 
         public File getFileShared(int id, String name, int userId) {
-            return new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            return file;
         }
 
         public void changeAlbum(File file, Album album) {
@@ -53,25 +58,40 @@ public class FileServiceMock {
         }
 
         public File getById(Integer id) {
-            return new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            return file;
         }
 
         public ArrayList<File> getAlbumFilesOwn(int albumId) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
 
         public ArrayList<File> getAlbumFilesOwnPaging(int albumId,
                 int first, int count) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
 
@@ -85,61 +105,96 @@ public class FileServiceMock {
         }
 
         public File getFilePublic(int id, String name, int userId) {
-            return new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            return file;
         }
 
         public ArrayList<File> getAlbumFilesShared(int albumId,
                 int userId) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
 
         public ArrayList<File> getAlbumFilesSharedPaging(
                 int albumId, int userId, int first, int count) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
 
         public ArrayList<File> getAlbumFilesPublic(int albumId,
                 int userId) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
 
         public ArrayList<File> getAlbumFilesPublicPaging(
                 int albumId, int userId, int first, int count) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
 
         public ArrayList<File> getFilesByTag(int userId, String tag) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
 
         public ArrayList<File> getFilesByTagPaging(int userId,
                 String tag, int first, int count) {
             ArrayList<File> list = new ArrayList<File>();
-            list.add(new File(1, "1", new byte[1], new byte[1],
-                    new Album(1, ALBUM_NAME_EXIST, new User(1, USER_EMAIL_EXIST, USER_PASS_YES), null,
-                            null, PrivacyLevel.PRIVATE)));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            file.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(file);
             return list;
         }
     };

@@ -42,24 +42,39 @@ public class AlbumServiceMock {
         }
 
         public Album getById(Integer id) {
-            return new Album(1, ALBUM_NAME_EXIST, new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES), null, null,
-                    PrivacyLevel.PRIVATE);
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user,
+                    null, null, PrivacyLevel.PRIVATE);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            album.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            return album;
         }
 
         public ArrayList<Album> getAlbums(Integer id) {
             ArrayList<Album> list = new ArrayList<Album>();
-            list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES), null, null,
-                    PrivacyLevel.PRIVATE));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user,
+                    null, null, PrivacyLevel.PRIVATE);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            album.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(album);
             return list;
         }
 
         public ArrayList<Album> getPublicAlbums() {
             ArrayList<Album> list = new ArrayList<Album>();
-            list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES), null, null,
-                    PrivacyLevel.PRIVATE));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user,
+                    null, null, PrivacyLevel.PRIVATE);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            album.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(album);
             return list;
         }
 
@@ -71,25 +86,40 @@ public class AlbumServiceMock {
         public ArrayList<Album> getAlbumsSharedWith(Integer id,
                 String ownerEmail) {
             ArrayList<Album> list = new ArrayList<Album>();
-            list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES), null, null,
-                    PrivacyLevel.PRIVATE));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user,
+                    null, null, PrivacyLevel.PRIVATE);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            album.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(album);
             return list;
         }
 
         public Album getSharedAlbum(String albumName,
                 int userSharedToId, String userSharedEmail) {
-            return new Album(1, ALBUM_NAME_EXIST, new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES), null, null,
-                    PrivacyLevel.PRIVATE);
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user,
+                    null, null, PrivacyLevel.PRIVATE);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            album.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            return album;
         }
 
         public ArrayList<Album> getAlbumsByTag(int userId,
                 String tag) {
             ArrayList<Album> list = new ArrayList<Album>();
-            list.add(new Album(1, ALBUM_NAME_EXIST, new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES), null, null,
-                    PrivacyLevel.PRIVATE));
+            User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user,
+                    null, null, PrivacyLevel.PRIVATE);
+            LikeAndDislike likeAndDislike = new LikeAndDislike();
+            likeAndDislike.setId(50);
+            album.setLikeAndDislike(likeAndDislike);
+            user.getAlbums().add(album);
+            list.add(album);
             return list;
         }
     };

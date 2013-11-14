@@ -11,6 +11,7 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.udc.fi.dc.photoalbum.mocks.CommentServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.LikeAndDislikeServiceMock;
@@ -34,6 +35,7 @@ public class TestPublicFilesBigPage {
                 context.putBean("fileBean", FileServiceMock.mock);
                 context.putBean("fileTagBean", FileTagServiceMock.mock);
                 context.putBean("likeAndDislikeBean", LikeAndDislikeServiceMock.mock);
+                context.putBean("commentServiceBean", CommentServiceMock.mock);
                 context.putBean("votedServiceBean", VotedServiceMock.mock);
 				getComponentInstantiationListeners().add(
 						new SpringComponentInjector(this, context));
@@ -59,4 +61,3 @@ public class TestPublicFilesBigPage {
 		tester.assertRenderedPage(PublicFilesBig.class);
 	}
 }
-
