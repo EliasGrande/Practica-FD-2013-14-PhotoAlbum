@@ -1,10 +1,10 @@
 package es.udc.fi.dc.photoalbum.wicket;
 
+import java.util.regex.Pattern;
+
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
-
-import java.util.regex.Pattern;
 
 @SuppressWarnings("serial")
 public class PasswordPolicyValidator implements IValidator<String> {

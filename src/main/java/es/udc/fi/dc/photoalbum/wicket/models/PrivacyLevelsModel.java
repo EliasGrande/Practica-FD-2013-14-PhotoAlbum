@@ -1,6 +1,5 @@
 package es.udc.fi.dc.photoalbum.wicket.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.Component;

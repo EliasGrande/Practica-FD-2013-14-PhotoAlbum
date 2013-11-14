@@ -6,12 +6,9 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EX
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
-import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.hibernate.Voted;

@@ -1,6 +1,5 @@
 package es.udc.fi.dc.photoalbum.hibernate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface AlbumShareInformationDao extends

@@ -28,8 +28,8 @@ public class VotedServiceImpl implements VotedService {
         return votedDao.get(likeAndDislikeId, userId);
     }
 
-    public List<Voted> getVoted(
-            List<Integer> likeAndDislikeIdList, int userId) {
+    public List<Voted> getVoted(List<Integer> likeAndDislikeIdList,
+            int userId) {
         return votedDao.getVoted(likeAndDislikeIdList, userId);
     }
 }

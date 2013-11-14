@@ -1,11 +1,11 @@
 package es.udc.fi.dc.photoalbum.utils;
 
+import java.util.Locale;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-
-import java.util.Locale;
 
 /**
  * Utility for sending mails

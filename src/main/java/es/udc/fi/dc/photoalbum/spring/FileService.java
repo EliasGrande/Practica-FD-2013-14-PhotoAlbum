@@ -30,13 +30,13 @@ public interface FileService {
 
     List<File> getAlbumFilesShared(int albumId, int userId);
 
-    List<File> getAlbumFilesSharedPaging(int albumId,
-            int userId, int first, int count);
+    List<File> getAlbumFilesSharedPaging(int albumId, int userId,
+            int first, int count);
 
     List<File> getAlbumFilesPublic(int albumId, int userId);
 
-    List<File> getAlbumFilesPublicPaging(int albumId,
-            int userId, int first, int count);
+    List<File> getAlbumFilesPublicPaging(int albumId, int userId,
+            int first, int count);
 
     Long getCountAlbumFiles(int albumId);
 
@@ -52,7 +52,7 @@ public interface FileService {
      */
     List<File> getFilesByTag(int userId, String tag);
 
-    List<File> getFilesByTagPaging(int userId, String tag,
-            int first, int count);
+    List<File> getFilesByTagPaging(int userId, String tag, int first,
+            int count);
 
 }

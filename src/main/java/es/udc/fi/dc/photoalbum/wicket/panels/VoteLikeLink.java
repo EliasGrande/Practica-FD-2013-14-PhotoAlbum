@@ -20,7 +20,7 @@ public class VoteLikeLink extends AjaxLink<String> {
         super(id);
         this.votePanel = votePanel;
     }
-    
+
     protected VotePanel getVotePanel() {
         return votePanel;
     }
@@ -38,8 +38,7 @@ public class VoteLikeLink extends AjaxLink<String> {
         add(new AttributeModifier("title", new Model<String>() {
             @Override
             public String getObject() {
-                return isVoted() ? getUnvoteTitle()
-                        : getVoteTitle();
+                return isVoted() ? getUnvoteTitle() : getVoteTitle();
             }
         }));
     }
@@ -60,8 +59,8 @@ public class VoteLikeLink extends AjaxLink<String> {
     }
 
     protected String getUnvoteTitle() {
-        return new StringResourceModel(UNVOTE_TITLE_RESOURCE_KEY, this,
-                null).getString();
+        return new StringResourceModel(UNVOTE_TITLE_RESOURCE_KEY,
+                this, null).getString();
     }
 
     protected String getVoteTitle() {

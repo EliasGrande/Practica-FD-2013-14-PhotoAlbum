@@ -28,7 +28,8 @@ public class CommentAndVotePanel extends Panel {
     public static final String SHOW_COMMENTS_ID = "showComments";
 
     /**
-     * Defines a {@link CommentAndVotePanel} object of an {@link Album}.
+     * Defines a {@link CommentAndVotePanel} object of an
+     * {@link Album}.
      * 
      * @param id
      *            CommentAndVotePanel {@code wicket:id}
@@ -41,7 +42,7 @@ public class CommentAndVotePanel extends Panel {
         add(new AddCommentPanel(ADD_COMMENT_ID, album));
         add(new ShowCommentsPanel(SHOW_COMMENTS_ID, album));
     }
-    
+
     /**
      * Defines a {@link CommentAndVotePanel} object of a {@link File}.
      * 

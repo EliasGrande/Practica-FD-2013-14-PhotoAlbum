@@ -1,11 +1,11 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 
+import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_EMAIL;
+import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_PASSWORD;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.cookies.CookieUtils;
-
-import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_EMAIL;
-import static es.udc.fi.dc.photoalbum.wicket.CookiesConstants.COOKIE_PASSWORD;
 
 @SuppressWarnings("serial")
 public class SignOut extends WebPage {

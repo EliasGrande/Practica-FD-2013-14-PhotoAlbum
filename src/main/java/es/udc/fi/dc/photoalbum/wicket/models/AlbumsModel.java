@@ -1,5 +1,10 @@
 package es.udc.fi.dc.photoalbum.wicket.models;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.wicket.Session;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -10,14 +15,8 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.utils.AlbumsComparator;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 @SuppressWarnings("serial")
-public class AlbumsModel extends
-        LoadableDetachableModel<List<Album>> {
+public class AlbumsModel extends LoadableDetachableModel<List<Album>> {
 
     @SpringBean
     private AlbumService albumService;
