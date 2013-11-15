@@ -8,20 +8,23 @@ import javax.sql.rowset.serial.SerialBlob;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 
 /**
- * Gets Blob from File
- * @author alejandro
- * @version $Revision: 1.0 $
+ * Gets Blob from File.
+ * 
  */
 public final class BlobFromFile {
 
+    /**
+     * Private constructor of BlobFromFile.
+     */
     private BlobFromFile() {
     }
 
     /**
      * @param file
-     *            file, small image from what you want to get
-    
-     * @return blob of small image */
+     *            {@link File}, small image from what you want to get.
+     * 
+     * @return Blob of small {@link File}.
+     */
     public static Blob getSmall(File file) {
         try {
             return new SerialBlob(file.getFileSmall());
@@ -32,9 +35,10 @@ public final class BlobFromFile {
 
     /**
      * @param file
-     *            file, big image from what you want to get
-    
-     * @return blob of big image */
+     *            {@link File}, big image from what you want to get.
+     * 
+     * @return Blob of big {@link File}.
+     */
     public static Blob getBig(File file) {
         try {
             return new SerialBlob(file.getFile());

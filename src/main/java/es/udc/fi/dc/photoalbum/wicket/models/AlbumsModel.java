@@ -15,18 +15,41 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.utils.AlbumsComparator;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 
+/**
+ * The model for an {@link Album}. This model return an array of
+ * albums of the user without repeated {@link Album}'s.
+ */
 @SuppressWarnings("serial")
 public class AlbumsModel extends LoadableDetachableModel<List<Album>> {
 
+    /**
+     * @see AlbumService.
+     */
     @SpringBean
     private AlbumService albumService;
+
+    /**
+     * An {@link Album} object.
+     */
     private Album album;
 
+    /**
+     * Constructor for AlbumsModel.
+     * 
+     * @param album
+     *            Album
+     */
     public AlbumsModel(Album album) {
         this.album = album;
         Injector.get().inject(this);
     }
 
+    /**
+     * Method load.
+     * 
+     * @return List<Album> Return an {@link Album}'s list without
+     *         repeated items.
+     */
     protected List<Album> load() {
         List<Album> list = new ArrayList<Album>(
                 albumService.getAlbums(((MySession) Session.get())

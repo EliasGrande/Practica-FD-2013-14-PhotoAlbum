@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
@@ -24,8 +25,8 @@ public class NavigateForm<T> extends Form<T> {
      * @param path
      *            The id of the navigator element in the *.html.
      * @param albumId
-     *            The id of the {@link Album} that contains the {@link File}
-     *            with fileId
+     *            The id of the {@link Album} that contains the
+     *            {@link File} with fileId
      * @param fileId
      *            The id of the current displayed {@link File}.
      * @param cls

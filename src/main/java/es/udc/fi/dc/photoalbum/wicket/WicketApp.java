@@ -40,6 +40,7 @@ public class WicketApp extends WebApplication {
 
     /**
      * Method getHomePage.
+     * 
      * @return Class<? extends Page>
      */
     public Class<? extends Page> getHomePage() {
@@ -79,8 +80,11 @@ public class WicketApp extends WebApplication {
 
     /**
      * Method newSession.
-     * @param request Request
-     * @param response Response
+     * 
+     * @param request
+     *            Request
+     * @param response
+     *            Response
      * @return Session
      */
     @Override

@@ -28,18 +28,38 @@ import es.udc.fi.dc.photoalbum.wicket.FilesOfAlbumTagNavigateForm;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 
+/**
+ * Page that shown the {@link File}.
+ */
 @SuppressWarnings("serial")
 public class FilesOfAlbumTagBig extends BasePageAuth {
 
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
+
+    /**
+     * @see FileTagSErvice
+     */
     @SpringBean
     private FileTagService fileTagService;
-
+    /**
+     * The {@link File} that is showing.
+     */
     private File file;
-
+    /**
+     * Number of maximum {@link Tag} shown per page.
+     */
     private static final int TAG_PER_PAGE = 5;
 
+    /**
+     * Constructor for FilesOfAlbumTagBig.
+     * 
+     * @param parameters
+     *            The parameters necessaries for the page to render.
+     */
     public FilesOfAlbumTagBig(final PageParameters parameters) {
         super(parameters);
         int id = parameters.get("fid").toInt();
@@ -62,6 +82,11 @@ public class FilesOfAlbumTagBig extends BasePageAuth {
                 FilesOfAlbumTag.class, newPars));
     }
 
+    /**
+     * Method that create a big {@link NonCachingImage}.
+     * 
+     * @return {@link NonCachingImage} to the {@link #file}.
+     */
     private NonCachingImage createNonCachingImage() {
         return new NonCachingImage("img", new BlobImageResource() {
 
@@ -71,6 +96,12 @@ public class FilesOfAlbumTagBig extends BasePageAuth {
         });
     }
 
+    /**
+     * Method that create a date view for {@link FileTag}.
+     * 
+     * @return DataView<@link AlbumTag}> that contains all the
+     *         {@link FileTag}s to shown.
+     */
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
                 fileTagService.getTags(file.getId()));
@@ -92,6 +123,13 @@ public class FilesOfAlbumTagBig extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method renderHead allows to use specific css in this page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

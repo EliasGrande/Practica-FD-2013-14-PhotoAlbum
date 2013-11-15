@@ -11,14 +11,27 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class SearchByTag extends BasePageAuth {
 
+    /**
+     * Constructor for SearchByTag.
+     * 
+     * @param parameters
+     *            PageParameters
+     */
     public SearchByTag(PageParameters parameters) {
         super(parameters);
         add(createTagForm());
     }
 
+    /**
+     * Method createTagForm.
+     * 
+     * @return Form<Tag>
+     */
     private Form<Tag> createTagForm() {
         Form<Tag> form = new Form<Tag>("form") {
             @Override

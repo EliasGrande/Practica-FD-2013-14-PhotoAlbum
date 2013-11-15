@@ -25,7 +25,9 @@ public class PublicAlbumListDataProvider implements
 
     /**
      * Constructor for PublicAlbumListDataProvider.
-     * @param size int
+     * 
+     * @param size
+     *            int
      */
     public PublicAlbumListDataProvider(int size) {
         this.size = size;
@@ -34,6 +36,7 @@ public class PublicAlbumListDataProvider implements
 
     /**
      * Method detach.
+     * 
      * @see org.apache.wicket.model.IDetachable#detach()
      */
     public void detach() {
@@ -41,10 +44,14 @@ public class PublicAlbumListDataProvider implements
 
     /**
      * Method iterator.
-     * @param first long
-     * @param count long
+     * 
+     * @param first
+     *            long
+     * @param count
+     *            long
      * @return Iterator<? extends Album>
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long, long)
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
+     *      long)
      */
     public Iterator<? extends Album> iterator(long first, long count) {
         LoadableDetachableModel<List<Album>> ldm = new PublicAlbumsModelFull();
@@ -58,6 +65,7 @@ public class PublicAlbumListDataProvider implements
 
     /**
      * Method size.
+     * 
      * @return long
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
@@ -67,7 +75,9 @@ public class PublicAlbumListDataProvider implements
 
     /**
      * Method model.
-     * @param object Album
+     * 
+     * @param object
+     *            Album
      * @return IModel<Album>
      */
     public IModel<Album> model(Album object) {

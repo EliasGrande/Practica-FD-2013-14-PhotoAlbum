@@ -11,6 +11,7 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 
 /**
  * Session that holds current user
+ * 
  * @author alejandro
  * @version $Revision: 1.0 $
  */
@@ -23,6 +24,7 @@ public class MySession extends WebSession {
 
     /**
      * Method getuId.
+     * 
      * @return Integer
      */
     public Integer getuId() {
@@ -31,7 +33,9 @@ public class MySession extends WebSession {
 
     /**
      * Method setuId.
-     * @param uId Integer
+     * 
+     * @param uId
+     *            Integer
      */
     public void setuId(Integer uId) {
         this.uId = uId;
@@ -39,7 +43,9 @@ public class MySession extends WebSession {
 
     /**
      * Constructor for MySession.
-     * @param request Request
+     * 
+     * @param request
+     *            Request
      */
     public MySession(Request request) {
         super(request);
@@ -49,14 +55,16 @@ public class MySession extends WebSession {
     /**
      * Checks if user is Authenticated
      * 
-    
-     * @return boolean */
+     * 
+     * @return boolean
+     */
     public boolean isAuthenticated() {
         return (this.uId != null);
     }
 
     /**
      * Method isAuthenticatedWithCookies.
+     * 
      * @return boolean
      */
     public boolean isAuthenticatedWithCookies() {

@@ -64,7 +64,7 @@ public class PublicFiles extends BasePageAuth {
 
     private DataView<File> createDataView() {
         int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<ArrayList<File>> ldm = new PublicFilesModel(
+        LoadableDetachableModel<List<File>> ldm = new PublicFilesModel(
                 album.getId(), userId);
         DataView<File> dataView = new DataView<File>(
                 "pageable",

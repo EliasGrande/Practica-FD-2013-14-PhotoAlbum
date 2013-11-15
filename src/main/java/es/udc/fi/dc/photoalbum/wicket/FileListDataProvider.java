@@ -14,17 +14,32 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.FilesModelPaging;
 
 /**
+ * ListDataProvider for {@list File}.
+ * 
+ * @see IDataProvider.
  */
 @SuppressWarnings("serial")
 public class FileListDataProvider implements IDataProvider<File> {
 
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
+
+    /**
+     * The size of the ListDataProvider.
+     */
     private int size;
+
+    /**
+     * The id of the {@link File}
+     */
     private int id;
 
     /**
      * Method detach.
+     * 
      * @see org.apache.wicket.model.IDetachable#detach()
      */
     public void detach() {
@@ -32,8 +47,11 @@ public class FileListDataProvider implements IDataProvider<File> {
 
     /**
      * Constructor for FileListDataProvider.
-     * @param size int
-     * @param id int
+     * 
+     * @param size
+     *            {@link #size}
+     * @param id
+     *            {@link #id}
      */
     public FileListDataProvider(int size, int id) {
         this.size = size;
@@ -42,11 +60,16 @@ public class FileListDataProvider implements IDataProvider<File> {
     }
 
     /**
-     * Method iterator.
-     * @param first long
-     * @param count long
-     * @return Iterator<File>
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long, long)
+     * Method iterator for {@link File}.
+     * 
+     * @param first
+     *            The id of the first {@link File} to shown.
+     * @param count
+     *            The number of {@link File} that contains the
+     *            Iterator.
+     * @return Iterator<File> Return the iterator.
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
+     *      long)
      */
     public Iterator<File> iterator(long first, long count) {
         LoadableDetachableModel<List<File>> ldm = new FilesModelPaging(
@@ -56,7 +79,8 @@ public class FileListDataProvider implements IDataProvider<File> {
 
     /**
      * Method size.
-     * @return long
+     * 
+     * @return long The size of the FileListDataProvider.
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
     public long size() {
@@ -64,9 +88,13 @@ public class FileListDataProvider implements IDataProvider<File> {
     }
 
     /**
-     * Method model.
-     * @param object File
-     * @return IModel<File>
+     * Method model that return {@link LoadableDetableModel} that
+     * contains a {@link File}.
+     * 
+     * @param object
+     *            The object to obtains.
+     * @return IModel<File> Return a LoadableDetachableModel that
+     *         contains an {@link File}.
      */
     public IModel<File> model(File object) {
         final Integer id = object.getId();

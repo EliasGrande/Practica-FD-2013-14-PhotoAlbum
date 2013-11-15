@@ -10,6 +10,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class TagFilesModelPaging extends
         LoadableDetachableModel<List<File>> {
@@ -20,6 +22,18 @@ public class TagFilesModelPaging extends
     private int first;
     private int count;
 
+    /**
+     * Constructor for TagFilesModelPaging.
+     * 
+     * @param tag
+     *            String
+     * @param userId
+     *            int
+     * @param first
+     *            int
+     * @param count
+     *            int
+     */
     public TagFilesModelPaging(String tag, int userId, int first,
             int count) {
         this.tag = tag;
@@ -29,6 +43,11 @@ public class TagFilesModelPaging extends
         Injector.get().inject(this);
     }
 
+    /**
+     * Method load.
+     * 
+     * @return List<File>
+     */
     @Override
     protected List<File> load() {
         return new ArrayList<File>(fileService.getFilesByTagPaging(

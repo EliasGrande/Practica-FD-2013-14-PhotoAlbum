@@ -8,12 +8,13 @@ import org.apache.wicket.request.component.IRequestablePage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.TagFilesModel;
 
 /**
- * Form for navigating back and forward through images 
- * that contains the searched tag.
+ * Form for navigating back and forward through images that contains
+ * the searched tag.
  */
 @SuppressWarnings("serial")
 public class TagNavigateForm<T> extends Form<T> {
@@ -22,12 +23,13 @@ public class TagNavigateForm<T> extends Form<T> {
      * 
      * @param path
      *            The id of the navigator element in the *.html.
-    
+     * 
      * @param fileId
      *            The id of the current displayed {@link File}.
      * @param cls
      *            Class of page image on.
-     * @param tag The tag on the {@link File} looked.
+     * @param tag
+     *            The tag on the {@link File} looked.
      * @param userId
      *            The id of the {@link User} that is viewing the
      *            {@link File}.

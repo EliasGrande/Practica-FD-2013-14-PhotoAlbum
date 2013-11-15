@@ -12,6 +12,8 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.utils.FileComparator;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class SharedFilesModel extends
         LoadableDetachableModel<List<File>> {
@@ -21,12 +23,25 @@ public class SharedFilesModel extends
     private int albumId;
     private int userId;
 
+    /**
+     * Constructor for SharedFilesModel.
+     * 
+     * @param albumId
+     *            int
+     * @param userId
+     *            int
+     */
     public SharedFilesModel(int albumId, int userId) {
         this.albumId = albumId;
         this.userId = userId;
         Injector.get().inject(this);
     }
 
+    /**
+     * Method load.
+     * 
+     * @return List<File>
+     */
     @Override
     protected List<File> load() {
         ArrayList<File> list = new ArrayList<File>(

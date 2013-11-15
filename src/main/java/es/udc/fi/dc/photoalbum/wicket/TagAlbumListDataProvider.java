@@ -26,9 +26,13 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Constructor for TagAlbumListDataProvider.
-     * @param size int
-     * @param userId int
-     * @param tag String
+     * 
+     * @param size
+     *            int
+     * @param userId
+     *            int
+     * @param tag
+     *            String
      */
     public TagAlbumListDataProvider(int size, int userId, String tag) {
         this.userId = userId;
@@ -39,6 +43,7 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Method detach.
+     * 
      * @see org.apache.wicket.model.IDetachable#detach()
      */
     public void detach() {
@@ -46,10 +51,14 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Method iterator.
-     * @param first long
-     * @param count long
+     * 
+     * @param first
+     *            long
+     * @param count
+     *            long
      * @return Iterator<? extends Album>
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long, long)
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
+     *      long)
      */
     public Iterator<? extends Album> iterator(long first, long count) {
         LoadableDetachableModel<List<Album>> ldm = new TagAlbumsModelFull(
@@ -64,6 +73,7 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Method size.
+     * 
      * @return long
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
@@ -73,7 +83,9 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Method model.
-     * @param object Album
+     * 
+     * @param object
+     *            Album
      * @return IModel<Album>
      */
     public IModel<Album> model(Album object) {

@@ -27,12 +27,20 @@ import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class Login extends BasePage {
     @SpringBean
     private UserService userService;
     private FeedbackPanel feedback;
 
+    /**
+     * Constructor for Login.
+     * 
+     * @param parameters
+     *            PageParameters
+     */
     public Login(final PageParameters parameters) {
         super(parameters);
         this.feedback = new FeedbackPanel("feedback");
@@ -41,6 +49,11 @@ public class Login extends BasePage {
         add(createFormLogin());
     }
 
+    /**
+     * Method createFormLogin.
+     * 
+     * @return Form<User>
+     */
     private Form<User> createFormLogin() {
         final CheckBox chk = new CheckBox("bool",
                 Model.of(Boolean.FALSE));
@@ -84,6 +97,13 @@ public class Login extends BasePage {
         return form;
     }
 
+    /**
+     * Method renderHead.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

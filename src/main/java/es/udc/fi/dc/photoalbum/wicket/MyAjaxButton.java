@@ -11,11 +11,18 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 @SuppressWarnings("serial")
 public class MyAjaxButton extends AjaxButton {
 
+    /**
+     * The {@link FeedbackPanel} associated to the button.
+     */
     private FeedbackPanel feedback;
 
     /**
-     * @param id The id of the button in the correspondent .hmtl.
-     * @param form The form where will put the button
+     * The constructor of MyAjaxButton.
+     * 
+     * @param id
+     *            The id of the button in the correspondent .hmtl.
+     * @param form
+     *            The form where will put the button
      * @param feedback
      *            The feedback button.
      */
@@ -28,8 +35,10 @@ public class MyAjaxButton extends AjaxButton {
     /**
      * Method onSubmit of the button.
      * 
-     * @param target The custom listener.
-     * @param form The form for this button.
+     * @param target
+     *            The custom listener.
+     * @param form
+     *            The form for this button.
      */
     @Override
     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -38,8 +47,11 @@ public class MyAjaxButton extends AjaxButton {
 
     /**
      * Method onError.
-     * @param target The custom listener.
-     * @param form The form for this button.
+     * 
+     * @param target
+     *            The custom listener.
+     * @param form
+     *            The form for this button.
      */
     @Override
     protected void onError(AjaxRequestTarget target, Form<?> form) {
