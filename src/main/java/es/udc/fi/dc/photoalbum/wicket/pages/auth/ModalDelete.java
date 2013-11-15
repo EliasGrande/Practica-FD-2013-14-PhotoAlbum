@@ -20,14 +20,39 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 
+/**
+ * Modal window {@link WebPage} for deleting a {@link User}.
+ */
 @SuppressWarnings("serial")
 public class ModalDelete extends WebPage {
+
+    /**
+     * User password.
+     */
     private String pass;
+
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+
+    /**
+     * The parent window, where this window was invocated.
+     */
     private ModalWindow window;
+
+    /**
+     * Feedback panel.
+     */
     private FeedbackPanel feedback;
 
+    /**
+     * Defines a {@link ModalDelete} window.
+     * 
+     * @param window
+     *            {@link #window Parent window}
+     */
     public ModalDelete(final ModalWindow window) {
         this.window = window;
         final Form<User> form = new Form<User>("form",
@@ -46,6 +71,11 @@ public class ModalDelete extends WebPage {
         add(form);
     }
 
+    /**
+     * Creates the {@link AjaxButton} for accepting the delete action.
+     * 
+     * @return Accept button
+     */
     private AjaxButton createButtonOk() {
         return new AjaxButton("buttonOk") {
             public void onSubmit(AjaxRequestTarget target,
@@ -75,6 +105,11 @@ public class ModalDelete extends WebPage {
         };
     }
 
+    /**
+     * Creates the {@link AjaxButton} for canceling the delete action.
+     * 
+     * @return Cancel button
+     */
     private AjaxButton createButtonCancel() {
         return new AjaxButton("buttonCancel") {
             public void onSubmit(AjaxRequestTarget target,

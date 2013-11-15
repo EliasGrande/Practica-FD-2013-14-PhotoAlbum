@@ -1,5 +1,8 @@
 package es.udc.fi.dc.photoalbum.wicket.pages.auth;
 
+/**
+ * Modal window {@link WebPage} for renaming an {@link Album}.
+ */
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
@@ -20,23 +23,61 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 @SuppressWarnings("serial")
 public class ModalRename extends WebPage {
 
+    /**
+     * @see {@link #getResult()}
+     */
     private String result;
+
+    /**
+     * @see {@link AlbumService}
+     */
     @SpringBean
     private AlbumService albumService;
+
+    /**
+     * The parent window, where this window was invocated.
+     */
     private ModalWindow window;
+
+    /**
+     * Feedback panel.
+     */
     private FeedbackPanel feedback;
+
+    /**
+     * The albums which is going to be renamed.
+     */
     private Album album;
 
+    /**
+     * New {@link Album#getName() album name}.
+     * 
+     * @return New album name.
+     */
     @SuppressWarnings("unused")
     private String getResult() {
         return this.result;
     }
 
+    /**
+     * Setter for {@link #getResult()}.
+     * 
+     * @param result
+     *            New album name
+     */
     @SuppressWarnings("unused")
     private void setResult(String result) {
         this.result = result;
     }
 
+    /**
+     * Defines a {@link ModalRename} window for an {@link album}.
+     * 
+     * @param album
+     *            {@link #album Album} which is going to be renamed
+     * @param window
+     *            {@link #window Parent window}
+     */
     public ModalRename(final Album album, final ModalWindow window) {
         this.result = album.getName();
         this.window = window;
@@ -56,6 +97,11 @@ public class ModalRename extends WebPage {
         add(form);
     }
 
+    /**
+     * Creates the {@link AjaxButton} for accepting the rename action.
+     * 
+     * @return Accept button
+     */
     private AjaxButton createButtonOk() {
         return new AjaxButton("buttonOk") {
             public void onSubmit(AjaxRequestTarget target,
@@ -70,6 +116,11 @@ public class ModalRename extends WebPage {
         };
     }
 
+    /**
+     * Creates the {@link AjaxButton} for canceling the rename action.
+     * 
+     * @return Cancel button
+     */
     private AjaxButton createButtonCancel() {
         return new AjaxButton("buttonCancel") {
             public void onSubmit(AjaxRequestTarget target,

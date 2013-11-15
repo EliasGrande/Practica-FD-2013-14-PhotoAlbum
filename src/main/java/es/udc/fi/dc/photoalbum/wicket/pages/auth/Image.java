@@ -9,6 +9,7 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -32,6 +33,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.hibernate.User;
@@ -53,25 +55,85 @@ import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelsModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
+/**
+ * Administration {@link WebPage} for a {@link File} owned by the
+ * user.
+ */
 @SuppressWarnings("serial")
 public class Image extends BasePageAuth {
 
+    /**
+     * @see {@link FileService}
+     */
     @SpringBean
     private FileService fileService;
+
+    /**
+     * @see {@link UserService}
+     */
     @SpringBean
     private UserService userService;
+
+    /**
+     * @see {@link FileShareInformationService}
+     */
     @SpringBean
     private FileShareInformationService shareInformationService;
+
+    /**
+     * @see {@link FileTagService}
+     */
     @SpringBean
     private FileTagService fileTagService;
+
+    /**
+     * Model for the image.
+     */
     private FileOwnModel fileOwnModel;
+
+    /**
+     * PageParameters used to instantiate the response page for the
+     * forms of this page.
+     */
     private PageParameters parameters;
+
+    /**
+     * Album selected on the "Move to album" combo-box.
+     */
     private Album selectedAlbum;
+
+    /**
+     * PrivacyLevel selected on the "Change privacy level" combo-box.
+     */
     private PrivacyLevelOption selectedPrivacyLevel;
+
+    /**
+     * Feedback panel.
+     */
     private FeedbackPanel feedback;
+
+    /**
+     * Number of {@link FileTag tags} showed on the "Tags" list per
+     * page.
+     */
     private static final int TAG_PER_PAGE = 5;
+
+    /**
+     * Number of {@link User#getEmail() e-mails} showed on the
+     * "File shared to" list per page.
+     */
     private static final int EMAIL_PER_PAGE = 5;
 
+    /**
+     * Defines an {@link Image} page.
+     * 
+     * @param parameters
+     *            PageParameters containing fid={@link Image#getId()
+     *            image_id} and album={@link Album#getName()
+     *            album_name} and the parameters used by the inherit
+     *            constructor
+     *            {@link BasePageAuth#BasePageAuth(PageParameters)}
+     */
     public Image(final PageParameters parameters) {
         super(parameters);
         if (parameters.getNamedKeys().contains("fid")
@@ -114,6 +176,13 @@ public class Image extends BasePageAuth {
         }
     }
 
+    /**
+     * Creates a {@link DataView} for the list of
+     * {@link User#getEmail() e-mails} of the {@link User users} of
+     * the share list of the current {@link File image}.
+     * 
+     * @return Email list DataView
+     */
     private DataView<FileShareInformation> createShareDataView() {
         final List<FileShareInformation> list = new ArrayList<FileShareInformation>(
                 shareInformationService
@@ -143,6 +212,12 @@ public class Image extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Creates a {@link NonCachingImage} of the current {@link File
+     * image}.
+     * 
+     * @return Non caching image
+     */
     private NonCachingImage createNonCachingImage() {
         return new NonCachingImage("img", new BlobImageResource() {
             @Override
@@ -152,6 +227,12 @@ public class Image extends BasePageAuth {
         });
     }
 
+    /**
+     * Creates a {@link Form} for deleting the current {@link File
+     * image}.
+     * 
+     * @return Delete form
+     */
     private Form<Void> createFormDelete() {
         return new Form<Void>("formDelete") {
             @Override
@@ -164,6 +245,12 @@ public class Image extends BasePageAuth {
         };
     }
 
+    /**
+     * Creates a {@link Form} for moving the current {@link File
+     * image} to another {@link Album}.
+     * 
+     * @return Move form
+     */
     private Form<Void> createFormMove() {
         Form<Void> form = new Form<Void>("formMove") {
             @Override
@@ -187,6 +274,13 @@ public class Image extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Creates a {@link Form} for changing the
+     * {@link File#getPrivacyLevel(String) privacy level} of the
+     * current {@link File image}.
+     * 
+     * @return Change privacy level form
+     */
     private Form<Void> createFormPrivacyLevel() {
         Form<Void> form = new Form<Void>("formPrivacyLevel") {
             @Override
@@ -221,6 +315,12 @@ public class Image extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Creates a {@link Form} for sharing the current {@link File
+     * image} with other {@link User users}.
+     * 
+     * @return Share form
+     */
     private Form<User> createShareForm() {
         Form<User> form = new Form<User>("form") {
             @Override
@@ -289,6 +389,12 @@ public class Image extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Creates a {@link Form} for adding {@link FileTag tags} to the
+     * current {@link File image}.
+     * 
+     * @return Add tag form
+     */
     private Form<FileTag> createAddTagForm() {
         Form<FileTag> form = new Form<FileTag>("formAddTag") {
             @Override
@@ -312,6 +418,12 @@ public class Image extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Creates a {@link DataView} for the list of {@link FileTag tags}
+     * of the current {@link File image}.
+     * 
+     * @return Tag list DataView
+     */
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
                 fileTagService.getTags(this.fileOwnModel.getObject()

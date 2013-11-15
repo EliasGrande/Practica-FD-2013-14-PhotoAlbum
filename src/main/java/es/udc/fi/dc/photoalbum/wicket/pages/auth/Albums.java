@@ -9,6 +9,7 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -35,17 +36,47 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModelFull;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.Share;
 
+/**
+ * Administration {@link WebPage} for the {@link Album albums} owned
+ * by the user.
+ */
 @SuppressWarnings("serial")
 public class Albums extends BasePageAuth {
 
+    /**
+     * @see {@link AlbumService}
+     */
     @SpringBean
     private AlbumService albumService;
+
+    /**
+     * @see {@link UserService}
+     */
     @SpringBean
     private UserService userService;
-    private static final int WINDOW_WIDTH = 500;
-    private static final int WINDOW_HEIGHT = 120;
+
+    /**
+     * Modal window width in pixels.
+     */
+    private static final int MODAL_WINDOW_WIDTH = 500;
+
+    /**
+     * Modal window height in pixels.
+     */
+    private static final int MODAL_WINDOW_HEIGHT = 120;
+
+    /**
+     * Number of albums to show on each page.
+     */
     private static final int ALBUMS_PER_PAGE = 10;
 
+    /**
+     * Defines an {@link Albums} page.
+     * 
+     * @param parameters
+     *            PageParameters used by the inherit constructor
+     *            {@link BasePageAuth#BasePageAuth(PageParameters)}
+     */
     public Albums(final PageParameters parameters) {
         super(parameters);
         add(createAlbumForm());
@@ -53,6 +84,12 @@ public class Albums extends BasePageAuth {
                 createAlbumDataView()));
     }
 
+    /**
+     * Creates a {@link DataView} for the list of albums and returns
+     * it.
+     * 
+     * @return Album list DataView
+     */
     private DataView<Album> createAlbumDataView() {
         LoadableDetachableModel<List<Album>> ldm = new AlbumsModelFull();
         DataView<Album> dataView = new DataView<Album>("pageable",
@@ -86,8 +123,8 @@ public class Albums extends BasePageAuth {
                 modal.setTitle(new StringResourceModel(
                         "albums.rename", this, null));
                 modal.setResizable(false);
-                modal.setInitialWidth(WINDOW_WIDTH);
-                modal.setInitialHeight(WINDOW_HEIGHT);
+                modal.setInitialWidth(MODAL_WINDOW_WIDTH);
+                modal.setInitialHeight(MODAL_WINDOW_HEIGHT);
                 modal.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
                     public void onClose(AjaxRequestTarget target) {
                         setResponsePage(Albums.class);
@@ -109,6 +146,11 @@ public class Albums extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Creates a {@link Form} to create new albums and returns it.
+     * 
+     * @return Create album form
+     */
     private Form<Album> createAlbumForm() {
         Form<Album> form = new Form<Album>("form") {
             @Override
