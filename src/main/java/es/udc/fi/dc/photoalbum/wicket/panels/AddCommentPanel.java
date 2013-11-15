@@ -104,7 +104,8 @@ public class AddCommentPanel extends Panel {
         Form<Void> form = new Form<Void>("addCommentForm") {
             @Override
             protected void onSubmit() {
-                String textString = text.getModelObject();
+                String textString = cleanComment(text
+                        .getModelObject());
                 if (validateComment(textString)) {
                     createComment(textString);
                 }
@@ -115,6 +116,19 @@ public class AddCommentPanel extends Panel {
         form.add(text);
         form.add(new Label("maxLength", String
                 .valueOf(Comment.MAX_TEXT_LENGTH)));
+    }
+
+    /**
+     * Gets rid of \r characters and anywhere there are more than 2
+     * consecutive \n delete the extra \n characters.
+     * 
+     * @param text
+     *            The comment text
+     * @return Cleaned text
+     */
+    private String cleanComment(String text) {
+        return text.replaceAll("\\r", "").replaceAll("\\n\\n+",
+                "\n\n");
     }
 
     /**
