@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.request.resource.CssResourceReference;
+import org.apache.wicket.util.string.Strings;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.Comment;
@@ -156,7 +157,11 @@ public class ShowCommentsPanel extends Panel {
                         .getEmail()));
                 item.add(new Label(DATE_LABEL_ID, calendarFormat
                         .format(comment.getDate())));
-                item.add(new Label(TEXT_LABEL_ID, comment.getText()));
+                String commentHtml = Strings
+                        .escapeMarkup(comment.getText()).toString()
+                        .replaceAll("\\n", "<br />");
+                item.add(new Label(TEXT_LABEL_ID, commentHtml)
+                        .setEscapeModelStrings(false));
                 item.add(new VotePanel(VOTE_LABEL_ID, comment
                         .getLikeAndDislike(), commentsModel
                         .getVoted(comment)));
