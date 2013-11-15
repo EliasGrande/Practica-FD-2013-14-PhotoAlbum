@@ -28,42 +28,42 @@ import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 public class File implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getName()}
+     * @see #getName()
      */
     private String name;
 
     /**
-     * @see {@link #getPrivacyLevel()}
+     * @see #getPrivacyLevel()
      */
     private String privacyLevel;
 
     /**
-     * @see {@link #getFile()}
+     * @see #getFile()
      */
     private byte[] file;
 
     /**
-     * @see {@link #getFileSmall()}
+     * @see #getFileSmall()
      */
     private byte[] fileSmall;
 
     /**
-     * @see {@link #getAlbum()}
+     * @see #getAlbum()
      */
     private Album album;
 
     /**
-     * @see {@link #getShareInformation()}
+     * @see #getShareInformation()
      */
     private Set<FileShareInformation> shareInformation = new HashSet<FileShareInformation>();
 
     /**
-     * @see {@link #getLikeAndDislike()}
+     * @see #getLikeAndDislike()
      */
     private LikeAndDislike likeAndDislike;
 
@@ -167,7 +167,7 @@ public class File implements Serializable {
      * Privacy level.
      * 
      * @return Privacy level
-     * @see {@link PrivacyLevel}
+     * @see PrivacyLevel
      */
     @Column(name = "PRIVACY_LEVEL")
     public String getPrivacyLevel() {

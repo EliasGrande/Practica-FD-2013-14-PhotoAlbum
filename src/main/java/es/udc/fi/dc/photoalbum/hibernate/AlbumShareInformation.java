@@ -20,17 +20,17 @@ import javax.persistence.Table;
 public class AlbumShareInformation implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getAlbum()}
+     * @see #getAlbum()
      */
     private Album album;
 
     /**
-     * @see {@link #getUser()}
+     * @see #getUser()
      */
     private User user;
 

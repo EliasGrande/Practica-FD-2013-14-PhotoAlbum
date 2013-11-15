@@ -63,25 +63,25 @@ import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 public class Image extends BasePageAuth {
 
     /**
-     * @see {@link FileService}
+     * @see FileService
      */
     @SpringBean
     private FileService fileService;
 
     /**
-     * @see {@link UserService}
+     * @see UserService
      */
     @SpringBean
     private UserService userService;
 
     /**
-     * @see {@link FileShareInformationService}
+     * @see FileShareInformationService
      */
     @SpringBean
     private FileShareInformationService shareInformationService;
 
     /**
-     * @see {@link FileTagService}
+     * @see FileTagService
      */
     @SpringBean
     private FileTagService fileTagService;

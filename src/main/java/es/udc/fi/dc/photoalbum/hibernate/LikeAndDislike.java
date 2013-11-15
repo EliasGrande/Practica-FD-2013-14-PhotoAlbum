@@ -19,17 +19,17 @@ import javax.persistence.Table;
 public class LikeAndDislike implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer like;
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer dislike;
 

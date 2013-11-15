@@ -24,12 +24,12 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 public class ModalRename extends WebPage {
 
     /**
-     * @see {@link #getResult()}
+     * @see #getResult()
      */
     private String result;
 
     /**
-     * @see {@link AlbumService}
+     * @see AlbumService
      */
     @SpringBean
     private AlbumService albumService;

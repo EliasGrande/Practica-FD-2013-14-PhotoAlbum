@@ -44,13 +44,13 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.Share;
 public class Albums extends BasePageAuth {
 
     /**
-     * @see {@link AlbumService}
+     * @see AlbumService
      */
     @SpringBean
     private AlbumService albumService;
 
     /**
-     * @see {@link UserService}
+     * @see UserService
      */
     @SpringBean
     private UserService userService;
