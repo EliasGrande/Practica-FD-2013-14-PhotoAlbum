@@ -32,21 +32,50 @@ import es.udc.fi.dc.photoalbum.wicket.PublicFileListDataProvider;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 
+/**
+ * Page that shown the {@link File} for an specific {@link Album}.
+ */
 @SuppressWarnings("serial")
 public class FilesOfAlbumTag extends BasePageAuth {
 
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+    /**
+     * @see AlbumTagService
+     */
     @SpringBean
     private AlbumTagService albumTagService;
-
+    /**
+     * Number of maximum {@link Tag} shown per page.
+     */
     private static final int TAG_PER_PAGE = 5;
+    /**
+     * Number of maximum items shown per page.
+     */
     private static final int ITEMS_PER_PAGE = 10;
+    /**
+     * The {@link Album} to the that belong the photos.
+     */
     private Album album;
+    /**
+     * The {@link Tag} that have the {@link Album}.
+     */
     private String tag;
 
+    /**
+     * Constructor for FilesOfAlbumTag.
+     * 
+     * @param parameters
+     *            The parameters necessaries for the page to render.
+     */
     public FilesOfAlbumTag(final PageParameters parameters) {
         super(parameters);
         int albumId = parameters.get("albumId").toInt();
@@ -64,9 +93,15 @@ public class FilesOfAlbumTag extends BasePageAuth {
                 "albumTagNavigator", createAlbumTagsDataView()));
     }
 
+    /**
+     * Method that create a date view for {@link File}.
+     * 
+     * @return DataView<{@link File}> that contains all the
+     *         {@link File}s to shown.
+     */
     private DataView<File> createDataView() {
         int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<ArrayList<File>> ldm = new PublicFilesModel(
+        LoadableDetachableModel<List<File>> ldm = new PublicFilesModel(
                 album.getId(), userId);
         DataView<File> dataView = new DataView<File>(
                 "pageable",
@@ -97,6 +132,12 @@ public class FilesOfAlbumTag extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method that create a date view for {@link AlbumTag}.
+     * 
+     * @return DataView<@link AlbumTag}> that contains all the
+     *         {@link AlbumTag}s to shown.
+     */
     private DataView<AlbumTag> createAlbumTagsDataView() {
         final List<AlbumTag> list = new ArrayList<AlbumTag>(
                 albumTagService.getTags(album.getId()));
@@ -118,6 +159,13 @@ public class FilesOfAlbumTag extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method renderHead allows to use specific css in this page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

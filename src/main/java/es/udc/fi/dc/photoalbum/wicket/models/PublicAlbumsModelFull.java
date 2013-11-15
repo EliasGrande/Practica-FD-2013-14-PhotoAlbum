@@ -12,6 +12,8 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.utils.AlbumsComparator;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class PublicAlbumsModelFull extends
         LoadableDetachableModel<List<Album>> {
@@ -23,6 +25,11 @@ public class PublicAlbumsModelFull extends
         Injector.get().inject(this);
     }
 
+    /**
+     * Method load.
+     * 
+     * @return List<Album>
+     */
     protected List<Album> load() {
         ArrayList<Album> list = new ArrayList<Album>(
                 albumService.getPublicAlbums());

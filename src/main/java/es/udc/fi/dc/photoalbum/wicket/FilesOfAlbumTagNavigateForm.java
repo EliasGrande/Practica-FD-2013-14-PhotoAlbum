@@ -12,12 +12,12 @@ import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 
 /**
- * Form for navigating back and forward through 
- * images that their album has the searched tag.
+ * Form for navigating back and forward through images that their
+ * album has the searched tag.
  */
 @SuppressWarnings("serial")
 public class FilesOfAlbumTagNavigateForm<T> extends Form<T> {
-    
+
     /**
      * 
      * @param path

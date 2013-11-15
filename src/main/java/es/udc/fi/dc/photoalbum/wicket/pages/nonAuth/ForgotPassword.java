@@ -18,12 +18,26 @@ import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.utils.RandomString;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class ForgotPassword extends BasePage {
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+    /**
+     * {@link FeedbackPanel}
+     */
     private FeedbackPanel feedback;
 
+    /**
+     * Constructor for ForgotPassword.
+     * 
+     * @param parameters
+     *            The parameters necessary for the page render.
+     */
     public ForgotPassword(final PageParameters parameters) {
         super(parameters);
         this.feedback = new FeedbackPanel("feedback");
@@ -32,6 +46,11 @@ public class ForgotPassword extends BasePage {
         add(createFormFroget());
     }
 
+    /**
+     * Method that create a form to restore password.
+     * 
+     * @return Form<{@link User}>.
+     */
     private Form<User> createFormFroget() {
         Form<User> form = new Form<User>("form",
                 new CompoundPropertyModel<User>(new User())) {
@@ -62,6 +81,13 @@ public class ForgotPassword extends BasePage {
         return form;
     }
 
+    /**
+     * Method renderHead allows to use specific css in this page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

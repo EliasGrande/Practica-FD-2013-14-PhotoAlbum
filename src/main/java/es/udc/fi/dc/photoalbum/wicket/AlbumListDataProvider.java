@@ -14,17 +14,27 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModelFull;
 
 /**
+ * Provides a ListDataProvider of {@link Album}. @see IDataProvider.
  */
 @SuppressWarnings("serial")
 public class AlbumListDataProvider implements IDataProvider<Album> {
 
+    /**
+     * @see AlbumService.
+     */
     @SpringBean
     private AlbumService albumService;
+
+    /**
+     * The size of the ListDataProvider.
+     */
     private int size;
 
     /**
      * Constructor for AlbumListDataProvider.
-     * @param size int
+     * 
+     * @param size
+     *            The size of the AlbumListDataProvider.
      */
     public AlbumListDataProvider(int size) {
         this.size = size;
@@ -33,6 +43,7 @@ public class AlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Method detach.
+     * 
      * @see org.apache.wicket.model.IDetachable#detach()
      */
     public void detach() {
@@ -40,10 +51,15 @@ public class AlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Method iterator.
-     * @param first long
-     * @param count long
-     * @return Iterator<? extends Album>
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long, long)
+     * 
+     * @param first
+     *            The first element of the iterator.
+     * @param count
+     *            The number of element in the iterator.
+     * @return Iterator<? extends Album> Return an iterator of
+     *         {@link Album}'s.
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
+     *      long)
      */
     public Iterator<? extends Album> iterator(long first, long count) {
         LoadableDetachableModel<List<Album>> ldm = new AlbumsModelFull();
@@ -57,7 +73,8 @@ public class AlbumListDataProvider implements IDataProvider<Album> {
 
     /**
      * Method size.
-     * @return long
+     * 
+     * @return long Return the size of the AlbumListDataProvider.
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
     public long size() {
@@ -65,9 +82,13 @@ public class AlbumListDataProvider implements IDataProvider<Album> {
     }
 
     /**
-     * Method model.
-     * @param object Album
-     * @return IModel<Album>
+     * Method that obtains an {@link Album} of the
+     * AlbumListDataProvider, into LoadableDetachableModel.
+     * 
+     * @param object
+     *            The object to obtains.
+     * @return IModel<Album> Return a LoadableDetachableModel that
+     *         contains an {@link Album}.
      */
     public IModel<Album> model(Album object) {
         final Integer id = object.getId();

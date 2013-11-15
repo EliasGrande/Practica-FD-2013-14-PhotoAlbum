@@ -12,6 +12,8 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.utils.AlbumsComparator;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class TagAlbumsModelFull extends
         LoadableDetachableModel<List<Album>> {
@@ -22,12 +24,25 @@ public class TagAlbumsModelFull extends
     private String tag;
     private Integer userId;
 
+    /**
+     * Constructor for TagAlbumsModelFull.
+     * 
+     * @param userId
+     *            Integer
+     * @param tag
+     *            String
+     */
     public TagAlbumsModelFull(Integer userId, String tag) {
         this.userId = userId;
         this.tag = tag;
         Injector.get().inject(this);
     }
 
+    /**
+     * Method load.
+     * 
+     * @return List<Album>
+     */
     protected List<Album> load() {
         ArrayList<Album> list = new ArrayList<Album>(
                 albumService.getAlbumsByTag(userId, tag));

@@ -12,6 +12,8 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.utils.FileComparator;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class TagFilesModel extends
         LoadableDetachableModel<List<File>> {
@@ -21,12 +23,25 @@ public class TagFilesModel extends
     private String tag;
     private int userId;
 
+    /**
+     * Constructor for TagFilesModel.
+     * 
+     * @param tag
+     *            String
+     * @param userId
+     *            int
+     */
     public TagFilesModel(String tag, int userId) {
         this.tag = tag;
         this.userId = userId;
         Injector.get().inject(this);
     }
 
+    /**
+     * Method load.
+     * 
+     * @return List<File>
+     */
     @Override
     protected List<File> load() {
         ArrayList<File> list = new ArrayList<File>(

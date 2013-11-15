@@ -24,13 +24,33 @@ import es.udc.fi.dc.photoalbum.wicket.models.TagAlbumsModelFull;
 import es.udc.fi.dc.photoalbum.wicket.models.TagFilesModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 
+/**
+ * The initial page to view the result for a tag search, or navigation
+ * tag.
+ */
 @SuppressWarnings("serial")
 public class BaseTags extends BasePageAuth {
 
+    /**
+     * The tag that contains all the elements of this page.
+     */
     private String tag;
+    /**
+     * The maximum number {@link Album}'s per page.
+     */
     private static final int ALBUMS_PER_PAGE = 5;
+    /**
+     * The maximum number for items ({@link File} or {@link Tag}) for
+     * page.
+     */
     private static final int ITEMS_PER_PAGE = 10;
 
+    /**
+     * Constructor for BaseTags.
+     * 
+     * @param parameters
+     *            The parameters necessary for the page.
+     */
     public BaseTags(PageParameters parameters) {
         super(parameters);
         String tag = parameters.get("tagName").toString();
@@ -41,6 +61,13 @@ public class BaseTags extends BasePageAuth {
                 createFileDataView()));
     }
 
+    /**
+     * Creates a DataView that shown a list of {@link Album}'s that
+     * contains the {@link #tag}
+     * 
+     * @return DataView<Album> Return the DataView with the
+     *         {@link Album}'s.
+     */
     private DataView<Album> createAlbumDataView() {
         int userId = ((MySession) Session.get()).getuId();
         LoadableDetachableModel<List<Album>> ldm = new TagAlbumsModelFull(
@@ -67,6 +94,13 @@ public class BaseTags extends BasePageAuth {
 
     }
 
+    /**
+     * Creates a DataView that shown a list of {@link File}'s that
+     * contains the {@link #tag}
+     * 
+     * @return DataView<File> Return the DataView with the
+     *         {@link File}'s.
+     */
     private DataView<File> createFileDataView() {
         int userId = ((MySession) Session.get()).getuId();
         LoadableDetachableModel<List<File>> ldm = new TagFilesModel(

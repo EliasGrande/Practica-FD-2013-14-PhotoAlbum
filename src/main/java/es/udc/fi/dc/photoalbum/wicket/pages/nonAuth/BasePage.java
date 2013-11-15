@@ -18,11 +18,24 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.SignOut;
 
+/**
+ * The initial page of the aplication.
+ */
 @SuppressWarnings("serial")
 public class BasePage extends WebPage {
+
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
 
+    /**
+     * Constructor for BasePage.
+     * 
+     * @param parameters
+     *            The parameters of the page.
+     */
     public BasePage(final PageParameters parameters) {
         super(parameters);
         add(new DebugBar("debug"));
@@ -53,6 +66,13 @@ public class BasePage extends WebPage {
         }
     }
 
+    /**
+     * Method renderHead, that render the Css.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

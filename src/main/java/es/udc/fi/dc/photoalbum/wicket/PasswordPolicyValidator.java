@@ -17,8 +17,12 @@ public class PasswordPolicyValidator implements IValidator<String> {
 
     /**
      * Method validate.
-     * @param validatable IValidatable<String>
-     * @see org.apache.wicket.validation.IValidator#validate(IValidatable<String>)
+     * 
+     * @param validatable
+     *            IValidatable<String>
+     * @see 
+     *      org.apache.wicket.validation.IValidator#validate(IValidatable
+     *      <String>)
      */
     public void validate(IValidatable<String> validatable) {
         final String password = validatable.getValue();
@@ -35,8 +39,11 @@ public class PasswordPolicyValidator implements IValidator<String> {
 
     /**
      * Method error.
-     * @param validatable IValidatable<String>
-     * @param errorKey String
+     * 
+     * @param validatable
+     *            IValidatable<String>
+     * @param errorKey
+     *            String
      */
     private void error(IValidatable<String> validatable,
             String errorKey) {

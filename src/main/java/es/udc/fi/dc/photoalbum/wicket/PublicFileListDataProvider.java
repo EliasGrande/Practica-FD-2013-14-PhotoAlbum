@@ -26,6 +26,7 @@ public class PublicFileListDataProvider implements
 
     /**
      * Method detach.
+     * 
      * @see org.apache.wicket.model.IDetachable#detach()
      */
     public void detach() {
@@ -33,9 +34,13 @@ public class PublicFileListDataProvider implements
 
     /**
      * Constructor for PublicFileListDataProvider.
-     * @param size int
-     * @param albumId int
-     * @param userId int
+     * 
+     * @param size
+     *            int
+     * @param albumId
+     *            int
+     * @param userId
+     *            int
      */
     public PublicFileListDataProvider(int size, int albumId,
             int userId) {
@@ -47,10 +52,14 @@ public class PublicFileListDataProvider implements
 
     /**
      * Method iterator.
-     * @param first long
-     * @param count long
+     * 
+     * @param first
+     *            long
+     * @param count
+     *            long
      * @return Iterator<File>
-     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long, long)
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
+     *      long)
      */
     public Iterator<File> iterator(long first, long count) {
         LoadableDetachableModel<List<File>> ldm = new PublicFilesModelPaging(
@@ -60,6 +69,7 @@ public class PublicFileListDataProvider implements
 
     /**
      * Method size.
+     * 
      * @return long
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
@@ -69,7 +79,9 @@ public class PublicFileListDataProvider implements
 
     /**
      * Method model.
-     * @param object File
+     * 
+     * @param object
+     *            File
      * @return IModel<File>
      */
     public IModel<File> model(File object) {

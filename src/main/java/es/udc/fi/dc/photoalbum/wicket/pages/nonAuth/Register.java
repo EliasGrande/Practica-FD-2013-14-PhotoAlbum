@@ -23,6 +23,8 @@ import es.udc.fi.dc.photoalbum.utils.MD5;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.PasswordPolicyValidator;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class Register extends BasePage {
     @SpringBean
@@ -30,6 +32,12 @@ public class Register extends BasePage {
     private static final int PASSWORD_MIN_LENGTH = 8;
     private FeedbackPanel feedback;
 
+    /**
+     * Constructor for Register.
+     * 
+     * @param parameters
+     *            PageParameters
+     */
     public Register(final PageParameters parameters) {
         super(parameters);
         this.feedback = new FeedbackPanel("feedback");
@@ -38,6 +46,11 @@ public class Register extends BasePage {
         add(createFormRegister());
     }
 
+    /**
+     * Method createFormRegister.
+     * 
+     * @return Form<User>
+     */
     private Form<User> createFormRegister() {
         Form<User> form = new Form<User>("form",
                 new CompoundPropertyModel<User>(new User())) {
@@ -80,6 +93,13 @@ public class Register extends BasePage {
         return form;
     }
 
+    /**
+     * Method renderHead.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

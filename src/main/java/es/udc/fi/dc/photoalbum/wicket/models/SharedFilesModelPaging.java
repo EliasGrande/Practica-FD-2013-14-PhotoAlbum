@@ -10,6 +10,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class SharedFilesModelPaging extends
         LoadableDetachableModel<List<File>> {
@@ -20,6 +22,18 @@ public class SharedFilesModelPaging extends
     private int first;
     private int count;
 
+    /**
+     * Constructor for SharedFilesModelPaging.
+     * 
+     * @param albumId
+     *            int
+     * @param userId
+     *            int
+     * @param first
+     *            int
+     * @param count
+     *            int
+     */
     public SharedFilesModelPaging(int albumId, int userId, int first,
             int count) {
         this.albumId = albumId;
@@ -29,6 +43,11 @@ public class SharedFilesModelPaging extends
         Injector.get().inject(this);
     }
 
+    /**
+     * Method load.
+     * 
+     * @return List<File>
+     */
     @Override
     protected List<File> load() {
         return new ArrayList<File>(
