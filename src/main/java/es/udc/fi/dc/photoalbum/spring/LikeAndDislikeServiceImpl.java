@@ -8,37 +8,75 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.hibernate.Voted;
 import es.udc.fi.dc.photoalbum.hibernate.VotedDao;
 
+/**
+ * Implementation of the {@link LikeAndDislikeService}
+ */
 @Transactional
 public class LikeAndDislikeServiceImpl implements
         LikeAndDislikeService {
     private static String LIKE = "LIKE";
     private static String DISLIKE = "DISLIKE";
 
-    /* LikeAndDislikeDao */
+    /**
+     * @see LikeAndDislikeDao
+     */
     private LikeAndDislikeDao likeAndDislikeDao;
 
+    /**
+     * Method for get an {@link LikeAndDislikeDao}.
+     * 
+     * @return An {@link LikeAndDislikeDao}
+     */
     public LikeAndDislikeDao getLikeAndDislikeDao() {
         return this.likeAndDislikeDao;
     }
 
+    /**
+     * Method that allows to put an {@link LikeAndDislikeDao}.
+     * 
+     * @param likeAndDislikeDao
+     *            LikeAndDislikeDao which will be put.
+     */
     public void setLikeAndDislikeDao(
             LikeAndDislikeDao likeAndDislikeDao) {
         this.likeAndDislikeDao = likeAndDislikeDao;
     }
 
-    /* VotedDao */
+    /**
+     * @see VotedDao
+     */
     private VotedDao votedDao;
 
+    /**
+     * Method for get an {@link VotedDao}.
+     * 
+     * @return An {@link VotedDao}.
+     */
     public VotedDao getVotedDao() {
         return this.votedDao;
     }
 
+    /**
+     * Method that allows to put an {@link VotedDao}.
+     * 
+     * @param votedDao
+     *            {@link VotedDao} which will be put.
+     */
     public void setVotedDao(VotedDao votedDao) {
         this.votedDao = votedDao;
     }
 
-    /* IMPLEMENTATION */
-
+    /**
+     * Add new like vote to object likeAndDislike.
+     * 
+     * @param likeAndDislike
+     *            Object that will be update with a like.
+     * @param user
+     *            User that votes.
+     * @return A LikeAndDislike with the like vote.
+     * @see es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService#voteLike(LikeAndDislike,
+     *      User)
+     */
     public LikeAndDislike voteLike(LikeAndDislike likeAndDislike,
             User user) {
         Voted voted = votedDao.get(likeAndDislike.getId(),
@@ -65,6 +103,17 @@ public class LikeAndDislikeServiceImpl implements
         return likeAndDislikeDao.update(updatedLikeAndDislike);
     }
 
+    /**
+     * Add new dislike vote to object likeAndDislike.
+     * 
+     * @param likeAndDislike
+     *            Object that will be update with a dislike.
+     * @param user
+     *            User that votes.
+     * @return A LikeAndDislike with the dislike vote.
+     * @see es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService#voteDislike(LikeAndDislike,
+     *      User)
+     */
     public LikeAndDislike voteDislike(LikeAndDislike likeAndDislike,
             User user) {
         Voted voted = votedDao.get(likeAndDislike.getId(),
@@ -91,6 +140,17 @@ public class LikeAndDislikeServiceImpl implements
         return likeAndDislikeDao.update(updatedLikeAndDislike);
     }
 
+    /**
+     * Remove a vote.
+     * 
+     * @param likeAndDislike
+     *            Object that will be updated.
+     * @param user
+     *            User that had voted.
+     * @return A LikeAndDislike which has the unvote.
+     * @see es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService#unvote(LikeAndDislike,
+     *      User)
+     */
     public LikeAndDislike unvote(LikeAndDislike likeAndDislike,
             User user) {
         Voted voted = votedDao.get(likeAndDislike.getId(),
@@ -109,6 +169,17 @@ public class LikeAndDislikeServiceImpl implements
         return likeAndDislikeDao.update(updatedLikeAndDislike);
     }
 
+    /**
+     * Check if the user had voted.
+     * 
+     * @param likeAndDislike
+     *            A {@link LikeAndDislike} object.
+     * @param user
+     *            {@link User} for the check.
+     * @return True if the user voted, false if the user not voted.
+     * @see es.udc.fi.dc.photoalbum.spring.LikeAndDislikeService#userHasVoted(LikeAndDislike,
+     *      User)
+     */
     public boolean userHasVoted(LikeAndDislike likeAndDislike,
             User user) {
         Voted voted = votedDao.get(likeAndDislike.getId(),

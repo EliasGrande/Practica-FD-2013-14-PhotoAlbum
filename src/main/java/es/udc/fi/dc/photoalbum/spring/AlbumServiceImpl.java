@@ -31,7 +31,7 @@ public class AlbumServiceImpl implements AlbumService {
      * Method setAlbumDao. For set an instance of AlbumDao
      * 
      * @param albumDao
-     *            AlbumDao The AlbumDao that will be instanced
+     *            AlbumDao that will be instanced
      */
     public void setAlbumDao(AlbumDao albumDao) {
         this.albumDao = albumDao;
@@ -44,7 +44,7 @@ public class AlbumServiceImpl implements AlbumService {
      * Method getLikeAndDislikeDao. For get an instance of
      * LikeAndDislikeDao
      * 
-     * @return LikeAndDislikeDao The LikeAndDislikeDao.
+     * @return A LikeAndDislikeDao.
      */
     public LikeAndDislikeDao getLikeAndDislikeDao() {
         return this.likeAndDislikeDao;
@@ -55,8 +55,7 @@ public class AlbumServiceImpl implements AlbumService {
      * LikeAndDislikeDao.
      * 
      * @param likeAndDislikeDao
-     *            LikeAndDislikeDao The AlbumDao that will be
-     *            instanced.
+     *            LikeAndDislikeDaothat will be instanced.
      */
     public void setLikeAndDislikeDao(
             LikeAndDislikeDao likeAndDislikeDao) {
@@ -67,7 +66,7 @@ public class AlbumServiceImpl implements AlbumService {
      * Method create. For create an album
      * 
      * @param album
-     *            Album The album that will be created
+     *            Album that will be created
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService#create(Album)
      */
     public void create(Album album) {
@@ -81,7 +80,7 @@ public class AlbumServiceImpl implements AlbumService {
      * Method delete. For delete an album
      * 
      * @param album
-     *            Album The album that will be deleted
+     *            Album that will be deleted
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService #delete(Album)
      */
     public void delete(Album album) {
@@ -95,9 +94,9 @@ public class AlbumServiceImpl implements AlbumService {
      * identifier
      * 
      * @param name
-     *            String The name of the album
+     *            The name of the album
      * @param userId
-     *            int A user identifier
+     *            A user identifier
      * @return Album An album with that name and that user id.
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #getAlbum(String, int)
@@ -110,9 +109,9 @@ public class AlbumServiceImpl implements AlbumService {
      * Method rename. For rename an album name
      * 
      * @param album
-     *            Album The album whose name will be renamed
+     *            The album whose name will be renamed
      * @param newName
-     *            String The new name for the album
+     *            The new name for the album
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService #rename(Album,
      *      String)
      */
@@ -124,8 +123,8 @@ public class AlbumServiceImpl implements AlbumService {
      * Method getById. For get an album searching by id
      * 
      * @param id
-     *            Integer The identifier that corresponds to album id.
-     * @return Album The album with that identifier.
+     *            The identifier that corresponds to album id.
+     * @return The album with that identifier.
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #getById(Integer)
      */
@@ -137,8 +136,8 @@ public class AlbumServiceImpl implements AlbumService {
      * Method getAlbums. For get a list of albums searching by id.
      * 
      * @param id
-     *            Integer The identifier for the search.
-     * @return List<Album> A list of albums.
+     *            The identifier for the search.
+     * @return List<Album> with that id
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #getAlbums(Integer)
      */
@@ -149,7 +148,7 @@ public class AlbumServiceImpl implements AlbumService {
     /**
      * Method getPublicAlbums. Get a list of public albums.
      * 
-     * @return List<Album> A list of public albums.
+     * @return List<Album> of public albums.
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #getPublicAlbums()
      */
@@ -161,9 +160,9 @@ public class AlbumServiceImpl implements AlbumService {
      * Method changePrivacyLevel. For change the albums privacy level.
      * 
      * @param album
-     *            Album The album whose privacy level will be changed
+     *            The album whose privacy level will be changed
      * @param privacyLevel
-     *            String The new privacy level
+     *            The new privacy level
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #changePrivacyLevel(Album, String)
      */
@@ -176,11 +175,10 @@ public class AlbumServiceImpl implements AlbumService {
      * email of the albums owner.
      * 
      * @param id
-     *            Integer The identifier for the search.
+     *            The identifier for the search.
      * @param ownerEmail
-     *            String The email of the album owner.
-     * @return List<Album> A list of albums that match the specified
-     *         criteria.
+     *            The email of the album owner.
+     * @return A list of albums that match the specified criteria.
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #getAlbumsSharedWith(Integer, String)
      */
@@ -194,12 +192,12 @@ public class AlbumServiceImpl implements AlbumService {
      * owner user and target user.
      * 
      * @param albumName
-     *            String The album name
+     *            The album name
      * @param userSharedToId
-     *            int The target user
+     *            The target user
      * @param userSharedEmail
-     *            String The email of the user who shares the album.
-     * @return Album The album for that search.
+     *            The email of the user who shares the album.
+     * @return The album for that search.
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #getSharedAlbum(String, int, String)
      */
@@ -213,11 +211,11 @@ public class AlbumServiceImpl implements AlbumService {
      * Get a list of albums searching by tag.
      * 
      * @param userId
-     *            int The user who invocated the search, needed for
+     *            The user who invocated the search, needed for
      *            privacy restrictions.
      * @param tag
-     *            String The album tag.
-     * @return List<Album> A list of albums (empty if nothing found).
+     *            The album tag.
+     * @return A list of albums (empty if nothing found).
      * @see es.udc.fi.dc.photoalbum.spring.AlbumService
      *      #getAlbumsByTag(int, String)
      */

@@ -8,6 +8,9 @@ import java.security.NoSuchAlgorithmException;
  */
 public final class MD5 {
 
+    /**
+     * Constructor for the MD5 hash utility.
+     */
     private MD5() {
     }
 
@@ -15,7 +18,8 @@ public final class MD5 {
 
     /**
      * @param str
-     *            string, MD5 of which returned
+     *            String which will be used for do the hash function.
+     * 
      * @return md5 hash
      */
     public static String getHash(String str) {

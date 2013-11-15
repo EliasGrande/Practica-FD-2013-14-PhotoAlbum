@@ -5,73 +5,77 @@ import java.util.List;
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 
 /**
- * Interface for the Album service.
+ * Interface for the {@link AlbumService}
  */
 public interface AlbumService {
 
     /**
-     * Method create. For create an album
+     * Method create. For create an {@link Album}
      * 
      * @param album
-     *            Album The album that will be created
+     *            {@link Album} that will be created
      */
     void create(Album album);
 
     /**
-     * Method delete. For delete an album
+     * Method delete. For delete an {@link Album}
      * 
      * @param album
-     *            Album The album that will be deleted
+     *            {@link Album} that will be deleted
      */
     void delete(Album album);
 
     /**
-     * Method rename. For rename an album name
+     * Method rename. For rename an {@link Album} name
      * 
      * @param album
-     *            Album The album whose name will be renamed
+     *            {@link Album} whose name will be renamed
      * @param newName
-     *            String The new name for the album
+     *            The new name for the {@link Album}
      */
     void rename(Album album, String newName);
 
     /**
-     * Method changePrivacyLevel. For change the albums privacy level.
+     * Method changePrivacyLevel. For change the {@link Album} privacy
+     * level.
      * 
      * @param album
-     *            Album The album whose privacy level will be changed
+     *            {@link Album} whose privacy level will be changed
      * @param privacyLevel
-     *            String The new privacy level
+     *            The new privacy level
      */
     void changePrivacyLevel(Album album, String privacyLevel);
 
     /**
-     * Method getById. For get an album searching by id
+     * Method getById. For get an {@link Album} searching by
+     * {@link Album} identifier
      * 
      * @param id
-     *            Integer The identifier that corresponds to album id
-     * @return Album The album with that identifier.
+     *            The identifier that corresponds to {@link Album} id
+     * @return {@link Album} with that identifier.
      */
     Album getById(Integer id);
 
     /**
-     * Method getAlbum. For get an album searching by name and user
-     * identifier
+     * Method getAlbum. For get an {@link Album} searching by name and
+     * {@link User} identifier
      * 
      * @param name
-     *            String The name of the album
+     *            The name of the {@link Album}
      * @param userId
-     *            int A user identifier
-     * @return Album An album with that name and that user id.
+     *            An {@link User} identifier
+     * @return An {@link Album} with that name and that {@link User}
+     *         id.
      */
     Album getAlbum(String name, int userId);
 
     /**
-     * Method getAlbums. For get a list of albums searching by id.
+     * Method getAlbums. For get a list of {@link Album} searching by
+     * id.
      * 
      * @param id
-     *            Integer The identifier for the search.
-     * @return List<Album> A list of albums.
+     *            The identifier for the search.
+     * @return List<Album> A list of {@link Album}
      */
     List<Album> getAlbums(Integer id);
 
@@ -80,9 +84,9 @@ public interface AlbumService {
      * email of the albums owner.
      * 
      * @param id
-     *            Integer The identifier for the search.
+     *            The identifier for the search.
      * @param ownerEmail
-     *            String The email of the album owner.
+     *            The email of the album owner.
      * @return List<Album> A list of albums that match the specified
      *         criteria.
      */
@@ -96,30 +100,31 @@ public interface AlbumService {
     List<Album> getPublicAlbums();
 
     /**
-     * Method getSharedAlbum. Get an album searching by album name,
-     * owner user and target user
+     * Method getSharedAlbum. Get an {@link Album} searching by
+     * {@link Album} name, owner {@link User} and target {@link User}
      * 
      * @param albumName
-     *            String The album name
+     *            The {@link Album} name
      * @param userSharedToId
-     *            int The target user
+     *            The target {@link User}
      * @param userSharedEmail
-     *            String The email of the user who shares the album.
+     *            The email of the {@link User} who shares the
+     *            {@link Album}.
      * @return Album The album for that search.
      */
     Album getSharedAlbum(String albumName, int userSharedToId,
             String userSharedEmail);
 
     /**
-     * Get a list of albums searching by tag.
+     * Get a list of {@link Album} searching by tag.
      * 
      * @param userId
-     *            The user who invocated the search, needed for
-     *            privacy restrictions.
+     *            The {@link User} who invocated the search, needed
+     *            for privacy restrictions.
      * @param tag
-     *            The album tag.
+     *            The {@link Album} tag.
      * 
-     * @return A list of albums (empty if nothing found).
+     * @return A list of {@link Album} (empty if nothing found).
      */
     List<Album> getAlbumsByTag(int userId, String tag);
 }

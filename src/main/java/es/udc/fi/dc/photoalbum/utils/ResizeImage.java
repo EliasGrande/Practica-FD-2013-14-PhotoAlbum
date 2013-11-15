@@ -15,6 +15,9 @@ import org.imgscalr.Scalr;
  */
 public final class ResizeImage {
 
+    /**
+     * Constructor for the utility of resizing.
+     */
     private ResizeImage() {
     }
 
@@ -25,6 +28,9 @@ public final class ResizeImage {
      *            image for resizing
      * @param size
      *            resized image max height and width
+     * 
+     * @param contentType
+     *            Describe the content of a file
      * @return resized image
      */
     public static byte[] resize(byte[] image, int size,

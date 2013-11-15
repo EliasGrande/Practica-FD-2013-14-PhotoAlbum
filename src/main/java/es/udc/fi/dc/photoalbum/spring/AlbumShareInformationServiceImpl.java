@@ -4,35 +4,39 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformationDao;
 
 /**
- * Implementation of the AlbumShareInformation service
+ * Implementation of the {@link AlbumShareInformationService}
  */
 @Transactional
 public class AlbumShareInformationServiceImpl implements
         AlbumShareInformationService {
 
+    /**
+     * @see AlbumShareInformationDao
+     */
     private AlbumShareInformationDao albumShareInformationDao;
 
     /**
      * Method getAlbumShareInformationDao. Get an instance of
      * AlbumShareInformationDao
      * 
-     * @return AlbumShareInformationDao The AlbumShareInformationDao
+     * 
+     * @return A {@link AlbumShareInformationDao}
      */
     public AlbumShareInformationDao getAlbumShareInformationDao() {
         return this.albumShareInformationDao;
     }
 
     /**
-     * Method setAlbumShareInformationDao. Set an instance of
-     * AlbumShareInformationDao.
+     * Set an instance of {@link AlbumShareInformationDao}.
      * 
      * @param shareInformationDao
-     *            AlbumShareInformationDao The
-     *            AlbumShareInformationDao that will be instanced
+     *            {@link AlbumShareInformationDao} that will be
+     *            instanced
      */
     public void setAlbumShareInformationDao(
             AlbumShareInformationDao shareInformationDao) {
@@ -40,11 +44,11 @@ public class AlbumShareInformationServiceImpl implements
     }
 
     /**
-     * Method create. Create an AlbumShareInformation
+     * Allows to create an {@link AlbumShareInformation}
      * 
      * @param shareInformation
-     *            AlbumShareInformation The album share information
-     *            that will be created
+     *            {@link AlbumShareInformation } that will be created.
+     * 
      * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService
      *      #create(AlbumShareInformation)
      */
@@ -53,11 +57,11 @@ public class AlbumShareInformationServiceImpl implements
     }
 
     /**
-     * Method delete. Delete an AlbumShareInformation
+     * Allows to remove an {@link AlbumShareInformation}
      * 
      * @param shareInformation
-     *            AlbumShareInformation The album share information
-     *            that will be removed
+     *            {@link AlbumShareInformation } that will be removed.
+     * 
      * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService
      *      #delete(AlbumShareInformation)
      */
@@ -66,19 +70,21 @@ public class AlbumShareInformationServiceImpl implements
     }
 
     /**
-     * Method getShare. Get an album share information searching by
-     * album name, user target identifier and user owner email.
+     * Return an {@link AlbumShareInformation} searching by album
+     * name, user target identifier and user owner email.
      * 
      * @param albumName
-     *            String The album name
+     *            The {@link Album} name.
      * @param userSharedToId
-     *            int The target user
+     *            The target user
      * @param userSharedEmail
-     *            String The email of the user who shares the album.
-     * @return AlbumShareInformation The album share information for
-     *         that search.
-     * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService
-     *      #getShare(String, int, String)
+     *            The email of the user who shares the {@link Album}.
+     * 
+     * 
+     * @return {@link AlbumShareInformation} for that search.
+     * @see es.udc.fi.dc.photoalbum.spring.
+     *      AlbumShareInformationService #getShare(String, int,
+     *      String)
      */
     public AlbumShareInformation getShare(String albumName,
             int userSharedToId, String userSharedEmail) {
@@ -87,14 +93,17 @@ public class AlbumShareInformationServiceImpl implements
     }
 
     /**
-     * Method getAlbumShares. Get a list of album share information
-     * from an album searching by album identifier.
+     * Get a list of {@link AlbumShareInformation} from an
+     * {@link Album} searching by album identifier
      * 
      * @param albumId
-     *            int The album identifier.
-     * @return List<AlbumShareInformation> The list of album share
-     *         information
-     * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService#getAlbumShares(int)
+     *            An {@link Album} identifier.
+     * 
+     * 
+     * @returnA list of {@link AlbumShareInformation}
+     * 
+     * @see es.udc.fi.dc.photoalbum.spring.
+     *      AlbumShareInformationService#getAlbumShares(int)
      */
     public List<AlbumShareInformation> getAlbumShares(int albumId) {
         return albumShareInformationDao.getAlbumShares(albumId);

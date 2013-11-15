@@ -11,6 +11,8 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 
+/**
+ */
 public class RandomDataGenerator {
 
     private static final String LOREN_IPSUM = "Lorem ipsum dolor sit amet,"
@@ -44,18 +46,34 @@ public class RandomDataGenerator {
 
     private static int id = 0;
 
+    /**
+     * Method randomInt.
+     * @param min int
+     * @param max int
+     * @return int
+     */
     public static int randomInt(int min, int max) {
         return min
                 + (int) Math.round(Math.random()
                         * (double) ((max - min) + 1));
     }
 
+    /**
+     * Method randomLong.
+     * @param min long
+     * @param max long
+     * @return long
+     */
     public static long randomLong(long min, long max) {
         return min
                 + Math.round(Math.random()
                         * (double) ((max - min) + 1L));
     }
 
+    /**
+     * Method randomCalendar.
+     * @return Calendar
+     */
     public static Calendar randomCalendar() {
         Calendar calendar = Calendar.getInstance();
         Date date = new Date();
@@ -64,6 +82,11 @@ public class RandomDataGenerator {
         return calendar;
     }
 
+    /**
+     * Method randomComment.
+     * @param file File
+     * @return Comment
+     */
     public static Comment randomComment(File file) {
         Comment comment = new Comment(randomLikeAndDislike(),
                 randomUser(), randomText(), null, file);
@@ -72,6 +95,11 @@ public class RandomDataGenerator {
         return comment;
     }
 
+    /**
+     * Method randomComment.
+     * @param album Album
+     * @return Comment
+     */
     public static Comment randomComment(Album album) {
         Comment comment = new Comment(randomLikeAndDislike(),
                 randomUser(), randomText(), album, null);
@@ -80,6 +108,10 @@ public class RandomDataGenerator {
         return comment;
     }
 
+    /**
+     * Method randomLikeAndDislike.
+     * @return LikeAndDislike
+     */
     public static LikeAndDislike randomLikeAndDislike() {
         int min = 5;
         int max = 500;
@@ -89,10 +121,18 @@ public class RandomDataGenerator {
         return likeAndDislike;
     }
 
+    /**
+     * Method randomUser.
+     * @return User
+     */
     public static User randomUser() {
         return new User(randomInt(1, 5000), randomEmail(), "");
     }
 
+    /**
+     * Method randomText.
+     * @return String
+     */
     public static String randomText() {
         int beginIndex = randomInt(0, LOREN_IPSUM.length() / 2 - 1);
         int endIndex = randomInt(beginIndex + 5,
@@ -100,10 +140,23 @@ public class RandomDataGenerator {
         return LOREN_IPSUM.substring(beginIndex, endIndex);
     }
 
+    /**
+     * Method randomText.
+     * @param minLen int
+     * @param maxLen int
+     * @return String
+     */
     public static String randomText(int minLen, int maxLen) {
         return randomText(LOREN_IPSUM, minLen, maxLen);
     }
 
+    /**
+     * Method randomText.
+     * @param baseText String
+     * @param minLen int
+     * @param maxLen int
+     * @return String
+     */
     public static String randomText(String baseText, int minLen,
             int maxLen) {
         if (maxLen > baseText.length())
@@ -115,12 +168,22 @@ public class RandomDataGenerator {
         return baseText.substring(beginIndex, endIndex);
     }
 
+    /**
+     * Method randomEmail.
+     * @return String
+     */
     public static String randomEmail() {
         return randomText(LOREN_IPSUM_SIMPLE, 5, 15) + "@"
                 + randomText(LOREN_IPSUM_SIMPLE, 5, 15) + "."
                 + randomText(LOREN_IPSUM_SIMPLE, 2, 3);
     }
 
+    /**
+     * Method randomComments.
+     * @param file File
+     * @param count int
+     * @return List<Comment>
+     */
     public static List<Comment> randomComments(File file, int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();
         for (int i = 0; i < count; i++)
@@ -128,6 +191,12 @@ public class RandomDataGenerator {
         return list;
     }
 
+    /**
+     * Method randomComments.
+     * @param album Album
+     * @param count int
+     * @return List<Comment>
+     */
     public static List<Comment> randomComments(Album album, int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();
         for (int i = 0; i < count; i++)
