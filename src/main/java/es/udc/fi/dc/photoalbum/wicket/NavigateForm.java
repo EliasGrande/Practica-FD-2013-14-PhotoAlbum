@@ -13,25 +13,44 @@ import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.FilesModel;
 
 /**
- * Form for navigating back and forward through images
+ * Form for navigating back and forward through images.
  */
 @SuppressWarnings("serial")
 public class NavigateForm<T> extends Form<T> {
 
     /**
+     * Constructor for NavigateForm.
      * 
      * @param path
+     *            The id of the navigator element in the *.html.
      * @param albumId
+     *            The id of the {@link Album} that contains the {@link File}
+     *            with fileId
      * @param fileId
-     *            current displayed file id
+     *            The id of the current displayed {@link File}.
      * @param cls
-     *            class of page image on
+     *            Class of page image on
      */
     public NavigateForm(String path, int albumId, int fileId,
             final Class<? extends IRequestablePage> cls) {
         this(path, albumId, fileId, PrivacyLevel.PRIVATE, cls);
     }
 
+    /**
+     * Constructor for NavigateForm.
+     * 
+     * @param path
+     *            The id of the navigator element in the *.html.
+     * @param albumId
+     *            The id of the album that contains the {@link File}
+     *            with fileId
+     * @param fileId
+     *            The id of the current displayed {@link File}.
+     * @param minPrivacyLevel
+     *            The privacity level of the
+     * @param cls
+     *            Class of page image on
+     */
     public NavigateForm(String path, int albumId, int fileId,
             String minPrivacyLevel,
             final Class<? extends IRequestablePage> cls) {

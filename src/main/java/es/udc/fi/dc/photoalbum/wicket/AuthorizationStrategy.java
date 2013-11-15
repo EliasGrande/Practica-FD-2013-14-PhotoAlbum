@@ -20,14 +20,29 @@ import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
  * only Login, Register, ForgotPassword and RegistryCompleted pages.
  * If authorized - can't access Login, Register, ForgotPassword and
  * RegistryCompleted pages.
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 public class AuthorizationStrategy implements IAuthorizationStrategy {
 
+    /**
+     * Method isActionAuthorized.
+     * @param component Component
+     * @param action Action
+     * @return boolean
+     * @see org.apache.wicket.authorization.IAuthorizationStrategy#isActionAuthorized(Component, Action)
+     */
     public boolean isActionAuthorized(Component component,
             Action action) {
         return true;
     }
 
+    /**
+     * Method isInstantiationAuthorized.
+     * @param componentClass Class<T>
+     * @return boolean
+     * @see org.apache.wicket.authorization.IAuthorizationStrategy#isInstantiationAuthorized(Class<T>)
+     */
     public <T extends IRequestableComponent> boolean isInstantiationAuthorized(
             Class<T> componentClass) {
         if (!Page.class.isAssignableFrom(componentClass)) {

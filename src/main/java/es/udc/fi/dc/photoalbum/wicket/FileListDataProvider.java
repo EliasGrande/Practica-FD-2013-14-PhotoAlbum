@@ -13,6 +13,8 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.FilesModelPaging;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class FileListDataProvider implements IDataProvider<File> {
 
@@ -21,25 +23,51 @@ public class FileListDataProvider implements IDataProvider<File> {
     private int size;
     private int id;
 
+    /**
+     * Method detach.
+     * @see org.apache.wicket.model.IDetachable#detach()
+     */
     public void detach() {
     }
 
+    /**
+     * Constructor for FileListDataProvider.
+     * @param size int
+     * @param id int
+     */
     public FileListDataProvider(int size, int id) {
         this.size = size;
         this.id = id;
         Injector.get().inject(this);
     }
 
+    /**
+     * Method iterator.
+     * @param first long
+     * @param count long
+     * @return Iterator<File>
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long, long)
+     */
     public Iterator<File> iterator(long first, long count) {
         LoadableDetachableModel<List<File>> ldm = new FilesModelPaging(
                 this.id, (int) first, (int) count);
         return ldm.getObject().iterator();
     }
 
+    /**
+     * Method size.
+     * @return long
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
+     */
     public long size() {
         return this.size;
     }
 
+    /**
+     * Method model.
+     * @param object File
+     * @return IModel<File>
+     */
     public IModel<File> model(File object) {
         final Integer id = object.getId();
         return new LoadableDetachableModel<File>() {

@@ -13,18 +13,27 @@ import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModel;
 
 /**
  * Form for navigating back and forward through images
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class SharedNavigateForm<T> extends Form<T> {
 
     /**
+     * Constructor for the SharedNavigateForm class.
      * 
      * @param path
+     *            The id of the navigator element in the *.html.
      * @param albumId
+     *            The id of the {@link Album} that contains the
+     *            {@link File} with fileId.
      * @param fileId
-     *            current displayed file id
+     *            The id of the current displayed {@link File}.
      * @param cls
-     *            class of page image on
+     *            Class of page image on.
+     * @param userId
+     *            The id of the {@link User} that is viewing the
+     *            {@link File}.
      */
     public SharedNavigateForm(String path, int albumId, int userId,
             int fileId, final Class<? extends IRequestablePage> cls) {

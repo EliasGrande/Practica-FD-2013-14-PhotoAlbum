@@ -7,6 +7,8 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 /**
  * Ajax button, that adds feedback on submit and on error
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class MyAjaxButton extends AjaxButton {
@@ -25,11 +27,21 @@ public class MyAjaxButton extends AjaxButton {
         this.feedback = feedback;
     }
 
+    /**
+     * Method onSubmit.
+     * @param target AjaxRequestTarget
+     * @param form Form<?>
+     */
     @Override
     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
         target.add(feedback);
     }
 
+    /**
+     * Method onError.
+     * @param target AjaxRequestTarget
+     * @param form Form<?>
+     */
     @Override
     protected void onError(AjaxRequestTarget target, Form<?> form) {
         target.add(feedback);

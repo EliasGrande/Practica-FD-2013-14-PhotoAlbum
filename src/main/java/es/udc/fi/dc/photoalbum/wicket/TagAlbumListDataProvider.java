@@ -13,6 +13,8 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.models.TagAlbumsModelFull;
 
+/**
+ */
 @SuppressWarnings("serial")
 public class TagAlbumListDataProvider implements IDataProvider<Album> {
 
@@ -22,6 +24,12 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
     private int userId;
     private String tag;
 
+    /**
+     * Constructor for TagAlbumListDataProvider.
+     * @param size int
+     * @param userId int
+     * @param tag String
+     */
     public TagAlbumListDataProvider(int size, int userId, String tag) {
         this.userId = userId;
         this.tag = tag;
@@ -29,9 +37,20 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
         Injector.get().inject(this);
     }
 
+    /**
+     * Method detach.
+     * @see org.apache.wicket.model.IDetachable#detach()
+     */
     public void detach() {
     }
 
+    /**
+     * Method iterator.
+     * @param first long
+     * @param count long
+     * @return Iterator<? extends Album>
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long, long)
+     */
     public Iterator<? extends Album> iterator(long first, long count) {
         LoadableDetachableModel<List<Album>> ldm = new TagAlbumsModelFull(
                 userId, tag);
@@ -43,10 +62,20 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
                 .iterator();
     }
 
+    /**
+     * Method size.
+     * @return long
+     * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
+     */
     public long size() {
         return this.size;
     }
 
+    /**
+     * Method model.
+     * @param object Album
+     * @return IModel<Album>
+     */
     public IModel<Album> model(Album object) {
         final Integer id = object.getId();
         return new LoadableDetachableModel<Album>() {
