@@ -62,7 +62,8 @@ public class Album implements Serializable {
     private LikeAndDislike likeAndDislike;
 
     /**
-     * Defines an {@link Album} setting its privacy level to
+     * Almost empty constructor, it only sets the
+     * {@link #getPrivacyLevel() privacy level} to its default value,
      * {@link PrivacyLevel#PRIVATE private}.
      */
     public Album() {
@@ -70,14 +71,14 @@ public class Album implements Serializable {
     }
 
     /**
-     * Defines an {@link Album} setting all its properties.
+     * Defines an {@link Album} setting its main properties.
      * 
      * @param id
      *            {@link #getId() Unique id}
      * @param name
      *            {@link #getName() Display name}
      * @param user
-     *            {@link #getUser() Owner}
+     *            {@link #getUser() Owner user}
      * @param files
      *            {@link #getFiles() File set}
      * @param shareInformation
@@ -110,7 +111,7 @@ public class Album implements Serializable {
      * Setter for {@link #getFiles() files}.
      * 
      * @param files
-     *            File set
+     *            New file set
      */
     public void setFiles(Set<File> files) {
         this.files = files;
@@ -129,8 +130,8 @@ public class Album implements Serializable {
     /**
      * Setter for {@link #getShareInformation() shareInformation}.
      * 
-     * @param user
-     *            Share information set
+     * @param shareInformation
+     *            New share information set
      */
     public void setShareInformation(
             Set<AlbumShareInformation> shareInformation) {
@@ -152,7 +153,7 @@ public class Album implements Serializable {
      * Setter for {@link #getUser() user}.
      * 
      * @param user
-     *            Owner
+     *            New owner
      */
     public void setUser(User user) {
         this.user = user;
@@ -172,8 +173,8 @@ public class Album implements Serializable {
     /**
      * Setter for {@link #getPrivacyLevel() privacyLevel}.
      * 
-     * @param id
-     *            Unique id
+     * @param privacyLevel
+     *            New privacy level
      */
     public void setPrivacyLevel(String privacyLevel) {
         this.privacyLevel = privacyLevel;
@@ -195,7 +196,7 @@ public class Album implements Serializable {
      * Setter for {@link #getId() id}.
      * 
      * @param id
-     *            Unique id
+     *            New id
      */
     public void setId(Integer id) {
         this.id = id;
@@ -215,16 +216,16 @@ public class Album implements Serializable {
      * Setter for {@link #getName() name}.
      * 
      * @param name
-     *            Display name
+     *            New name
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Vote information.
+     * Vote count information.
      * 
-     * @return Vote information
+     * @return Vote count information
      */
     @OneToOne
     @JoinColumn(name = "LIKE_DISLIKE_ID")
@@ -236,7 +237,7 @@ public class Album implements Serializable {
      * Setter for {@link #getLikeAndDislike() likeAndDislike}.
      * 
      * @param likeAndDislike
-     *            Vote information
+     *            New vote count information
      */
     public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
         this.likeAndDislike = likeAndDislike;

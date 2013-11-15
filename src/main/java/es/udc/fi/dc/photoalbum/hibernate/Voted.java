@@ -16,17 +16,53 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 public class Voted implements Serializable {
 
+    /**
+     * LIKE vote for {@link #setUserVote(String)}.
+     */
     public static final String LIKE = "LIKE";
+
+    /**
+     * DISLIKE vote for {@link #setUserVote(String)}.
+     */
     public static final String DISLIKE = "DISLIKE";
 
+    /**
+     * @see {@link #getId()}
+     */
     private Integer id;
+
+    /**
+     * @see {@link #getLikeAndDislike()}
+     */
     private LikeAndDislike likeAndDislike;
+
+    /**
+     * @see {@link #getUser()}
+     */
     private User user;
+
+    /**
+     * @see {@link #getUserVote()}
+     */
     private String userVote;
 
+    /**
+     * Empty constructor.
+     */
     public Voted() {
     }
 
+    /**
+     * Defines a {@link Voted} setting its main properties.
+     * 
+     * @param likeAndDislike
+     *            {@link #getLikeAndDislike() Vote count info}
+     * @param user
+     *            {@link #getUser() User is voting}
+     * @param userVote
+     *            {@link #getUserVote() User vote}, it must be
+     *            {@link #LIKE} or {@link #DISLIKE}
+     */
     public Voted(LikeAndDislike likeAndDislike, User user,
             String userVote) {
         this.likeAndDislike = likeAndDislike;
@@ -34,6 +70,11 @@ public class Voted implements Serializable {
         this.userVote = userVote;
     }
 
+    /**
+     * Unique auto-incremental numeric identifier.
+     * 
+     * @return Unique id
+     */
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,36 +82,75 @@ public class Voted implements Serializable {
         return id;
     }
 
+    /**
+     * Setter for {@link #getId() id}.
+     * 
+     * @param id
+     *            New id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * Vote count information.
+     * 
+     * @return Vote count information
+     */
     @ManyToOne
     @JoinColumn(name = "LIKE_DISLIKE_ID")
     public LikeAndDislike getLikeAndDislike() {
         return likeAndDislike;
     }
 
+    /**
+     * Setter for {@link #getLikeAndDislike() likeAndDislike}.
+     * 
+     * @param likeAndDislike
+     *            New vote count information
+     */
     public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
         this.likeAndDislike = likeAndDislike;
     }
 
+    /**
+     * User who has voted.
+     * 
+     * @return User
+     */
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     public User getUser() {
         return user;
     }
 
+    /**
+     * Setter for {@link #getUser() user}.
+     * 
+     * @param user
+     *            New user
+     */
     public void setUser(User user) {
         this.user = user;
     }
 
-    /* Guarda si el usuario user, ha votado a like o dislike */
+    /**
+     * Indicates whether the current user has voted {@link #LIKE LIKE}
+     * or {@link #DISLIKE DISLIKE}.
+     * 
+     * @return User vote
+     */
     @Column(name = "USER_VOTE")
     public String getUserVote() {
         return userVote;
     }
 
+    /**
+     * Setter for {@link #getUserVote() userVote}.
+     * 
+     * @param userVote
+     *            New user vote
+     */
     public void setUserVote(String userVote) {
         this.userVote = userVote;
     }
