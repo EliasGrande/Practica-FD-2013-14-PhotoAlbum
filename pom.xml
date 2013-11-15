@@ -184,6 +184,9 @@
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
+					<port>9000</port>
+					<tempWebappDirectory>${basedir}/target/site/tmp</tempWebappDirectory>
+					<locales>en,es</locales>
 					<reportPlugins>
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
@@ -193,9 +196,14 @@
 								<reportSet>
 									<reports>
 										<report>index</report>
+										<report>project-team</report>
+										<report>license</report>
+										<report>mailing-list</report>
 										<report>dependencies</report>
-										<report>plugins</report>
 										<report>plugin-management</report>
+										<report>cim</report>
+										<report>issue-tracking</report>
+										<report>scm</report>
 										<report>summary</report>
 									</reports>
 								</reportSet>
@@ -208,13 +216,11 @@
 							<reportSets>
 								<reportSet>
 									<reports>
-										<report>report-only</report>
+										<report>report</report>
 									</reports>
 								</reportSet>
 							</reportSets>
 						</plugin>
-
-
 						<plugin>
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-checkstyle-plugin</artifactId>
@@ -223,10 +229,11 @@
 								<configLocation>src/main/resources/checkstyleMy.xml</configLocation>
 							</configuration>
 							<reportSets>
-								<reports>
-									<report>checkstyle</report>
-								</reports>
-
+								<reportSet>
+									<reports>
+										<report>checkstyle</report>
+									</reports>
+								</reportSet>
 							</reportSets>
 						</plugin>
 						<plugin>
@@ -235,9 +242,9 @@
 							<version>2.8</version>
 						</plugin>
 					</reportPlugins>
-					
 				</configuration>
 			</plugin>
+			
 		</plugins>
 	</build>
 

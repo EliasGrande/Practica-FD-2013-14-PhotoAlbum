@@ -13,6 +13,8 @@ import es.udc.fi.dc.photoalbum.wicket.models.TagFilesModel;
 
 /**
  * Form for navigating back and forward through images
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class TagNavigateForm<T> extends Form<T> {
@@ -20,11 +22,13 @@ public class TagNavigateForm<T> extends Form<T> {
     /**
      * 
      * @param path
-     * @param albumId
+    
      * @param fileId
      *            current displayed file id
      * @param cls
      *            class of page image on
+     * @param tag String
+     * @param userId int
      */
     public TagNavigateForm(String path, final String tag, int userId,
             int fileId, final Class<? extends IRequestablePage> cls) {

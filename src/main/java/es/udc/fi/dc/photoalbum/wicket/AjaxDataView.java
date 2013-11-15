@@ -7,6 +7,8 @@ import org.apache.wicket.markup.repeater.data.DataView;
 
 /**
  * Creates components for paging using Ajax
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class AjaxDataView extends WebMarkupContainer {

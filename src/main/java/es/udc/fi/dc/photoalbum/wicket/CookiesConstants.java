@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.wicket;
 
+/**
+ */
 public final class CookiesConstants {
     private CookiesConstants() {
     }

@@ -12,19 +12,26 @@ import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModel;
 
 /**
- * Form for navigating back and forward through images
+ * Form for navigating back and forward through 
+ * images that their album has the searched tag.
  */
 @SuppressWarnings("serial")
 public class FilesOfAlbumTagNavigateForm<T> extends Form<T> {
-
+    
     /**
      * 
      * @param path
+     *            The id of the navigator element in the *.html.
      * @param albumId
+     *            The id of the owner album's photos.
      * @param fileId
-     *            current displayed file id
+     *            Current displayed file id
      * @param cls
-     *            class of page image on
+     *            Class of page image on
+     * @param tag
+     *            The tag that match the album with albumId
+     * @param userId
+     *            The user who is viewing the album.
      */
     public FilesOfAlbumTagNavigateForm(String path, final String tag,
             int albumId, int userId, int fileId,

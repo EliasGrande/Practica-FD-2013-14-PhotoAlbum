@@ -9,6 +9,8 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
 
 /**
  * Gets Blob from File
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 public final class BlobFromFile {
 
@@ -18,8 +20,8 @@ public final class BlobFromFile {
     /**
      * @param file
      *            file, small image from what you want to get
-     * @return blob of small image
-     */
+    
+     * @return blob of small image */
     public static Blob getSmall(File file) {
         try {
             return new SerialBlob(file.getFileSmall());
@@ -31,8 +33,8 @@ public final class BlobFromFile {
     /**
      * @param file
      *            file, big image from what you want to get
-     * @return blob of big image
-     */
+    
+     * @return blob of big image */
     public static Blob getBig(File file) {
         try {
             return new SerialBlob(file.getFile());

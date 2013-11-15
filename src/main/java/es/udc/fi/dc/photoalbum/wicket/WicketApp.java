@@ -31,11 +31,17 @@ import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.Login;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.Register;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
 
+/**
+ */
 public class WicketApp extends WebApplication {
 
     public WicketApp() {
     }
 
+    /**
+     * Method getHomePage.
+     * @return Class<? extends Page>
+     */
     public Class<? extends Page> getHomePage() {
         return Login.class;
     }
@@ -71,6 +77,12 @@ public class WicketApp extends WebApplication {
         mountPage("searchByTag", SearchByTag.class);
     }
 
+    /**
+     * Method newSession.
+     * @param request Request
+     * @param response Response
+     * @return Session
+     */
     @Override
     public Session newSession(Request request, Response response) {
         return new MySession(request);
