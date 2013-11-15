@@ -129,7 +129,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>PhotoAlbum</finalName>
+		<finalName>PhotoAlbum04</finalName>
 		<resources>
 			<resource>
 				<filtering>false</filtering>
@@ -198,7 +198,6 @@
 										<report>index</report>
 										<report>project-team</report>
 										<report>license</report>
-										<report>mailing-list</report>
 										<report>dependencies</report>
 										<report>plugin-management</report>
 										<report>cim</report>
@@ -248,4 +247,96 @@
 		</plugins>
 	</build>
 
+	<organization>
+		<name>Grupo 04</name>
+		<url>http://www.fic.udc.es/MainPage.do</url>
+	</organization>
+	<scm>
+		<url>scm:git:git@git.fic.udc.es:photoalbum04.git</url>
+		<connection>scm:git:git@git.fic.udc.es:photoalbum04.git</connection>
+		<developerConnection>scm:git:git@git.fic.udc.es:photoalbum04.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<issueManagement>
+		<system>Redmine</system>
+		<url>http://git.fic.udc.es/redmine/login</url>
+	</issueManagement>
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>http://jenkins.fic.udc.es</url>
+		<notifiers>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>false</sendOnSuccess>
+				<sendOnWarning>false</sendOnWarning>
+				<configuration>
+					<address>alejandro.fernandez@udc.es</address>
+				</configuration>
+			</notifier><notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>false</sendOnSuccess>
+				<sendOnWarning>false</sendOnWarning>
+				<configuration>
+					<address>elias.grande@udc.es</address>
+				</configuration>
+			</notifier><notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>false</sendOnSuccess>
+				<sendOnWarning>false</sendOnWarning>
+				<configuration>
+					<address>alejandro.fortes.lopes@udc.es</address>
+				</configuration>
+			</notifier>
+		</notifiers>
+	</ciManagement>
+	<description>Aplicación web que permite compartir álbumes y fotos.</description>
+	<licenses>
+	  <license>
+	    <name>The Apache Software License, Version 2.0</name>
+	    <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+	    <distribution>repo</distribution>
+	    <comments>A business-friendly OSS license</comments>
+	  </license>
+	</licenses>
+	<developers>
+    <developer>
+      <id>alejandro.fernandez</id>
+      <name>Alejandro Fernández García</name>
+      <email>alejandro.fernandez@udc.es</email>
+      <organization>Grupo 04</organization>
+      <organizationUrl>http://www.fic.udc.es/MainPage.do</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-6</timezone>
+    </developer>
+    <developer>
+      <id>elias.grande</id>
+      <name>Elias Grande Casedas</name>
+      <email>elias.grande@udc.es</email>
+      <organization>Grupo 04</organization>
+      <organizationUrl>http://www.fic.udc.es/MainPage.do</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-6</timezone>
+    </developer>
+    <developer>
+      <id>alejandro.fortes.lopes</id>
+      <name>Alejandro Fortes Lopes</name>
+      <email>alejandro.fortes.lopes@udc.es</email>
+      <organization>Grupo 04</organization>
+      <organizationUrl>http://www.fic.udc.es/MainPage.do</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-6</timezone>
+    </developer>
+  </developers>
 </project>

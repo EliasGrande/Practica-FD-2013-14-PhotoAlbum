@@ -12,9 +12,8 @@ import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.TagFilesModel;
 
 /**
- * Form for navigating back and forward through images
- * @author alejandro
- * @version $Revision: 1.0 $
+ * Form for navigating back and forward through images 
+ * that contains the searched tag.
  */
 @SuppressWarnings("serial")
 public class TagNavigateForm<T> extends Form<T> {
@@ -22,13 +21,16 @@ public class TagNavigateForm<T> extends Form<T> {
     /**
      * 
      * @param path
+     *            The id of the navigator element in the *.html.
     
      * @param fileId
-     *            current displayed file id
+     *            The id of the current displayed {@link File}.
      * @param cls
-     *            class of page image on
-     * @param tag String
-     * @param userId int
+     *            Class of page image on.
+     * @param tag The tag on the {@link File} looked.
+     * @param userId
+     *            The id of the {@link User} that is viewing the
+     *            {@link File}.
      */
     public TagNavigateForm(String path, final String tag, int userId,
             int fileId, final Class<? extends IRequestablePage> cls) {

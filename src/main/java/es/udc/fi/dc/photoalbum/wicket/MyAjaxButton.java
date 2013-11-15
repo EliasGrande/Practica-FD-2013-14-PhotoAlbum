@@ -6,9 +6,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 /**
- * Ajax button, that adds feedback on submit and on error
- * @author alejandro
- * @version $Revision: 1.0 $
+ * Ajax button, that adds feedback on submit and on error.
  */
 @SuppressWarnings("serial")
 public class MyAjaxButton extends AjaxButton {
@@ -16,10 +14,10 @@ public class MyAjaxButton extends AjaxButton {
     private FeedbackPanel feedback;
 
     /**
-     * @param id
-     * @param form
+     * @param id The id of the button in the correspondent .hmtl.
+     * @param form The form where will put the button
      * @param feedback
-     *            feedback to add
+     *            The feedback button.
      */
     public MyAjaxButton(String id, Form<?> form,
             FeedbackPanel feedback) {
@@ -28,9 +26,10 @@ public class MyAjaxButton extends AjaxButton {
     }
 
     /**
-     * Method onSubmit.
-     * @param target AjaxRequestTarget
-     * @param form Form<?>
+     * Method onSubmit of the button.
+     * 
+     * @param target The custom listener.
+     * @param form The form for this button.
      */
     @Override
     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -39,8 +38,8 @@ public class MyAjaxButton extends AjaxButton {
 
     /**
      * Method onError.
-     * @param target AjaxRequestTarget
-     * @param form Form<?>
+     * @param target The custom listener.
+     * @param form The form for this button.
      */
     @Override
     protected void onError(AjaxRequestTarget target, Form<?> form) {

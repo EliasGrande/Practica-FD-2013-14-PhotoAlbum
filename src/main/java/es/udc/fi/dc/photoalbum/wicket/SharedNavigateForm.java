@@ -12,9 +12,7 @@ import es.udc.fi.dc.photoalbum.wicket.models.FileModelForNavigate;
 import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModel;
 
 /**
- * Form for navigating back and forward through images
- * @author alejandro
- * @version $Revision: 1.0 $
+ * Form for navigating back and forward through images.
  */
 @SuppressWarnings("serial")
 public class SharedNavigateForm<T> extends Form<T> {
