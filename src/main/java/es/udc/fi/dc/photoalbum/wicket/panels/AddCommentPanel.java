@@ -36,13 +36,13 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 public class AddCommentPanel extends Panel {
 
     /**
-     * @see {@link UserService}
+     * @see UserService
      */
     @SpringBean
     private UserService userService;
 
     /**
-     * @see {@link CommentService}
+     * @see CommentService
      */
     @SpringBean
     private CommentService commentService;

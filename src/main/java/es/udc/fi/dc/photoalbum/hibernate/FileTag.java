@@ -20,17 +20,17 @@ import javax.persistence.Table;
 public class FileTag implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getFile()}
+     * @see #getFile()
      */
     private File file;
 
     /**
-     * @see {@link #getTag()}
+     * @see #getTag()
      */
     private String tag;
 

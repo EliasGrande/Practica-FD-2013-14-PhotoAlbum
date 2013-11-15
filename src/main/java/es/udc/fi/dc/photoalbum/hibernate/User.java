@@ -24,27 +24,27 @@ import es.udc.fi.dc.photoalbum.utils.MD5;
 public class User implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getEmail()}
+     * @see #getEmail()
      */
     private String email;
 
     /**
-     * @see {@link #getPassword()}
+     * @see #getPassword()
      */
     private String password;
 
     /**
-     * @see {@link #getAlbums()}
+     * @see #getAlbums()
      */
     private Set<Album> albums = new HashSet<Album>();
 
     /**
-     * @see {@link #getShareInformation()}
+     * @see #getShareInformation()
      */
     private Set<AlbumShareInformation> shareInformation = new HashSet<AlbumShareInformation>();
 

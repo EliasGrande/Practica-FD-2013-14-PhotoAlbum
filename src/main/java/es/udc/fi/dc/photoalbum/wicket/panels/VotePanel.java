@@ -28,7 +28,7 @@ public class VotePanel extends Panel {
     /**
      * Ajax container {@code wicket:id}.
      * 
-     * @see {@link #getAjaxContainer()}
+     * @see #getAjaxContainer()
      */
     public static final String CONTAINER_ID = "voteContainer";
 
@@ -63,19 +63,19 @@ public class VotePanel extends Panel {
     public static final String VOTE_DISLIKE_LINK_ID = "dislikeLink";
 
     /**
-     * @see {@link LikeAndDislikeService}
+     * @see LikeAndDislikeService
      */
     @SpringBean
     private LikeAndDislikeService likeAndDislikeService;
 
     /**
-     * @see {@link VotedService}
+     * @see VotedService
      */
     @SpringBean
     private VotedService votedService;
 
     /**
-     * @see {@link UserService}
+     * @see UserService
      */
     @SpringBean
     private UserService userService;
@@ -92,17 +92,17 @@ public class VotePanel extends Panel {
     private int userId;
 
     /**
-     * @see {@link #isVotedLike()}
+     * @see #isVotedLike()
      */
     private boolean votedLike;
 
     /**
-     * @see {@link #isVotedDislike()}
+     * @see #isVotedDislike()
      */
     private boolean votedDislike;
 
     /**
-     * @see {@link #getAjaxContainer()}
+     * @see #getAjaxContainer()
      */
     private WebMarkupContainer voteContainer;
 

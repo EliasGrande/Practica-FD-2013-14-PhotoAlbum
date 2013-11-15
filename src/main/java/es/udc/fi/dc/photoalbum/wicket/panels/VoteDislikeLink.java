@@ -27,7 +27,7 @@ public class VoteDislikeLink extends VoteLikeLink {
     }
 
     /**
-     * @see {@link VotePanel#isVotedDislike()}
+     * @see VotePanel#isVotedDislike()
      */
     @Override
     public boolean isVoted() {
@@ -41,7 +41,7 @@ public class VoteDislikeLink extends VoteLikeLink {
     }
 
     /**
-     * @see {@link VotePanel#voteDislike()}
+     * @see VotePanel#voteDislike()
      */
     @Override
     public void vote() {

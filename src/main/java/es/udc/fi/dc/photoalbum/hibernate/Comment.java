@@ -25,37 +25,37 @@ import javax.persistence.TemporalType;
 public class Comment implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getLikeAndDislike()}
+     * @see #getLikeAndDislike()
      */
     private LikeAndDislike likeAndDislike;
 
     /**
-     * @see {@link #getUser()}
+     * @see #getUser()
      */
     private User user;
 
     /**
-     * @see {@link #getDate()}
+     * @see #getDate()
      */
     private Calendar date;
 
     /**
-     * @see {@link #getText()}
+     * @see #getText()
      */
     private String text;
 
     /**
-     * @see {@link #getAlbum()}
+     * @see #getAlbum()
      */
     private Album album;
 
     /**
-     * @see {@link #getFile()}
+     * @see #getFile()
      */
     private File file;
 

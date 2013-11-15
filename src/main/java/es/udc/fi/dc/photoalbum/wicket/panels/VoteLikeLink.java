@@ -33,7 +33,7 @@ public class VoteLikeLink extends AjaxLink<String> {
     public static final String IS_NOT_VOTED_CLASS = "vote";
 
     /**
-     * @see {@link #getVotePanel()}
+     * @see #getVotePanel()
      */
     private VotePanel votePanel;
 
@@ -90,7 +90,7 @@ public class VoteLikeLink extends AjaxLink<String> {
     }
 
     /**
-     * @see {@link VotePanel#isVotedLike()}
+     * @see VotePanel#isVotedLike()
      */
     protected boolean isVoted() {
         return votePanel.isVotedLike();
@@ -117,14 +117,14 @@ public class VoteLikeLink extends AjaxLink<String> {
     }
 
     /**
-     * @see {@link VotePanel#voteLike()}
+     * @see VotePanel#voteLike()
      */
     protected void vote() {
         votePanel.voteLike();
     }
 
     /**
-     * @see {@link VotePanel#unvote()}
+     * @see VotePanel#unvote()
      */
     protected void unvote() {
         votePanel.unvote();

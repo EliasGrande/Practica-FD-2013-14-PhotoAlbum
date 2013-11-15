@@ -20,17 +20,17 @@ import javax.persistence.Table;
 public class FileShareInformation implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getFile()}
+     * @see #getFile()
      */
     private File file;
 
     /**
-     * @see {@link #getUser()}
+     * @see #getUser()
      */
     private User user;
 

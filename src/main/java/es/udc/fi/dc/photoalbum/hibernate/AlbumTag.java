@@ -20,17 +20,17 @@ import javax.persistence.Table;
 public class AlbumTag implements Serializable {
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getAlbum()}
+     * @see #getAlbum()
      */
     private Album album;
 
     /**
-     * @see {@link #getTag()}
+     * @see #getTag()
      */
     private String tag;
 

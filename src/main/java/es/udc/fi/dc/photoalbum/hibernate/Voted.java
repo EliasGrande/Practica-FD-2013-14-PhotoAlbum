@@ -27,22 +27,22 @@ public class Voted implements Serializable {
     public static final String DISLIKE = "DISLIKE";
 
     /**
-     * @see {@link #getId()}
+     * @see #getId()
      */
     private Integer id;
 
     /**
-     * @see {@link #getLikeAndDislike()}
+     * @see #getLikeAndDislike()
      */
     private LikeAndDislike likeAndDislike;
 
     /**
-     * @see {@link #getUser()}
+     * @see #getUser()
      */
     private User user;
 
     /**
-     * @see {@link #getUserVote()}
+     * @see #getUserVote()
      */
     private String userVote;
 
