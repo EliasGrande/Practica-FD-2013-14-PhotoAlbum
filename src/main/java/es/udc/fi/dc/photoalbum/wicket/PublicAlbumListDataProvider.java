@@ -14,9 +14,9 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicAlbumsModelFull;
 
 /**
- * ListDataProvider for a public {@list Album}.
+ * ListDataProvider for a public {@link Album}.
  * 
- * @see IDataProvider.
+ * @see IDataProvider
  */
 @SuppressWarnings("serial")
 public class PublicAlbumListDataProvider implements

@@ -13,8 +13,6 @@ import es.udc.fi.dc.photoalbum.hibernate.File;
  * Necessary model to use the {@link PrivacyLevelOption}. This class
  * has two constructors because the {@link Album}s and {@link File}s
  * have different levels of privacy.
- * @author alejandro
- * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class PrivacyLevelsModel extends
@@ -57,7 +55,7 @@ public class PrivacyLevelsModel extends
      * Method load.
      * 
     
-     * @return List<{@list PrivacyLevelOption}> Return a list that
+     * @return List<{@link PrivacyLevelOption}> Return a list that
      *         contains the possible options for privacy level. */
     protected List<PrivacyLevelOption> load() {
         return options;

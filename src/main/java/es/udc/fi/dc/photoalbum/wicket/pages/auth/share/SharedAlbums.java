@@ -31,7 +31,7 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 @SuppressWarnings("serial")
 public class SharedAlbums extends BasePageAuth {
     /**
-     * @see UsersService
+     * @see UserService
      */
     @SpringBean
     private UserService userService;

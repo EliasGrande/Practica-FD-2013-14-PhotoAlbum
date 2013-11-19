@@ -33,9 +33,8 @@ public class PasswordPolicyValidator implements IValidator<String> {
      * 
      * @param validatable
      *            Represents any object that can be validate.
-     * @see 
-     *      org.apache.wicket.validation.IValidator#validate(IValidatable
-     *      <String>)
+     * @see org.apache.wicket.validation.IValidator
+     *      #validate(IValidatable<String>)
      */
     public void validate(IValidatable<String> validatable) {
         final String password = validatable.getValue();

@@ -15,9 +15,9 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.TagFilesModelPaging;
 
 /**
- * ListDataProvider for a {@list File} searched by tag.
+ * ListDataProvider for a {@link File} searched by tag.
  * 
- * @see IDataProvider.
+ * @see IDataProvider
  */
 @SuppressWarnings("serial")
 public class TagFileListDataProvider implements IDataProvider<File> {

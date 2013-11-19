@@ -12,6 +12,7 @@ import es.udc.fi.dc.photoalbum.hibernate.FileDao;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformationDao;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislikeDao;
+import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 /**

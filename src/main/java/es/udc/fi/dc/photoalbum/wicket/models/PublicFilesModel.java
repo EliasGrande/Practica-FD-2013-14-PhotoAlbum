@@ -21,7 +21,7 @@ import es.udc.fi.dc.photoalbum.utils.FileComparator;
 public class PublicFilesModel extends
         LoadableDetachableModel<List<File>> {
     /**
-     * @use FileService
+     * @see FileService
      */
     @SpringBean
     private FileService fileService;

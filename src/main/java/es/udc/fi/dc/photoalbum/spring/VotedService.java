@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.spring;
 
 import java.util.List;
 
+import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.hibernate.Voted;
 
@@ -12,11 +13,11 @@ public interface VotedService {
 
     /**
      * Get an {@link Voted} object searching by
-     * {@link LikeAndDislikeId} identifier and {@link User}
+     * {@link LikeAndDislike} identifier and {@link User}
      * identifier.
      * 
      * @param likeAndDislikeId
-     *            An {@link LikeAndDislikeId} identifier.
+     *            An {@link LikeAndDislike} identifier.
      * @param userId
      *            An {@link User} identifier of the {@link User} who
      *            has voted.
@@ -26,10 +27,10 @@ public interface VotedService {
 
     /**
      * Get an {@link Voted} list using a list of
-     * {@link LikeAndDislikeId} and a {@link User} identifier.
+     * {@link LikeAndDislike} and a {@link User} identifier.
      * 
      * @param likeAndDislikeIdList
-     *            A list of {@link LikeAndDislikeId}.
+     *            A list of {@link LikeAndDislike}.
      * @param userId
      *            An {@link User} identifier of the {@link User} who
      *            has voted.

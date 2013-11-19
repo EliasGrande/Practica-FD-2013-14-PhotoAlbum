@@ -16,9 +16,9 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicFilesModelPaging;
 
 /**
- * ListDataProvider for a public {@list File}.
+ * ListDataProvider for a public {@link File}.
  * 
- * @see IDataProvider.
+ * @see IDataProvider
  */
 @SuppressWarnings("serial")
 public class PublicFileListDataProvider implements

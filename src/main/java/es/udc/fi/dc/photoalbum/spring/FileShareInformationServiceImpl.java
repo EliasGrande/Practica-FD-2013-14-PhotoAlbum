@@ -9,7 +9,7 @@ import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformationDao;
 
 /**
- * Implementation of the {@link FileShareInformationSservice}.
+ * Implementation of the {@link FileShareInformationService}.
  */
 @Transactional
 public class FileShareInformationServiceImpl implements

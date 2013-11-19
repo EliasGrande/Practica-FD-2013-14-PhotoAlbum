@@ -23,7 +23,7 @@ public class AlbumsModelFull extends
         LoadableDetachableModel<List<Album>> {
 
     /**
-     * @see AlbumService.
+     * @see AlbumService
      */
     @SpringBean
     private AlbumService albumService;

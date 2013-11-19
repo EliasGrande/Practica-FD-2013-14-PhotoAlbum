@@ -6,7 +6,7 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
 
 /**
- * Interface for the {@link AlbumShareInformationSservice}.
+ * Interface for the {@link AlbumShareInformationService}.
  */
 public interface AlbumShareInformationService {
 

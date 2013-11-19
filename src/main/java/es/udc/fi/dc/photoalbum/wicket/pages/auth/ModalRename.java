@@ -71,10 +71,10 @@ public class ModalRename extends WebPage {
     }
 
     /**
-     * Defines a {@link ModalRename} window for an {@link album}.
+     * Defines a {@link ModalRename} window for an {@link Album}.
      * 
      * @param album
-     *            {@link #album Album} which is going to be renamed
+     *            {@link Album} which is going to be renamed
      * @param window
      *            {@link #window Parent window}
      */

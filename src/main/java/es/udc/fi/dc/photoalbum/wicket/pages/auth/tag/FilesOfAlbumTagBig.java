@@ -41,7 +41,7 @@ public class FilesOfAlbumTagBig extends BasePageAuth {
     private FileService fileService;
 
     /**
-     * @see FileTagSErvice
+     * @see FileTagService
      */
     @SpringBean
     private FileTagService fileTagService;

@@ -16,10 +16,10 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.models.TagAlbumsModelFull;
 
 /**
- * ListDataProvider for a {@list Album} that contains the necessary
+ * ListDataProvider for a {@link Album} that contains the necessary
  * tag.
  * 
- * @see IDataProvider.
+ * @see IDataProvider
  */
 @SuppressWarnings("serial")
 public class TagAlbumListDataProvider implements IDataProvider<Album> {

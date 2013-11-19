@@ -23,7 +23,7 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 public class AlbumsModel extends LoadableDetachableModel<List<Album>> {
 
     /**
-     * @see AlbumService.
+     * @see AlbumService
      */
     @SpringBean
     private AlbumService albumService;

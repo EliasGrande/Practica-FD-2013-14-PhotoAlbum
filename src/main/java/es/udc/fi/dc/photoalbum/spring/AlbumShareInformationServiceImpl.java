@@ -82,9 +82,8 @@ public class AlbumShareInformationServiceImpl implements
      * 
      * 
      * @return {@link AlbumShareInformation} for that search.
-     * @see es.udc.fi.dc.photoalbum.spring.
-     *      AlbumShareInformationService #getShare(String, int,
-     *      String)
+     * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService
+     *      #getShare(String, int,String)
      */
     public AlbumShareInformation getShare(String albumName,
             int userSharedToId, String userSharedEmail) {
@@ -100,10 +99,9 @@ public class AlbumShareInformationServiceImpl implements
      *            An {@link Album} identifier.
      * 
      * 
-     * @returnA list of {@link AlbumShareInformation}
+     * @return list of {@link AlbumShareInformation}
      * 
-     * @see es.udc.fi.dc.photoalbum.spring.
-     *      AlbumShareInformationService#getAlbumShares(int)
+     * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService#getAlbumShares(int)
      */
     public List<AlbumShareInformation> getAlbumShares(int albumId) {
         return albumShareInformationDao.getAlbumShares(albumId);

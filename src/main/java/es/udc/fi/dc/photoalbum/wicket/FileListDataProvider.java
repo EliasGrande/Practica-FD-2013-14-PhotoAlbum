@@ -14,9 +14,9 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.FilesModelPaging;
 
 /**
- * ListDataProvider for {@list File}.
+ * ListDataProvider for {@link File}.
  * 
- * @see IDataProvider.
+ * @see IDataProvider
  */
 @SuppressWarnings("serial")
 public class FileListDataProvider implements IDataProvider<File> {
@@ -88,7 +88,7 @@ public class FileListDataProvider implements IDataProvider<File> {
     }
 
     /**
-     * Method model that return {@link LoadableDetableModel} that
+     * Method model that return {@link LoadableDetachableModel} that
      * contains a {@link File}.
      * 
      * @param object

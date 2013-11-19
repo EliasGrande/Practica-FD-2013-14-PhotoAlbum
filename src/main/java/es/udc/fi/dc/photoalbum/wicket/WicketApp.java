@@ -84,15 +84,6 @@ public class WicketApp extends WebApplication {
         mountPage("searchByTag", SearchByTag.class);
     }
 
-    /**
-     * Method newSession, create a new session.
-     * 
-     * @param request
-     * @see Request
-     * @param response
-     * @see Response
-     * @return Session The new session.
-     */
     @Override
     public Session newSession(Request request, Response response) {
         return new MySession(request);

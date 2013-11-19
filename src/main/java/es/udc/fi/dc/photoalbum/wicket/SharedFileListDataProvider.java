@@ -16,9 +16,9 @@ import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModelPaging;
 
 /**
- * ListDataProvider for a shared {@list File}.
+ * ListDataProvider for a shared {@link File}.
  * 
- * @see IDataProvider.
+ * @see IDataProvider
  */
 @SuppressWarnings("serial")
 public class SharedFileListDataProvider implements

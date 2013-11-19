@@ -3,6 +3,7 @@ package es.udc.fi.dc.photoalbum.spring;
 import java.util.List;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.User;
 
 /**
  * Interface for the {@link AlbumService}

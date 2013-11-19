@@ -20,7 +20,7 @@ import es.udc.fi.dc.photoalbum.wicket.models.AlbumsModelFull;
 public class AlbumListDataProvider implements IDataProvider<Album> {
 
     /**
-     * @see AlbumService.
+     * @see AlbumService
      */
     @SpringBean
     private AlbumService albumService;

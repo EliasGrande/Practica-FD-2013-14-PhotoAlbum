@@ -2,10 +2,11 @@ package es.udc.fi.dc.photoalbum.spring;
 
 import java.util.List;
 
+import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileShareInformation;
 
 /**
- * Interface for the {@link FileShareInformationSservice}.
+ * Interface for the {@link FileShareInformationService}.
  */
 public interface FileShareInformationService {
 

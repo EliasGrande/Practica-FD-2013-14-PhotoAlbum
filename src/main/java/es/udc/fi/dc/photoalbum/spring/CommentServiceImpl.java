@@ -25,7 +25,7 @@ public class CommentServiceImpl implements CommentService {
     private LikeAndDislikeDao likeAndDislikeDao;
 
     /**
-     * @see {@link AlbumTagDao}
+     * @see AlbumTagDao
      */
     public LikeAndDislikeDao getLikeAndDislikeDao() {
         return this.likeAndDislikeDao;
@@ -44,12 +44,12 @@ public class CommentServiceImpl implements CommentService {
 
     /* CommentDao */
     /**
-     * @see {@link CommentDao}
+     * @see CommentDao
      */
     private CommentDao commentDao;
 
     /**
-     * @see {@link CommentDao}
+     * @see CommentDao
      */
     public CommentDao getCommentDao() {
         return this.commentDao;
