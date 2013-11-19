@@ -16,6 +16,7 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.UserService;
@@ -24,16 +25,36 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 
+/**
+ * Page that allows to view the shared {@link Album}s.
+ */
 @SuppressWarnings("serial")
 public class SharedAlbums extends BasePageAuth {
-
+    /**
+     * @see UsersService
+     */
     @SpringBean
     private UserService userService;
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+    /**
+     *  The maximum number ({@link Album}s or {@link File}) per
+     *  page.
+     */
     private static final int ITEMS_PER_PAGE = 10;
+    /**
+     * The {@link User} who wants to view the {@link Album}s.
+     */
     private User user;
 
+    /**
+     * Constructor for SharedAlbums.
+     * 
+     * @param parameters The parameters necessaries for load the page.
+     */
     public SharedAlbums(final PageParameters parameters) {
         super(parameters);
         if (parameters.getNamedKeys().contains("user")) {
@@ -51,6 +72,11 @@ public class SharedAlbums extends BasePageAuth {
         }
     }
 
+    /**
+     * Method createShareDataView that shown a list of shared {@link Album}s.
+     * 
+     * @return DataView<{@link Album}> the data view with the list of {@link Album}.
+     */
     private DataView<Album> createShareDataView() {
         List<Album> list = albumService
                 .getAlbumsSharedWith(
@@ -73,6 +99,12 @@ public class SharedAlbums extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method renderHead, that allow to use CSS to render the page.
+     * 
+     * @param response IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

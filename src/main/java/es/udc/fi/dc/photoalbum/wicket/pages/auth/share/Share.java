@@ -28,6 +28,7 @@ import org.apache.wicket.validation.validator.EmailAddressValidator;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumShareInformation;
+import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService;
@@ -41,21 +42,54 @@ import es.udc.fi.dc.photoalbum.wicket.models.PrivacyLevelsModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 
+/**
+ * Page that allows to share management.
+ */
 @SuppressWarnings("serial")
 public class Share extends BasePageAuth {
-
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+    /**
+     * @see AlbumShareInformation
+     */
     @SpringBean
     private AlbumShareInformationService shareInformationService;
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+    /**
+     * The {@link Album} which is going to change sharing options.
+     */
     private Album album;
+    /**
+     * The model of {@link #album}
+     */
     private AlbumModel am;
+    /**
+     * The parameters necessaries for render the page.
+     */
     private PageParameters parameters;
+    /**
+     * The maximum number ({@link Album}s or {@link File}) per
+     * page.
+     */
     private static final int ITEMS_PER_PAGE = 20;
+    /**
+     * The options for privacy availables.
+     */
     private PrivacyLevelOption selectedPrivacyLevel;
 
+    /**
+     * Constructor for Share.
+     * 
+     * @param parameters
+     *            The parameters necessaries for render the page.
+     */
     public Share(PageParameters parameters) {
         super(parameters);
         this.parameters = parameters;
@@ -80,6 +114,13 @@ public class Share extends BasePageAuth {
         add(createFormPrivacyLevel());
     }
 
+    /**
+     * Creates a DataView that shown a list of
+     * {@link AlbumShareInformation}s.
+     * 
+     * @return DataView<{@link AlbumShareInformation}> Return the
+     *         DataView with the {@link AlbumShareInformation}s.
+     */
     private DataView<AlbumShareInformation> createShareDataView() {
         final List<AlbumShareInformation> list = new ArrayList<AlbumShareInformation>(
                 shareInformationService.getAlbumShares(this.album
@@ -109,6 +150,12 @@ public class Share extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method createShareForm.
+     * 
+     * @return Form<User> The form that allows to share the album with
+     *         an {@link User}.
+     */
     private Form<User> createShareForm() {
         Form<User> form = new Form<User>("form") {
             @Override
@@ -162,6 +209,14 @@ public class Share extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Method createFormPrivacyLevel. This is a form to use a
+     * DropDownChoice that allows to change the privacy for an album.
+     * 
+     * @see DropDownChoice
+     * 
+     * @return Form<Void> The form with the DropDownChoice.
+     */
     private Form<Void> createFormPrivacyLevel() {
         Form<Void> form = new Form<Void>("formPrivacyLevel") {
             @Override
@@ -194,6 +249,13 @@ public class Share extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Method renderHead, that allow to use CSS to render the page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

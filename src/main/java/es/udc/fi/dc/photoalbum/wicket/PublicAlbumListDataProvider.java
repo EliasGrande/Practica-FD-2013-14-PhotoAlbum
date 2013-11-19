@@ -14,20 +14,29 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.models.PublicAlbumsModelFull;
 
 /**
+ * ListDataProvider for a public {@list Album}.
+ * 
+ * @see IDataProvider.
  */
 @SuppressWarnings("serial")
 public class PublicAlbumListDataProvider implements
         IDataProvider<Album> {
 
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+    /**
+     * The size of the {@link IDataProvider}.
+     */
     private int size;
 
     /**
      * Constructor for PublicAlbumListDataProvider.
      * 
      * @param size
-     *            int
+     *            {@link #size}
      */
     public PublicAlbumListDataProvider(int size) {
         this.size = size;
@@ -43,13 +52,14 @@ public class PublicAlbumListDataProvider implements
     }
 
     /**
-     * Method iterator.
+     * Method that returns an iterator of {@link Album}s.
      * 
      * @param first
-     *            long
+     *            The index of the first {@link Album}.
      * @param count
-     *            long
-     * @return Iterator<? extends Album>
+     *            The number of elements that contains the iterator.
+     * @return Iterator<? extends Album> The iterator with the
+     *         {@link Album}s inside.
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
      *      long)
      */
@@ -66,7 +76,7 @@ public class PublicAlbumListDataProvider implements
     /**
      * Method size.
      * 
-     * @return long
+     * @return long {@link #size}.
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
     public long size() {
@@ -77,8 +87,8 @@ public class PublicAlbumListDataProvider implements
      * Method model.
      * 
      * @param object
-     *            Album
-     * @return IModel<Album>
+     *            The public {@link Album}.
+     * @return IModel<{@link Album}> The model of the {@link Album}.
      */
     public IModel<Album> model(Album object) {
         final Integer id = object.getId();

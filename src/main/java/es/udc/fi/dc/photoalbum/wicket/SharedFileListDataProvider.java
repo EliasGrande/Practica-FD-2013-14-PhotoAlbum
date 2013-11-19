@@ -9,19 +9,36 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.wicket.models.SharedFilesModelPaging;
 
 /**
+ * ListDataProvider for a shared {@list File}.
+ * 
+ * @see IDataProvider.
  */
 @SuppressWarnings("serial")
 public class SharedFileListDataProvider implements
         IDataProvider<File> {
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
+    /**
+     * The size of the {@link IDataProvider}.
+     */
     private int size;
+    /**
+     * The id of the {@link Album} that contains the {@link File}.
+     */
     private int albumId;
+    /**
+     * The id of the {@link User} that want to view the {@link File}.
+     */
     private int userId;
 
     /**
@@ -36,11 +53,11 @@ public class SharedFileListDataProvider implements
      * Constructor for SharedFileListDataProvider.
      * 
      * @param size
-     *            int
+     *            {@link #size}
      * @param albumId
-     *            int
+     *            {@link #albumId}
      * @param userId
-     *            int
+     *            {@link #userId}
      */
     public SharedFileListDataProvider(int size, int albumId,
             int userId) {
@@ -51,13 +68,14 @@ public class SharedFileListDataProvider implements
     }
 
     /**
-     * Method iterator.
+     * Method that returns an iterator of {@link File}s.
      * 
      * @param first
-     *            long
+     *            The index of the first {@link File}.
      * @param count
-     *            long
-     * @return Iterator<File>
+     *            The number of elements that contains the iterator.
+     * @return Iterator<? extends File> The iterator with the
+     *         {@link File}s inside.
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
      *      long)
      */
@@ -70,7 +88,7 @@ public class SharedFileListDataProvider implements
     /**
      * Method size.
      * 
-     * @return long
+     * @return long {@link #size}
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
     public long size() {
@@ -81,8 +99,8 @@ public class SharedFileListDataProvider implements
      * Method model.
      * 
      * @param object
-     *            File
-     * @return IModel<File>
+     *            The shared {@link File}.
+     * @return IModel<{@link File}> The model of the {@link File}.
      */
     public IModel<File> model(File object) {
         final Integer id = object.getId();

@@ -19,6 +19,7 @@ import es.udc.fi.dc.photoalbum.utils.RandomString;
 import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 
 /**
+ * The page contains a form that allows recover the password.
  */
 @SuppressWarnings("serial")
 public class ForgotPassword extends BasePage {
@@ -49,8 +50,10 @@ public class ForgotPassword extends BasePage {
     /**
      * Method that create a form to restore password.
      * 
-     * @return Form<{@link User}>.
-     */
+     * 
+     * @return Form<{@link User}> that contains a form that allows
+     *         recover the password.
+     * */
     private Form<User> createFormFroget() {
         Form<User> form = new Form<User>("form",
                 new CompoundPropertyModel<User>(new User())) {
@@ -86,6 +89,7 @@ public class ForgotPassword extends BasePage {
      * 
      * @param response
      *            IHeaderResponse
+     * 
      * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
      */
     @Override

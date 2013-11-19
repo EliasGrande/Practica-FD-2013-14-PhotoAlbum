@@ -22,22 +22,44 @@ import es.udc.fi.dc.photoalbum.wicket.models.PublicAlbumsModelFull;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.BasePageAuth;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedAlbums;
 
+/**
+ * The page that allow to view the public {@link Album}s.
+ */
 @SuppressWarnings("serial")
 public class PublicAlbums extends BasePageAuth {
-
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
-
+    /**
+     * The maximum number {@link Album}'s per page.
+     */
     private static final int ALBUMS_PER_PAGE = 10;
 
+    /**
+     * Constructor for PublicAlbums.
+     * 
+     * @param parameters
+     *            The necessary parameters for the page.
+     */
     public PublicAlbums(final PageParameters parameters) {
         super(parameters);
         add(new AjaxDataView("dataContainer", "navigator",
                 createDataView()));
     }
 
+    /**
+     * Creates a DataView that shown a list of public {@link Album}s.
+     * 
+     * @return DataView<{@link Album}> Return the DataView with the
+     *         {@link Album}s.
+     */
     private DataView<Album> createDataView() {
         LoadableDetachableModel<List<Album>> ldm = new PublicAlbumsModelFull();
         DataView<Album> dataView = new DataView<Album>("pageable",
@@ -61,6 +83,13 @@ public class PublicAlbums extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method renderHead allows to use specific css in this page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

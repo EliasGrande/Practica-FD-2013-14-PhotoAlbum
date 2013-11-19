@@ -56,8 +56,9 @@ public class FilesModelPaging extends
     /**
      * Method that load a list of {@link File}s.
      * 
+    
      * @return List<{@link File}> that contains all the files for an
-     *         {@link Album} with this {@link #id}.
+     *         {@link Album} with this {@link #id}. 
      */
     @Override
     protected List<File> load() {

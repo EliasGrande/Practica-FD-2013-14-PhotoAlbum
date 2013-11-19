@@ -9,27 +9,37 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 import es.udc.fi.dc.photoalbum.utils.FileComparator;
 
 /**
+ * Model that return a list {@link File} that contains the tag.
  */
 @SuppressWarnings("serial")
 public class TagFilesModel extends
         LoadableDetachableModel<List<File>> {
-
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
+    /**
+     * The tag that contains all the {@link File}s of the list.
+     */
     private String tag;
+    /**
+     * The id of the {@link User} that want to view the {@link File}s.
+     */
     private int userId;
 
     /**
      * Constructor for TagFilesModel.
      * 
      * @param tag
-     *            String
+     *            {@link #tag}
      * @param userId
-     *            int
+     *            {@link #userId}
      */
     public TagFilesModel(String tag, int userId) {
         this.tag = tag;
@@ -38,9 +48,11 @@ public class TagFilesModel extends
     }
 
     /**
-     * Method load.
+     * Method that return the list of {@link File} that contains the
+     * {@link #tag}.
      * 
-     * @return List<File>
+     * 
+     * @return List<{@link File}> Return a list of files.
      */
     @Override
     protected List<File> load() {

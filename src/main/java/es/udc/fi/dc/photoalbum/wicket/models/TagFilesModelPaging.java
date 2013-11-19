@@ -8,31 +8,49 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 
 /**
+ * Model that return a paginated list {@link File}s that contains the
+ * tag.
  */
 @SuppressWarnings("serial")
 public class TagFilesModelPaging extends
         LoadableDetachableModel<List<File>> {
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
+    /**
+     * The tag that contains all the {@link File}s.
+     */
     private String tag;
+    /**
+     * The id of the {@link User} that want to view the {@link File}s.
+     */
     private int userId;
+    /**
+     * The index of first {@link File}.
+     */
     private int first;
+    /**
+     * The number of {@link File}s to return.
+     */
     private int count;
 
     /**
      * Constructor for TagFilesModelPaging.
      * 
      * @param tag
-     *            String
+     *            {@link #tag}
      * @param userId
-     *            int
+     *            {@link #userId}
      * @param first
-     *            int
+     *            {@link #first}
      * @param count
-     *            int
+     *            {@link #count}
      */
     public TagFilesModelPaging(String tag, int userId, int first,
             int count) {
@@ -44,9 +62,12 @@ public class TagFilesModelPaging extends
     }
 
     /**
-     * Method load.
+     * Method that load a list of {@link File}s that contains the
+     * {@link #tag}.
      * 
-     * @return List<File>
+     * 
+     * @return List<{@link File}> that contains the {@link File}s that
+     *         contains the {@link #tag}.
      */
     @Override
     protected List<File> load() {

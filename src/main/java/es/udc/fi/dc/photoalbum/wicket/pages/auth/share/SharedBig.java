@@ -34,19 +34,44 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
+/**
+ * Page that shown the {@link File}s in big format.
+ */
 @SuppressWarnings("serial")
 public class SharedBig extends BasePageAuth {
-
+    /**
+     * @see FileTagService
+     */
     @SpringBean
     private FileTagService fileTagService;
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
-
+    /**
+     * @see FileSharedAlbum
+     */
     private FileSharedAlbum fileSharedAlbum;
+    /**
+     * The {@link File} to shown.
+     */
     private File file;
+    /**
+     * The {@link LikeAndDislike} associated for the {@link #file}.
+     */
     LikeAndDislike likeAndDislike;
+    /**
+     * The maximum number {@link FileTag} per page.
+     */
     private static final int TAG_PER_PAGE = 5;
 
+    /**
+     * Constructor for SharedBig.
+     * 
+     * @param parameters
+     *            The parameters necessaries for load the page.
+     */
     public SharedBig(final PageParameters parameters) {
         super(parameters);
         if (parameters.getNamedKeys().contains("fid")
@@ -83,6 +108,11 @@ public class SharedBig extends BasePageAuth {
         }
     }
 
+    /**
+     * Method that create a big {@link NonCachingImage}.
+     * 
+     * @return {@link NonCachingImage} to the {@link #file}.
+     */
     private NonCachingImage createNonCachingImage() {
         return new NonCachingImage("img", new BlobImageResource() {
             @Override
@@ -93,6 +123,12 @@ public class SharedBig extends BasePageAuth {
         });
     }
 
+    /**
+     * Method that create a {@link FileTag} data view.
+     * 
+     * @return DataView<{@link FileTag}> that contains the elements to
+     *         shown.
+     */
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
                 fileTagService.getTags(file.getId()));
@@ -114,6 +150,13 @@ public class SharedBig extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method renderHead allows to use specific css in this page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

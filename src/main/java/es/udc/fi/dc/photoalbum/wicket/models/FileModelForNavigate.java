@@ -27,8 +27,8 @@ public class FileModelForNavigate extends
     /**
      * Obtain the id of a {@link File}.
      * 
-     * @return Integer The id of the {@link File}.
-     */
+    
+     * @return Integer The id of the {@link File}. */
     public Integer getId() {
         return this.id;
     }
@@ -57,8 +57,8 @@ public class FileModelForNavigate extends
     /**
      * Load a {@link File}.
      * 
-     * @return {@link File} with the {@link #id}.
-     */
+    
+     * @return {@link File} with the {@link #id}. */
     @Override
     protected File load() {
         if (this.id == -1) {

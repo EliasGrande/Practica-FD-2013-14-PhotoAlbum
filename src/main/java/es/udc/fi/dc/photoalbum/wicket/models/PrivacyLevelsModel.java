@@ -10,24 +10,29 @@ import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 
 /**
+ * Necessary model to use the {@link PrivacyLevelOption}. This class
+ * has two constructors because the {@link Album}s and {@link File}s
+ * have different levels of privacy.
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class PrivacyLevelsModel extends
         LoadableDetachableModel<List<PrivacyLevelOption>> {
 
+    /**
+     * List of the privacy options available.
+     */
     private List<PrivacyLevelOption> options;
-
-    // ya se que no usa el Album y File, solo me sirvo de ellos para
-    // diferenciar
-    // constructores
 
     /**
      * Constructor for PrivacyLevelsModel.
      * 
      * @param album
-     *            Album
+     *            Differentiate if the options are for an
+     *            {@link Album} or {@link File}.
      * @param cmp
-     *            Component
+     *            The component which use the privacy level.
      */
     public PrivacyLevelsModel(Album album, Component cmp) {
         this.options = PrivacyLevelOption.getAlbumOptions(cmp);
@@ -38,9 +43,10 @@ public class PrivacyLevelsModel extends
      * Constructor for PrivacyLevelsModel.
      * 
      * @param file
-     *            File
+     *            Differentiate if the options are for an
+     *            {@link Album} or {@link File}.
      * @param cmp
-     *            Component
+     *            The component which use the privacy level.
      */
     public PrivacyLevelsModel(File file, Component cmp) {
         this.options = PrivacyLevelOption.getFileOptions(cmp);
@@ -50,8 +56,9 @@ public class PrivacyLevelsModel extends
     /**
      * Method load.
      * 
-     * @return List<PrivacyLevelOption>
-     */
+    
+     * @return List<{@list PrivacyLevelOption}> Return a list that
+     *         contains the possible options for privacy level. */
     protected List<PrivacyLevelOption> load() {
         return options;
     }

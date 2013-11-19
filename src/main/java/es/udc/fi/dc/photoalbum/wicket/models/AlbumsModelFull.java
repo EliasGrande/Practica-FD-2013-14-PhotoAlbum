@@ -38,8 +38,9 @@ public class AlbumsModelFull extends
     /**
      * Method load.
      * 
-     * @return List<Album> Return a list of {@link Album}'s which
-     *         owner are the user.
+     * 
+     * @return List<{@link Album}> Return a list of {@link Album}'s
+     *         which owner are the user.
      */
     protected List<Album> load() {
         List<Album> list = new ArrayList<Album>(

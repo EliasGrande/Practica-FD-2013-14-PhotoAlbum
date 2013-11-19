@@ -32,21 +32,27 @@ import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.Register;
 import es.udc.fi.dc.photoalbum.wicket.pages.nonAuth.RegistryCompleted;
 
 /**
+ * Class necessary to init a wicket application.
  */
 public class WicketApp extends WebApplication {
-
+    /**
+     * Empty constructor of wicket application.
+     */
     public WicketApp() {
     }
 
     /**
      * Method getHomePage.
      * 
-     * @return Class<? extends Page>
+     * @return Class<? extends Page> the homepage.
      */
     public Class<? extends Page> getHomePage() {
         return Login.class;
     }
 
+    /**
+     * Mount all the pages for the application.
+     */
     @Override
     protected void init() {
         super.init();
@@ -79,13 +85,13 @@ public class WicketApp extends WebApplication {
     }
 
     /**
-     * Method newSession.
+     * Method newSession, create a new session.
      * 
      * @param request
-     *            Request
+     * @see Request
      * @param response
-     *            Response
-     * @return Session
+     * @see Response
+     * @return Session The new session.
      */
     @Override
     public Session newSession(Request request, Response response) {

@@ -10,7 +10,7 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.FileService;
 
 /**
- * Model that return a {@link File}, wich an especific {@link Album}'s
+ * Model that return a {@link File}, which an specific {@link Album}'s
  * name.
  */
 @SuppressWarnings("serial")
@@ -54,6 +54,7 @@ public class FileOwnModel extends LoadableDetachableModel<File> {
     /**
      * Method that return the {@link File} that coincides with the
      * parameters.
+     * 
      * 
      * @return {@link File}
      */

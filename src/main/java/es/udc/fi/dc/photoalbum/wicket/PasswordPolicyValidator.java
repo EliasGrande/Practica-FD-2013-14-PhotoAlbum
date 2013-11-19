@@ -7,19 +7,32 @@ import org.apache.wicket.validation.IValidator;
 import org.apache.wicket.validation.ValidationError;
 
 /**
+ * Validates if the password meets the requirements.
  */
 @SuppressWarnings("serial")
 public class PasswordPolicyValidator implements IValidator<String> {
 
+    /**
+     * Pattern that forces you to put at least one uppercase letter in
+     * the password.
+     */
     private static final Pattern UPPER = Pattern.compile("[A-Z]");
+    /**
+     * Pattern that forces you to put at least one lowercase letter in
+     * the password.
+     */
     private static final Pattern LOWER = Pattern.compile("[a-z]");
+    /**
+     * Pattern that forces you to put at least one numberin the
+     * password.
+     */
     private static final Pattern NUMBER = Pattern.compile("[0-9]");
 
     /**
-     * Method validate.
+     * Method that validate the password.
      * 
      * @param validatable
-     *            IValidatable<String>
+     *            Represents any object that can be validate.
      * @see 
      *      org.apache.wicket.validation.IValidator#validate(IValidatable
      *      <String>)
@@ -41,10 +54,12 @@ public class PasswordPolicyValidator implements IValidator<String> {
      * Method error.
      * 
      * @param validatable
-     *            IValidatable<String>
+     *            Represents any object that can be validate.
      * @param errorKey
-     *            String
+     *            The error occurred while trying to validate the
+     *            password.
      */
+    @SuppressWarnings("deprecation")
     private void error(IValidatable<String> validatable,
             String errorKey) {
         ValidationError error = new ValidationError();

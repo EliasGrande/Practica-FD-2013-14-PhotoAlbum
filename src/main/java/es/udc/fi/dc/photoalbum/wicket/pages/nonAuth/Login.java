@@ -28,18 +28,28 @@ import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Albums;
 
 /**
+ * Class that contains all the necessary methods that allow to login
+ * in the application.
  */
 @SuppressWarnings("serial")
 public class Login extends BasePage {
+
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+
+    /**
+     * @see FeedbackPanel
+     */
     private FeedbackPanel feedback;
 
     /**
      * Constructor for Login.
      * 
      * @param parameters
-     *            PageParameters
+     *            The necessary parameters for render the page.
      */
     public Login(final PageParameters parameters) {
         super(parameters);
@@ -52,7 +62,9 @@ public class Login extends BasePage {
     /**
      * Method createFormLogin.
      * 
-     * @return Form<User>
+     * 
+     * @return Form<User> The form that allows to login in the
+     *         application.
      */
     private Form<User> createFormLogin() {
         final CheckBox chk = new CheckBox("bool",
@@ -98,10 +110,11 @@ public class Login extends BasePage {
     }
 
     /**
-     * Method renderHead.
+     * Method renderHead, that allow to use CSS to render the page.
      * 
      * @param response
      *            IHeaderResponse
+     * 
      * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
      */
     @Override

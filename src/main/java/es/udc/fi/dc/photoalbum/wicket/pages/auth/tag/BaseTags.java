@@ -49,7 +49,7 @@ public class BaseTags extends BasePageAuth {
      * Constructor for BaseTags.
      * 
      * @param parameters
-     *            The parameters necessary for the page.
+     *            The necessary parameters for the page.
      */
     public BaseTags(PageParameters parameters) {
         super(parameters);
@@ -62,11 +62,11 @@ public class BaseTags extends BasePageAuth {
     }
 
     /**
-     * Creates a DataView that shown a list of {@link Album}'s that
+     * Creates a DataView that shown a list of {@link Album}s that
      * contains the {@link #tag}
      * 
      * @return DataView<Album> Return the DataView with the
-     *         {@link Album}'s.
+     *         {@link Album}s.
      */
     private DataView<Album> createAlbumDataView() {
         int userId = ((MySession) Session.get()).getuId();

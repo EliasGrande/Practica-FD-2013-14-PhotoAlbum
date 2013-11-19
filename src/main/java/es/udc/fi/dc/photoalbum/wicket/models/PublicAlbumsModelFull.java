@@ -13,14 +13,22 @@ import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.utils.AlbumsComparator;
 
 /**
+ * The model for an {@link Album}. This model return an array of
+ * public {@link Album}s of the user.
  */
 @SuppressWarnings("serial")
 public class PublicAlbumsModelFull extends
         LoadableDetachableModel<List<Album>> {
 
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
 
+    /**
+     * Constructor of PublicModelFull.
+     */
     public PublicAlbumsModelFull() {
         Injector.get().inject(this);
     }
@@ -28,7 +36,9 @@ public class PublicAlbumsModelFull extends
     /**
      * Method load.
      * 
-     * @return List<Album>
+     * 
+     * @return List<{@link Album}> Return a list of {@link Album}s which
+     *         are public.
      */
     protected List<Album> load() {
         ArrayList<Album> list = new ArrayList<Album>(

@@ -11,31 +11,36 @@ import es.udc.fi.dc.photoalbum.spring.UserService;
 
 /**
  * Session that holds current user
- * 
- * @author alejandro
- * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class MySession extends WebSession {
 
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+
+    /**
+     * The id of the {@link User} owner of the session.
+     */
     private Integer uId;
 
     /**
-     * Method getuId.
+     * Method that return the id of the {@link User} owner of the
+     * session.
      * 
-     * @return Integer
+     * @return Integer {@link #uId}
      */
     public Integer getuId() {
         return uId;
     }
 
     /**
-     * Method setuId.
+     * Method that allows to hold the id of the owner of the session.
      * 
      * @param uId
-     *            Integer
+     *            {@link #uId}
      */
     public void setuId(Integer uId) {
         this.uId = uId;
@@ -45,7 +50,7 @@ public class MySession extends WebSession {
      * Constructor for MySession.
      * 
      * @param request
-     *            Request
+     *            Request object.
      */
     public MySession(Request request) {
         super(request);
@@ -53,19 +58,22 @@ public class MySession extends WebSession {
     }
 
     /**
-     * Checks if user is Authenticated
+     * Checks if user is Authenticated.
      * 
      * 
-     * @return boolean
+     * @return boolean Return true if the {@link User} is
+     *         authenticated, otherwise return false.
      */
     public boolean isAuthenticated() {
         return (this.uId != null);
     }
 
     /**
-     * Method isAuthenticatedWithCookies.
+     * Checks isAuthenticatedWithCookies.
      * 
-     * @return boolean
+     * @return boolean Return true if the {@link User} is
+     *         authenticated and stored their cookies, otherwise
+     *         return false.
      */
     public boolean isAuthenticatedWithCookies() {
         CookieUtils cu = new CookieUtils();

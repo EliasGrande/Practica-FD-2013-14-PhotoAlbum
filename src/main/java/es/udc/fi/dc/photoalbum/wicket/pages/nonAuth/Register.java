@@ -24,19 +24,29 @@ import es.udc.fi.dc.photoalbum.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.wicket.PasswordPolicyValidator;
 
 /**
+ * Page that allows to register a {@link User} into the application.
  */
 @SuppressWarnings("serial")
 public class Register extends BasePage {
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+    /**
+     * Define the minimum length of the password.
+     */
     private static final int PASSWORD_MIN_LENGTH = 8;
+    /**
+     * @see FeedbackPanel
+     */
     private FeedbackPanel feedback;
 
     /**
      * Constructor for Register.
      * 
      * @param parameters
-     *            PageParameters
+     *            The necessary parameters for render the page.
      */
     public Register(final PageParameters parameters) {
         super(parameters);
@@ -49,8 +59,10 @@ public class Register extends BasePage {
     /**
      * Method createFormRegister.
      * 
-     * @return Form<User>
-     */
+     * 
+     * @return Form<{@link User}> The form that allows to register in
+     *         the application.
+     * */
     private Form<User> createFormRegister() {
         Form<User> form = new Form<User>("form",
                 new CompoundPropertyModel<User>(new User())) {
@@ -94,10 +106,11 @@ public class Register extends BasePage {
     }
 
     /**
-     * Method renderHead.
+     * Method renderHead, that allow to use CSS to render the page.
      * 
      * @param response
      *            IHeaderResponse
+     * 
      * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
      */
     @Override

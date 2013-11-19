@@ -67,10 +67,11 @@ public class BasePage extends WebPage {
     }
 
     /**
-     * Method renderHead, that render the Css.
+     * Method renderHead, that allow render the Css.
      * 
      * @param response
      *            IHeaderResponse
+     * 
      * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
      */
     @Override

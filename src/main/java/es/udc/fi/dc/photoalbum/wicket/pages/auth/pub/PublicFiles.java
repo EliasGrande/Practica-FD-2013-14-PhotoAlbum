@@ -35,19 +35,45 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedFiles;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
+/**
+ * The page that allow to view the public {@link File}s.
+ */
 @SuppressWarnings("serial")
 public class PublicFiles extends BasePageAuth {
-
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+    /**
+     * @see UserService
+     */
     @SpringBean
     private UserService userService;
+    /**
+     * @see AlbumTagService
+     */
     @SpringBean
     private AlbumTagService albumTagService;
+    /**
+     * The maximum number ({@link Album}s or {@link File}) per page.
+     */
     private static final int ITEMS_PER_PAGE = 10;
+    /**
+     * The maximum number {@link AlbumTag}'s per page.
+     */
     private static final int TAG_PER_PAGE = 5;
+    /**
+     * @see Album
+     */
     private Album album;
 
+    /**
+     * Constructor for PublicFiles.
+     * 
+     * @param parameters
+     *            The necessary parameters for the page.
+     */
     public PublicFiles(final PageParameters parameters) {
         super(parameters);
         int albumId = parameters.get("albumId").toInt();
@@ -62,6 +88,12 @@ public class PublicFiles extends BasePageAuth {
         add(new CommentAndVotePanel("commentAndVote", album));
     }
 
+    /**
+     * Creates a DataView that shown a list of public {@link File}s.
+     * 
+     * @return DataView<{@link File}> Return the DataView with the
+     *         {@link File}s.
+     */
     private DataView<File> createDataView() {
         int userId = ((MySession) Session.get()).getuId();
         LoadableDetachableModel<List<File>> ldm = new PublicFilesModel(
@@ -94,6 +126,12 @@ public class PublicFiles extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Creates a DataView that shown a list {@link AlbumTag}s.
+     * 
+     * @return DataView<{@link AlbumTag}> Return the DataView with the
+     *         {@link AlbumTag}s.
+     */
     private DataView<AlbumTag> createAlbumTagsDataView() {
         final List<AlbumTag> list = new ArrayList<AlbumTag>(
                 albumTagService.getTags(album.getId()));
@@ -115,6 +153,13 @@ public class PublicFiles extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method renderHead allows to use specific css in this page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

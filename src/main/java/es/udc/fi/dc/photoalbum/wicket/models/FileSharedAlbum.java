@@ -54,8 +54,8 @@ public class FileSharedAlbum extends LoadableDetachableModel<File> {
      * Method load that return a {@link File} that is shared with the
      * {@link User} {@link #userId}.
      * 
-     * @return {@link File}.
-     */
+    
+     * @return {@link File}. */
     protected File load() {
         return fileService.getFileShared(id, name, userId);
     }

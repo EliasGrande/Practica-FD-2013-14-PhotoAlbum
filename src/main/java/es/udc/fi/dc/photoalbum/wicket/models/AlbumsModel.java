@@ -37,7 +37,7 @@ public class AlbumsModel extends LoadableDetachableModel<List<Album>> {
      * Constructor for AlbumsModel.
      * 
      * @param album
-     *            Album
+     *            {@link #album}
      */
     public AlbumsModel(Album album) {
         this.album = album;
@@ -47,9 +47,9 @@ public class AlbumsModel extends LoadableDetachableModel<List<Album>> {
     /**
      * Method load.
      * 
+    
      * @return List<Album> Return an {@link Album}'s list without
-     *         repeated items.
-     */
+     *         repeated items. */
     protected List<Album> load() {
         List<Album> list = new ArrayList<Album>(
                 albumService.getAlbums(((MySession) Session.get())

@@ -32,9 +32,12 @@ public class AuthorizationStrategy implements IAuthorizationStrategy {
      *            Action
      * 
      * 
+     * 
      * @return boolean * @see
      *         org.apache.wicket.authorization.IAuthorizationStrategy
-     *         #isActionAuthorized(Component, Action)
+     *         #isActionAuthorized(Component, Action) * @see
+     *         org.apache.wicket.authorization.IAuthorizationStrategy#
+     *         isActionAuthorized(Component, Action)
      */
     public boolean isActionAuthorized(Component component,
             Action action) {
@@ -47,10 +50,14 @@ public class AuthorizationStrategy implements IAuthorizationStrategy {
      * @param componentClass
      *            The type of component.
      * 
+     * @param <T>
+     *            The generic type.
      * 
      * @return boolean * @see
      *         org.apache.wicket.authorization.IAuthorizationStrategy
-     *         #isInstantiationAuthorized(Class<T>)
+     *         #isInstantiationAuthorized(Class<T>) * @see
+     *         org.apache.wicket.authorization.IAuthorizationStrategy#
+     *         isInstantiationAuthorized(Class<T>)
      */
     public <T extends IRequestableComponent> boolean isInstantiationAuthorized(
             Class<T> componentClass) {

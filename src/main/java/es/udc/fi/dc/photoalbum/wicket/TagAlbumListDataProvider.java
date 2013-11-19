@@ -10,29 +10,47 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.File;
+import es.udc.fi.dc.photoalbum.hibernate.User;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.wicket.models.TagAlbumsModelFull;
 
 /**
+ * ListDataProvider for a {@list Album} that contains the necessary
+ * tag.
+ * 
+ * @see IDataProvider.
  */
 @SuppressWarnings("serial")
 public class TagAlbumListDataProvider implements IDataProvider<Album> {
-
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+    /**
+     * The size of the {@link IDataProvider}.
+     */
     private int size;
+    /**
+     * The id of the {@link User} that want to view the {@link File}.
+     */
     private int userId;
+    /**
+     * The tag that contains all the {@link Album}s in this
+     * {@link IDataProvider}
+     */
     private String tag;
 
     /**
      * Constructor for TagAlbumListDataProvider.
      * 
      * @param size
-     *            int
+     *            {@link #size}
      * @param userId
-     *            int
+     *            {@link #userId}
      * @param tag
-     *            String
+     *            {@link #tag}
      */
     public TagAlbumListDataProvider(int size, int userId, String tag) {
         this.userId = userId;
@@ -50,13 +68,14 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
     }
 
     /**
-     * Method iterator.
+     * Method that returns an iterator of {@link Album}s.
      * 
      * @param first
-     *            long
+     *            The index of the first {@link Album}.
      * @param count
-     *            long
-     * @return Iterator<? extends Album>
+     *            The number of elements that contains the iterator.
+     * @return Iterator<? extends Album> The iterator with the
+     *         {@link Album}s inside.
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
      *      long)
      */
@@ -74,7 +93,7 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
     /**
      * Method size.
      * 
-     * @return long
+     * @return long {@link #size}.
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#size()
      */
     public long size() {
@@ -85,8 +104,8 @@ public class TagAlbumListDataProvider implements IDataProvider<Album> {
      * Method model.
      * 
      * @param object
-     *            Album
-     * @return IModel<Album>
+     *            The {@link Album} that contains the {@link #tag}.
+     * @return IModel<{@link Album}> The model of the {@link Album}.
      */
     public IModel<Album> model(Album object) {
         final Integer id = object.getId();

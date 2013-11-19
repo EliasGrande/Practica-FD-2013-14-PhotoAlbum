@@ -18,6 +18,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
+import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.spring.FileService;
@@ -31,16 +32,36 @@ import es.udc.fi.dc.photoalbum.wicket.pages.auth.share.SharedBig;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
+/**
+ * The page that allow to view {@link File}s big.
+ */
 @SuppressWarnings("serial")
 public class PublicFilesBig extends BasePageAuth {
-
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
+    /**
+     * @see FileTagService
+     */
     @SpringBean
     private FileTagService fileTagService;
+    /**
+     * @see File
+     */
     private File file;
+    /**
+     * The maximum number {@link AlbumTag}'s per page.
+     */
     private static final int TAG_PER_PAGE = 5;
 
+    /**
+     * Constructor for PublicFilesBig.
+     * 
+     * @param parameters
+     *            The necessary parameters for the page.
+     */
     public PublicFilesBig(final PageParameters parameters) {
         super(parameters);
 
@@ -63,6 +84,11 @@ public class PublicFilesBig extends BasePageAuth {
         add(new CommentAndVotePanel("commentAndVote", file));
     }
 
+    /**
+     * Method that create a big {@link NonCachingImage}.
+     * 
+     * @return {@link NonCachingImage} to the {@link #file}.
+     */
     private NonCachingImage createNonCachingImage() {
         return new NonCachingImage("img", new BlobImageResource() {
             protected Blob getBlob(Attributes arg0) {
@@ -71,6 +97,11 @@ public class PublicFilesBig extends BasePageAuth {
         });
     }
 
+    /**
+     * Method that create a {@link FileTag} data view.
+     * 
+     * @return DataView<{@link FileTag}> that contains the elements to shown.
+     */
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
                 fileTagService.getTags(file.getId()));
@@ -92,6 +123,13 @@ public class PublicFilesBig extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Method renderHead allows to use specific css in this page.
+     * 
+     * @param response
+     *            IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

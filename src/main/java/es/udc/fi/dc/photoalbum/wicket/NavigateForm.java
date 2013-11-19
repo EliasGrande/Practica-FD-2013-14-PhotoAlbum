@@ -48,7 +48,7 @@ public class NavigateForm<T> extends Form<T> {
      * @param fileId
      *            The id of the current displayed {@link File}.
      * @param minPrivacyLevel
-     *            The privacity level of the
+     *            The privacy level of the
      * @param cls
      *            Class of page image on
      */

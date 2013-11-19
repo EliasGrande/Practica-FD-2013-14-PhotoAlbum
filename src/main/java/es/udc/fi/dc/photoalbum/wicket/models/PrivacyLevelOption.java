@@ -8,23 +8,33 @@ import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.model.StringResourceModel;
 
+import es.udc.fi.dc.photoalbum.hibernate.Album;
+import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
 /**
+ * All methods necessaries to privacy management.
+ * @author alejandro
+ * @version $Revision: 1.0 $
  */
 @SuppressWarnings("serial")
 public class PrivacyLevelOption implements Serializable {
-
+    /**
+     * The label privacy level.
+     */
     private String label;
+    /**
+     * The value of the privacy level.
+     */
     private String value;
 
     /**
      * Constructor for PrivacyLevelOption.
      * 
      * @param privacyLevel
-     *            String
+     *            The value of the privacy level.
      * @param cmp
-     *            Component
+     *            The component which use the privacy level.
      */
     public PrivacyLevelOption(String privacyLevel, Component cmp) {
         this.label = getLabel(privacyLevel, cmp);
@@ -32,32 +42,32 @@ public class PrivacyLevelOption implements Serializable {
     }
 
     /**
-     * Method getLabel.
+     * Obtain the label of privacy level.
      * 
-     * @return String
-     */
+    
+     * @return String The label of privacy level. */
     public String getLabel() {
         return label;
     }
 
     /**
-     * Method getValue.
+     * Obtain the value of the privacy level.
      * 
-     * @return String
-     */
+    
+     * @return String The value of the privacy level. */
     public String getValue() {
         return value;
     }
 
     /**
-     * Method getLabel.
+     * Obtain the label of privacy level.
      * 
      * @param value
-     *            String
+     *            {@link #value}
      * @param cmp
-     *            Component
-     * @return String
-     */
+     *            The component which use the privacy level.
+    
+     * @return String The label of privacy level. */
     private static String getLabel(String value, Component cmp) {
         return new StringResourceModel("privacyLevel.label."
                 + value.toLowerCase(), cmp, null).getString();
@@ -67,9 +77,10 @@ public class PrivacyLevelOption implements Serializable {
      * Method getAlbumOptions.
      * 
      * @param cmp
-     *            Component
-     * @return List<PrivacyLevelOption>
-     */
+     *            The component which use the privacy level.
+    
+     * @return List<PrivacyLevelOption> Return the available privacy
+     *         levels for an {@link Album}. */
     public static List<PrivacyLevelOption> getAlbumOptions(
             Component cmp) {
         ArrayList<PrivacyLevelOption> options = new ArrayList<PrivacyLevelOption>();
@@ -84,9 +95,10 @@ public class PrivacyLevelOption implements Serializable {
      * Method getFileOptions.
      * 
      * @param cmp
-     *            Component
-     * @return List<PrivacyLevelOption>
-     */
+     *            The component which use the privacy level.
+    
+     * @return List<PrivacyLevelOption> Return the available privacy
+     *         levels for an {@link File}. */
     public static List<PrivacyLevelOption> getFileOptions(
             Component cmp) {
         ArrayList<PrivacyLevelOption> options = new ArrayList<PrivacyLevelOption>();

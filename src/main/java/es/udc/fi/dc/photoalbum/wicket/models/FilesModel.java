@@ -44,9 +44,9 @@ public class FilesModel extends LoadableDetachableModel<List<File>> {
     /**
      * Method load.
      * 
+    
      * @return List<{@link File}> that contains all the files of the
-     *         {@link Album} with {@link #id}.
-     */
+     *         {@link Album} with {@link #id}. */
     @Override
     protected List<File> load() {
         ArrayList<File> list = new ArrayList<File>(

@@ -101,8 +101,8 @@ public class CommentsModel extends
      * 
      * @param comment
      *            The comment that want obtaion the {@link Voted}.
-     * @return Voted Return the {@link Voted} for the {@link Comment}.
-     */
+    
+     * @return Voted Return the {@link Voted} for the {@link Comment}. */
     public Voted getVoted(Comment comment) {
         return voteCache.get(comment.getLikeAndDislike().getId());
     }
@@ -110,8 +110,8 @@ public class CommentsModel extends
     /**
      * Method hasMoreComments.
      * 
-     * @return boolean True if has more comment otherwise false.
-     */
+    
+     * @return boolean True if has more comment otherwise false. */
     public boolean hasMore() {
         return hasMoreComments;
     }
@@ -119,9 +119,9 @@ public class CommentsModel extends
     /**
      * Load the list of {@link Comment}.
      * 
+    
      * @return List<Comment> Return the list of the {@link Comment}s
-     *         to shown.
-     */
+     *         to shown. */
     @Override
     protected List<Comment> load() {
         if (hasMore())

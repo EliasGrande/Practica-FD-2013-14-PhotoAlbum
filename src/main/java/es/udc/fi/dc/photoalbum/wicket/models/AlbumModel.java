@@ -40,7 +40,8 @@ public class AlbumModel extends LoadableDetachableModel<Album> {
     /**
      * Method load.
      * 
-     * @return Album Return an album with name name.
+     * 
+     * @return {@link Album} Return an {@link Album} with name name.
      */
     protected Album load() {
         return this.albumService.getAlbum(name,
