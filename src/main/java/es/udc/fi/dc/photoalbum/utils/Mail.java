@@ -16,7 +16,7 @@ public class Mail {
      */
     private static final String HOST_NAME = "s246.sam-solutions.net";
     /**
-     * Defines a an smtp port for the mail
+     * Defines a an SMTP port for the mail
      */
     private static final int SMTP_PORT = 25;
     /**
@@ -79,7 +79,6 @@ public class Mail {
      * @param emailTo
      *            recepient's email
      * 
-     * @throws {@link EmailException}
      */
     public Mail(String emailTo) throws EmailException {
         this.email.setHostName(HOST_NAME);
@@ -96,7 +95,6 @@ public class Mail {
      * @param locale
      *            Defines the language, country, etc that is using the
      *            {@link User}.
-     * @throws EmailException
      */
     public void sendRegister(Locale locale) throws EmailException {
         if (locale.equals(Locale.US)) {
@@ -118,7 +116,6 @@ public class Mail {
      * @param locale
      *            Defines the language, country, etc that is using the
      *            {@link User}.
-     * @throws EmailException
      */
     public void sendPass(String password, Locale locale)
             throws EmailException {

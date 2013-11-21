@@ -10,7 +10,7 @@ import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislikeDao;
 
 /**
- * Implementation of the album service
+ * Implementation of the {@link AlbumService}.
  */
 @Transactional
 public class AlbumServiceImpl implements AlbumService {
