@@ -7,9 +7,19 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.cookies.CookieUtils;
 
+/**
+ * Sign out {@link WebPage}
+ */
 @SuppressWarnings("serial")
 public class SignOut extends WebPage {
 
+    /**
+     * Defines an {@link SignOut} page.
+     * 
+     * @param parameters
+     *            PageParameters used by the inherit constructor
+     *            {@link BasePageAuth#BasePageAuth(PageParameters)}
+     */
     public SignOut(final PageParameters parameters) {
         super(parameters);
         CookieUtils cu = new CookieUtils();

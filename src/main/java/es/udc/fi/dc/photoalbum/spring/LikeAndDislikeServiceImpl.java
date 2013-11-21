@@ -14,7 +14,15 @@ import es.udc.fi.dc.photoalbum.hibernate.VotedDao;
 @Transactional
 public class LikeAndDislikeServiceImpl implements
         LikeAndDislikeService {
+    
+    /**
+     * Defines a LIKE string variable.
+     */
     private static String LIKE = "LIKE";
+    
+    /**
+     * Defines a DISLIKE string variable.
+     */
     private static String DISLIKE = "DISLIKE";
 
     /**

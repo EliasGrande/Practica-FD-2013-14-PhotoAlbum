@@ -7,6 +7,9 @@ import es.udc.fi.dc.photoalbum.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 
+/**
+ * Interface for the {@link CommentService}
+ */
 public interface CommentService {
 
     /**

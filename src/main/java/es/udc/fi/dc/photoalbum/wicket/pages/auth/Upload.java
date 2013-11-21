@@ -28,6 +28,7 @@ import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 
+import es.udc.fi.dc.photoalbum.hibernate.Album;
 import es.udc.fi.dc.photoalbum.hibernate.AlbumTag;
 import es.udc.fi.dc.photoalbum.hibernate.File;
 import es.udc.fi.dc.photoalbum.spring.AlbumService;
@@ -42,23 +43,76 @@ import es.udc.fi.dc.photoalbum.wicket.models.AlbumModel;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.wicket.panels.CommentAndVotePanel;
 
+/**
+ * Allows to manage some aspects of an {@link Album} as upload
+ * {@link File Files}, tagging {@link Album Albums} or add comments to
+ * an {@link Album}.
+ */
 @SuppressWarnings("serial")
 public class Upload extends BasePageAuth {
 
+    /**
+     * @see FileService
+     */
     @SpringBean
     private FileService fileService;
+
+    /**
+     * @see AlbumService
+     */
     @SpringBean
     private AlbumService albumService;
+
+    /**
+     * @see AlbumTagService
+     */
     @SpringBean
     private AlbumTagService albumTagService;
+
+    /**
+     * Model for the {@link Album}.
+     */
     private AlbumModel am;
+
+    /**
+     * Number of items showed per page.
+     */
     private static final int ITEMS_PER_PAGE = 10;
+    
+    /**
+     * Maximum number of {@link File files} that you can upload at the same time.
+     */
     private static final int MAX_UPLOAD = 10000;
+    
+    /**
+     * Size which will have an image when it is resized.
+     */
     private static final int SIZE = 200;
+    
+    /**
+     * Feedback panel.
+     */
     private FeedbackPanel feedback;
+    
+    /**
+     * PageParameters used to instantiate the response page for the
+     * forms of this page.
+     */
     private PageParameters parameters;
+    
+    /**
+     * Number of {@link AlbumTag tags} showed on the "Tags" list per
+     * page.
+     */
     private static final int TAG_PER_PAGE = 5;
 
+    /**
+     * Defines an {@link Upload} page.
+     * 
+     * @param parameters
+     *            PageParameters used by the inherit constructor
+     *            {@link BasePageAuth#BasePageAuth(PageParameters)}
+     */
     public Upload(PageParameters parameters) {
         super(parameters);
         if (parameters.getNamedKeys().contains("album")) {
@@ -86,6 +140,12 @@ public class Upload extends BasePageAuth {
         add(new CommentAndVotePanel("commentAndVote", am.getObject()));
     }
 
+    /**
+     * Creates a {@link DataView} for the list of files and returns
+     * it.
+     * 
+     * @return {@link File} list DataView.
+     */
     private DataView<File> createFileDataView() {
         int count = fileService.getCountAlbumFiles(
                 am.getObject().getId()).intValue();
@@ -114,6 +174,12 @@ public class Upload extends BasePageAuth {
         return dataView;
     }
 
+    /**
+     * Creates a {@link Form} to upload {@link File Files} to an
+     * {@link Album}.
+     * 
+     * @return Upload {@link File} form.
+     */
     private Form<Void> createUplooadForm() {
         final FileUploadField fileUploadField;
         fileUploadField = new FileUploadField("fileInput");
@@ -175,6 +241,12 @@ public class Upload extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Creates a {@link Form} for adding {@link AlbumTag tags} to the
+     * current {@link Album album}.
+     * 
+     * @return An add tag form.
+     */
     private Form<AlbumTag> createAddTagForm() {
         Form<AlbumTag> form = new Form<AlbumTag>("formAddTag") {
             @Override
@@ -198,6 +270,12 @@ public class Upload extends BasePageAuth {
         return form;
     }
 
+    /**
+     * Creates a {@link DataView} for the list of {@link AlbumTag
+     * tags} of the current {@link Album album}.
+     * 
+     * @return Tag list DataView.
+     */
     private DataView<AlbumTag> createAlbumTagsDataView() {
         final List<AlbumTag> list = new ArrayList<AlbumTag>(
                 albumTagService.getTags(this.am.getObject().getId()));
