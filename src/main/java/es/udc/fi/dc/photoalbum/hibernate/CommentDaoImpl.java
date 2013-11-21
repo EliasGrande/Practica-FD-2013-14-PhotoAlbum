@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * {@link CommentDao} Hibernate implementation.
+ */
 public class CommentDaoImpl extends HibernateDaoSupport implements
         CommentDao {
 

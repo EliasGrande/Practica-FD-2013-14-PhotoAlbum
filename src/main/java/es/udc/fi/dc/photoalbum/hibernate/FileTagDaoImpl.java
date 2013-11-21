@@ -8,6 +8,9 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * {@link FileTagDao} Hibernate implementation.
+ */
 public class FileTagDaoImpl extends HibernateDaoSupport implements
         FileTagDao {
 

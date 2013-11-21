@@ -15,17 +15,20 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
+/**
+ * {@link FileDao} Hibernate implementation.
+ */
 public class FileDaoImpl extends HibernateDaoSupport implements
         FileDao {
 
     /**
      * Query for File: Search files by tag returning only the ones
      * viewable by userId.
-     * 
-     * Parameters: - (String) tag - (int) userId - (String)
-     * inheritPrivacyLevel - (String) publicPrivacyLevel
+     * <p>
+     * Parameters: (String) tag, (int) userId, (String)
+     * inheritPrivacyLevel, (String) publicPrivacyLevel
      */
-    private static String HQL_QUERY_FILES_BY_TAG = "FROM File "
+    private static final String HQL_QUERY_FILES_BY_TAG = "FROM File "
             // search files by tag
             + "WHERE id IN ("
             + "SELECT file.id FROM FileTag "
@@ -110,12 +113,27 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public List<File> getAlbumFilesOwnPaging(int albumId,
-            int first, int count) {
+    public List<File> getAlbumFilesOwnPaging(int albumId, int first,
+            int count) {
         return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId)
                 .setFirstResult(first).setMaxResults(count).list();
     }
 
+    /**
+     * Files from the given {@link Album}, that the given {@link User}
+     * can see, criteria.
+     * <p>
+     * This criteria only return files which (1) are public, or (2)
+     * are shared with {@code userId}, or (3) inherit their privacy
+     * level from the album and the album is public or shared with
+     * {@code userId}.
+     * 
+     * @param albumId
+     *            {@link Album} id
+     * @param userId
+     *            {@link User} id
+     * @return Files criteria.
+     */
     private Criteria getAlbumSharedFilesCriteria(int albumId,
             int userId) {
 
@@ -226,8 +244,8 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public List<File> getFilesByTagPaging(int userId,
-            String tag, int first, int count) {
+    public List<File> getFilesByTagPaging(int userId, String tag,
+            int first, int count) {
         return (ArrayList<File>) getHibernateTemplate()
                 .getSessionFactory()
                 .getCurrentSession()

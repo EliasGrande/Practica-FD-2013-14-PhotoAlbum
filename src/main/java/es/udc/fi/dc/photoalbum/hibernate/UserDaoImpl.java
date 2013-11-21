@@ -14,6 +14,9 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.MD5;
 
+/**
+ * {@link UserDao} Hibernate implementation.
+ */
 public class UserDaoImpl extends HibernateDaoSupport implements
         UserDao {
 

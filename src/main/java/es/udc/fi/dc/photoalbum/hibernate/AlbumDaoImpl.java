@@ -11,13 +11,16 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import es.udc.fi.dc.photoalbum.utils.PrivacyLevel;
 
+/**
+ * {@link AlbumDao} Hibernate implementation.
+ */
 public class AlbumDaoImpl extends HibernateDaoSupport implements
         AlbumDao {
 
     /**
      * Restriction for Album: Public albums.
-     * 
-     * Parameters: - (String) inheritPrivacyLevel - (String)
+     * <p>
+     * Parameters: (String) inheritPrivacyLevel, (String)
      * publicPrivacyLevel
      */
     private static final String HQL_RESTRICTION_ALBUMS_PUBLIC = "("

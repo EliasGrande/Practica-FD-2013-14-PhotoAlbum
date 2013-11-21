@@ -9,40 +9,24 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * {@link AlbumShareInformationDao} Hibernate implementation.
+ */
 public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
         implements AlbumShareInformationDao {
 
-    /**
-     * Guarda un ShareInformation en base de datos.
-     */
     public void create(AlbumShareInformation shareInformation) {
         getHibernateTemplate().save(shareInformation);
     }
 
-    /**
-     * Elimina un ShareInformation de base de datos.
-     */
     public void delete(AlbumShareInformation shareInformation) {
         getHibernateTemplate().delete(shareInformation);
     }
 
-    /**
-     * ShareInformation de un album concreto. Usado en
-     * "Albumes compartidos conmigo > usuario@ejemplo.com > AlbumEjemplo"
-     * .
-     * 
-     * @param albumName
-     *            Nombre del album
-     * @param userSharedToId
-     *            Id de usuario con el que se ha compartido
-     * @param userSharedEmail
-     *            Email del propietario
-     */
     public AlbumShareInformation getShare(String albumName,
             int userSharedToId, String userSharedEmail) {
         @SuppressWarnings("unchecked")
-        ArrayList<AlbumShareInformation> list = 
-            (ArrayList<AlbumShareInformation>) getHibernateTemplate()
+        ArrayList<AlbumShareInformation> list = (ArrayList<AlbumShareInformation>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(AlbumShareInformation.class)
@@ -66,8 +50,7 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
 
     public AlbumShareInformation getShare(int albumId, int userId) {
         @SuppressWarnings("unchecked")
-        ArrayList<AlbumShareInformation> list = 
-            (ArrayList<AlbumShareInformation>) getHibernateTemplate()
+        ArrayList<AlbumShareInformation> list = (ArrayList<AlbumShareInformation>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(AlbumShareInformation.class)
@@ -85,13 +68,6 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
         }
     }
 
-    /**
-     * Usado en "Mis albumes > AlbumEjemplo > Compartir" para mostrar
-     * la lista de usuarios con los que he compartido el album.
-     * 
-     * @param albumId
-     *            Identificador del album.
-     */
     @SuppressWarnings("unchecked")
     public List<AlbumShareInformation> getAlbumShares(int albumId) {
         return (ArrayList<AlbumShareInformation>) getHibernateTemplate()

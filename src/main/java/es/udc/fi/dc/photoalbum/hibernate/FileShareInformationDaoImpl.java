@@ -9,6 +9,9 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * {@link FileShareInformationDao} Hibernate implementation.
+ */
 public class FileShareInformationDaoImpl extends HibernateDaoSupport
         implements FileShareInformationDao {
 

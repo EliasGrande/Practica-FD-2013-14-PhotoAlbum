@@ -2,6 +2,9 @@ package es.udc.fi.dc.photoalbum.hibernate;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * {@link LikeAndDislikeDao} Hibernate implementation.
+ */
 public class LikeAndDislikeDaoImpl extends HibernateDaoSupport
         implements LikeAndDislikeDao {
 

@@ -8,6 +8,9 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * {@link AlbumTagDao} Hibernate implementation.
+ */
 public class AlbumTagDaoImpl extends HibernateDaoSupport implements
         AlbumTagDao {
 

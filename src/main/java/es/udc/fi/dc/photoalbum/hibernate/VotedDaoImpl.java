@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+/**
+ * {@link VotedDao} Hibernate implementation.
+ */
 public class VotedDaoImpl extends HibernateDaoSupport implements
         VotedDao {
 
