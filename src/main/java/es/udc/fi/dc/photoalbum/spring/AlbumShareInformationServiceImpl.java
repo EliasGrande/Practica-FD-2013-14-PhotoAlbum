@@ -24,7 +24,6 @@ public class AlbumShareInformationServiceImpl implements
      * Method getAlbumShareInformationDao. Get an instance of
      * AlbumShareInformationDao
      * 
-     * 
      * @return A {@link AlbumShareInformationDao}
      */
     public AlbumShareInformationDao getAlbumShareInformationDao() {
@@ -80,10 +79,10 @@ public class AlbumShareInformationServiceImpl implements
      * @param userSharedEmail
      *            The email of the user who shares the {@link Album}.
      * 
-     * 
-     * @return {@link AlbumShareInformation} for that search.
-     * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService
-     *      #getShare(String, int,String)
+     * @return {@link AlbumShareInformation} for that search. * @see
+     *         es.udc.fi.dc.photoalbum.spring.
+     *         AlbumShareInformationService #getShare(String,
+     *         int,String)
      */
     public AlbumShareInformation getShare(String albumName,
             int userSharedToId, String userSharedEmail) {
@@ -98,10 +97,10 @@ public class AlbumShareInformationServiceImpl implements
      * @param albumId
      *            An {@link Album} identifier.
      * 
-     * 
-     * @return list of {@link AlbumShareInformation}
-     * 
-     * @see es.udc.fi.dc.photoalbum.spring.AlbumShareInformationService#getAlbumShares(int)
+     * @return list of {@link AlbumShareInformation} * @see
+     *         es.udc.fi.dc
+     *         .photoalbum.spring.AlbumShareInformationService
+     *         #getAlbumShares(int)
      */
     public List<AlbumShareInformation> getAlbumShares(int albumId) {
         return albumShareInformationDao.getAlbumShares(albumId);

@@ -15,7 +15,9 @@ import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislikeDao;
 @Transactional
 public class AlbumServiceImpl implements AlbumService {
 
-    /* AlbumDao */
+    /**
+     * @see AlbumDao
+     */
     private AlbumDao albumDao;
 
     /**
@@ -37,7 +39,9 @@ public class AlbumServiceImpl implements AlbumService {
         this.albumDao = albumDao;
     }
 
-    /* LikeAndDislike */
+    /**
+     * @see LikeAndDislikeDao
+     */
     private LikeAndDislikeDao likeAndDislikeDao;
 
     /**

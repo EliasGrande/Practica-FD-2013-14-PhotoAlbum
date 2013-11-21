@@ -12,9 +12,13 @@ import es.udc.fi.dc.photoalbum.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.hibernate.User;
 
 /**
+ * Utility to generate random data
  */
 public class RandomDataGenerator {
 
+    /**
+     * Useful static variable with the typical text LOREN_IPSUM.
+     */
     private static final String LOREN_IPSUM = "Lorem ipsum dolor sit amet,"
             + " consectetur adipisicing elit, sed do eiusmod tempor incididunt "
             + "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis "
@@ -38,19 +42,33 @@ public class RandomDataGenerator {
             + "autem vel eum iure reprehenderit qui in ea voluptate velit "
             + "esse quam nihil molestiae consequatur, vel illum qui "
             + "dolorem eum fugiat quo voluptas nulla pariatur?";
+    /**
+     * Defines a simple version of LOREN_IPSUM.
+     */
     private static final String LOREN_IPSUM_SIMPLE = LOREN_IPSUM
             .replaceAll("[^a-z]", "");
+    /**
+     * Defines a time of beginning.
+     */
     private static final long BEGIN_TIME = (new Date()).getTime();
+    /**
+     * Defines a time of finish.
+     */
     private static final long END_TIME = BEGIN_TIME
             - (1000L * 3600L * 24L * 365L * 2L);
-
+    /**
+     * Defines an id which value is 0.
+     */
     private static int id = 0;
 
     /**
-     * Method randomInt.
-     * @param min int
-     * @param max int
-     * @return int
+     * Generates a random integer between two specified numbers.
+     * 
+     * @param min
+     *            Minimum value that will have the random number.
+     * @param max
+     *            Maximum value that will have the random number.
+     * @return A random integer number
      */
     public static int randomInt(int min, int max) {
         return min
@@ -59,10 +77,13 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomLong.
-     * @param min long
-     * @param max long
-     * @return long
+     * Generates a random long between two specified numbers.
+     * 
+     * @param min
+     *            Minimum value that will have the random number
+     * @param max
+     *            Maximum value that will have the random number.
+     * @return A random long number.
      */
     public static long randomLong(long min, long max) {
         return min
@@ -71,8 +92,9 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomCalendar.
-     * @return Calendar
+     * Generates a random date.
+     * 
+     * @return A random date.
      */
     public static Calendar randomCalendar() {
         Calendar calendar = Calendar.getInstance();
@@ -83,9 +105,13 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomComment.
-     * @param file File
-     * @return Comment
+     * Generates a random file comment.
+     * 
+     * @param file
+     *            {@link File} that will be inserted the random
+     *            comment
+     * 
+     * @return A random file {@link Comment} that has been generated.
      */
     public static Comment randomComment(File file) {
         Comment comment = new Comment(randomLikeAndDislike(),
@@ -96,9 +122,12 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomComment.
-     * @param album Album
-     * @return Comment
+     * Generates a random album comment.
+     * 
+     * @param album
+     *            {@link Album} that will be inserted the random
+     *            comment
+     * @return A random album {@link Comment} that has been generated.
      */
     public static Comment randomComment(Album album) {
         Comment comment = new Comment(randomLikeAndDislike(),
@@ -109,8 +138,9 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomLikeAndDislike.
-     * @return LikeAndDislike
+     * Generates a random {@link LikeAndDislike}
+     * 
+     * @return The {@link LikeAndDislike} that has been generated.
      */
     public static LikeAndDislike randomLikeAndDislike() {
         int min = 5;
@@ -122,16 +152,18 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomUser.
-     * @return User
+     * Generates a random {@link User}.
+     * 
+     * @return The {@link User} that has been generated.
      */
     public static User randomUser() {
         return new User(randomInt(1, 5000), randomEmail(), "");
     }
 
     /**
-     * Method randomText.
-     * @return String
+     * Generates a random text using the {@code LOREN_IPSUM} variable.
+     * 
+     * @return The random text that has been generated.
      */
     public static String randomText() {
         int beginIndex = randomInt(0, LOREN_IPSUM.length() / 2 - 1);
@@ -141,21 +173,35 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomText.
-     * @param minLen int
-     * @param maxLen int
-     * @return String
+     * Generates a random text using the {@code LOREN_IPSUM} variable
+     * between a minimum and a maximum length.
+     * 
+     * @param minLen
+     *            The minimum length of the random text that will be
+     *            generated.
+     * @param maxLen
+     *            The maximum length of the random text that will be
+     *            generated.
+     * @return The random text that has been generated.
      */
     public static String randomText(int minLen, int maxLen) {
         return randomText(LOREN_IPSUM, minLen, maxLen);
     }
 
     /**
-     * Method randomText.
-     * @param baseText String
-     * @param minLen int
-     * @param maxLen int
-     * @return String
+     * Generates a random text using the {@code LOREN_IPSUM} variable
+     * between a minimum and a maximum length employing a base of text
+     * for the text that will be generated.
+     * 
+     * @param baseText
+     *            The base of text.
+     * @param minLen
+     *            The minimum length of the random text that will be
+     *            generated.
+     * @param maxLen
+     *            The maximum length of the random text that will be
+     *            generated.
+     * @return The random text that has been generated.
      */
     public static String randomText(String baseText, int minLen,
             int maxLen) {
@@ -169,8 +215,9 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomEmail.
-     * @return String
+     * Generates a random email.
+     * 
+     * @return An email that has been generated.
      */
     public static String randomEmail() {
         return randomText(LOREN_IPSUM_SIMPLE, 5, 15) + "@"
@@ -179,10 +226,14 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomComments.
-     * @param file File
-     * @param count int
-     * @return List<Comment>
+     * Generates a list of random file comment.
+     * 
+     * @param file
+     *            {@link File} that will be inserted the random
+     *            comment.
+     * @param count
+     *            The number of comments that will be generated.
+     * @return A list with the file comments generated.
      */
     public static List<Comment> randomComments(File file, int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();
@@ -192,10 +243,14 @@ public class RandomDataGenerator {
     }
 
     /**
-     * Method randomComments.
-     * @param album Album
-     * @param count int
-     * @return List<Comment>
+     * Generates a list of random album comment.
+     * 
+     * @param album
+     *            {@link Album} that will be inserted the random
+     *            comment
+     * @param count
+     *            The number of comments that will be generated.
+     * @return A list with the album comments generated.
      */
     public static List<Comment> randomComments(Album album, int count) {
         ArrayList<Comment> list = new ArrayList<Comment>();

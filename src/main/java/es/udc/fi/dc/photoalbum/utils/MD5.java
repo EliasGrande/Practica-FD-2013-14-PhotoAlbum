@@ -14,6 +14,9 @@ public final class MD5 {
     private MD5() {
     }
 
+    /**
+     * Defines a conversion hexadecimal-string.
+     */
     private static final int HEX_TO_STRING = 0xFF;
 
     /**

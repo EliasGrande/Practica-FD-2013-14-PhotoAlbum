@@ -18,13 +18,15 @@ import es.udc.fi.dc.photoalbum.hibernate.User;
  */
 @Transactional
 public class CommentServiceImpl implements CommentService {
-    /* LikeAndDislikeDao */
     /**
      * {@link #getCommentDao()}
      */
     private LikeAndDislikeDao likeAndDislikeDao;
 
     /**
+     * Method for get an {@link LikeAndDislikeDao}.
+     * 
+     * @return LikeAndDislikeDao
      * @see AlbumTagDao
      */
     public LikeAndDislikeDao getLikeAndDislikeDao() {
@@ -32,23 +34,25 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * Method setLikeAndDislikeDao.
+     * Method that allows to put an {@link LikeAndDislikeDao}.
      * 
      * @param likeAndDislikeDao
-     *            LikeAndDislikeDao instance
+     *            {@link LikeAndDislikeDao} which will be put.
      */
     public void setLikeAndDislikeDao(
             LikeAndDislikeDao likeAndDislikeDao) {
         this.likeAndDislikeDao = likeAndDislikeDao;
     }
 
-    /* CommentDao */
     /**
      * @see CommentDao
      */
     private CommentDao commentDao;
 
     /**
+     * Method for get an {@link CommentDao}.
+     * 
+     * @return CommentDao
      * @see CommentDao
      */
     public CommentDao getCommentDao() {
@@ -56,16 +60,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
-     * Method setCommentDao.
+     * Method that allows to put an {@link CommentDao}.
      * 
      * @param commentDao
-     *            CommentDao instance
+     *            {@link CommentDao} which will be put.
      */
     public void setCommentDao(CommentDao commentDao) {
         this.commentDao = commentDao;
     }
-
-    /* IMPLEMENTATION */
 
     /**
      * Create a {@link Album} {@link Comment}.
@@ -76,6 +78,7 @@ public class CommentServiceImpl implements CommentService {
      *            {@link Album} that owns the {@link Comment}.
      * @param text
      *            The text that contains the {@link Comment}.
+     * 
      * @see es.udc.fi.dc.photoalbum.spring.CommentService#create(User,
      *      Album, String)
      */
@@ -96,6 +99,7 @@ public class CommentServiceImpl implements CommentService {
      *            {@link File} that owns the {@link Comment}.
      * @param text
      *            The text that contains the {@link Comment}.
+     * 
      * @see es.udc.fi.dc.photoalbum.spring.CommentService#create(User,
      *      File, String)
      */
@@ -112,6 +116,7 @@ public class CommentServiceImpl implements CommentService {
      * 
      * @param comment
      *            {@link Comment} that will be deleted.
+     * 
      * @see es.udc.fi.dc.photoalbum.spring.CommentService#delete(Comment)
      */
     public void delete(Comment comment) {
@@ -126,8 +131,11 @@ public class CommentServiceImpl implements CommentService {
      * 
      * @param album
      *            It's the {@link Album} they belong {@link Comment}.
+     * 
      * @return List<Comment> A list of {@link Album} {@link Comment}.
-     * @see es.udc.fi.dc.photoalbum.spring.CommentService#getComments(Album)
+     * 
+     * @see es.udc.fi.dc.photoalbum.spring.CommentService#
+     *      getComments(Album)
      */
     public List<Comment> getComments(Album album) {
         return commentDao.getComments(album);
@@ -138,8 +146,10 @@ public class CommentServiceImpl implements CommentService {
      * 
      * @param file
      *            It's the {@link File} they belong {@link Comment}.
+     * 
      * @return List<Comment> A list of {@link File} {@link Comment}.
-     * @see es.udc.fi.dc.photoalbum.spring.CommentService#getComments(File)
+     * @see es.udc.fi.dc.photoalbum.spring.CommentService#
+     *      getComments(File)
      */
     public List<Comment> getComments(File file) {
         return commentDao.getComments(file);
@@ -154,9 +164,10 @@ public class CommentServiceImpl implements CommentService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtained
+     * 
      * @return List<Comment> A list of {@link Album} {@link Comment}
-     * @see es.udc.fi.dc.photoalbum.spring.CommentService#getCommentsPaging(Album,
-     *      int, int)
+     * @see es.udc.fi.dc.photoalbum.spring.CommentService#
+     *      getCommentsPaging(Album, int, int)
      */
     public List<Comment> getCommentsPaging(Album album, int first,
             int count) {
@@ -172,9 +183,10 @@ public class CommentServiceImpl implements CommentService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtains.
+     * 
      * @return List<Comment>
-     * @see es.udc.fi.dc.photoalbum.spring.CommentService#getCommentsPaging(File,
-     *      int, int)
+     * @see es.udc.fi.dc.photoalbum.spring.CommentService
+     *      #getCommentsPaging(File, int, int)
      */
     public List<Comment> getCommentsPaging(File file, int first,
             int count) {

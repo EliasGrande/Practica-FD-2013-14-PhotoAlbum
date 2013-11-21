@@ -8,6 +8,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.model.StringResourceModel;
 
 /**
+ * Utility to calculate the time passed since an event
  */
 @SuppressWarnings("serial")
 public class TimeAgoCalendarFormat implements Serializable {
