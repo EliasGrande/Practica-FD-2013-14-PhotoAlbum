@@ -20,18 +20,22 @@ import es.udc.fi.dc.photoalbum.utils.MD5;
 public class UserDaoImpl extends HibernateDaoSupport implements
         UserDao {
 
+    @Override
     public void create(User user) {
         getHibernateTemplate().save(user);
     }
 
+    @Override
     public void delete(User user) {
         getHibernateTemplate().delete(user);
     }
 
+    @Override
     public void update(User user) {
         getHibernateTemplate().update(user);
     }
 
+    @Override
     public User getUser(String email, String password) {
         @SuppressWarnings("unchecked")
         ArrayList<User> list = (ArrayList<User>) getHibernateTemplate()
@@ -51,6 +55,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements
         }
     }
 
+    @Override
     public User getUser(User userEmail) {
         @SuppressWarnings("unchecked")
         ArrayList<User> list = (ArrayList<User>) getHibernateTemplate()
@@ -68,10 +73,12 @@ public class UserDaoImpl extends HibernateDaoSupport implements
         }
     }
 
+    @Override
     public User getById(Integer id) {
         return getHibernateTemplate().get(User.class, id);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<User> getUsersSharingWith(int userId) {
 

@@ -90,7 +90,12 @@ public class VoteLikeLink extends AjaxLink<String> {
     }
 
     /**
-     * @see VotePanel#isVotedLike()
+     * Indicates whether the user has voted
+     * {@link VotePanel#isVotedLike() like} or not.
+     * 
+     * @return {@code true} if the current user has voted
+     *         {@link VotePanel#isVotedLike() like} or {@code false}
+     *         otherwise.
      */
     protected boolean isVoted() {
         return votePanel.isVotedLike();

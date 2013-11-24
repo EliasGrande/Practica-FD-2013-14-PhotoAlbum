@@ -39,8 +39,10 @@ public class CommentAndVotePanel extends Panel {
     public CommentAndVotePanel(String id, Album album) {
         super(id);
         add(new VotePanel(VOTE_ID, album.getLikeAndDislike()));
-        add(new AddCommentPanel(ADD_COMMENT_ID, album));
-        add(new ShowCommentsPanel(SHOW_COMMENTS_ID, album));
+        ShowCommentsPanel commentsPanel = new ShowCommentsPanel(
+                SHOW_COMMENTS_ID, album);
+        add(new AddCommentPanel(ADD_COMMENT_ID, commentsPanel, album));
+        add(commentsPanel);
     }
 
     /**
@@ -54,7 +56,9 @@ public class CommentAndVotePanel extends Panel {
     public CommentAndVotePanel(String id, File file) {
         super(id);
         add(new VotePanel(VOTE_ID, file.getLikeAndDislike()));
-        add(new AddCommentPanel(ADD_COMMENT_ID, file));
-        add(new ShowCommentsPanel(SHOW_COMMENTS_ID, file));
+        ShowCommentsPanel commentsPanel = new ShowCommentsPanel(
+                SHOW_COMMENTS_ID, file);
+        add(new AddCommentPanel(ADD_COMMENT_ID, commentsPanel, file));
+        add(commentsPanel);
     }
 }

@@ -197,6 +197,14 @@ public class ShowCommentsPanel extends Panel {
         };
         commentContainer.add(moreLink);
     }
+    
+    /**
+     * Reloads the panel.
+     */
+    public void reload() {
+        commentsModel.wipeCache();
+        this.replace(commentContainer);
+    }
 
     @Override
     public void renderHead(IHeaderResponse response) {

@@ -31,7 +31,7 @@ public interface FileDao extends GenericDao<File> {
     void changePrivacyLevel(File file, String privacyLevel);
 
     /**
-     * Gets the {@link file} identified by the given {@code id}.
+     * Gets the {@link File} identified by the given {@code id}.
      * 
      * @param id
      *            File id
@@ -40,7 +40,7 @@ public interface FileDao extends GenericDao<File> {
     File getById(Integer id);
 
     /**
-     * Gets the {@link file} identified by the given {@code id}, but
+     * Gets the {@link File} identified by the given {@code id}, but
      * also checking if is owned by the given {@link User} and its
      * {@link Album} name is the given {@code albumName}.
      * 

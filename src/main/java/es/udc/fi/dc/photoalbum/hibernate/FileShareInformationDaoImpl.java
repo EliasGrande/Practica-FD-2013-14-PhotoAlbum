@@ -15,14 +15,17 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class FileShareInformationDaoImpl extends HibernateDaoSupport
         implements FileShareInformationDao {
 
+    @Override
     public void create(FileShareInformation shareInformation) {
         getHibernateTemplate().save(shareInformation);
     }
 
+    @Override
     public void delete(FileShareInformation shareInformation) {
         getHibernateTemplate().delete(shareInformation);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<FileShareInformation> getFileShares(int fileId) {
         return (ArrayList<FileShareInformation>) getHibernateTemplate()
@@ -36,6 +39,7 @@ public class FileShareInformationDaoImpl extends HibernateDaoSupport
                                         Criteria.DISTINCT_ROOT_ENTITY));
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public FileShareInformation getShare(int fileId, int userId) {
         ArrayList<FileShareInformation> list = 
@@ -56,6 +60,7 @@ public class FileShareInformationDaoImpl extends HibernateDaoSupport
         }
     }
 
+    @Override
     public void deleteShares(int fileId) {
         String hql = "delete from FileShareInformation where file.id = :fileId";
         getHibernateTemplate().getSessionFactory()

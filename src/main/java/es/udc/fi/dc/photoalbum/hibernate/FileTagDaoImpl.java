@@ -14,6 +14,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class FileTagDaoImpl extends HibernateDaoSupport implements
         FileTagDao {
 
+    @Override
     @SuppressWarnings("unchecked")
     public FileTag getTag(int fileId, String tag) {
         ArrayList<FileTag> list = (ArrayList<FileTag>) getHibernateTemplate()
@@ -33,6 +34,7 @@ public class FileTagDaoImpl extends HibernateDaoSupport implements
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<FileTag> getTags(int fileId) {
         return (ArrayList<FileTag>) getHibernateTemplate()
@@ -45,14 +47,15 @@ public class FileTagDaoImpl extends HibernateDaoSupport implements
                                         Criteria.DISTINCT_ROOT_ENTITY));
     }
 
+    @Override
     public void create(FileTag fileTag) {
         getHibernateTemplate().save(fileTag);
 
     }
 
+    @Override
     public void delete(FileTag fileTag) {
         getHibernateTemplate().delete(fileTag);
 
     }
-
 }

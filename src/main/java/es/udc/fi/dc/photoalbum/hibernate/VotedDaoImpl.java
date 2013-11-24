@@ -11,18 +11,22 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class VotedDaoImpl extends HibernateDaoSupport implements
         VotedDao {
 
+    @Override
     public void create(Voted voted) {
         getHibernateTemplate().save(voted);
     }
 
+    @Override
     public void delete(Voted voted) {
         getHibernateTemplate().delete(voted);
     }
 
+    @Override
     public void update(Voted voted) {
         getHibernateTemplate().update(voted);
     }
 
+    @Override
     public Voted get(int likeAndDislikeId, int userId) {
         String hql = "SELECT v " + "FROM Voted v "
                 + "WHERE v.likeAndDislike.id = :likeAndDislikeId "
@@ -34,6 +38,7 @@ public class VotedDaoImpl extends HibernateDaoSupport implements
                 .setParameter("userId", userId).uniqueResult();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Voted> getVoted(
             List<Integer> likeAndDislikeIdList, int userId) {
@@ -52,5 +57,4 @@ public class VotedDaoImpl extends HibernateDaoSupport implements
                 .setParameterList("lalIds", likeAndDislikeIdList)
                 .list();
     }
-
 }

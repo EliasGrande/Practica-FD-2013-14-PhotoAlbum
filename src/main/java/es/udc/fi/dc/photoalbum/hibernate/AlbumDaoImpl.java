@@ -78,19 +78,29 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
      */
     private static final String HQL_RESTRICTION_IM_THE_OWNER = "(user.id = :userId)";
 
+    /**
+     * Creates an hql query for the current session.
+     * 
+     * @param hql
+     *            Query string.
+     * @return Query
+     */
     private Query createQuery(String hql) {
         return getHibernateTemplate().getSessionFactory()
                 .getCurrentSession().createQuery(hql);
     }
 
+    @Override
     public void create(Album album) {
         getHibernateTemplate().save(album);
     }
 
+    @Override
     public void delete(Album album) {
         getHibernateTemplate().delete(album);
     }
 
+    @Override
     public Album getAlbum(String name, int userId) {
         @SuppressWarnings("unchecked")
         ArrayList<Album> list = (ArrayList<Album>) getHibernateTemplate()
@@ -109,15 +119,18 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         }
     }
 
+    @Override
     public void rename(Album album, String newName) {
         album.setName(newName);
         getHibernateTemplate().update(album);
     }
 
+    @Override
     public Album getById(Integer id) {
         return getHibernateTemplate().get(Album.class, id);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Album> getAlbums(Integer id) {
         return (ArrayList<Album>) getHibernateTemplate()
@@ -130,6 +143,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
                                         Criteria.DISTINCT_ROOT_ENTITY));
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Album> getPublicAlbums() {
 
@@ -143,11 +157,13 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
                         PrivacyLevel.PUBLIC).list();
     }
 
+    @Override
     public void changePrivacyLevel(Album album, String privacyLevel) {
         album.setPrivacyLevel(privacyLevel);
         getHibernateTemplate().update(album);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Album> getAlbumsSharedWith(Integer userId,
             String ownerEmail) {
@@ -165,6 +181,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
                         PrivacyLevel.PUBLIC).list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Album getSharedAlbum(String albumName, int userSharedToId,
             String userSharedEmail) {
@@ -192,6 +209,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         return null;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Album> getAlbumsByTag(int userId, String tag) {
         String hql = "FROM Album "
