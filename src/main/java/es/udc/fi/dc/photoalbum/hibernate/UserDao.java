@@ -4,31 +4,52 @@ import java.util.List;
 
 public interface UserDao extends GenericDao<User> {
 
+    /**
+     * Updates the database using the given {@link User} object as
+     * source.
+     * 
+     * @param user
+     *            User
+     */
     void update(User user);
 
+    /**
+     * Gets the {@link User} identified by the given {@code id}.
+     * 
+     * @param id
+     *            User id
+     * @return Requested user or {@code null} if not found
+     */
     User getById(Integer id);
 
     /**
+     * Gets the {@link User} identified by the given {@code email} and
+     * {@code password}, used for login.
+     * 
      * @param email
-     *            email of user
+     *            User email
      * @param password
-     *            password of user
-     * @return user instance if exists or null
+     *            User password
+     * @return Requested user or {@code null} if not found
      */
     User getUser(String email, String password);
 
     /**
-     * @param userEmail
-     *            email of user
-     * @return user if exists or null
+     * Gets the {@link User} identified by the given {@code email}.
+     * 
+     * @param email
+     *            User email
+     * @return Requested user or {@code null} if not found
      */
     User getUser(User userEmail);
 
     /**
+     * list of users sharing files or albums with the given
+     * {@link User} id.
+     * 
      * @param userId
-     *            id of user
-     * @return sorted list of users sharing files or albums with the
-     *         user
+     *            User id
+     * @return sorted User list
      */
     List<User> getUsersSharingWith(int userId);
 }

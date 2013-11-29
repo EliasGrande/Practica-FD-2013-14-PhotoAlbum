@@ -88,12 +88,19 @@ public class CommentsModel extends
         this.userId = userId;
         this.album = album;
         this.file = file;
-        this.index = 0;
         this.count = count;
+        wipeCache();
+        Injector.get().inject(this);
+    }
+    
+    /**
+     * Restores the object to its initial state.
+     */
+    public void wipeCache() {
+        this.index = 0;
         this.commentCache = new ArrayList<Comment>();
         this.hasMoreComments = true;
         this.voteCache = new HashMap<Integer, Voted>();
-        Injector.get().inject(this);
     }
 
     /**

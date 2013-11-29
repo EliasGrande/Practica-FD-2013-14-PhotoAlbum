@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Hibernate entity for storing vote info (count of likes and
- * dislikes).
+ * Hibernate entity for storing vote info, the count of likes and
+ * dislikes of something.
  */
 @Entity
 @Table(name = "LIKE_DISLIKE")

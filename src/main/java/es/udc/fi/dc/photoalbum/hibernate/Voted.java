@@ -11,6 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Hibernate entity for storing user vote data, to know if the user
+ * has voted like, dislike or didn't vote at all.
+ */
 @Entity
 @Table(name = "VOTED")
 @SuppressWarnings("serial")

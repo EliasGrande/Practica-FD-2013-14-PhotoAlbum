@@ -14,6 +14,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class AlbumTagDaoImpl extends HibernateDaoSupport implements
         AlbumTagDao {
 
+    @Override
     @SuppressWarnings("unchecked")
     public AlbumTag getTag(int albumId, String tag) {
         ArrayList<AlbumTag> list = (ArrayList<AlbumTag>) getHibernateTemplate()
@@ -34,6 +35,7 @@ public class AlbumTagDaoImpl extends HibernateDaoSupport implements
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<AlbumTag> getTags(int albumId) {
         return (ArrayList<AlbumTag>) getHibernateTemplate()
@@ -46,14 +48,15 @@ public class AlbumTagDaoImpl extends HibernateDaoSupport implements
                                         Criteria.DISTINCT_ROOT_ENTITY));
     }
 
+    @Override
     public void create(AlbumTag albumTag) {
         getHibernateTemplate().save(albumTag);
 
     }
 
+    @Override
     public void delete(AlbumTag albumTag) {
         getHibernateTemplate().delete(albumTag);
 
     }
-
 }

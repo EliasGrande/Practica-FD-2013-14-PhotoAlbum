@@ -27,7 +27,12 @@ public class VoteDislikeLink extends VoteLikeLink {
     }
 
     /**
-     * @see VotePanel#isVotedDislike()
+     * Indicates whether the user has voted
+     * {@link VotePanel#isVotedDislike() dislike} or not.
+     * 
+     * @return {@code true} if the current user has voted
+     *         {@link VotePanel#isVotedDislike() dislike} or
+     *         {@code false} otherwise.
      */
     @Override
     public boolean isVoted() {

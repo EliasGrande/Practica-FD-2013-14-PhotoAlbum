@@ -1,22 +1,15 @@
 package es.udc.fi.dc.photoalbum.wicket.panels;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.HttpURLConnection;
-
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
-import org.apache.wicket.request.http.flow.AbortWithHttpErrorCodeException;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -61,24 +54,32 @@ public class AddCommentPanel extends Panel {
      * Defines an {@link AddCommentPanel} object of an album.
      * 
      * @param id
-     *            wicket:id of the panel
+     *            This panel {@code wicket:id}
+     * @param commentsPanel
+     *            Comment panel, to reload it on adding comments, it
+     *            can be null
      * @param album
-     *            the {@link #album}
+     *            The {@link Album} being commented
      */
-    public AddCommentPanel(String id, Album album) {
-        this(id, album, null);
+    public AddCommentPanel(String id,
+            ShowCommentsPanel commentsPanel, Album album) {
+        this(id, commentsPanel, album, null);
     }
 
     /**
      * Defines an {@link AddCommentPanel} object of a file.
      * 
      * @param id
-     *            wicket:id of the panel
+     *            This panel {@code wicket:id}
+     * @param commentsPanel
+     *            Comment panel, to reload it on adding comments, it
+     *            can be null
      * @param file
-     *            the {@link #file}
+     *            The {@link File} being commented
      */
-    public AddCommentPanel(String id, File file) {
-        this(id, null, file);
+    public AddCommentPanel(String id,
+            ShowCommentsPanel commentsPanel, File file) {
+        this(id, commentsPanel, null, file);
     }
 
     /**
@@ -86,17 +87,23 @@ public class AddCommentPanel extends Panel {
      * album, either album or file must be null, but not both.
      * 
      * @param id
-     *            wicket:id of the panel
+     *            This panel {@code wicket:id}
+     * @param commentsPanel
+     *            Comment panel, to reload it on adding comments, it
+     *            can be {@code null}
      * @param album
-     *            the {@link #album}, or null for a file panel
+     *            The {@link #album}, or {@code null} for a file panel
      * @param file
-     *            the {@link #file}, or null for an album panel
+     *            The {@link #file}, or {@code null} for an album
+     *            panel
      */
-    private AddCommentPanel(String id, Album album, File file) {
+    private AddCommentPanel(String id,
+            ShowCommentsPanel commentsPanel, Album album, File file) {
         super(id);
         this.album = album;
         this.file = file;
 
+        final ShowCommentsPanel showCommentsPanel = commentsPanel;
         final TextArea<String> text = new TextArea<String>("text",
                 Model.of(""));
         text.setRequired(true);
@@ -108,8 +115,11 @@ public class AddCommentPanel extends Panel {
                         .getModelObject());
                 if (validateComment(textString)) {
                     createComment(textString);
+                    if (showCommentsPanel != null) {
+                        showCommentsPanel.reload();
+                    }
                 }
-                setResponsePage(newResponsePage());
+                setResponsePage(this.getPage());
             }
         };
         add(form);
@@ -170,14 +180,6 @@ public class AddCommentPanel extends Panel {
                 null).getString());
     }
 
-    /**
-     * Overrides {@link Panel#renderHead(IHeaderResponse)} adding the
-     * needed javascript and cascade style sheet references for this
-     * panel.
-     * 
-     * @param response
-     *            Response object
-     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);
@@ -188,41 +190,5 @@ public class AddCommentPanel extends Panel {
                 .forReference(new CssResourceReference(
                         CommentAndVotePanel.class,
                         "CommentAndVotePanel.css")));
-    }
-
-    /**
-     * Returns a new instance of the page holding this component using
-     * the actual page class {@link Constructor} which overrides
-     * {@link Page(PageParameters)}, with the same parameters, to use
-     * it as response page on submit new comments.
-     * 
-     * @return New instance of the page holding this component
-     */
-    private WebPage newResponsePage() {
-        Exception ex;
-        try {
-            @SuppressWarnings("rawtypes")
-            Class[] parameterTypes = new Class[] { PageParameters.class };
-            @SuppressWarnings("rawtypes")
-            Constructor constructor = this.getPage().getClass()
-                    .getDeclaredConstructor(parameterTypes);
-            constructor.setAccessible(true);
-            return (WebPage) constructor.newInstance(this.getPage()
-                    .getPageParameters());
-        } catch (NoSuchMethodException e) {
-            ex = e;
-        } catch (InvocationTargetException e) {
-            ex = e;
-        } catch (IllegalAccessException e) {
-            ex = e;
-        } catch (InstantiationException e) {
-            ex = e;
-        }
-        // this should never happen
-        AbortWithHttpErrorCodeException internalError = new AbortWithHttpErrorCodeException(
-                HttpURLConnection.HTTP_INTERNAL_ERROR,
-                ex.getMessage());
-        internalError.setStackTrace(ex.getStackTrace());
-        throw internalError;
     }
 }

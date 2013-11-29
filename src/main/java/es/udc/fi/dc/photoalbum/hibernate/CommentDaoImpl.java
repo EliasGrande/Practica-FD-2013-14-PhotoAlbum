@@ -11,15 +11,18 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class CommentDaoImpl extends HibernateDaoSupport implements
         CommentDao {
 
+    @Override
     public void create(Comment comment) {
         getHibernateTemplate().save(comment);
     }
 
+    @Override
     public void delete(Comment comment) {
         getHibernateTemplate().delete(comment);
 
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Comment> getComments(Album album) {
         String hql = "SELECT c FROM Comment c "
@@ -32,6 +35,7 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
                 .setParameter("albumId", album.getId()).list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Comment> getComments(File file) {
         String hql = "SELECT c FROM Comment c "
@@ -44,6 +48,7 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
                 .setParameter("fileId", file.getId()).list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Comment> getCommentsPaging(Album album,
             int first, int count) {
@@ -58,6 +63,7 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
                 .setFirstResult(first).setMaxResults(count).list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<Comment> getCommentsPaging(File file, int first,
             int count) {
@@ -71,5 +77,4 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
                 .setParameter("fileId", file.getId())
                 .setFirstResult(first).setMaxResults(count).list();
     }
-
 }

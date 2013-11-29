@@ -15,14 +15,17 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
         implements AlbumShareInformationDao {
 
+    @Override
     public void create(AlbumShareInformation shareInformation) {
         getHibernateTemplate().save(shareInformation);
     }
 
+    @Override
     public void delete(AlbumShareInformation shareInformation) {
         getHibernateTemplate().delete(shareInformation);
     }
 
+    @Override
     public AlbumShareInformation getShare(String albumName,
             int userSharedToId, String userSharedEmail) {
         @SuppressWarnings("unchecked")
@@ -48,6 +51,7 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
         }
     }
 
+    @Override
     public AlbumShareInformation getShare(int albumId, int userId) {
         @SuppressWarnings("unchecked")
         ArrayList<AlbumShareInformation> list = (ArrayList<AlbumShareInformation>) getHibernateTemplate()
@@ -68,6 +72,7 @@ public class AlbumShareInformationDaoImpl extends HibernateDaoSupport
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<AlbumShareInformation> getAlbumShares(int albumId) {
         return (ArrayList<AlbumShareInformation>) getHibernateTemplate()

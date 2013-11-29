@@ -60,14 +60,17 @@ public class FileDaoImpl extends HibernateDaoSupport implements
             + "SELECT album.id FROM AlbumShareInformation "
             + "WHERE user.id = :userId" + ")" + ")" + ")" + ")";
 
+    @Override
     public void create(File file) {
         getHibernateTemplate().save(file);
     }
 
+    @Override
     public File getById(Integer id) {
         return getHibernateTemplate().get(File.class, id);
     }
 
+    @Override
     public File getFileOwn(int id, String name, int userId) {
         @SuppressWarnings("unchecked")
         ArrayList<File> list = (ArrayList<File>) getHibernateTemplate()
@@ -88,15 +91,24 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         return null;
     }
 
+    @Override
     public void delete(File file) {
         getHibernateTemplate().delete(file);
     }
 
+    @Override
     public void changeAlbum(File file, Album album) {
         getHibernateTemplate().update(file);
         file.setAlbum(album);
     }
 
+    /**
+     * Criteria for retrieving all the files of an album.
+     * 
+     * @param albumId
+     *            Album id
+     * @return File list
+     */
     private Criteria getAlbumOwnFilesCriteria(int albumId) {
         return getHibernateTemplate().getSessionFactory()
                 .getCurrentSession().createCriteria(File.class)
@@ -106,12 +118,14 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<File> getAlbumFilesOwn(int albumId) {
         return (ArrayList<File>) getAlbumOwnFilesCriteria(albumId)
                 .list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<File> getAlbumFilesOwnPaging(int albumId, int first,
             int count) {
@@ -196,12 +210,14 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         return criteria;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<File> getAlbumFilesShared(int albumId, int userId) {
         return (ArrayList<File>) getAlbumSharedFilesCriteria(albumId,
                 userId).list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<File> getAlbumFilesSharedPaging(int albumId,
             int userId, int first, int count) {
@@ -210,6 +226,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                 .list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public Long getCountAlbumFiles(int albumId) {
         ArrayList<Long> list = (ArrayList<Long>) getHibernateTemplate()
@@ -224,11 +241,13 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         return list.get(0);
     }
 
+    @Override
     public void changePrivacyLevel(File file, String privacyLevel) {
         getHibernateTemplate().update(file);
         file.setPrivacyLevel(privacyLevel);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<File> getFilesByTag(int userId, String tag) {
         return (ArrayList<File>) getHibernateTemplate()
@@ -243,6 +262,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                         PrivacyLevel.PUBLIC).list();
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<File> getFilesByTagPaging(int userId, String tag,
             int first, int count) {
