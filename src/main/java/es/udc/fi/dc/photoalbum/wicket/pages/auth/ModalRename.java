@@ -71,6 +71,14 @@ public class ModalRename extends WebPage {
     }
 
     /**
+     * Empty constructor only for testing.
+     */
+    public ModalRename() {
+        this(new Album(null, "Album de prueba", null, null, null,
+                null), new ModalWindow("modal"));
+    }
+
+    /**
      * Defines a {@link ModalRename} window for an {@link Album}.
      * 
      * @param album

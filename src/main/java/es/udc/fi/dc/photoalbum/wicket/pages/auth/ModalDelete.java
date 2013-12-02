@@ -46,6 +46,12 @@ public class ModalDelete extends WebPage {
      * Feedback panel.
      */
     private FeedbackPanel feedback;
+    /**
+     * Constructor only for test
+     */
+    public ModalDelete() {
+        this(new ModalWindow("modal"));
+    }
 
     /**
      * Defines a {@link ModalDelete} window.
@@ -57,10 +63,9 @@ public class ModalDelete extends WebPage {
         this.window = window;
         final Form<User> form = new Form<User>("form",
                 new CompoundPropertyModel<User>(new User()));
-        FeedbackPanel feedback = new FeedbackPanel("feedback");
+        this.feedback = new FeedbackPanel("feedback");
         feedback.setOutputMarkupId(true);
         form.add(feedback);
-        this.feedback = feedback;
         form.add(createButtonOk());
         form.add(createButtonCancel());
         PasswordTextField password = new PasswordTextField(

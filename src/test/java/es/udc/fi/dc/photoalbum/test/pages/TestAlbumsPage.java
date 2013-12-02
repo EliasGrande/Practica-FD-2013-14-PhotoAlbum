@@ -78,4 +78,14 @@ public class TestAlbumsPage {
 		this.tester.assertNoErrorMessage();
 		tester.assertRenderedPage(Albums.class);
 	}
+	
+	@Test
+	public void testDeleteAlbum(){
+	    FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("AlbumName", ALBUM_NAME_NOT_EXIST);
+        formTester.submit();
+               
+        tester.clickLink("dataContainer:pageable:1:delete");
+        tester.assertRenderedPage(Albums.class);
+	}
 }
