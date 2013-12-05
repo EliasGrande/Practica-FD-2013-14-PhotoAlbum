@@ -1,16 +1,20 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_NOT_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.file.File;
 import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
@@ -25,6 +29,7 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.wicket.MySession;
 import es.udc.fi.dc.photoalbum.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.wicket.pages.auth.ErrorPage404;
 import es.udc.fi.dc.photoalbum.wicket.pages.auth.Upload;
 
 public class TestUploadPage {
@@ -73,7 +78,48 @@ public class TestUploadPage {
 		formTester.setValue("newTag", TAG_NAME_EXIST);
 		formTester.submit();
 		this.tester.assertNoErrorMessage();
-		//tester.assertRenderedPage(Upload.class);
+		tester.assertRenderedPage(Upload.class);
 	}
 	
+	@Test
+	public void testNotParameter(){
+	    this.tester.startPage(Upload.class);
+	    this.tester.assertRenderedPage(ErrorPage404.class);
+	}
+	
+	@Test
+	public void testAlbumNameIncorrect() {
+	    PageParameters pars2 = new PageParameters();
+        pars2.add("album", ALBUM_NAME_NOT_EXIST);
+        try{
+            Page page = new Upload(pars2);
+        }catch(Exception e){
+            assertTrue(true);  
+        }
+	}
+	
+	@Test
+	public void testFormUpload(){
+	    FormTester formTester = this.tester.newFormTester("upload");
+	    File file = new File("src/main/webapp/images/thumb_up_delete.png");
+	    formTester.setFile("fileInput", file,"image/png");
+        formTester.submit();
+        this.tester.assertNoErrorMessage();
+	}
+	
+	@Test
+    public void testFormUploadWithOutImage(){
+        FormTester formTester = this.tester.newFormTester("upload");
+        formTester.submit();
+        this.tester.assertErrorMessages("No files to upload ");
+    }
+	
+	@Test
+    public void testFormUploadUnsuportedFormat(){
+        FormTester formTester = this.tester.newFormTester("upload");
+        File file = new File("src/main/webapp/images/es.gif");
+        formTester.setFile("fileInput", file,"image/gif");
+        formTester.submit();
+        this.tester.assertErrorMessages("file not saved (only jpg, jpeg, bmp, png are allowed)es.gif");
+    }
 }

@@ -3,6 +3,7 @@ package es.udc.fi.dc.photoalbum.mocks;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_NOT_EXIST;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,9 @@ public class AlbumServiceMock {
         }
 
         public Album getAlbum(String name, int userId) {
+            if(name.compareTo(ALBUM_NAME_NOT_EXIST)==0){
+                return null;
+            }
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user,
                     null, null, PrivacyLevel.PRIVATE);

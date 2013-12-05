@@ -57,7 +57,7 @@ public class FileServiceMock {
         public File getById(Integer id) {
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
-            File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
+            File file = new File(1, FILE_NAME_EXIST, new byte[12], new byte[123], album);
             LikeAndDislike likeAndDislike = new LikeAndDislike();
             likeAndDislike.setId(50);
             file.setLikeAndDislike(likeAndDislike);
@@ -93,7 +93,7 @@ public class FileServiceMock {
         }
 
         public Long getCountAlbumFiles(int albumId) {
-            return (long) 0;
+            return (long) 1;
         }
 
         public void changePrivacyLevel(File file,
