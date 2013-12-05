@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>dc.fi.udc.es</groupId>
+		<artifactId>PhotoAlbum04</artifactId>
+		<version>1.2-SNAPSHOT</version>
+	</parent>
+	
+	<artifactId>PhotoAlbum04WebApp</artifactId>
+	<packaging>war</packaging>
+	<name>PhotoAlbum04 WebApp -- Herramientas de Desarrollo 2013/2014</name>
+	
+	<properties>
+		<wicket.version>6.11.0</wicket.version>
+		<wicket-spring-annot.version>1.3.7</wicket-spring-annot.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-core</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-spring</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-devutils</artifactId>
+			<version>${wicket.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-spring-annot</artifactId>
+			<version>${wicket-spring-annot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dc.fi.udc.es</groupId>
+			<artifactId>PhotoAlbum04Model</artifactId>
+			<version>${photoalbum04.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>dc.fi.udc.es</groupId>
+			<artifactId>PhotoAlbum04Util</artifactId>
+			<version>${photoalbum04.version}</version>
+		</dependency>
+	</dependencies>
+	
+</project>

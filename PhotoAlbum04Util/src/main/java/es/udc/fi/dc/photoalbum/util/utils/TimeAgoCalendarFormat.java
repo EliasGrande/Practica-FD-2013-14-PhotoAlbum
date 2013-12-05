@@ -1,0 +1,99 @@
+package es.udc.fi.dc.photoalbum.util.utils;
+
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+
+/**
+ * Utility to calculate the time passed since an event
+ */
+@SuppressWarnings("serial")
+public class TimeAgoCalendarFormat implements Serializable {
+
+    /**
+     * Static variable to facilitate the use of units of time.
+     */
+    private static final long ONE_MINUTE = 60L;
+    /**
+     * Static variable to facilitate the use of units of time.
+     */
+    private static final long ONE_HOUR = 60L * ONE_MINUTE;
+    /**
+     * Static variable to facilitate the use of units of time.
+     */
+    private static final long ONE_DAY = 24L * ONE_HOUR;
+    /**
+     * Static variable to facilitate the use of units of time.
+     */
+    private static final long ONE_WEEK = 7L * ONE_DAY;
+    /**
+     * Static variable to facilitate the use of units of time.
+     */
+    private static final long ONE_YEAR = 31557600L; // atomic year
+    /**
+     * Static variable to facilitate the use of units of time.
+     */
+    private static final long ONE_MONTH = Math.round(ONE_YEAR / 12L); // aprox
+
+    /**
+     * HashMap of the localized text, using the resourceKey as key and
+     * the value as value.
+     */
+    private HashMap<String, String> translates;
+
+    /**
+     * Constructor for TimeAgoCalendarFormat.
+     * 
+     * @param translates
+     *            HashMap of the localized text, using the resourceKey
+     *            as key and the value as value.
+     */
+    public TimeAgoCalendarFormat(HashMap<String, String> translates) {
+        this.translates = translates;
+    }
+
+    /**
+     * Returns the format of a calendar. Depending of secondsAgo
+     * variable returns a format or another
+     * 
+     * @param calendar
+     *            Calendar for make its format.
+     * @return The format which has the calendar.
+     */
+    public String format(Calendar calendar) {
+        long secondsAgo = ((new Date()).getTime() - calendar
+                .getTimeInMillis()) / 1000L;
+        if (secondsAgo < ONE_MINUTE)
+            return timeAgo(secondsAgo, "second");
+        else if (secondsAgo < ONE_HOUR)
+            return timeAgo(secondsAgo / ONE_MINUTE, "minute");
+        else if (secondsAgo < ONE_DAY)
+            return timeAgo(secondsAgo / ONE_HOUR, "hour");
+        else if (secondsAgo < ONE_WEEK)
+            return timeAgo(secondsAgo / ONE_DAY, "day");
+        else if (secondsAgo < ONE_MONTH)
+            return timeAgo(secondsAgo / ONE_WEEK, "week");
+        else if (secondsAgo < ONE_YEAR)
+            return timeAgo(secondsAgo / ONE_MONTH, "month");
+        else
+            return timeAgo(secondsAgo / ONE_YEAR, "year");
+    }
+
+    /**
+     * Give how much time since an event happened.
+     * 
+     * @param unitsAgo
+     *            An unit of time
+     * @param unitName
+     *            The name of the unit of time.
+     * @return Time in string format of the time since an event
+     *         happened.
+     */
+    private String timeAgo(long unitsAgo, String unitName) {
+        return (unitsAgo <= 1) ? translates.get("timeAgo." + unitName
+                + ".one") : translates.get(
+                "timeAgo." + unitName + ".many").replace("%l",
+                String.valueOf(unitsAgo));
+    }
+}

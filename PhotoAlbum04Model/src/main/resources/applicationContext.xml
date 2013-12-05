@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+						http://www.springframework.org/schema/tx 
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- Services Beans -->
+	<bean id="albumService" class="es.udc.fi.dc.photoalbum.model.spring.AlbumServiceImpl">
+		<property name="albumDao" ref="albumDao" />
+		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
+	</bean>
+	<bean id="fileService" class="es.udc.fi.dc.photoalbum.model.spring.FileServiceImpl">
+		<property name="fileDao" ref="fileDao" />
+		<property name="albumDao" ref="albumDao" />
+		<property name="fileShareInformationDao" ref="fileShareInformationDao" />
+		<property name="albumShareInformationDao" ref="albumShareInformationDao" />
+		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
+	</bean>
+	<bean id="albumShareInformationService"
+		class="es.udc.fi.dc.photoalbum.model.spring.AlbumShareInformationServiceImpl">
+		<property name="albumShareInformationDao" ref="albumShareInformationDao" />
+	</bean>
+	<bean id="fileShareInformationService"
+		class="es.udc.fi.dc.photoalbum.model.spring.FileShareInformationServiceImpl">
+		<property name="fileShareInformationDao" ref="fileShareInformationDao" />
+	</bean>
+	<bean id="userService" class="es.udc.fi.dc.photoalbum.model.spring.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	<bean id="albumTagService"
+		class="es.udc.fi.dc.photoalbum.model.spring.AlbumTagServiceImpl">
+		<property name="albumTagDao" ref="albumTagDao" />
+	</bean>
+	<bean id="fileTagService"
+		class="es.udc.fi.dc.photoalbum.model.spring.FileTagServiceImpl">
+		<property name="fileTagDao" ref="fileTagDao" />
+	</bean>
+	<bean id="commentService" class="es.udc.fi.dc.photoalbum.model.spring.CommentServiceImpl">
+		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
+		<property name="commentDao" ref="commentDao" />
+	</bean>
+	<bean id="likeAndDislikeService" class="es.udc.fi.dc.photoalbum.model.spring.LikeAndDislikeServiceImpl">
+		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
+		<property name="votedDao" ref="votedDao" />
+	</bean>
+	<bean id="votedService" class="es.udc.fi.dc.photoalbum.model.spring.VotedServiceImpl">
+		<property name="votedDao" ref="votedDao" />
+	</bean>
+	
+
+	<!-- DAOs -->
+	<bean id="albumDao" class="es.udc.fi.dc.photoalbum.model.hibernate.AlbumDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="fileDao" class="es.udc.fi.dc.photoalbum.model.hibernate.FileDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="albumShareInformationDao"
+		class="es.udc.fi.dc.photoalbum.model.hibernate.AlbumShareInformationDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="fileShareInformationDao"
+		class="es.udc.fi.dc.photoalbum.model.hibernate.FileShareInformationDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="userDao" class="es.udc.fi.dc.photoalbum.model.hibernate.UserDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="albumTagDao" class="es.udc.fi.dc.photoalbum.model.hibernate.AlbumTagDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="fileTagDao" class="es.udc.fi.dc.photoalbum.model.hibernate.FileTagDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="likeAndDislikeDao" class="es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislikeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="votedDao" class="es.udc.fi.dc.photoalbum.model.hibernate.VotedDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="commentDao" class="es.udc.fi.dc.photoalbum.model.hibernate.CommentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<!-- Wicket Application - ->
+	<bean id="wicketApplication" class="es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp" />-->
+
+	<!-- Hibernate session factory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:/hibernate.cfg.xml" />
+	</bean>
+
+	<!-- Tell Spring it should use @Transactional annotations -->
+	<tx:annotation-driven />
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+</beans>
