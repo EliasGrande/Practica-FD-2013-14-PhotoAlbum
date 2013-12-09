@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_NOT_EXIST;
+
 import java.util.Locale;
 
 import org.apache.wicket.Page;
@@ -7,6 +9,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +22,7 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Albums;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.pub.PublicFilesBig;
 
 public class TestPublicFilesBigPage {
@@ -60,4 +64,26 @@ public class TestPublicFilesBigPage {
 	public void testRendered() {
 		tester.assertRenderedPage(PublicFilesBig.class);
 	}
+	
+	@Test
+    public void testForwardPhoto() {
+        FormTester formTester = this.tester.newFormTester("formNavigate");
+        formTester.submit("forward");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(PublicFilesBig.class);
+    }
+	
+	@Test
+    public void testBackPhoto() {
+	    PageParameters pars = new PageParameters();
+        pars.add("albumId", 1);
+        pars.add("fid", 2);
+        Page page = new PublicFilesBig(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester2 = this.tester.newFormTester("formNavigate");
+        formTester2.submit("back");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(PublicFilesBig.class);
+    }
 }

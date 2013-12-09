@@ -34,6 +34,7 @@ import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Upload;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedBig;
 
 public class TestImagePage {
 	private WicketApp wicketApp;
@@ -112,4 +113,27 @@ public class TestImagePage {
 		this.tester.assertNoErrorMessage();
 		tester.assertRenderedPage(Image.class);
 	}
+	
+	@Test
+    public void testForwardPhoto() {
+        FormTester formTester = this.tester.newFormTester("formNavigate");
+        formTester.submit("forward");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(Image.class);
+    }
+    
+	//FIXME
+    /*@Test
+    public void testBackPhoto() {
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        pars.add("fid", 2);
+        Page page = new Image(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester2 = this.tester.newFormTester("formNavigate");
+        formTester2.submit("back");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(Image.class);
+    }*/
 }

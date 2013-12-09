@@ -7,6 +7,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FileTagBig;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FilesOfAlbumTagBig;
 
 public class TestFileTagBigPage {
 	private WicketApp wicketApp;
@@ -56,4 +58,26 @@ public class TestFileTagBigPage {
 	public void testRendered() {
 		tester.assertRenderedPage(FileTagBig.class);
 	}
+	
+	@Test
+    public void testForwardPhoto() {
+        FormTester formTester = this.tester.newFormTester("formNavigate");
+        formTester.submit("forward");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(FileTagBig.class);
+    }
+    
+    @Test
+    public void testBackPhoto() {
+        PageParameters pars = new PageParameters();
+        pars.add("fid", 2);
+        pars.add("tag", "pruebaTag");
+        Page page = new FileTagBig(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester2 = this.tester.newFormTester("formNavigate");
+        formTester2.submit("back");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(FileTagBig.class);
+    }
 }

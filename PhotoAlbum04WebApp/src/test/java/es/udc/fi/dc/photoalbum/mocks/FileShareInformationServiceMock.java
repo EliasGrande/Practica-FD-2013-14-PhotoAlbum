@@ -34,8 +34,17 @@ public class FileShareInformationServiceMock {
                     null, null, PrivacyLevel.PRIVATE);
             File file = new File(1, "1", new byte[1], new byte[1],
                     album);
+            File file2 = new File(2, "1", new byte[1], new byte[1],
+                    album);
+            File file3 = new File(3, "1", new byte[1], new byte[1],
+                    album);
             FileShareInformation fileShareInformation = new FileShareInformation(1, file, user);
+            FileShareInformation fileShareInformation2 = new FileShareInformation(2, file2, user);
+            FileShareInformation fileShareInformation3 = new FileShareInformation(3, file3, user);
+
             list.add(fileShareInformation);
+            list.add(fileShareInformation2);
+            list.add(fileShareInformation3);
             return list;
         }
 

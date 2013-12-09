@@ -7,6 +7,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.pub.PublicFilesBig;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FilesOfAlbumTagBig;
 
 public class TestFilesOfAlbumTagBigPage {
@@ -58,4 +60,27 @@ public class TestFilesOfAlbumTagBigPage {
 	public void testRendered() {
 		tester.assertRenderedPage(FilesOfAlbumTagBig.class);
 	}
+	
+	@Test
+    public void testForwardPhoto() {
+        FormTester formTester = this.tester.newFormTester("formNavigate");
+        formTester.submit("forward");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(FilesOfAlbumTagBig.class);
+    }
+    
+    @Test
+    public void testBackPhoto() {
+        PageParameters pars = new PageParameters();
+        pars.add("albumId", 1);
+        pars.add("fid", 2);
+        pars.add("tag", "pruebaTag");
+        Page page = new FilesOfAlbumTagBig(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester2 = this.tester.newFormTester("formNavigate");
+        formTester2.submit("back");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(FilesOfAlbumTagBig.class);
+    }
 }

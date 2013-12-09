@@ -9,6 +9,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.apache.wicket.util.tester.FormTester;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,7 @@ import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedBig;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FileTagBig;
 
 public class TestSharedBigPage {
 	private WicketApp wicketApp;
@@ -63,4 +65,27 @@ public class TestSharedBigPage {
 	public void testRendered() {
 		tester.assertRenderedPage(SharedBig.class);
 	}
+	
+	@Test
+    public void testForwardPhoto() {
+        FormTester formTester = this.tester.newFormTester("formNavigate");
+        formTester.submit("forward");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(SharedBig.class);
+    }
+    
+	//FIXME
+    /*@Test
+    public void testBackPhoto() {
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        pars.add("fid", 2);
+        Page page = new SharedBig(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester2 = this.tester.newFormTester("formNavigate");
+        formTester2.submit("back");
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(SharedBig.class);
+    }*/
 }
