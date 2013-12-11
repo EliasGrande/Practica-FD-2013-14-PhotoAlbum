@@ -93,7 +93,6 @@ public class DaoTest {
 		User user = new User(null, "123", MD5.getHash("pass"));
 
 		this.userService.create(user);
-		System.out.println("-----------------");
 		assertNotNull(this.userService.getUser(user.getEmail(), "pass"));
 		assertNotNull(this.userService.getUser(user));
 		user.setPassword(MD5.getHash("pass1"));
@@ -1097,11 +1096,6 @@ public class DaoTest {
 				album, null);
 		this.commentService.create(user, album, comment.getText());
 		assertNotNull(this.commentService.getComments(album));
-		// this.commentService.delete(comment);
-		// ArrayList<Comment> c = this.commentService.getComments(album);
-		// System.out.println ("--------------------------------------------- "
-		// + c.size());
-		// assertNull(this.commentService.getComments(album));
 	}
 
 	@Test
@@ -1120,11 +1114,6 @@ public class DaoTest {
 				null, file);
 		this.commentService.create(user, file, comment.getText());
 		assertNotNull(this.commentService.getComments(file));
-		// this.commentService.delete(comment);
-		// ArrayList<Comment> c = this.commentService.getComments(file);
-		// System.out.println ("--------------------------------------------- "
-		// + c.size());
-		// assertEquals(this.commentService.getComments(file).size(), 0);
 	}
 
 	@Test

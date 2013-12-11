@@ -193,8 +193,6 @@ public class Upload extends BasePageAuth {
                     for (FileUpload upload : uploads) {
                         try {
                             byte[] bFile = upload.getBytes();
-                            System.out.println(upload
-                                    .getContentType());
                             if (upload
                                     .getClientFileName()
                                     .matches(

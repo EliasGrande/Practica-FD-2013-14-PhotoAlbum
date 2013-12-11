@@ -67,7 +67,6 @@ public class ForgotPassword extends BasePage {
                 } else {
                     String randomPass = RandomString.generate();
                     existedUser.setPassword(MD5.getHash(randomPass));
-                    System.out.println(randomPass);
                     info(new StringResourceModel(
                             "forgotPassword.complete", this, null)
                             .getString());

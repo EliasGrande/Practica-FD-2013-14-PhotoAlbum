@@ -64,7 +64,6 @@ public class FileModelForNavigate extends
         if (this.id == -1) {
             return null;
         } else {
-            System.out.println(this.id);
             return fileService.getById(this.id);
         }
 

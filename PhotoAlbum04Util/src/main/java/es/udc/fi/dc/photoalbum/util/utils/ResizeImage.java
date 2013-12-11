@@ -54,7 +54,6 @@ public final class ResizeImage {
             baos.close();
             return resizedInByte;
         } catch (IOException e) {
-            System.out.println(e.getMessage());
             return null;
         }
     }

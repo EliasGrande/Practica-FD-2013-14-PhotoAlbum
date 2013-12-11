@@ -81,8 +81,6 @@ public class MySession extends WebSession {
         String password = cu.load("password");
         if ((email != null) && (password != null)) {
             User user = new User(null, email, password);
-            System.out.println(email + "              " + password);
-            System.out.println(user.getEmail() + user.getPassword());
             User userDB = userService.getUser(user);
             if (userDB == null) {
                 return false;
