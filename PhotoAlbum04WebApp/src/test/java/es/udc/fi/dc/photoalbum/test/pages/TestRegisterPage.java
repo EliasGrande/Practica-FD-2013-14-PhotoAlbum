@@ -104,7 +104,7 @@ public class TestRegisterPage {
 		formTester.setValue("password", USER_PASS_YES);
 		formTester.setValue("passwordAgain", USER_PASS_YES);
 		formTester.submit();
-		this.tester.assertErrorMessages("Password must be at least 8 symbols");
+		this.tester.assertErrorMessages("Email already registered");
 	}
 
 	@Test
@@ -113,8 +113,9 @@ public class TestRegisterPage {
 		formTester.setValue("email", USER_EMAIL_NOT_EXIST);
 		formTester.setValue("password", USER_PASS_YES);
 		formTester.setValue("passwordAgain", USER_PASS_YES);
-		formTester.submit();
-		tester.assertRenderedPage(Register.class);
-		tester.assertInvisible("signout");
+		formTester.submit("ajax-button");
+		this.tester.assertNoErrorMessage();
+		//tester.assertRenderedPage(Register.class);
+		//tester.assertInvisible("signout");
 	}
 }

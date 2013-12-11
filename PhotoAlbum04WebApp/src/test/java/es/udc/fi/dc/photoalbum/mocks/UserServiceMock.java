@@ -35,9 +35,12 @@ public class UserServiceMock {
             }
         }
 
-        public User getUser(User userEmail) {
-            return new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES);
+        public User getUser(User user) {
+            if (user.getEmail().equals(USER_EMAIL_EXIST)) {
+                return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            } else {
+                return null;
+            }
         }
 
         public User getById(Integer id) {

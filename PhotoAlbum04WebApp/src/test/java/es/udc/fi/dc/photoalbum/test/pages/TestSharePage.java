@@ -74,7 +74,7 @@ public class TestSharePage {
     @Test
     public void testEmailNotExist() {
         FormTester formTester = this.tester.newFormTester("form");
-        formTester.setValue("shareEmail", USER_EMAIL_NOT_EXIST);
+        formTester.setValue("shareEmail", USER_EMAIL_EXIST);
         formTester.submit();
         this.tester
                 .assertErrorMessages("You dont need to share to yourself");

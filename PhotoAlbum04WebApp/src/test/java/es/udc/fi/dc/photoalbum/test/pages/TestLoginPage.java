@@ -115,9 +115,15 @@ public class TestLoginPage {
 		tester.assertRenderedPage(Albums.class);
 		tester.assertVisible("signout");
 	}
-
-//	@Test
-//	public void testHeader() {
-//		tester.assertLabel("header", "Photo Album");
-//	}
+	
+	@Test
+    public void testUser2() {
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("email", USER_EMAIL_EXIST);
+        formTester.setValue("password", USER_PASS_YES);
+        formTester.setValue("bool", true);
+        formTester.submit();
+        
+        tester.assertRenderedPage(Albums.class);
+    }
 }
