@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.mocks;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST2;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class UserServiceMock {
         public User getUser(User user) {
             if (user.getEmail().equals(USER_EMAIL_EXIST)) {
                 return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
+            } else if (user.getEmail().equals(USER_EMAIL_EXIST2)) {
+                return new User(2, USER_EMAIL_EXIST2, USER_PASS_YES);
             } else {
                 return null;
             }
