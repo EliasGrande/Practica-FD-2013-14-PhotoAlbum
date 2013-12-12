@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.model.spring;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -225,6 +226,27 @@ public class AlbumServiceImpl implements AlbumService {
      */
     public List<Album> getAlbumsByTag(int userId, String tag) {
         return albumDao.getAlbumsByTag(userId, tag);
+    }
+
+    @Override
+    public List<Album> getFiles(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy,
+            Calendar fechaMin, Calendar fechaMax, int first, int count) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Album> getFiles(String orderBy, int first, int count) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Album> getFiles(String orderBy, Calendar fechaMin,
+            Calendar fechaMax, int first, int count) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

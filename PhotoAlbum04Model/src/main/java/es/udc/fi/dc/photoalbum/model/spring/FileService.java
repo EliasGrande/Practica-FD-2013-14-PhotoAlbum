@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.model.spring;
 
+import java.util.Calendar;
 import java.util.List;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
@@ -223,5 +224,14 @@ public interface FileService {
      */
     List<File> getFilesByTagPaging(int userId, String tag, int first,
             int count);
+
+    List<File> getFiles(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy,
+            Calendar fechaMin, Calendar fechaMax, int first, int count);
+
+    List<File> getFiles(String orderBy, int first, int count);
+
+    List<File> getFiles(String orderBy, Calendar fechaMin,
+            Calendar fechaMax, int first, int count);
 
 }

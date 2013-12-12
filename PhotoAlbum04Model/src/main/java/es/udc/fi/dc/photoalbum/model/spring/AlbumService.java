@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.model.spring;
 
+import java.util.Calendar;
 import java.util.List;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
@@ -128,4 +129,13 @@ public interface AlbumService {
      * @return A list of {@link Album} (empty if nothing found).
      */
     List<Album> getAlbumsByTag(int userId, String tag);
+
+    List<Album> getFiles(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy,
+            Calendar fechaMin, Calendar fechaMax, int first, int count);
+
+    List<Album> getFiles(String orderBy, int first, int count);
+
+    List<Album> getFiles(String orderBy, Calendar fechaMin,
+            Calendar fechaMax, int first, int count);
 }
