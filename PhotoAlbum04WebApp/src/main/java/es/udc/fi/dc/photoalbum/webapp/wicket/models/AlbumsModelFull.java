@@ -11,7 +11,6 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
-import es.udc.fi.dc.photoalbum.util.utils.AlbumsComparator;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 
 /**

@@ -14,27 +14,38 @@ public class TimeAgoCalendarFormat implements Serializable {
     /**
      * Static variable to facilitate the use of units of time.
      */
-    private static final long ONE_MINUTE = 60L;
+    public static final long ONE_SECOND = 1000L;
     /**
      * Static variable to facilitate the use of units of time.
      */
-    private static final long ONE_HOUR = 60L * ONE_MINUTE;
+    public static final long ONE_MINUTE = 60L * ONE_SECOND;
     /**
      * Static variable to facilitate the use of units of time.
      */
-    private static final long ONE_DAY = 24L * ONE_HOUR;
+    public static final long ONE_HOUR = 60L * ONE_MINUTE;
     /**
      * Static variable to facilitate the use of units of time.
      */
-    private static final long ONE_WEEK = 7L * ONE_DAY;
+    public static final long ONE_DAY = 24L * ONE_HOUR;
     /**
      * Static variable to facilitate the use of units of time.
      */
-    private static final long ONE_YEAR = 31557600L; // atomic year
+    public static final long ONE_WEEK = 7L * ONE_DAY;
     /**
      * Static variable to facilitate the use of units of time.
      */
-    private static final long ONE_MONTH = Math.round(ONE_YEAR / 12L); // aprox
+    public static final long ONE_YEAR = 31557600000L; // atomic year
+    /**
+     * Static variable to facilitate the use of units of time.
+     */
+    public static final long ONE_MONTH = Math.round(ONE_YEAR / 12L); // aprox
+
+    /**
+     * @return Time stamp now.
+     */
+    protected long getTimeInMillisNow() {
+        return (new Date()).getTime();
+    }
 
     /**
      * HashMap of the localized text, using the resourceKey as key and
@@ -62,22 +73,22 @@ public class TimeAgoCalendarFormat implements Serializable {
      * @return The format which has the calendar.
      */
     public String format(Calendar calendar) {
-        long secondsAgo = ((new Date()).getTime() - calendar
-                .getTimeInMillis()) / 1000L;
-        if (secondsAgo < ONE_MINUTE)
-            return timeAgo(secondsAgo, "second");
-        else if (secondsAgo < ONE_HOUR)
-            return timeAgo(secondsAgo / ONE_MINUTE, "minute");
-        else if (secondsAgo < ONE_DAY)
-            return timeAgo(secondsAgo / ONE_HOUR, "hour");
-        else if (secondsAgo < ONE_WEEK)
-            return timeAgo(secondsAgo / ONE_DAY, "day");
-        else if (secondsAgo < ONE_MONTH)
-            return timeAgo(secondsAgo / ONE_WEEK, "week");
-        else if (secondsAgo < ONE_YEAR)
-            return timeAgo(secondsAgo / ONE_MONTH, "month");
+        long millisAgo = (getTimeInMillisNow() - calendar
+                .getTimeInMillis());
+        if (millisAgo < ONE_MINUTE)
+            return timeAgo(millisAgo / ONE_SECOND, "second");
+        else if (millisAgo < ONE_HOUR)
+            return timeAgo(millisAgo / ONE_MINUTE, "minute");
+        else if (millisAgo < ONE_DAY)
+            return timeAgo(millisAgo / ONE_HOUR, "hour");
+        else if (millisAgo < ONE_WEEK)
+            return timeAgo(millisAgo / ONE_DAY, "day");
+        else if (millisAgo < ONE_MONTH)
+            return timeAgo(millisAgo / ONE_WEEK, "week");
+        else if (millisAgo < ONE_YEAR)
+            return timeAgo(millisAgo / ONE_MONTH, "month");
         else
-            return timeAgo(secondsAgo / ONE_YEAR, "year");
+            return timeAgo(millisAgo / ONE_YEAR, "year");
     }
 
     /**

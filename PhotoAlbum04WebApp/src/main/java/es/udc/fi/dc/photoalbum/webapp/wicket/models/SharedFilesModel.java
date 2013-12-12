@@ -12,7 +12,6 @@ import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
-import es.udc.fi.dc.photoalbum.util.utils.FileComparator;
 
 /**
  * Model that return a list {@link File}, which are shared.
