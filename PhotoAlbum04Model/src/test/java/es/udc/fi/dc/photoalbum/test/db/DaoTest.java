@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.naming.NamingException;
@@ -32,6 +33,7 @@ import es.udc.fi.dc.photoalbum.model.hibernate.FileShareInformation;
 import es.udc.fi.dc.photoalbum.model.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
+import es.udc.fi.dc.photoalbum.model.hibernate.Voted;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumShareInformationService;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumTagService;
@@ -91,7 +93,7 @@ public class DaoTest {
 	// Create, update, delete and simple searches [UserService]
 	public void testCreateAndUpdateUser() {
 		User user = new User(null, "123", MD5.getHash("pass"));
-
+		User user2 = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
 		assertNotNull(this.userService.getUser(user.getEmail(), "pass"));
 		assertNotNull(this.userService.getUser(user));
@@ -104,7 +106,7 @@ public class DaoTest {
 		assertEquals(user, userAux2);
 		this.userService.delete(user);
 		assertNull(this.userService.getUser(user.getEmail(), "pass1"));
-
+		assertNull(this.userService.getUser(user2));
 	}
 
 	@Test
@@ -125,6 +127,10 @@ public class DaoTest {
 		this.albumService.delete(album);
 		Album albumAux2 = this.albumService.getById(album.getId());
 		assertNull(albumAux2);
+		Album alumAux3 = this.albumService.getAlbum("Prueba null", album
+                .getUser().getId());
+		assertNull(alumAux3);
+		assertEquals(album.compareTo(albumAux), 0);
 	}
 
 	@Test
@@ -219,6 +225,7 @@ public class DaoTest {
 		this.fileService.delete(file);
 
 		assertNull(this.fileService.getById(file.getId()));
+		assertEquals(file.compareTo(auxFile), 0);
 
 	}
 
@@ -279,17 +286,28 @@ public class DaoTest {
 		File file = new File(null, "Prueba1", new byte[] { 1 },
 				new byte[] { 2 }, album);
 		this.fileService.create(file);
+		File file2 = new File(null, "Prueba2", new byte[] { 1 },
+                new byte[] { 2 }, album);
+        this.fileService.create(file2);
 		FileShareInformation fsi = new FileShareInformation(null, file, user2);
 		this.fileShareInformationService.create(fsi);
-		FileShareInformation fsi2 = new FileShareInformation(null, file, user3);
+		FileShareInformation fsi2 = new FileShareInformation();
+        fsi2.setFile(file);
+        fsi2.setUser(user3);
 		this.fileShareInformationService.create(fsi2);
 
 		List<FileShareInformation> fsil = this.fileShareInformationService
 				.getFileShares(file.getId());
 
 		assertEquals(fsi, fsil.get(0));
-
 		assertEquals(fsi2, fsil.get(1));
+		
+		this.fileShareInformationService.delete(fsi2);
+		fsil = this.fileShareInformationService
+                .getFileShares(file.getId());
+		assertEquals(fsil.size(), 1);
+		
+		
 	}
 
 	@Test
@@ -783,6 +801,9 @@ public class DaoTest {
 
 		assertEquals("Shared album", filesShared.size(), 2);
 		assertEquals("Shared file", filesShared2.size(), 1);
+		
+		this.fileService.changePrivacyLevel(file, PrivacyLevel.INHERIT_FROM_ALBUM);
+		
 	}
 
 	@Test
@@ -909,7 +930,10 @@ public class DaoTest {
 		Album album = new Album(null, "FirstAlbum", user, null, null,
 				PrivacyLevel.PRIVATE);
 		this.albumService.create(album);
-		AlbumTag tag = new AlbumTag(album, "tag");
+		AlbumTag tag = new AlbumTag();
+        tag.setAlbum(album);
+        tag.setTag("tag");
+        this.albumTagService.create(tag);
 		this.albumTagService.create(tag);
 		AlbumTag albumTagAux = this.albumTagService.getTag(album.getId(),
 				tag.getTag());
@@ -949,7 +973,9 @@ public class DaoTest {
 		File file = new File(null, "Prueba1", new byte[] { 1 },
 				new byte[] { 2 }, album);
 		this.fileService.create(file);
-		FileTag tag = new FileTag(file, "tag");
+		FileTag tag = new FileTag();
+        tag.setFile(file);
+        tag.setTag("tag");
 		this.fileTagService.create(tag);
 		FileTag fileTagAux = this.fileTagService.getTag(file.getId(),
 				tag.getTag());
@@ -1096,6 +1122,7 @@ public class DaoTest {
 				album, null);
 		this.commentService.create(user, album, comment.getText());
 		assertNotNull(this.commentService.getComments(album));
+		this.commentService.delete(comment);
 	}
 
 	@Test
@@ -1183,7 +1210,8 @@ public class DaoTest {
 		this.albumService.create(album);
 		LikeAndDislike likeAndDislike = new LikeAndDislike();
 		Comment comment1 = new Comment(likeAndDislike, user,
-				"Prueba comment 1", album, null);
+				"Prueba comment 1", null, null);
+		comment1.setAlbum(album);
 		this.commentService.create(user, album, comment1.getText());
 		Comment comment2 = new Comment(likeAndDislike, user,
 				"Prueba comment 2", album, null);
@@ -1204,32 +1232,36 @@ public class DaoTest {
 	@Test
 	// Test GetFileCommentsPaging [CommentService]
 	public void testGetFileCommentsPaging() {
-		User user = new User(null, "123", MD5.getHash("pass"));
-		this.userService.create(user);
-		Album album = new Album(null, "FirstAlbum", user, null, null,
-				PrivacyLevel.PUBLIC);
-		this.albumService.create(album);
-		File file = new File(null, "Prueba1", new byte[] { 1 },
-				new byte[] { 2 }, album);
-		this.fileService.create(file);
-		LikeAndDislike likeAndDislike = new LikeAndDislike();
-		Comment comment1 = new Comment(likeAndDislike, user,
-				"Prueba comment 1", null, file);
-		this.commentService.create(user, file, comment1.getText());
-		Comment comment2 = new Comment(likeAndDislike, user,
-				"Prueba comment 2", null, file);
-		this.commentService.create(user, file, comment2.getText());
-		Comment comment3 = new Comment(likeAndDislike, user,
-				"Prueba comment 3", null, file);
-		this.commentService.create(user, file, comment3.getText());
-		assertEquals(this.commentService.getCommentsPaging(file, 0, 2).size(),
-				2);
-		assertEquals(this.commentService.getCommentsPaging(file, 2, 1).size(),
-				1);
-		assertEquals(this.commentService.getCommentsPaging(file, 2, 2).size(),
-				1);
-		assertEquals(this.commentService.getCommentsPaging(file, 3, 2).size(),
-				0);
+	    User user = new User(null, "123", MD5.getHash("pass"));
+        this.userService.create(user);
+        Album album = new Album(null, "FirstAlbum", user, null, null,
+                PrivacyLevel.PUBLIC);
+        this.albumService.create(album);
+        File file = new File(null, "Prueba1", new byte[] { 1 },
+                new byte[] { 2 }, album);
+        this.fileService.create(file);
+        LikeAndDislike likeAndDislike = new LikeAndDislike();
+        Comment comment1 = new Comment();
+        comment1.setLikeAndDislike(likeAndDislike);
+        comment1.setUser(user);
+        comment1.setText("Prueba comment 1");
+        comment1.setFile(file);
+        comment1.setDate(Calendar.getInstance());
+        this.commentService.create(user, file, comment1.getText());
+        Comment comment2 = new Comment(likeAndDislike, user,
+                "Prueba comment 2", null, file);
+        this.commentService.create(user, file, comment2.getText());
+        Comment comment3 = new Comment(likeAndDislike, user,
+                "Prueba comment 3", null, file);
+        this.commentService.create(user, file, comment3.getText());
+        assertEquals(this.commentService.getCommentsPaging(file, 0, 2).size(),
+                2);
+        assertEquals(this.commentService.getCommentsPaging(file, 2, 1).size(),
+                1);
+        assertEquals(this.commentService.getCommentsPaging(file, 2, 2).size(),
+                1);
+        assertEquals(this.commentService.getCommentsPaging(file, 3, 2).size(),
+                0);
 	}
 
 	@Test
@@ -1379,6 +1411,7 @@ public class DaoTest {
 	}
 
 	@Test
+	// Test GetVotedAlbum [VotedService]
 	public void testGetVotedAlbum() {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
@@ -1393,9 +1426,14 @@ public class DaoTest {
 		this.likeAndDislikeService.unvote(album.getLikeAndDislike(), user);
 		assertNull(this.votedService.getVoted(
 				album.getLikeAndDislike().getId(), user.getId()));
+		Voted voted = new Voted();
+        voted.setLikeAndDislike(album.getLikeAndDislike());
+        voted.setUser(user);
+        voted.setUserVote("like");
 	}
 
 	@Test
+	// Test GetVotedFile [VotedService]
 	public void testGetVotedFile() {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
@@ -1463,6 +1501,7 @@ public class DaoTest {
 	}
 
 	@Test
+	// Test GetVotedListAlbum [VotedService]
 	public void testGetVotedListAlbum() {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
@@ -1485,9 +1524,13 @@ public class DaoTest {
 		assertEquals(
 				this.votedService.getVoted(likeAndDislikeIdList, user.getId())
 						.size(), 3);
+		ArrayList<Integer> likeAndDislikeIdList2 = new ArrayList<Integer>();
+		List<Voted> list = this.votedService.getVoted(likeAndDislikeIdList2, user.getId());
+		assertEquals(list.size(), 0);
 	}
 
 	@Test
+	// Test GetVotedListFile [VotedService]
 	public void testGetVotedListFile() {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
@@ -1516,6 +1559,7 @@ public class DaoTest {
 	}
 	
 	@Test
+	// Test GetVotedListAlbumComment [VotedService]
 	public void testGetVotedListAlbumComment() {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
