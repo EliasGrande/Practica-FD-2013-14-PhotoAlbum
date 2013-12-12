@@ -7,7 +7,9 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EX
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
@@ -228,6 +230,29 @@ public class FileServiceMock {
             user.getAlbums().add(album);
             list.add(file);
             return list;
+        }
+
+        @Override
+        public List<File> getFiles(String keywords, boolean name,
+                boolean comment, boolean tag, String orderBy,
+                Calendar fechaMin, Calendar fechaMax, int first,
+                int count) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<File> getFiles(String orderBy, int first,
+                int count) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<File> getFiles(String orderBy, Calendar fechaMin,
+                Calendar fechaMax, int first, int count) {
+            // TODO Auto-generated method stub
+            return null;
         }
     };
 }

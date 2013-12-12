@@ -6,6 +6,8 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_NOT_EXIST;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -125,6 +127,30 @@ public class AlbumServiceMock {
             user.getAlbums().add(album);
             list.add(album);
             return list;
+        }
+
+        @Override
+        public List<Album> getFiles(String keywords, boolean name,
+                boolean comment, boolean tag, String orderBy,
+                Calendar fechaMin, Calendar fechaMax, int first,
+                int count) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<Album> getFiles(String orderBy, int first,
+                int count) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public List<Album> getFiles(String orderBy,
+                Calendar fechaMin, Calendar fechaMax, int first,
+                int count) {
+            // TODO Auto-generated method stub
+            return null;
         }
     };
 }
