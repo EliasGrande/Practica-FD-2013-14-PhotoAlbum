@@ -34,36 +34,36 @@ public class Mail {
     /**
      * Defines a subject on the registration in English.
      */
-    private static final String SUBJECT_REG_EN = "Registration at \"Photo Albums\"";
+    public static final String SUBJECT_REG_EN = "Registration at \"Photo Albums\"";
     /**
      * Defines a variable for password recovery in English.
      */
-    private static final String SUBJECT_PASS_EN = "Password recovery";
+    public static final String SUBJECT_PASS_EN = "Password recovery";
     /**
      * Defines a message for the registration in English language.
      */
-    private static final String MESSAGE_REG_EN = "Dear User, thanks for registration. Enjoy!";
+    public static final String MESSAGE_REG_EN = "Dear User, thanks for registration. Enjoy!";
     /**
      * Defines a message for get the new password in English language.
      */
-    private static final String MESSAGE_PASS_EN = "Dear User, you can login with new password "
+    public static final String MESSAGE_PASS_EN = "Dear User, you can login with new password "
             + "and change";
     /**
      * Defines a subject on the registration in Spanish.
      */
-    private static final String SUBJECT_REG_ES = "Registro en \"Photo Albums\"";
+    public static final String SUBJECT_REG_ES = "Registro en \"Photo Albums\"";
     /**
      * Defines a variable for password recovery in Spanish.
      */
-    private static final String SUBJECT_PASS_ES = "Recuperar la contraseña";
+    public static final String SUBJECT_PASS_ES = "Recuperar la contraseña";
     /**
      * Defines a password on the registration in Spanish language.
      */
-    private static final String MESSAGE_REG_ES = "Estimado usuario, gracias por inscripción. Disfrute!";
+    public static final String MESSAGE_REG_ES = "Estimado usuario, gracias por inscripción. Disfrute!";
     /**
      * Defines a message for get the new password in Spanish language.
      */
-    private static final String MESSAGE_PASS_ES = "Estimado usuario, puedes iniciar sesión con la nueva "
+    public static final String MESSAGE_PASS_ES = "Estimado usuario, puedes iniciar sesión con la nueva "
             + "contraseña y cambiarla en Perfil. Nueva contraseña es:";
 
     /**
@@ -71,7 +71,20 @@ public class Mail {
      * 
      * @return An {@link Email}
      */
-    private Email email = new SimpleEmail();
+    protected Email email = new SimpleEmail();
+    
+    /**
+     * Initializes {@link #email};
+     * 
+     * @throws EmailException
+     */
+    protected void initializeEmail() throws EmailException {
+        this.email.setHostName(HOST_NAME);
+        this.email.setSmtpPort(SMTP_PORT);
+        this.email.setFrom(EMAIL);
+        this.email.setAuthenticator(new DefaultAuthenticator(LOGIN,
+                PASSWORD));
+    }
 
     /**
      * Constructor of class {@link Mail}.
@@ -81,11 +94,7 @@ public class Mail {
      * 
      */
     public Mail(String emailTo) throws EmailException {
-        this.email.setHostName(HOST_NAME);
-        this.email.setSmtpPort(SMTP_PORT);
-        this.email.setFrom(EMAIL);
-        this.email.setAuthenticator(new DefaultAuthenticator(LOGIN,
-                PASSWORD));
+        initializeEmail();
         this.email.addTo(emailTo);
     }
 

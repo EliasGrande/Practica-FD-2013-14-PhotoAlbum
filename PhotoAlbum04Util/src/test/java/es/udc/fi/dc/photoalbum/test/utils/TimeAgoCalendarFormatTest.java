@@ -35,25 +35,23 @@ public class TimeAgoCalendarFormatTest extends TestCase {
         TRANSLATES.put("timeAgo.year.many", "%l years ago");
     }
 
+    private TimeAgoCalendarFormat calendarFormat;
+
     @SuppressWarnings("serial")
-    private class MockTimeAgoCalendarFormat extends
-            TimeAgoCalendarFormat {
-
-        public MockTimeAgoCalendarFormat() {
-            super(TRANSLATES);
-        }
-
-        @Override
-        protected long getTimeInMillisNow() {
-            return TIME_IN_MILLIS_NOW;
-        }
+    @Override
+    protected void setUp() {
+        calendarFormat = new TimeAgoCalendarFormat(TRANSLATES) {
+            @Override
+            protected long getTimeInMillisNow() {
+                return TIME_IN_MILLIS_NOW;
+            }
+        };
     }
 
     /**
      * Run the String format(Calendar) method test
      */
     public void testFormat() {
-        MockTimeAgoCalendarFormat calendarFormat = new MockTimeAgoCalendarFormat();
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTimeInMillis(TIME_IN_MILLIS_NOW
