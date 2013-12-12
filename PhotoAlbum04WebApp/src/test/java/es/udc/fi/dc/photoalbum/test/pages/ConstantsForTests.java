@@ -4,6 +4,7 @@ public final class ConstantsForTests {
 	private ConstantsForTests() { }
 	public static final String USER_EMAIL_EXIST = "ab@ab.ab";
 	public static final String USER_EMAIL_EXIST2 = "ab2@ab.ab";
+    public static final String USER_EMAIL_EXIST3 = "ab3@ab.ab";
 	public static final String USER_EMAIL_NOT = "123";
 	public static final String USER_EMAIL_NOT_EXIST = "abc@abc.abc";
 	public static final String USER_PASS_YES = "pass1234A";
@@ -18,6 +19,9 @@ public final class ConstantsForTests {
 	public static final String DISLIKE = "DISLIKE";
 	public static final String COMMENT = "COMMENT";
 	public static final String FILE_NAME_EXIST = "2";
+	public static final String ALBUM_NAME_ERROR="manzana";
+	public static final String ALBUM_NAME_EXIST2 = "9";
+
 
 
 }

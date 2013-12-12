@@ -1,11 +1,11 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 
 import java.util.Locale;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -18,6 +18,7 @@ import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedAlbums;
 
 public class TestSharedAlbumsPage {
@@ -42,7 +43,6 @@ public class TestSharedAlbumsPage {
         this.tester = new WicketTester(this.wicketApp);
         ((MySession) Session.get()).setuId(1);
         PageParameters pars = new PageParameters();
-        pars.add("album", ALBUM_NAME_EXIST);
         pars.add("user", USER_EMAIL_EXIST);
         Page page = new SharedAlbums(pars);
         this.tester.startPage(page);
@@ -53,5 +53,21 @@ public class TestSharedAlbumsPage {
     @Test
     public void testRendered() {
         tester.assertRenderedPage(SharedAlbums.class);
+    }
+    
+    @Test
+    (expected=RestartResponseException.class)
+    public void testLoadPageError(){
+        PageParameters pars = new PageParameters();
+        pars.add("user", ConstantsForTests.USER_EMAIL_NOT_EXIST);
+        Page page = new SharedAlbums(pars);
+        this.tester.startPage(page);
+    }
+    
+    @Test
+    public void testLoadPageError2(){
+        this.tester.startPage(SharedAlbums.class);
+        
+        tester.assertRenderedPage(ErrorPage404.class);
     }
 }

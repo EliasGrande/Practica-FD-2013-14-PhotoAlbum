@@ -10,6 +10,7 @@ import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumShareInformationService;
+import es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 
 public class AlbumShareInformationServiceMock {
@@ -18,8 +19,6 @@ public class AlbumShareInformationServiceMock {
         public void create(AlbumShareInformation shareInformation) {
             shareInformation.getUser().getShareInformation()
                     .add(shareInformation);
-            shareInformation.getAlbum().getShareInformation()
-                    .add(shareInformation);
         }
 
         public void delete(AlbumShareInformation shareInformation) {
@@ -27,6 +26,9 @@ public class AlbumShareInformationServiceMock {
 
         public AlbumShareInformation getShare(String albumName,
                 int userSharedToId, String userSharedEmail) {
+            if(userSharedToId == 2){
+                return null;
+            }
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user,
                     null, null, PrivacyLevel.PRIVATE);

@@ -21,6 +21,7 @@ import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FileTagBig;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FilesOfAlbumTagBig;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.Tag;
 
 public class TestFileTagBigPage {
 	private WicketApp wicketApp;
@@ -69,6 +70,7 @@ public class TestFileTagBigPage {
     
     @Test
     public void testBackPhoto() {
+        Tag newTag = new Tag("tagnuevo");
         PageParameters pars = new PageParameters();
         pars.add("fid", 2);
         pars.add("tag", "pruebaTag");

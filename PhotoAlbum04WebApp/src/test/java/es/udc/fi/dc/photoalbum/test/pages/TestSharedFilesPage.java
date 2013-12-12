@@ -6,6 +6,7 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EX
 import java.util.Locale;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -24,6 +25,8 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedAlbums;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedFiles;
 
 public class TestSharedFilesPage {
@@ -67,4 +70,32 @@ public class TestSharedFilesPage {
 	public void testRendered() {
 		tester.assertRenderedPage(SharedFiles.class);
 	}
+	
+	@Test
+    (expected=RestartResponseException.class)
+    public void testLoadPageErrorWithoutAlbum(){
+        PageParameters pars = new PageParameters();
+        pars.add("user", ConstantsForTests.USER_EMAIL_EXIST);
+        Page page = new SharedFiles(pars);
+        this.tester.startPage(page);
+    }
+    
+	@Test
+    (expected=RestartResponseException.class)
+    public void testLoadPageErrorWithoutUser(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ConstantsForTests.ALBUM_NAME_EXIST);
+        Page page = new SharedFiles(pars);
+        this.tester.startPage(page);
+    }
+	
+	@Test
+    (expected=RestartResponseException.class)
+    public void testLoadPageErrorWithIncorrectAlbum(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ConstantsForTests.ALBUM_NAME_ERROR);
+        pars.add("user", ConstantsForTests.USER_EMAIL_EXIST);
+        Page page = new SharedFiles(pars);
+        this.tester.startPage(page);
+    }
 }

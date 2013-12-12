@@ -4,6 +4,7 @@ import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EX
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_NOT;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_NOT_EXIST;
+import static org.junit.Assert.*;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -12,6 +13,7 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -28,8 +30,11 @@ import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.AlbumShareInformationServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
+import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.Share;
 
 public class TestSharePage {
@@ -105,5 +110,99 @@ public class TestSharePage {
         DropDownChoice<Album> dropDownChoice = (DropDownChoice<Album>) tester
                 .getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
         Assert.assertEquals(2, dropDownChoice.getChoices().size());
+    }
+    
+    @Test
+    public void testErrorLoadPage(){
+        this.tester.startPage(Share.class);
+        this.tester.assertRenderedPage(ErrorPage404.class);
+    }
+    
+    @Test
+    (expected=RestartResponseException.class)
+    public void testErrorLoadPage2(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ConstantsForTests.ALBUM_NAME_NOT_EXIST);
+        Page page = new Share(pars);
+        this.tester.startPage(page);
+    }
+    
+    @Test
+    public void testDeleteShare(){
+        this.tester.clickLink("pageable:1:delete");
+        
+        this.tester.assertRenderedPage(Share.class);
+    }
+    
+    @Test
+    public void testShareFormWithOwner(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        Page page = new Share(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_EXIST);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertErrorMessages("You dont need to share to yourself");
+        
+    }
+    
+    @Test
+    public void testShareFormWithNone(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        Page page = new Share(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_NOT_EXIST);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertErrorMessages("No such user");
+        
+    }
+    
+    @Test
+    public void testShareForm(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        Page page = new Share(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_EXIST2);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertNoErrorMessage();
+        
+    }
+    
+    @Test
+    public void testShareFormErrorAlreadyShare(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        Page page = new Share(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_EXIST3);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertErrorMessages("Already shared");
+        
+    }
+    
+    @Test
+    public void testDropdownChoice(){
+        FormTester formTester = this.tester.newFormTester("formPrivacyLevel");
+        formTester.select("privacyLevels", 1);
+        formTester.submit();
+        
+        DropDownChoice ddc = (DropDownChoice) this.tester.getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
+        String i = ddc.getModelValue().toString();
+        
+        assertEquals(i, PrivacyLevel.PRIVATE);
     }
 }

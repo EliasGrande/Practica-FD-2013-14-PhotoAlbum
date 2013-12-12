@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.mocks;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST2;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST3;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
 
 import java.util.ArrayList;
@@ -12,8 +13,7 @@ import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.UserService;
 
 public class UserServiceMock {
-    
-    
+
     public static UserService mock = new UserService() {
         public void create(User user) {
             if (user.getEmail().equals(USER_EMAIL_EXIST)) {
@@ -41,21 +41,29 @@ public class UserServiceMock {
                 return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             } else if (user.getEmail().equals(USER_EMAIL_EXIST2)) {
                 return new User(2, USER_EMAIL_EXIST2, USER_PASS_YES);
-            } else {
+            } else if (user.getEmail().equals(USER_EMAIL_EXIST3)) {
+                return new User(3, USER_EMAIL_EXIST3, USER_PASS_YES);
+            }else {
                 return null;
             }
         }
 
         public User getById(Integer id) {
-            return new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES);
+            switch (id) {
+                case 1:
+                    return new User(1, USER_EMAIL_EXIST,
+                            USER_PASS_YES);
+                case 2:
+                    return new User(2, USER_EMAIL_EXIST2,
+                            USER_PASS_YES);
+            }
+            return new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
         }
 
         public ArrayList<User> getUsersSharingWith(int userId) {
             ArrayList<User> list = new ArrayList<User>();
-            list.add(new User(1,
-                    USER_EMAIL_EXIST, USER_PASS_YES));
+            list.add(new User(1, USER_EMAIL_EXIST, USER_PASS_YES));
             return list;
-        }  
+        }
     };
 }

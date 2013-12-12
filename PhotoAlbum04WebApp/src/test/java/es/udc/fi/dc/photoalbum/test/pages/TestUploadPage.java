@@ -122,4 +122,9 @@ public class TestUploadPage {
         formTester.submit();
         this.tester.assertErrorMessages("file not saved (only jpg, jpeg, bmp, png are allowed)es.gif");
     }
+	
+	@Test
+	public void testAlbumTagDataviewDelete(){
+	    this.tester.clickLink("dataAlbumTagContainer:pageable:1:delete");
+	}
 }

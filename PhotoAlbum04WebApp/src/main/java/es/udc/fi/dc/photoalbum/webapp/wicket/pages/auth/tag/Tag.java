@@ -25,7 +25,7 @@ public class Tag implements Serializable {
      *            {@link #value}
      */
     public Tag(String value) {
-        this.setValue(value);
+        this.value = value;
     }
 
     /**

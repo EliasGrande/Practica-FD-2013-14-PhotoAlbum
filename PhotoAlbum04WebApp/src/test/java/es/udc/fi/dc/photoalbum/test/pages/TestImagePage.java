@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.test.pages;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.TAG_NAME_EXIST;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
@@ -31,6 +32,7 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
+import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
@@ -87,26 +89,6 @@ public class TestImagePage {
 		parameters.add("album", ALBUM_NAME_EXIST);
 		tester.assertBookmarkablePageLink("linkBack", Upload.class, parameters);
 	}
-
-	@Test
-	public void testMove() {
-		tester.assertRenderedPage(Image.class);
-		@SuppressWarnings("unchecked")
-		DropDownChoice<Album> dropDownChoice = (DropDownChoice<Album>) tester
-				.getComponentFromLastRenderedPage("formMove:albums");
-		Assert.assertEquals(0, dropDownChoice.getChoices().size());
-		FormTester formTester = this.tester.newFormTester("formMove");
-		formTester.submit();
-	}
-	
-	@Test
-	public void testChangePrivacy() {
-		tester.assertRenderedPage(Image.class);
-		@SuppressWarnings("unchecked")
-		DropDownChoice<File> dropDownChoice = (DropDownChoice<File>) tester
-				.getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
-		Assert.assertEquals(3, dropDownChoice.getChoices().size());
-	}
 	
 	@Test
 	public void testAddTag() {
@@ -127,8 +109,7 @@ public class TestImagePage {
         tester.assertRenderedPage(Image.class);
     }
     
-	//FIXME
-    /*@Test
+    @Test
     public void testBackPhoto() {
         PageParameters pars = new PageParameters();
         pars.add("album", ALBUM_NAME_EXIST);
@@ -140,7 +121,7 @@ public class TestImagePage {
         formTester2.submit("back");
         this.tester.assertNoErrorMessage();
         tester.assertRenderedPage(Image.class);
-    }*/
+    }
 	
 	@Test
 	public void testShareFormWithOwner(){
@@ -239,4 +220,27 @@ public class TestImagePage {
         
         this.tester.clickLink("pageable:1:delete");
     }
+		
+	@Test
+    public void testMoveImage(){
+	    this.tester.assertRenderedPage(Image.class);
+	    
+        FormTester formTester = this.tester.newFormTester("formMove");
+        formTester.select("albums", 0);
+        formTester.submit();
+        
+        this.tester.assertRenderedPage(Upload.class);
+    }
+	
+	@Test
+    public void testPrivacyLevel(){
+        FormTester formTester = this.tester.newFormTester("formPrivacyLevel");
+        formTester.select("privacyLevels", 1);
+        formTester.submit();
+        
+        DropDownChoice ddc = (DropDownChoice) this.tester.getComponentFromLastRenderedPage("formPrivacyLevel:privacyLevels");
+        String i = ddc.getModelValue().toString();
+        
+        assertEquals(i, PrivacyLevel.INHERIT_FROM_ALBUM);
+    }    
 }

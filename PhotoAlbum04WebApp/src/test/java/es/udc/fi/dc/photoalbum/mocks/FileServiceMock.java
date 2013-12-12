@@ -17,6 +17,7 @@ import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
+import es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 
 public class FileServiceMock {
@@ -49,12 +50,22 @@ public class FileServiceMock {
         }
 
         public File getFileShared(int id, String name, int userId) {
+            if(name.equals(ConstantsForTests.ALBUM_NAME_ERROR)){
+                return null;
+            }
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
             File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
             LikeAndDislike likeAndDislike = new LikeAndDislike();
             likeAndDislike.setId(50);
             file.setLikeAndDislike(likeAndDislike);
+            if(id != 1){
+                file.setPrivacyLevel(PrivacyLevel.PRIVATE);
+                file.setId(2);
+            }
+            if(id == 3){
+                return null;
+            }
             user.getAlbums().add(album);
             return file;
         }
@@ -76,8 +87,9 @@ public class FileServiceMock {
 
         public ArrayList<File> getAlbumFilesOwn(int albumId) {
             ArrayList<File> list = new ArrayList<File>();
+            Set<File> set2 = new HashSet<File>();
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set2, null, PrivacyLevel.PUBLIC);
             File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
             File file2 = new File(2, "FILE_NAME_EXIST2", new byte[1], new byte[1], album);
             File file3 = new File(3, "FILE_NAME_EXIST3", new byte[1], new byte[1], album);
@@ -87,6 +99,10 @@ public class FileServiceMock {
             file.setLikeAndDislike(likeAndDislike);
             file2.setLikeAndDislike(likeAndDislike);
             file3.setLikeAndDislike(likeAndDislike);
+            set2.add(file);
+            set2.add(file2);
+            set2.add(file3);
+            
             user.getAlbums().add(album);
             list.add(file);
             list.add(file2);
@@ -131,12 +147,16 @@ public class FileServiceMock {
         public ArrayList<File> getAlbumFilesShared(int albumId,
                 int userId) {
             ArrayList<File> list = new ArrayList<File>();
+            Set<File> set3 = new HashSet<File>();
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
-            Album album = new Album(1, ALBUM_NAME_EXIST, user, set, null, PrivacyLevel.PUBLIC);
+            Album album = new Album(1, ALBUM_NAME_EXIST, user, set3, null, PrivacyLevel.PUBLIC);
             File file = new File(1, FILE_NAME_EXIST, new byte[1], new byte[1], album);
             File file2 = new File(2, "FILE_NAME_EXIST2", new byte[1], new byte[1], album);
             File file3 = new File(3, "FILE_NAME_EXIST3", new byte[1], new byte[1], album);
-  
+            set3.add(file);
+            set3.add(file2);
+            set3.add(file3);
+            
             LikeAndDislike likeAndDislike = new LikeAndDislike();
             likeAndDislike.setId(50);
             file.setLikeAndDislike(likeAndDislike);

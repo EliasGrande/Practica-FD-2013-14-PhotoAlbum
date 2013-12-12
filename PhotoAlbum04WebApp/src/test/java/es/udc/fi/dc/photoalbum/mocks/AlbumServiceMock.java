@@ -1,9 +1,9 @@
 package es.udc.fi.dc.photoalbum.mocks;
 
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
+import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_NOT_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_NOT_EXIST;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +15,7 @@ import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
+import es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 
 public class AlbumServiceMock {
@@ -63,11 +64,16 @@ public class AlbumServiceMock {
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user,
                     null, null, PrivacyLevel.PRIVATE);
+            Album album2 = new Album(2, ConstantsForTests.ALBUM_NAME_EXIST2, user,
+                    null, null, PrivacyLevel.PRIVATE);
             LikeAndDislike likeAndDislike = new LikeAndDislike();
             likeAndDislike.setId(50);
             album.setLikeAndDislike(likeAndDislike);
+            album2.setLikeAndDislike(likeAndDislike);
             user.getAlbums().add(album);
+            user.getAlbums().add(album2);
             list.add(album);
+            list.add(album2);
             return list;
         }
 
@@ -105,6 +111,9 @@ public class AlbumServiceMock {
 
         public Album getSharedAlbum(String albumName,
                 int userSharedToId, String userSharedEmail) {
+            if(albumName.equals(ConstantsForTests.ALBUM_NAME_ERROR)){
+                return null;
+            }
             User user = new User(1, USER_EMAIL_EXIST, USER_PASS_YES);
             Album album = new Album(1, ALBUM_NAME_EXIST, user,
                     null, null, PrivacyLevel.PRIVATE);
