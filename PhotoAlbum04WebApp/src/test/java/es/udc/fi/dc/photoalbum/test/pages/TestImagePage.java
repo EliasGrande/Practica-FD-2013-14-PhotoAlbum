@@ -8,6 +8,7 @@ import java.util.Locale;
 import junit.framework.Assert;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.image.NonCachingImage;
@@ -19,8 +20,6 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.udc.fi.dc.photoalbum.model.hibernate.Album;
-import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.AlbumTagServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.CommentServiceMock;
@@ -30,11 +29,13 @@ import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.LikeAndDislikeServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
+import es.udc.fi.dc.photoalbum.model.hibernate.Album;
+import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Upload;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedBig;
 
 public class TestImagePage {
 	private WicketApp wicketApp;
@@ -94,6 +95,8 @@ public class TestImagePage {
 		DropDownChoice<Album> dropDownChoice = (DropDownChoice<Album>) tester
 				.getComponentFromLastRenderedPage("formMove:albums");
 		Assert.assertEquals(0, dropDownChoice.getChoices().size());
+		FormTester formTester = this.tester.newFormTester("formMove");
+		formTester.submit();
 	}
 	
 	@Test
@@ -112,6 +115,8 @@ public class TestImagePage {
 		formTester.submit();
 		this.tester.assertNoErrorMessage();
 		tester.assertRenderedPage(Image.class);
+		
+		this.tester.clickLink("fileTagDataContainer:pageable:1:delete");
 	}
 	
 	@Test
@@ -136,4 +141,102 @@ public class TestImagePage {
         this.tester.assertNoErrorMessage();
         tester.assertRenderedPage(Image.class);
     }*/
+	
+	@Test
+	public void testShareFormWithOwner(){
+	    PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        pars.add("fid", "2");
+        Page page = new Image(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_EXIST);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertErrorMessages("You dont need to share to yourself");
+	    
+	}
+	
+	@Test
+    public void testShareFormWithNone(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        pars.add("fid", "2");
+        Page page = new Image(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_NOT_EXIST);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertErrorMessages("No such user");
+        
+    }
+	
+	@Test
+    public void testShareForm(){
+        PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        pars.add("fid", "2");
+        Page page = new Image(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_EXIST2);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertNoErrorMessage();
+        
+    }
+	
+	@Test
+    public void testDeleteForm() {
+        FormTester formTester = this.tester.newFormTester("formDelete");
+        formTester.submit();
+        this.tester.assertNoErrorMessage();
+        tester.assertRenderedPage(Upload.class);
+    }
+    
+	@Test
+	public void testError(){
+        this.tester.startPage(Image.class);
+        this.tester.assertRenderedPage(ErrorPage404.class);
+    }
+	
+	@Test
+	(expected=RestartResponseException.class)
+    public void testError2(){
+	    PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        pars.add("fid", "3");
+        Page page = new Image(pars);
+        this.tester.startPage(page);
+    }
+	
+	@Test
+    (expected=RestartResponseException.class)
+    public void testError3(){
+        PageParameters pars = new PageParameters();
+        pars.add("fid", "1");
+        Page page = new Image(pars);
+        this.tester.startPage(page);
+    }
+	
+	@Test
+    public void testRemoveSharedUser(){
+	    PageParameters pars = new PageParameters();
+        pars.add("album", ALBUM_NAME_EXIST);
+        pars.add("fid", "2");
+        Page page = new Image(pars);
+        this.tester.startPage(page);
+        
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("shareEmail", ConstantsForTests.USER_EMAIL_EXIST2);
+        formTester.submit("ajax-button");
+        
+        this.tester.assertNoErrorMessage();
+        
+        this.tester.clickLink("pageable:1:delete");
+    }
 }

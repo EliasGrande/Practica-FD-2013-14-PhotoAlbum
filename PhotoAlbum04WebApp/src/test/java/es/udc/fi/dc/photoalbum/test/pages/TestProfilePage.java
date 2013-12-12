@@ -18,6 +18,7 @@ import org.junit.Test;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ModalDelete;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Profile;
 
 public class TestProfilePage {
@@ -101,7 +102,27 @@ public class TestProfilePage {
 	public void testEditPass() {
 		FormTester formTester = this.tester.newFormTester("form");
 		formTester.setValue("password", USER_PASS_YES);
-		formTester.setValue("newPassword", USER_PASS_NO);
-		formTester.submit();
+		formTester.setValue("newPassword", USER_PASS_YES);
+		formTester.submit("ajax-button");
+		
+		this.tester.assertRenderedPage(Profile.class);
 	}
+	
+	@Test
+    public void testEditPassError() {
+        FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("password", USER_PASS_NO + "A");
+        formTester.setValue("newPassword", USER_PASS_NO + "A");
+        formTester.submit("ajax-button");
+        
+        this.tester.assertErrorMessages("Wrong old password");
+    }
+	
+	@Test
+    public void testDeleteAccount() {
+        FormTester formTester = this.tester.newFormTester("deleteForm");
+        formTester.submit("delete");
+        
+        this.tester.assertRenderedPage(Profile.class);
+    }
 }

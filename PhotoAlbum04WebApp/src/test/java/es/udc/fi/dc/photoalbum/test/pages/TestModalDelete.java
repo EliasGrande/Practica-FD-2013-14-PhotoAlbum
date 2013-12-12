@@ -53,6 +53,7 @@ public class TestModalDelete {
     public void testOnSubmitButtonOk(){
         //FIXME No hacen nada.
         FormTester formTester = this.tester.newFormTester("form");
+        formTester.setValue("password", ConstantsForTests.USER_PASS_YES);
         formTester.submit("buttonOk");
         
         tester.assertRenderedPage(ModalDelete.class);

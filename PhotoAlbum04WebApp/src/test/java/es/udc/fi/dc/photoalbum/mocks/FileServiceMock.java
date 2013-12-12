@@ -35,6 +35,13 @@ public class FileServiceMock {
             LikeAndDislike likeAndDislike = new LikeAndDislike();
             likeAndDislike.setId(50);
             file.setLikeAndDislike(likeAndDislike);
+            if(id != 1){
+                file.setPrivacyLevel(PrivacyLevel.PRIVATE);
+                file.setId(2);
+            }
+            if(id == 3){
+                return null;
+            }
             user.getAlbums().add(album);
             return file;
         }
