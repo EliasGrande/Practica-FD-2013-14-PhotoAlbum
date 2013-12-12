@@ -23,7 +23,6 @@ import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedBig;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FileTagBig;
 
 public class TestSharedBigPage {
 	private WicketApp wicketApp;
@@ -56,9 +55,9 @@ public class TestSharedBigPage {
 		pars.add("album", ALBUM_NAME_EXIST);
 		pars.add("fid", 1);
 		Page page = new SharedBig(pars);
+        this.tester.getSession().setLocale(new Locale("es", "ES"));
 		this.tester.startPage(page);
 		tester.assertVisible("signout");
-		this.tester.getSession().setLocale(new Locale("ru", "RU"));
 	}
 
 	@Test

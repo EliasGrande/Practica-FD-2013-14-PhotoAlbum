@@ -81,7 +81,7 @@ public class ShowCommentsPanel extends Panel {
     /**
      * Comment date format.
      */
-    private TimeAgoCalendarFormat calendarFormat;
+    private TimeAgoCalendarFormat calendarFormat = null;
 
     /**
      * Container for the comments-view and more-link refreshable by
@@ -130,28 +130,39 @@ public class ShowCommentsPanel extends Panel {
         int userId = ((MySession) Session.get()).getuId();
         commentsModel = new CommentsModel(album, file,
                 COMMENTS_PER_PANEL, userId);
-
-        HashMap<String, String> translates = new HashMap<String, String>();
-        String[] units = new String[] { "second", "minute", "hour",
-                "day", "week", "month", "year" };
-
-        for (String unit : units) {
-            String key = "timeAgo." + unit + ".one";
-//            translates.put(key, new StringResourceModel(key, this,
-//                    null).getString());
-//            key = "timeAgo." + unit + ".many";
-//            translates.put(key, new StringResourceModel(key, this,
-//                    null).getString());
-            translates.put(key, key);
-            key = "timeAgo." + unit + ".many";
-            translates.put(key, key);
-        }
-
-        calendarFormat = new TimeAgoCalendarFormat(translates);
-
         makeAjaxContainer();
         makeCommentsView();
         makeMoreLink();
+    }
+
+    /**
+     * Returns the date of the given comment in a human readable
+     * format.
+     * <p>
+     * Uses {@link #calendarFormat}, initializes it if necessary.
+     * 
+     * @param comment
+     *            Comment
+     * @return Coment's date formatted
+     */
+    private String formatCommentDate(Comment comment) {
+        if (calendarFormat == null) {
+            String[] units = new String[] { "second", "minute",
+                    "hour", "day", "week", "month", "year" };
+            HashMap<String, String> translates = new HashMap<String, String>();
+            for (String unit : units) {
+                String key = "timeAgo." + unit + ".one";
+                translates.put(key,
+                        new StringResourceModel(key, this.getPage(),
+                                null).getString());
+                key = "timeAgo." + unit + ".many";
+                translates.put(key,
+                        new StringResourceModel(key, this.getPage(),
+                                null).getString());
+            }
+            calendarFormat = new TimeAgoCalendarFormat(translates);
+        }
+        return calendarFormat.format(comment.getDate());
     }
 
     /**
@@ -175,8 +186,8 @@ public class ShowCommentsPanel extends Panel {
                 Comment comment = item.getModelObject();
                 item.add(new Label(USER_LABEL_ID, comment.getUser()
                         .getEmail()));
-                item.add(new Label(DATE_LABEL_ID, calendarFormat
-                        .format(comment.getDate())));
+                item.add(new Label(DATE_LABEL_ID,
+                        formatCommentDate(comment)));
                 String commentHtml = Strings
                         .escapeMarkup(comment.getText()).toString()
                         .replaceAll("\\n", "<br />");
