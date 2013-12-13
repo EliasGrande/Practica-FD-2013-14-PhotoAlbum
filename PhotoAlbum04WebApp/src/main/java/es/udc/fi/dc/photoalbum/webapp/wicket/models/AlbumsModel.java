@@ -12,6 +12,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
+import es.udc.fi.dc.photoalbum.util.utils.ComparatorById;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 
 /**
@@ -61,7 +62,7 @@ public class AlbumsModel extends LoadableDetachableModel<List<Album>> {
                 break;
             }
         }
-        Collections.sort(list);
+        Collections.sort(list, new ComparatorById());
         return (ArrayList<Album>) list;
     }
 }

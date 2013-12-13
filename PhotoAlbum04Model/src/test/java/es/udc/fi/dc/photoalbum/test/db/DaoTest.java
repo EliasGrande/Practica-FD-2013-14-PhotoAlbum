@@ -130,7 +130,6 @@ public class DaoTest {
 		Album alumAux3 = this.albumService.getAlbum("Prueba null", album
                 .getUser().getId());
 		assertNull(alumAux3);
-		assertEquals(album.compareTo(albumAux), 0);
 	}
 
 	@Test
@@ -225,7 +224,6 @@ public class DaoTest {
 		this.fileService.delete(file);
 
 		assertNull(this.fileService.getById(file.getId()));
-		assertEquals(file.compareTo(auxFile), 0);
 
 	}
 
@@ -1145,7 +1143,7 @@ public class DaoTest {
 
 	@Test
 	// Test GetAlbumComments [CommentService]
-	public void testGetAlbumComments() {
+	public void testGetAlbumComments() throws InterruptedException {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
 		Album album = new Album(null, "FirstAlbum", user, null, null,
@@ -1157,9 +1155,11 @@ public class DaoTest {
 		this.commentService.create(user, album, comment1.getText());
 		Comment comment2 = new Comment(likeAndDislike, user,
 				"Prueba comment 2", album, null);
+        Thread.sleep(10);
 		this.commentService.create(user, album, comment2.getText());
 		Comment comment3 = new Comment(likeAndDislike, user,
 				"Prueba comment 3", album, null);
+        Thread.sleep(10);
 		this.commentService.create(user, album, comment3.getText());
 		assertEquals(this.commentService.getComments(album).size(), 3);
 		assertEquals(this.commentService.getComments(album).get(0).getText(),
@@ -1172,7 +1172,7 @@ public class DaoTest {
 
 	@Test
 	// Test GetFileComments [CommentService]
-	public void testGetFileComments() {
+	public void testGetFileComments() throws InterruptedException {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
 		Album album = new Album(null, "FirstAlbum", user, null, null,
@@ -1187,9 +1187,11 @@ public class DaoTest {
 		this.commentService.create(user, file, comment1.getText());
 		Comment comment2 = new Comment(likeAndDislike, user,
 				"Prueba comment 2", null, file);
+        Thread.sleep(10);
 		this.commentService.create(user, file, comment2.getText());
 		Comment comment3 = new Comment(likeAndDislike, user,
 				"Prueba comment 3", null, file);
+        Thread.sleep(10);
 		this.commentService.create(user, file, comment3.getText());
 		assertEquals(this.commentService.getComments(file).size(), 3);
 		assertEquals(this.commentService.getComments(file).get(0).getText(),
@@ -1202,7 +1204,7 @@ public class DaoTest {
 
 	@Test
 	// Test GetAlbumCommentsPaging [CommentService]
-	public void testGetAlbumCommentsPaging() {
+	public void testGetAlbumCommentsPaging() throws InterruptedException {
 		User user = new User(null, "123", MD5.getHash("pass"));
 		this.userService.create(user);
 		Album album = new Album(null, "FirstAlbum", user, null, null,
@@ -1215,9 +1217,11 @@ public class DaoTest {
 		this.commentService.create(user, album, comment1.getText());
 		Comment comment2 = new Comment(likeAndDislike, user,
 				"Prueba comment 2", album, null);
+        Thread.sleep(10);
 		this.commentService.create(user, album, comment2.getText());
 		Comment comment3 = new Comment(likeAndDislike, user,
 				"Prueba comment 3", album, null);
+        Thread.sleep(10);
 		this.commentService.create(user, album, comment3.getText());
 		assertEquals(this.commentService.getCommentsPaging(album, 0, 2).size(),
 				2);
@@ -1231,7 +1235,7 @@ public class DaoTest {
 
 	@Test
 	// Test GetFileCommentsPaging [CommentService]
-	public void testGetFileCommentsPaging() {
+	public void testGetFileCommentsPaging() throws InterruptedException {
 	    User user = new User(null, "123", MD5.getHash("pass"));
         this.userService.create(user);
         Album album = new Album(null, "FirstAlbum", user, null, null,
@@ -1250,9 +1254,11 @@ public class DaoTest {
         this.commentService.create(user, file, comment1.getText());
         Comment comment2 = new Comment(likeAndDislike, user,
                 "Prueba comment 2", null, file);
+        Thread.sleep(10);
         this.commentService.create(user, file, comment2.getText());
         Comment comment3 = new Comment(likeAndDislike, user,
                 "Prueba comment 3", null, file);
+        Thread.sleep(10);
         this.commentService.create(user, file, comment3.getText());
         assertEquals(this.commentService.getCommentsPaging(file, 0, 2).size(),
                 2);

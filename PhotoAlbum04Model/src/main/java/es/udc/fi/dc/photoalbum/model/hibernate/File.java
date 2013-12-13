@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import es.udc.fi.dc.photoalbum.util.utils.ComparableById;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 
 /**
@@ -25,7 +26,7 @@ import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 @Entity
 @Table(name = "ARCHIVO")
 @SuppressWarnings("serial")
-public class File implements Serializable, Comparable<File> {
+public class File implements Serializable, ComparableById {
 
     /**
      * @see #getId()
@@ -126,6 +127,7 @@ public class File implements Serializable, Comparable<File> {
      * 
      * @return Unique id
      */
+    @Override
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -264,16 +266,5 @@ public class File implements Serializable, Comparable<File> {
      */
     public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
         this.likeAndDislike = likeAndDislike;
-    }
-
-    @Override
-    public int compareTo(File otherFile) {
-        return this.getId() - otherFile.getId();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        // it uses hibernate, compare by reference is enough
-        return (this == obj);
     }
 }

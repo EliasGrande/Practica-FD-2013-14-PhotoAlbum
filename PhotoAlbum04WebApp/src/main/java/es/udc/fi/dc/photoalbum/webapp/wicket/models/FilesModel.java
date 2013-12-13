@@ -11,6 +11,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
+import es.udc.fi.dc.photoalbum.util.utils.ComparatorById;
 
 /**
  * Model for a list of {@link File} for an especific {@link Album}.
@@ -50,7 +51,7 @@ public class FilesModel extends LoadableDetachableModel<List<File>> {
     protected List<File> load() {
         ArrayList<File> list = new ArrayList<File>(
                 fileService.getAlbumFilesOwn(id));
-        Collections.sort(list);
+        Collections.sort(list, new ComparatorById());
         return list;
     }
 }

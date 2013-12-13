@@ -34,8 +34,11 @@ public final class MD5 {
             md5.update(str.getBytes());
             byte[] messageDigest = md5.digest();
             for (byte aMessageDigest : messageDigest) {
-                hexString.append(Integer.toHexString(HEX_TO_STRING
-                        & aMessageDigest));
+                String hexStr = Integer.toHexString(HEX_TO_STRING
+                        & aMessageDigest);
+                hexStr = (hexStr.length() > 1) ? hexStr : "0"
+                        + hexStr;
+                hexString.append(hexStr);
             }
         } catch (NoSuchAlgorithmException e) {
             return e.toString();

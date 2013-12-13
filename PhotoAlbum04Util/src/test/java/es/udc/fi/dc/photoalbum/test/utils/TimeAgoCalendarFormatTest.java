@@ -1,17 +1,21 @@
 package es.udc.fi.dc.photoalbum.test.utils;
 
+import static org.junit.Assert.*;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+
 import es.udc.fi.dc.photoalbum.util.utils.TimeAgoCalendarFormat;
 
 /**
  * The class <code>TimeAgoCalendarFormatTest</code> contains tests for
  * the class {@link <code>TimeAgoCalendarFormat</code>}.
  */
-public class TimeAgoCalendarFormatTest extends TestCase {
+public class TimeAgoCalendarFormatTest {
 
     private static final long TIME_IN_MILLIS_NOW = (new Date(
             TimeAgoCalendarFormat.ONE_YEAR * 5)).getTime();
@@ -38,8 +42,8 @@ public class TimeAgoCalendarFormatTest extends TestCase {
     private TimeAgoCalendarFormat calendarFormat;
 
     @SuppressWarnings("serial")
-    @Override
-    protected void setUp() {
+    @Before
+    public void setUp() {
         calendarFormat = new TimeAgoCalendarFormat(TRANSLATES) {
             @Override
             protected long getTimeInMillisNow() {
@@ -49,9 +53,10 @@ public class TimeAgoCalendarFormatTest extends TestCase {
     }
 
     /**
-     * Run the String format(Calendar) method test
+     * Run the String format(Calendar) method test for seconds
      */
-    public void testFormat() {
+    @Test
+    public void testFormatSeconds() {
         Calendar calendar = Calendar.getInstance();
 
         calendar.setTimeInMillis(TIME_IN_MILLIS_NOW

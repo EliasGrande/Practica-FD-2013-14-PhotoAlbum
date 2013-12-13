@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.util.utils;
 
+import java.nio.charset.Charset;
 import java.util.Locale;
 
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -31,6 +32,10 @@ public class Mail {
      * Defines a password variable to do the email.
      */
     private static final String PASSWORD = "";
+    /**
+     * Defines a charset for the email.
+     */
+    private static final String CHARSET = "UTF-8";
     /**
      * Defines a subject on the registration in English.
      */
@@ -74,7 +79,7 @@ public class Mail {
     protected Email email = new SimpleEmail();
     
     /**
-     * Initializes {@link #email};
+     * Initializes {@link #email} host, smtp port, from and authenticator;
      * 
      * @throws EmailException
      */
@@ -95,6 +100,7 @@ public class Mail {
      */
     public Mail(String emailTo) throws EmailException {
         initializeEmail();
+        this.email.setCharset(CHARSET);
         this.email.addTo(emailTo);
     }
 

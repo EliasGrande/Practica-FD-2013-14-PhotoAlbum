@@ -1,23 +1,30 @@
 package es.udc.fi.dc.photoalbum.test.utils;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 import es.udc.fi.dc.photoalbum.util.utils.MD5;
-import junit.framework.TestCase;
 
 /**
- * The class <code>MD5Test</code> contains tests for the class {@link
- * <code>MD5</code>}.
+ * The class <code>MD5Test</code> contains tests for the class {@link <code>MD5</code>}
+ * .
  */
-public class MD5Test extends TestCase {
+public class MD5Test {
 
     /**
      * Run the String getHash(String) method test
      */
+    @Test
     public void testGetHash() {
-        // TODO: Falseado, hace mal la transformación de hexadecimal a String.
-        // Si alguno de los pares empieza por 0 se lo come.
-        assertEquals(MD5.getHash("r>5h)&LW"),"2afbc2537712375ca5fe390fb53f6");
-        assertEquals(MD5.getHash("35$2s4Dd"),"4c4e912ad0266e705a8693ae1c5a8e");
-        assertEquals(MD5.getHash("Rz/;dz[4%"),"d92bced32b9413ed2680f71a7a66e8ec");
-        assertEquals(MD5.getHash("O@t2,kk4oK"),"a671416082d05916b3b327c6271b57a");
+        assertEquals(MD5.getHash("dasdasdas"),
+                "63373b41cf913e9f9b3226b4a0452737");
+        assertEquals(MD5.getHash("r>5h)&LW"),
+                "02afbc25377102375ca5fe3900fb53f6");
+        assertEquals(MD5.getHash("Rz/;dz[4%"),
+                "d92bced32b9413ed2680f71a7a66e8ec");
+        assertEquals(
+                MD5.getHash("ot*8Z%]<+$/p@zx.;[/C1!-6HMz]>,z_/q=-]G^.Q<?G[!\"-+(G;N|&!<2\"2~K{! q('d6>,63e^<)])[s8UXEd~.@'VK!Z+3$Sn"),
+                "263cc18c9d7775631f6c2178f9c80c6c");
     }
 }

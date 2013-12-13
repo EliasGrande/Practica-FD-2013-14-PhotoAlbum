@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import es.udc.fi.dc.photoalbum.util.utils.ComparableById;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 
 /**
@@ -24,7 +25,7 @@ import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 @Entity
 @Table(name = "ALBUM")
 @SuppressWarnings("serial")
-public class Album implements Serializable, Comparable<Album> {
+public class Album implements Serializable, ComparableById {
 
     /**
      * @see #getId()
@@ -185,6 +186,7 @@ public class Album implements Serializable, Comparable<Album> {
      * 
      * @return Unique id
      */
+    @Override
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -241,16 +243,5 @@ public class Album implements Serializable, Comparable<Album> {
      */
     public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
         this.likeAndDislike = likeAndDislike;
-    }
-
-    @Override
-    public int compareTo(Album otherAlbum) {
-        return this.getId() - otherAlbum.getId();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        // it uses hibernate, compare by reference is enough
-        return (this == obj);
     }
 }

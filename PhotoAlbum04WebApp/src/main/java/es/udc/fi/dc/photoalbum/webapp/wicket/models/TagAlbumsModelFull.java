@@ -11,6 +11,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
+import es.udc.fi.dc.photoalbum.util.utils.ComparatorById;
 
 /**
  * The model for an {@link Album}. This model return an array of
@@ -57,7 +58,7 @@ public class TagAlbumsModelFull extends
     protected List<Album> load() {
         ArrayList<Album> list = new ArrayList<Album>(
                 albumService.getAlbumsByTag(userId, tag));
-        Collections.sort(list);
+        Collections.sort(list, new ComparatorById());
         return list;
     }
 }

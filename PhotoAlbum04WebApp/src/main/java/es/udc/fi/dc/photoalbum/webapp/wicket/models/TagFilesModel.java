@@ -11,6 +11,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
+import es.udc.fi.dc.photoalbum.util.utils.ComparatorById;
 
 /**
  * Model that return a list {@link File} that contains the tag.
@@ -57,7 +58,7 @@ public class TagFilesModel extends
     protected List<File> load() {
         ArrayList<File> list = new ArrayList<File>(
                 fileService.getFilesByTag(userId, tag));
-        Collections.sort(list);
+        Collections.sort(list, new ComparatorById());
         return list;
     }
 

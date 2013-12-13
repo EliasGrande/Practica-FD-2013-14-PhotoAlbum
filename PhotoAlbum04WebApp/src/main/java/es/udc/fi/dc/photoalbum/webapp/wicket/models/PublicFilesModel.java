@@ -12,6 +12,7 @@ import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
+import es.udc.fi.dc.photoalbum.util.utils.ComparatorById;
 
 /**
  * Model that return a list {@link File}, which are public.
@@ -59,7 +60,7 @@ public class PublicFilesModel extends
     protected List<File> load() {
         ArrayList<File> list = new ArrayList<File>(
                 fileService.getAlbumFilesPublic(albumId, userId));
-        Collections.sort(list);
+        Collections.sort(list, new ComparatorById());
         return list;
     }
 
