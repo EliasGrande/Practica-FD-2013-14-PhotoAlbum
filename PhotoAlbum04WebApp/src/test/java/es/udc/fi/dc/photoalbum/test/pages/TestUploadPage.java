@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.Locale;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.request.mapper.parameter.PageParameters;

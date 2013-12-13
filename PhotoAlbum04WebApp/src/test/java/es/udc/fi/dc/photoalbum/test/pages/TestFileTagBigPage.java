@@ -20,7 +20,6 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FileTagBig;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FilesOfAlbumTagBig;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.Tag;
 
 public class TestFileTagBigPage {

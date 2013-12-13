@@ -2,9 +2,7 @@ package es.udc.fi.dc.photoalbum.test.pages;
 
 import java.util.Locale;
 
-import org.apache.wicket.Page;
 import org.apache.wicket.Session;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.apache.wicket.util.tester.FormTester;
@@ -15,7 +13,6 @@ import org.junit.Test;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FilesOfAlbumTagBig;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.nonAuth.ForgotPassword;
 
 public class TestForgotPassword {

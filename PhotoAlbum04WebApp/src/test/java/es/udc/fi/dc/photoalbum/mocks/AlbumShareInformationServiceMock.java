@@ -10,7 +10,6 @@ import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumShareInformationService;
-import es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 
 public class AlbumShareInformationServiceMock {

@@ -6,8 +6,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
-import junit.framework.Assert;
-
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
@@ -30,8 +28,6 @@ import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.LikeAndDislikeServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
-import es.udc.fi.dc.photoalbum.model.hibernate.Album;
-import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;

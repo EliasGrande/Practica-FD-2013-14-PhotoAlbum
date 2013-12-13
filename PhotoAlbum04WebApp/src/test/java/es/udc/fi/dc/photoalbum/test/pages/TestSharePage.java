@@ -3,8 +3,7 @@ package es.udc.fi.dc.photoalbum.test.pages;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_NOT;
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_NOT_EXIST;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -24,17 +23,16 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.udc.fi.dc.photoalbum.model.hibernate.Album;
-import es.udc.fi.dc.photoalbum.model.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.AlbumShareInformationServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
+import es.udc.fi.dc.photoalbum.model.hibernate.Album;
+import es.udc.fi.dc.photoalbum.model.hibernate.AlbumShareInformation;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Image;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.Share;
 
 public class TestSharePage {

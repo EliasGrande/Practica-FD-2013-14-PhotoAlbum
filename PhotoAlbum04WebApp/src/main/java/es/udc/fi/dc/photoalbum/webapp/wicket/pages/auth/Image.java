@@ -23,6 +23,7 @@ import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -52,6 +53,7 @@ import es.udc.fi.dc.photoalbum.webapp.wicket.models.AlbumsModel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.FileOwnModel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.PrivacyLevelOption;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.PrivacyLevelsModel;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.Share;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.webapp.wicket.panels.CommentAndVotePanel;
 
@@ -87,6 +89,23 @@ public class Image extends BasePageAuth {
     private FileTagService fileTagService;
 
     /**
+     * Number of {@link FileTag tags} showed on the "Tags" list per
+     * page.
+     */
+    public static final int TAG_PER_PAGE = 5;
+
+    /**
+     * Number of {@link User#getEmail() e-mails} showed on the
+     * "File shared to" list per page.
+     */
+    public static final int EMAIL_PER_PAGE = 5;
+
+    /**
+     * Share data view {@code wicket:id}.
+     */
+    public static final String SHARE_DATA_VIEW_ID = "pageable";
+
+    /**
      * Model for the image.
      */
     private FileOwnModel fileOwnModel;
@@ -113,18 +132,6 @@ public class Image extends BasePageAuth {
     private FeedbackPanel feedback;
 
     /**
-     * Number of {@link FileTag tags} showed on the "Tags" list per
-     * page.
-     */
-    private static final int TAG_PER_PAGE = 5;
-
-    /**
-     * Number of {@link User#getEmail() e-mails} showed on the
-     * "File shared to" list per page.
-     */
-    private static final int EMAIL_PER_PAGE = 5;
-
-    /**
      * Defines an {@link Image} page.
      * 
      * @param parameters
@@ -139,22 +146,14 @@ public class Image extends BasePageAuth {
         if (parameters.getNamedKeys().contains("fid")
                 && parameters.getNamedKeys().contains("album")) {
             int id = parameters.get("fid").toInt();
-            String name = parameters.get("album").toString();
-            AlbumModel am = new AlbumModel(name);
-            FileOwnModel fileOwnModel = new FileOwnModel(id, name,
-                    ((MySession) Session.get()).getuId());
-            this.fileOwnModel = fileOwnModel;
-            if (fileOwnModel.getObject() == null) {
-                throw new RestartResponseException(ErrorPage404.class);
-            }
+            String albumName = parameters.get("album").toString();
+            AlbumModel albumModel = new AlbumModel(albumName);
+            setFileOwnModel(id, albumName);
             this.parameters = parameters;
-            FeedbackPanel feedback = new FeedbackPanel("feedback");
-            feedback.setOutputMarkupId(true);
-            this.feedback = feedback;
-            add(feedback);
-            add(new NavigateForm<Void>("formNavigate", am.getObject()
-                    .getId(), fileOwnModel.getObject().getId(),
-                    Image.class));
+            createFeedbackPanel();
+            add(new NavigateForm<Void>("formNavigate", albumModel
+                    .getObject().getId(), fileOwnModel.getObject()
+                    .getId(), Image.class));
             DataView<FileShareInformation> dataView = createShareDataView();
             add(dataView);
             add(new PagingNavigator("navigator", dataView));
@@ -165,7 +164,7 @@ public class Image extends BasePageAuth {
             add(createAddTagForm());
             add(new BookmarkablePageLink<Void>("linkBack",
                     Upload.class, (new PageParameters()).add("album",
-                            name)));
+                            albumName)));
             add(createShareForm());
             add(new AjaxDataView("fileTagDataContainer",
                     "fileTagNavigator", createFileTagsDataView()));
@@ -174,6 +173,33 @@ public class Image extends BasePageAuth {
         } else {
             throw new RestartResponseException(ErrorPage404.class);
         }
+    }
+
+    /**
+     * Setter for {@link #fileOwnModel}.
+     * 
+     * @param id
+     *            Image id
+     * @param albumName
+     *            Album name
+     */
+    private void setFileOwnModel(int id, String albumName) {
+        FileOwnModel fileOwnModel = new FileOwnModel(id, albumName,
+                ((MySession) Session.get()).getuId());
+        this.fileOwnModel = fileOwnModel;
+        if (fileOwnModel.getObject() == null) {
+            throw new RestartResponseException(ErrorPage404.class);
+        }
+    }
+
+    /**
+     * Creates the {@link #feedback} panel and adds it to the page.
+     */
+    private void createFeedbackPanel() {
+        FeedbackPanel feedback = new FeedbackPanel("feedback");
+        feedback.setOutputMarkupId(true);
+        this.feedback = feedback;
+        add(feedback);
     }
 
     /**
@@ -188,28 +214,47 @@ public class Image extends BasePageAuth {
                 shareInformationService
                         .getFileShares(this.fileOwnModel.getObject()
                                 .getId()));
-        DataView<FileShareInformation> dataView = new DataView<FileShareInformation>(
-                "pageable",
-                new ListDataProvider<FileShareInformation>(list)) {
-            protected void populateItem(
-                    Item<FileShareInformation> item) {
-                final FileShareInformation shareInformation = item
-                        .getModelObject();
-                item.add(new Label("email", shareInformation
-                        .getUser().getEmail()));
-                item.add(new Link<Void>("delete") {
-                    public void onClick() {
-                        shareInformationService
-                                .delete(shareInformation);
-                        info(new StringResourceModel("share.deleted",
-                                this, null).getString());
-                        setResponsePage(new Image(parameters));
-                    }
-                });
-            }
-        };
+        DataView<FileShareInformation> dataView = new ShareDataView(
+                new ListDataProvider<FileShareInformation>(list));
         dataView.setItemsPerPage(EMAIL_PER_PAGE);
         return dataView;
+    }
+
+    /**
+     * @see Image#createShareDataView()
+     */
+    private class ShareDataView extends
+            DataView<FileShareInformation> {
+
+        /**
+         * Invokes super constructor with
+         * {@link Image#SHARE_DATA_VIEW_ID} and the given data
+         * provider.
+         * 
+         * @param dataProvider
+         *            FileShareInformation data provider
+         */
+        public ShareDataView(
+                IDataProvider<FileShareInformation> dataProvider) {
+            super(SHARE_DATA_VIEW_ID, dataProvider);
+        }
+
+        @Override
+        protected void populateItem(Item<FileShareInformation> item) {
+            final FileShareInformation shareInformation = item
+                    .getModelObject();
+            item.add(new Label("email", shareInformation.getUser()
+                    .getEmail()));
+            item.add(new Link<Void>("delete") {
+                @Override
+                public void onClick() {
+                    shareInformationService.delete(shareInformation);
+                    info(new StringResourceModel("share.deleted",
+                            this, null).getString());
+                    setResponsePage(new Image(parameters));
+                }
+            });
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 package es.udc.fi.dc.photoalbum.util.utils;
 
-import java.nio.charset.Charset;
 import java.util.Locale;
 
 import org.apache.commons.mail.DefaultAuthenticator;

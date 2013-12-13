@@ -18,7 +18,6 @@ import org.junit.Test;
 import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ModalDelete;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Profile;
 
 public class TestProfilePage {

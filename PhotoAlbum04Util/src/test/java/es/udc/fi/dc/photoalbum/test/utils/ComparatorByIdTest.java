@@ -1,12 +1,11 @@
 package es.udc.fi.dc.photoalbum.test.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import es.udc.fi.dc.photoalbum.util.utils.ComparableById;

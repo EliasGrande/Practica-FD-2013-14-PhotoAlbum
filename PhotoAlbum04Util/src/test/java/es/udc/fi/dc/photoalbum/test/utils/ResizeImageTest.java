@@ -1,6 +1,6 @@
 package es.udc.fi.dc.photoalbum.test.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;

@@ -47,38 +47,60 @@ import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
  */
 @SuppressWarnings("serial")
 public class Share extends BasePageAuth {
+
     /**
      * @see AlbumService
      */
     @SpringBean
     private AlbumService albumService;
+
     /**
      * @see AlbumShareInformation
      */
     @SpringBean
     private AlbumShareInformationService shareInformationService;
+
     /**
      * @see UserService
      */
     @SpringBean
     private UserService userService;
+
+    /**
+     * Share form {@code wicket:id}.
+     */
+    public static final String SHARE_FORM_ID = "form";
+
+    /**
+     * Privacy level form {@code wicket:id}.
+     */
+    public static final String PRIVACY_LEVEL_FORM_ID = "formPrivacyLevel";
+
+    /**
+     * Share data view {@code wicket:id}.
+     */
+    public static final String SHARE_DATA_VIEW_ID = "pageable";
+
+    /**
+     * The maximum number ({@link Album}s or {@link File}) per page.
+     */
+    public static final int ITEMS_PER_PAGE = 20;
+
     /**
      * The {@link Album} which is going to change sharing options.
      */
     private Album album;
+
     /**
      * The model of {@link #album}
      */
-    private AlbumModel am;
+    private AlbumModel albumModel;
+
     /**
      * The parameters necessaries for render the page.
      */
     private PageParameters parameters;
-    /**
-     * The maximum number ({@link Album}s or {@link File}) per
-     * page.
-     */
-    private static final int ITEMS_PER_PAGE = 20;
+
     /**
      * The options for privacy availables.
      */
@@ -96,11 +118,11 @@ public class Share extends BasePageAuth {
         if (parameters.getNamedKeys().contains("album")) {
             String name = parameters.get("album").toString();
             add(new Label("album", name));
-            AlbumModel am = new AlbumModel(name);
-            this.am = am;
+            AlbumModel albumModel = new AlbumModel(name);
+            this.albumModel = albumModel;
             this.album = albumService.getAlbum(name,
                     ((MySession) Session.get()).getuId());
-            if (am.getObject() == null) {
+            if (albumModel.getObject() == null) {
                 throw new RestartResponseException(ErrorPage404.class);
             }
         } else {
@@ -111,7 +133,7 @@ public class Share extends BasePageAuth {
         DataView<AlbumShareInformation> dataView = createShareDataView();
         add(dataView);
         add(new PagingNavigator("navigator", dataView));
-        add(createFormPrivacyLevel());
+        add(createPrivacyLevelForm());
     }
 
     /**
@@ -125,29 +147,47 @@ public class Share extends BasePageAuth {
         final List<AlbumShareInformation> list = new ArrayList<AlbumShareInformation>(
                 shareInformationService.getAlbumShares(this.album
                         .getId()));
-        DataView<AlbumShareInformation> dataView = new DataView<AlbumShareInformation>(
-                "pageable",
-                new ListDataProvider<AlbumShareInformation>(list)) {
-
-            public void populateItem(
-                    final Item<AlbumShareInformation> item) {
-                final AlbumShareInformation shareInformation = item
-                        .getModelObject();
-                item.add(new Label("email", shareInformation
-                        .getUser().getEmail()));
-                item.add(new Link<Void>("delete") {
-                    public void onClick() {
-                        shareInformationService
-                                .delete(shareInformation);
-                        info(new StringResourceModel("share.deleted",
-                                this, null).getString());
-                        setResponsePage(new Share(parameters));
-                    }
-                });
-            }
-        };
+        DataView<AlbumShareInformation> dataView = new ShareDataView(
+                list);
         dataView.setItemsPerPage(ITEMS_PER_PAGE);
         return dataView;
+    }
+
+    /**
+     * @see Share#createShareDataView()
+     */
+    private class ShareDataView extends
+            DataView<AlbumShareInformation> {
+
+        /**
+         * Invokes super constructor with
+         * {@link Share#SHARE_DATA_VIEW_ID} and the given list.
+         * 
+         * @param list
+         *            AlbumShareInformation list
+         */
+        public ShareDataView(List<AlbumShareInformation> list) {
+            super(SHARE_DATA_VIEW_ID,
+                    new ListDataProvider<AlbumShareInformation>(list));
+        }
+
+        @Override
+        public void populateItem(
+                final Item<AlbumShareInformation> item) {
+            final AlbumShareInformation shareInformation = item
+                    .getModelObject();
+            item.add(new Label("email", shareInformation.getUser()
+                    .getEmail()));
+            item.add(new Link<Void>("delete") {
+                @Override
+                public void onClick() {
+                    shareInformationService.delete(shareInformation);
+                    info(new StringResourceModel("share.deleted",
+                            this, null).getString());
+                    setResponsePage(new Share(parameters));
+                }
+            });
+        }
     }
 
     /**
@@ -157,42 +197,7 @@ public class Share extends BasePageAuth {
      *         an {@link User}.
      */
     private Form<User> createShareForm() {
-        Form<User> form = new Form<User>("form") {
-            @Override
-            protected void onSubmit() {
-                User user = getModelObject();
-                User existedUser = userService.getUser(user);
-                if (existedUser == null) {
-                    error(new StringResourceModel("share.noUser",
-                            this, null).getString());
-                } else if (existedUser.getEmail().equals(
-                        userService.getById(
-                                ((MySession) Session.get()).getuId())
-                                .getEmail())) {
-                    error(new StringResourceModel("share.yourself",
-                            this, null).getString());
-                } else {
-                    AlbumShareInformation shareInformation = new AlbumShareInformation(
-                            null, album, existedUser);
-                    if (shareInformationService.getShare(album
-                            .getName(), existedUser.getId(),
-                            (userService.getById(((MySession) Session
-                                    .get()).getuId()).getEmail())) == null) {
-                        shareInformationService
-                                .create(shareInformation);
-                        info(new StringResourceModel(
-                                "share.shareSuccess", this, null)
-                                .getString());
-                        setResponsePage(new Share(getPage()
-                                .getPageParameters()));
-                    } else {
-                        error(new StringResourceModel(
-                                "share.alreadyExist", this, null)
-                                .getString());
-                    }
-                }
-            }
-        };
+        Form<User> form = new ShareForm();
         User user = new User();
         form.setDefaultModel(new Model<User>(user));
         RequiredTextField<String> shareEmail = new RequiredTextField<String>(
@@ -210,6 +215,53 @@ public class Share extends BasePageAuth {
     }
 
     /**
+     * @see Share#createShareForm()
+     */
+    private class ShareForm extends Form<User> {
+
+        /**
+         * Invokes super constructor with {@link Share#SHARE_FORM_ID}.
+         */
+        public ShareForm() {
+            super(SHARE_FORM_ID);
+        }
+
+        @Override
+        protected void onSubmit() {
+            User user = getModelObject();
+            User existedUser = userService.getUser(user);
+            if (existedUser == null) {
+                error(new StringResourceModel("share.noUser", this,
+                        null).getString());
+            } else if (existedUser.getEmail().equals(
+                    userService.getById(
+                            ((MySession) Session.get()).getuId())
+                            .getEmail())) {
+                error(new StringResourceModel("share.yourself", this,
+                        null).getString());
+            } else {
+                AlbumShareInformation shareInformation = new AlbumShareInformation(
+                        null, album, existedUser);
+                if (shareInformationService.getShare(album.getName(),
+                        existedUser.getId(), (userService
+                                .getById(((MySession) Session.get())
+                                        .getuId()).getEmail())) == null) {
+                    shareInformationService.create(shareInformation);
+                    info(new StringResourceModel(
+                            "share.shareSuccess", this, null)
+                            .getString());
+                    setResponsePage(new Share(getPage()
+                            .getPageParameters()));
+                } else {
+                    error(new StringResourceModel(
+                            "share.alreadyExist", this, null)
+                            .getString());
+                }
+            }
+        }
+    }
+
+    /**
      * Method createFormPrivacyLevel. This is a form to use a
      * DropDownChoice that allows to change the privacy for an album.
      * 
@@ -217,28 +269,15 @@ public class Share extends BasePageAuth {
      * 
      * @return Form<Void> The form with the DropDownChoice.
      */
-    private Form<Void> createFormPrivacyLevel() {
-        Form<Void> form = new Form<Void>("formPrivacyLevel") {
-            @Override
-            public void onSubmit() {
-                if (PrivacyLevel.validateAlbum(selectedPrivacyLevel
-                        .getValue())) {
-                    albumService.changePrivacyLevel(am.getObject(),
-                            selectedPrivacyLevel.getValue());
-                    info(new StringResourceModel(
-                            "privacyLevel.changed", this, null)
-                            .getString());
-                }
-                setResponsePage(new Share(parameters));
-            }
-        };
-        selectedPrivacyLevel = new PrivacyLevelOption(am.getObject()
-                .getPrivacyLevel(), this);
+    private Form<Void> createPrivacyLevelForm() {
+        Form<Void> form = new PrivacyLevelForm();
+        selectedPrivacyLevel = new PrivacyLevelOption(albumModel
+                .getObject().getPrivacyLevel(), this);
         DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
                 "privacyLevels",
                 new PropertyModel<PrivacyLevelOption>(this,
                         "selectedPrivacyLevel"),
-                new PrivacyLevelsModel(am.getObject(), this),
+                new PrivacyLevelsModel(albumModel.getObject(), this),
                 new ChoiceRenderer<PrivacyLevelOption>("label",
                         "value"));
         listPrivacyLevel.setRequired(true);
@@ -247,6 +286,33 @@ public class Share extends BasePageAuth {
         form.add(listPrivacyLevel);
 
         return form;
+    }
+
+    /**
+     * @see Share#createPrivacyLevelForm()
+     */
+    private class PrivacyLevelForm extends Form<Void> {
+
+        /**
+         * Invokes super constructor with
+         * {@link Share#PRIVACY_LEVEL_FORM_ID}.
+         */
+        public PrivacyLevelForm() {
+            super(PRIVACY_LEVEL_FORM_ID);
+        }
+
+        @Override
+        public void onSubmit() {
+            if (PrivacyLevel.validateAlbum(selectedPrivacyLevel
+                    .getValue())) {
+                albumService.changePrivacyLevel(
+                        albumModel.getObject(),
+                        selectedPrivacyLevel.getValue());
+                info(new StringResourceModel("privacyLevel.changed",
+                        this, null).getString());
+            }
+            setResponsePage(new Share(parameters));
+        }
     }
 
     /**

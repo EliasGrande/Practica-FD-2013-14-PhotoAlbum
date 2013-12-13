@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -68,7 +69,27 @@ public class Albums extends BasePageAuth {
     /**
      * Number of albums to show on each page.
      */
-    private static final int ALBUMS_PER_PAGE = 10;
+    public static final int ALBUMS_PER_PAGE = 10;
+
+    /**
+     * Ajax data view container {@code wicket:id}.
+     */
+    public static final String DATA_VIEW_CONTAINER_ID = "dataContainer";
+
+    /**
+     * Ajax data view navigator {@code wicket:id}.
+     */
+    public static final String DATA_VIEW_NAVIGATOR_ID = "navigator";
+
+    /**
+     * Data view {@code wicket:id}.
+     */
+    public static final String DATA_VIEW_ID = "pageable";
+
+    /**
+     * Form {@code wicket:id}.
+     */
+    public static final String FORM_ID = "form";
 
     /**
      * Defines an {@link Albums} page.
@@ -80,8 +101,8 @@ public class Albums extends BasePageAuth {
     public Albums(final PageParameters parameters) {
         super(parameters);
         add(createAlbumForm());
-        add(new AjaxDataView("dataContainer", "navigator",
-                createAlbumDataView()));
+        add(new AjaxDataView(DATA_VIEW_CONTAINER_ID,
+                DATA_VIEW_NAVIGATOR_ID, createAlbumDataView()));
     }
 
     /**
@@ -92,58 +113,77 @@ public class Albums extends BasePageAuth {
      */
     private DataView<Album> createAlbumDataView() {
         LoadableDetachableModel<List<Album>> ldm = new AlbumsModelFull();
-        DataView<Album> dataView = new DataView<Album>("pageable",
-                new AlbumListDataProvider(ldm.getObject().size())) {
-
-            protected void populateItem(final Item<Album> item) {
-                PageParameters pars = new PageParameters();
-                pars.add("album", item.getModelObject().getName());
-                BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
-                        "link", Upload.class, pars);
-                bpl.add(new Label("name", item.getModelObject()
-                        .getName()));
-                item.add(bpl);
-                item.add(new Link<Void>("delete") {
-                    public void onClick() {
-                        info(new StringResourceModel(
-                                "albums.deleted", this, null)
-                                .getString());
-                        albumService.delete(item.getModelObject());
-                        setResponsePage(new Albums(null));
-                    }
-                });
-                final ModalWindow modal = new ModalWindow("modal");
-                item.add(modal);
-                modal.setPageCreator(new ModalWindow.PageCreator() {
-                    public Page createPage() {
-                        return new ModalRename(item.getModelObject(),
-                                modal);
-                    }
-                });
-                modal.setTitle(new StringResourceModel(
-                        "albums.rename", this, null));
-                modal.setResizable(false);
-                modal.setInitialWidth(MODAL_WINDOW_WIDTH);
-                modal.setInitialHeight(MODAL_WINDOW_HEIGHT);
-                modal.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
-                    public void onClose(AjaxRequestTarget target) {
-                        setResponsePage(Albums.class);
-                    }
-                });
-                item.add(new AjaxLink<Void>("rename") {
-                    public void onClick(AjaxRequestTarget target) {
-                        modal.show(target);
-                    }
-                });
-                BookmarkablePageLink<Void> bp2 = new BookmarkablePageLink<Void>(
-                        "share", Share.class, pars);
-                item.add(bp2);
-
-            }
-        };
+        DataView<Album> dataView = new AlbumDataView(
+                new AlbumListDataProvider(ldm.getObject().size()));
         ldm.detach();
         dataView.setItemsPerPage(ALBUMS_PER_PAGE);
         return dataView;
+    }
+
+    /**
+     * @see Albums#createAlbumDataView()
+     */
+    private class AlbumDataView extends DataView<Album> {
+
+        /**
+         * Invokes super constructor with {@link Albums#DATA_VIEW_ID}
+         * and the given data provider.
+         * 
+         * @param dataProvider
+         *            Album data provider
+         */
+        public AlbumDataView(IDataProvider<Album> dataProvider) {
+            super(DATA_VIEW_ID, dataProvider);
+        }
+
+        @Override
+        protected void populateItem(final Item<Album> item) {
+            PageParameters pars = new PageParameters();
+            pars.add("album", item.getModelObject().getName());
+            BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
+                    "link", Upload.class, pars);
+            bpl.add(new Label("name", item.getModelObject().getName()));
+            item.add(bpl);
+            item.add(new Link<Void>("delete") {
+                @Override
+                public void onClick() {
+                    info(new StringResourceModel("albums.deleted",
+                            this, null).getString());
+                    albumService.delete(item.getModelObject());
+                    setResponsePage(new Albums(null));
+                }
+            });
+            final ModalWindow modal = new ModalWindow("modal");
+            item.add(modal);
+            modal.setPageCreator(new ModalWindow.PageCreator() {
+                @Override
+                public Page createPage() {
+                    return new ModalRename(item.getModelObject(),
+                            modal);
+                }
+            });
+            modal.setTitle(new StringResourceModel("albums.rename",
+                    this, null));
+            modal.setResizable(false);
+            modal.setInitialWidth(MODAL_WINDOW_WIDTH);
+            modal.setInitialHeight(MODAL_WINDOW_HEIGHT);
+            modal.setWindowClosedCallback(new ModalWindow.WindowClosedCallback() {
+                @Override
+                public void onClose(AjaxRequestTarget target) {
+                    setResponsePage(Albums.class);
+                }
+            });
+            item.add(new AjaxLink<Void>("rename") {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
+                    modal.show(target);
+                }
+            });
+            BookmarkablePageLink<Void> bp2 = new BookmarkablePageLink<Void>(
+                    "share", Share.class, pars);
+            item.add(bp2);
+
+        }
     }
 
     /**
@@ -152,23 +192,7 @@ public class Albums extends BasePageAuth {
      * @return Create album form
      */
     private Form<Album> createAlbumForm() {
-        Form<Album> form = new Form<Album>("form") {
-            @Override
-            protected void onSubmit() {
-                Album album = getModelObject();
-                album.setUser(userService
-                        .getById(((MySession) Session.get()).getuId()));
-                try {
-                    albumService.create(album);
-                    info(new StringResourceModel("albums.created",
-                            this, null).getString());
-                    setResponsePage(new Albums(null));
-                } catch (RuntimeException e) {
-                    error(new StringResourceModel("albums.existed",
-                            this, null).getString());
-                }
-            }
-        };
+        Form<Album> form = new AlbumForm();
         Album album = new Album();
         form.setDefaultModel(new Model<Album>(album));
         RequiredTextField<String> albumName = new RequiredTextField<String>(
@@ -181,6 +205,35 @@ public class Albums extends BasePageAuth {
         form.add(feedback);
         form.add(new MyAjaxButton("ajax-button", form, feedback));
         return form;
+    }
+
+    /**
+     * @see Albums#createAlbumForm()
+     */
+    private class AlbumForm extends Form<Album> {
+
+        /**
+         * Invokes super constructor with {@link Albums#FORM_ID}.
+         */
+        public AlbumForm() {
+            super(FORM_ID);
+        }
+
+        @Override
+        protected void onSubmit() {
+            Album album = getModelObject();
+            album.setUser(userService.getById(((MySession) Session
+                    .get()).getuId()));
+            try {
+                albumService.create(album);
+                info(new StringResourceModel("albums.created", this,
+                        null).getString());
+                setResponsePage(new Albums(null));
+            } catch (RuntimeException e) {
+                error(new StringResourceModel("albums.existed", this,
+                        null).getString());
+            }
+        }
     }
 
     @Override

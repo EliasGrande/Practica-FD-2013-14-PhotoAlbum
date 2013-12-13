@@ -1,7 +1,5 @@
 package es.udc.fi.dc.photoalbum.test.pages;
 
-import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_NOT_EXIST;
-
 import java.util.Locale;
 
 import org.apache.wicket.Page;
@@ -22,7 +20,6 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Albums;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.pub.PublicFilesBig;
 
 public class TestPublicFilesBigPage {

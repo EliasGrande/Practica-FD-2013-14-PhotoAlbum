@@ -24,7 +24,6 @@ import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedBig;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.FileTagBig;
 
 public class TestSharedBigPage {
     private WicketApp wicketApp;

@@ -25,8 +25,6 @@ import es.udc.fi.dc.photoalbum.mocks.UserServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.VotedServiceMock;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.WicketApp;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.ErrorPage404;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedAlbums;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedFiles;
 
 public class TestSharedFilesPage {
