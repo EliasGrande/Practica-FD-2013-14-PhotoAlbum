@@ -28,6 +28,8 @@ public class BasePageAuth extends BasePage {
      */
     public BasePageAuth(final PageParameters parameters) {
         super(parameters);
+        add(new BookmarkablePageLink<Void>("hottestFiles",
+                HottestFiles.class));
         add(new BookmarkablePageLink<Void>("albums", Albums.class));
         add(new BookmarkablePageLink<Void>("sharedUsers",
                 SharedUsers.class));

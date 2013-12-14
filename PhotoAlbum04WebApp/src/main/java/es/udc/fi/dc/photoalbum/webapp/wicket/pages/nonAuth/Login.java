@@ -25,7 +25,7 @@ import es.udc.fi.dc.photoalbum.model.spring.UserService;
 import es.udc.fi.dc.photoalbum.util.utils.MD5;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MyAjaxButton;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.Albums;
+import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.HottestFiles;
 
 /**
  * Class that contains all the necessary methods that allow to login
@@ -87,7 +87,7 @@ public class Login extends BasePage {
                     } else {
                         session.setuId(userDB.getId());
                     }
-                    setResponsePage(Albums.class);
+                    setResponsePage(HottestFiles.class);
                 } else {
                     error(new StringResourceModel("login.noSuchUser",
                             this, null).getString());
