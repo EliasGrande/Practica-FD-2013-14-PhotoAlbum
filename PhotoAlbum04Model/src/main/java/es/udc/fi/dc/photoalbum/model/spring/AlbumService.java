@@ -138,4 +138,8 @@ public interface AlbumService {
 
     List<Album> getAlbums(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count);
+    
+    List<Album> getAlbums(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy,
+            int first, int count);
 }

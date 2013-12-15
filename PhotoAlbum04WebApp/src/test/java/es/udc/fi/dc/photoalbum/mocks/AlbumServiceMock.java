@@ -161,5 +161,13 @@ public class AlbumServiceMock {
             // TODO Auto-generated method stub
             return null;
         }
+
+        @Override
+        public List<Album> getAlbums(String keywords, boolean name,
+                boolean comment, boolean tag, String orderBy,
+                int first, int count) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     };
 }

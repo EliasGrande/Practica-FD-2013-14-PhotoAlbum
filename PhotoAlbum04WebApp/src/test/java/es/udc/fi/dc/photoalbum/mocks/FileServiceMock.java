@@ -274,5 +274,13 @@ public class FileServiceMock {
             // TODO Auto-generated method stub
             return null;
         }
+
+        @Override
+        public List<File> getFiles(String keywords, boolean name,
+                boolean comment, boolean tag, String orderBy,
+                int first, int count) {
+            // TODO Auto-generated method stub
+            return null;
+        }
     };
 }

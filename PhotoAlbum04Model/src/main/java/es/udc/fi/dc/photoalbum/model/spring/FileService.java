@@ -234,4 +234,8 @@ public interface FileService {
     List<File> getFiles(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count);
 
+    List<File> getFiles(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy, int first,
+            int count);
+
 }
