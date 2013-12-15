@@ -11,19 +11,105 @@
 	</parent>
 
 	<artifactId>PhotoAlbum04RestServices</artifactId>
-	<name>PhotoAlbum04RestServices</name>
+	<packaging>war</packaging>
+	<name>PhotoAlbum04 RestServices -- Herramientas de Desarrollo 2013/2014</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>3.2.1.RELEASE</spring.version>
+        <jersey.version>1.17.1</jersey.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<groupId>dc.fi.udc.es</groupId>
+			<artifactId>PhotoAlbum04Model</artifactId>
+			<version>1.2-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>dc.fi.udc.es</groupId>
+			<artifactId>PhotoAlbum04Util</artifactId>
+			<version>1.2-SNAPSHOT</version>
+		</dependency>
+ 					<dependency>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-core</artifactId>
+                        <version>${jersey.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-json</artifactId>
+                        <version>${jersey.version}</version>
+                </dependency>
+                <!-- Jersey + Spring -->
+                <dependency>
+                        <groupId>com.sun.jersey.contribs</groupId>
+                        <artifactId>jersey-spring</artifactId>
+                        <version>${jersey.version}</version>
+                        <exclusions>
+                                <exclusion>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring-core</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring-web</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring-beans</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring-context</artifactId>
+                                </exclusion>
+                                <exclusion>
+                                        <groupId>org.springframework</groupId>
+                                        <artifactId>spring-aop</artifactId>
+                                </exclusion>
+                        </exclusions>
+                </dependency>
+
+                <!-- Spring 3 -->
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                        <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-orm</artifactId>
+                        <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-web</artifactId>
+                        <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                        <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context-support</artifactId>
+                        <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-beans</artifactId>
+                        <version>${spring.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-jdbc</artifactId>
+                        <version>${spring.version}</version>
+                </dependency>
 	</dependencies>
 
 </project>

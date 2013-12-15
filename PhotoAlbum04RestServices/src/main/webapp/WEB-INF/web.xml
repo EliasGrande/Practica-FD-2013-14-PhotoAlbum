@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+    <distributable/>
+
+    <display-name>PhotoAlbum04-Rest</display-name>
+
+    <!-- JAX-RS service                                                     -->
+
+    <servlet>
+        <servlet-name>RESTFulServlet</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
+        </servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
+            <param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value>
+        </init-param>
+        <init-param>
+          <param-name>com.sun.jersey.config.property.packages</param-name>
+          <param-value>es.udc.fi.dc.photoalbum.restservices.servlets</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RESTFulServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- General configuration -->
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+</web-app>
