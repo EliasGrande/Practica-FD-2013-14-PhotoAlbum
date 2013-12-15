@@ -1,7 +1,10 @@
 package es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth;
 
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
+
+import javax.sql.rowset.serial.SerialBlob;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
@@ -17,8 +20,8 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
+import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 import es.udc.fi.dc.photoalbum.webapp.wicket.AjaxDataView;
-import es.udc.fi.dc.photoalbum.webapp.wicket.BlobFromFile;
 import es.udc.fi.dc.photoalbum.webapp.wicket.HottestFileListDataProvider;
 import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.HottestFilesModel;
@@ -74,11 +77,11 @@ public class HottestFiles extends BasePageAuth {
      * 
      * @return Hottest files dataview
      */
-    private DataView<File> createDataView() {
+    private DataView<FileDto> createDataView() {
         int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<List<File>> ldm = new HottestFilesModel(
+        LoadableDetachableModel<List<FileDto>> ldm = new HottestFilesModel(
                 userId);
-        DataView<File> dataView = new HottestFilesDataView(
+        DataView<FileDto> dataView = new HottestFilesDataView(
                 REPEATER_ID, new HottestFileListDataProvider(ldm
                         .getObject().size(), userId));
         dataView.setItemsPerPage(ITEMS_PER_PAGE);
@@ -88,35 +91,38 @@ public class HottestFiles extends BasePageAuth {
     /**
      * @see HottestFiles#createDataView()
      */
-    private class HottestFilesDataView extends DataView<File> {
+    private class HottestFilesDataView extends DataView<FileDto> {
 
         /**
          * Calls the inherit constructor.
          */
         protected HottestFilesDataView(String id,
-                IDataProvider<File> dataProvider) {
+                IDataProvider<FileDto> dataProvider) {
             super(id, dataProvider);
         }
 
         @Override
-        public void populateItem(final Item<File> item) {
+        public void populateItem(final Item<FileDto> item) {
             PageParameters pars = new PageParameters();
             int idFile = item.getModelObject().getId();
 
             // TODO Change to HottestFilesBig if necessary [start]
             pars.add("fid", idFile);
-            pars.add("albumId", item.getModelObject().getAlbum()
-                    .getId());
             BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                     IMG_LINK_ID, PublicFilesBig.class, pars);
             // TODO Change to HottestFilesBig if necessary [end]
-            
+
             bpl.add(new NonCachingImage("img",
                     new BlobImageResource() {
                         @Override
                         protected Blob getBlob(Attributes arg0) {
-                            return BlobFromFile.getSmall(item
-                                    .getModelObject());
+                            try {
+                                return new SerialBlob(item
+                                        .getModelObject()
+                                        .getFileSmall());
+                            } catch (SQLException e) {
+                                return null;
+                            }
                         }
                     }));
             item.add(bpl);

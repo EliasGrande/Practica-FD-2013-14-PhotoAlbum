@@ -8,6 +8,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
+import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 
 /**
  * Model that return a paginated list of the hottest {@link File
@@ -15,7 +16,7 @@ import es.udc.fi.dc.photoalbum.model.hibernate.User;
  */
 @SuppressWarnings("serial")
 public class HottestFilesModelPaging extends
-        LoadableDetachableModel<List<File>> {
+        LoadableDetachableModel<List<FileDto>> {
 
     /**
      * The id of the {@link User} that want to view the {@link File}s.
@@ -55,8 +56,8 @@ public class HottestFilesModelPaging extends
      * @return File list
      */
     @Override
-    protected List<File> load() {
+    protected List<FileDto> load() {
         // TODO Use REST search service here, now returns empty list
-        return new ArrayList<File>();
+        return new ArrayList<FileDto>();
     }
 }

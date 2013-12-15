@@ -8,10 +8,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import es.udc.fi.dc.photoalbum.util.utils.ComparableById;
+
 @XmlRootElement(name = "file")
 @XmlType(name = "fileType", propOrder = { "id", "name", "fileSmall" })
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FileDto {
+public class FileDto implements ComparableById {
     @XmlElement(name = "file-id", required = true)
     private Integer id;
     @XmlElement(required = true)

@@ -9,6 +9,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
+import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 import es.udc.fi.dc.photoalbum.util.utils.ComparatorById;
 
 /**
@@ -16,7 +17,7 @@ import es.udc.fi.dc.photoalbum.util.utils.ComparatorById;
  */
 @SuppressWarnings("serial")
 public class HottestFilesModel extends
-        LoadableDetachableModel<List<File>> {
+        LoadableDetachableModel<List<FileDto>> {
 
     /**
      * The id of the {@link User} who wants to view the {@link File
@@ -41,9 +42,9 @@ public class HottestFilesModel extends
      * @return File list
      */
     @Override
-    protected List<File> load() {
+    protected List<FileDto> load() {
         // TODO Use REST search service here, now returns empty list
-        ArrayList<File> list = new ArrayList<File>();
+        ArrayList<FileDto> list = new ArrayList<FileDto>();
         Collections.sort(list, new ComparatorById());
         return list;
     }

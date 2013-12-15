@@ -12,6 +12,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
+import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.HottestFilesModelPaging;
 
 /**
@@ -22,7 +23,7 @@ import es.udc.fi.dc.photoalbum.webapp.wicket.models.HottestFilesModelPaging;
  */
 @SuppressWarnings("serial")
 public class HottestFileListDataProvider implements
-        IDataProvider<File> {
+        IDataProvider<FileDto> {
 
     /**
      * @see FileService
@@ -73,8 +74,8 @@ public class HottestFileListDataProvider implements
      * @see org.apache.wicket.markup.repeater.data.IDataProvider#iterator(long,
      *      long)
      */
-    public Iterator<File> iterator(long first, long count) {
-        LoadableDetachableModel<List<File>> ldm = new HottestFilesModelPaging(
+    public Iterator<FileDto> iterator(long first, long count) {
+        LoadableDetachableModel<List<FileDto>> ldm = new HottestFilesModelPaging(
                 this.userId, (int) first, (int) count);
         return ldm.getObject().iterator();
     }
@@ -96,12 +97,12 @@ public class HottestFileListDataProvider implements
      *            A "hottest" {@link File}.
      * @return File model
      */
-    public IModel<File> model(File object) {
-        final Integer id = object.getId();
-        return new LoadableDetachableModel<File>() {
+    public IModel<FileDto> model(FileDto object) {
+        final FileDto fileDto = object;
+        return new LoadableDetachableModel<FileDto>() {
             @Override
-            protected File load() {
-                return fileService.getById(id);
+            protected FileDto load() {
+                return fileDto;
             }
         };
     }

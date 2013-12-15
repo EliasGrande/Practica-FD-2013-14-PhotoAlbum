@@ -6,10 +6,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import es.udc.fi.dc.photoalbum.util.utils.ComparableById;
+
 @XmlRootElement(name = "album")
 @XmlType(name = "albumType", propOrder = { "id", "name" })
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AlbumDto {
+public class AlbumDto implements ComparableById {
     @XmlElement(name = "album-id", required = true)
     private Integer id;
     @XmlElement(required = true)

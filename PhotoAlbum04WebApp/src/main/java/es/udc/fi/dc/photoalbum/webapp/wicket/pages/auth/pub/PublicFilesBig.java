@@ -66,9 +66,14 @@ public class PublicFilesBig extends BasePageAuth {
         super(parameters);
 
         int id = parameters.get("fid").toInt();
-        int albumId = parameters.get("albumId").toInt();
         File auxFile = fileService.getById(id);
         this.file = auxFile;
+        int albumId;
+        if (parameters.getNamedKeys().contains("albumId")) {
+            albumId = parameters.get("albumId").toInt();
+        } else {
+            albumId = auxFile.getAlbum().getId();
+        }
 
         add(new PublicNavigateForm<Void>("formNavigate", albumId,
                 ((MySession) Session.get()).getuId(), id,
@@ -100,7 +105,8 @@ public class PublicFilesBig extends BasePageAuth {
     /**
      * Method that create a {@link FileTag} data view.
      * 
-     * @return DataView<{@link FileTag}> that contains the elements to shown.
+     * @return DataView<{@link FileTag}> that contains the elements to
+     *         shown.
      */
     private DataView<FileTag> createFileTagsDataView() {
         final List<FileTag> list = new ArrayList<FileTag>(
