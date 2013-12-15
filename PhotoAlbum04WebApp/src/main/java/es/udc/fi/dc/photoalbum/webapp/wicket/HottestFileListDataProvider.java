@@ -10,7 +10,6 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
-import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
 import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.HottestFilesModelPaging;
@@ -37,11 +36,6 @@ public class HottestFileListDataProvider implements
     private int size;
 
     /**
-     * The id of the {@link User} who wants to view the {@link File}.
-     */
-    private int userId;
-
-    /**
      * Method detach.
      * 
      * @see org.apache.wicket.model.IDetachable#detach()
@@ -54,12 +48,9 @@ public class HottestFileListDataProvider implements
      * 
      * @param size
      *            {@link #size}
-     * @param userId
-     *            {@link #userId}
      */
-    public HottestFileListDataProvider(int size, int userId) {
+    public HottestFileListDataProvider(int size) {
         this.size = size;
-        this.userId = userId;
         Injector.get().inject(this);
     }
 
@@ -76,7 +67,7 @@ public class HottestFileListDataProvider implements
      */
     public Iterator<FileDto> iterator(long first, long count) {
         LoadableDetachableModel<List<FileDto>> ldm = new HottestFilesModelPaging(
-                this.userId, (int) first, (int) count);
+                (int) first, (int) count);
         return ldm.getObject().iterator();
     }
 

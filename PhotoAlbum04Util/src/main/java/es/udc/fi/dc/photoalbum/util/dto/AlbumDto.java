@@ -11,7 +11,7 @@ import es.udc.fi.dc.photoalbum.util.utils.ComparableById;
 @XmlRootElement(name = "album")
 @XmlType(name = "albumType", propOrder = { "id", "name" })
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AlbumDto implements ComparableById {
+public class AlbumDto {
     @XmlElement(name = "album-id", required = true)
     private Integer id;
     @XmlElement(required = true)

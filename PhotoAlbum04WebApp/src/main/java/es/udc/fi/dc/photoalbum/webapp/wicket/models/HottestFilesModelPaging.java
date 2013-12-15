@@ -7,7 +7,6 @@ import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
-import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 
 /**
@@ -17,11 +16,6 @@ import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 @SuppressWarnings("serial")
 public class HottestFilesModelPaging extends
         LoadableDetachableModel<List<FileDto>> {
-
-    /**
-     * The id of the {@link User} that want to view the {@link File}s.
-     */
-    private int userId;
 
     /**
      * The index of first {@link File}.
@@ -36,15 +30,12 @@ public class HottestFilesModelPaging extends
     /**
      * Constructor for HottestFilesModelPaging.
      * 
-     * @param userId
-     *            {@link #userId}
      * @param first
      *            {@link #first}
      * @param count
      *            {@link #count}
      */
-    public HottestFilesModelPaging(int userId, int first, int count) {
-        this.userId = userId;
+    public HottestFilesModelPaging(int first, int count) {
         this.first = first;
         this.count = count;
         Injector.get().inject(this);

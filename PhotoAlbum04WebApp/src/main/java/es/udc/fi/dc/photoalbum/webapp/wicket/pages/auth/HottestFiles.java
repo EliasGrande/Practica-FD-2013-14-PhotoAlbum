@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-import org.apache.wicket.Session;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.image.NonCachingImage;
@@ -23,7 +22,6 @@ import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 import es.udc.fi.dc.photoalbum.webapp.wicket.AjaxDataView;
 import es.udc.fi.dc.photoalbum.webapp.wicket.HottestFileListDataProvider;
-import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.HottestFilesModel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.pub.PublicFilesBig;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.SharedFiles;
@@ -78,12 +76,10 @@ public class HottestFiles extends BasePageAuth {
      * @return Hottest files dataview
      */
     private DataView<FileDto> createDataView() {
-        int userId = ((MySession) Session.get()).getuId();
-        LoadableDetachableModel<List<FileDto>> ldm = new HottestFilesModel(
-                userId);
+        LoadableDetachableModel<List<FileDto>> ldm = new HottestFilesModel();
         DataView<FileDto> dataView = new HottestFilesDataView(
                 REPEATER_ID, new HottestFileListDataProvider(ldm
-                        .getObject().size(), userId));
+                        .getObject().size()));
         dataView.setItemsPerPage(ITEMS_PER_PAGE);
         return dataView;
     }
@@ -106,11 +102,10 @@ public class HottestFiles extends BasePageAuth {
             PageParameters pars = new PageParameters();
             int idFile = item.getModelObject().getId();
 
-            // TODO Change to HottestFilesBig if necessary [start]
+            // TODO Change to HottestFilesBig if necessary
             pars.add("fid", idFile);
             BookmarkablePageLink<Void> bpl = new BookmarkablePageLink<Void>(
                     IMG_LINK_ID, PublicFilesBig.class, pars);
-            // TODO Change to HottestFilesBig if necessary [end]
 
             bpl.add(new NonCachingImage("img",
                     new BlobImageResource() {
