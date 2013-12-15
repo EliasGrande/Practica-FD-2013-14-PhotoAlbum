@@ -229,7 +229,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public List<Album> getFiles(String keywords, boolean name,
+    public List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count) {
         // TODO Auto-generated method stub
@@ -237,13 +237,13 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public List<Album> getFiles(String orderBy, int first, int count) {
+    public List<Album> getAlbums(String orderBy, int first, int count) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Album> getFiles(String orderBy, Calendar fechaMin,
+    public List<Album> getAlbums(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count) {
         // TODO Auto-generated method stub
         return null;

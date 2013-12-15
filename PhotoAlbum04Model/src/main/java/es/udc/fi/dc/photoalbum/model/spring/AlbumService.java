@@ -130,12 +130,12 @@ public interface AlbumService {
      */
     List<Album> getAlbumsByTag(int userId, String tag);
 
-    List<Album> getFiles(String keywords, boolean name,
+    List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count);
 
-    List<Album> getFiles(String orderBy, int first, int count);
+    List<Album> getAlbums(String orderBy, int first, int count);
 
-    List<Album> getFiles(String orderBy, Calendar fechaMin,
+    List<Album> getAlbums(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count);
 }
