@@ -30,6 +30,8 @@ public class SearchServlet {
     private final static String NAME = "name";
     private final static String TAG = "tag";
     private final static String COMMENT = "comment";
+    
+    private final static String LIKE = "like";
 
     @Autowired
     FileService fileService;
@@ -186,7 +188,7 @@ public class SearchServlet {
                  * &first=_&count=_
                  */
             case "hottest-pics":
-                files = fileService.getFiles("LIKE", first, count);
+                files = fileService.getFiles(LIKE, first, count);
 
                 return new ResultDtoJax(new ArrayList<AlbumDtoJax>(),
                         FileToFileDtoConversor.toFileDto(files));
