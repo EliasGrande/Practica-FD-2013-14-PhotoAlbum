@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
@@ -23,6 +24,7 @@ import es.udc.fi.dc.photoalbum.restservices.util.ValidateParameters;
 import es.udc.fi.dc.photoalbum.util.dto.AlbumDto;
 import es.udc.fi.dc.photoalbum.util.dto.ResultDto;
 
+@Component
 @Path("/search")
 public class SearchServlet {
     private final static String NAME = "name";
@@ -75,7 +77,7 @@ public class SearchServlet {
             return new ResultDto(
                     "The result can be order by date, like, dislike");
         }
-
+        fileService.getAlbumFilesOwn(1);
         switch (type) {
         /* /search?type=album */
             case "album":

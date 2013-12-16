@@ -4,24 +4,31 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
 
-    <distributable/>
 
     <display-name>PhotoAlbum04-Rest</display-name>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+ 
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
 
     <!-- JAX-RS service                                                     -->
 
     <servlet>
         <servlet-name>RESTFulServlet</servlet-name>
-        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
+        <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet
         </servlet-class>
-        <init-param>
-            <param-name>com.sun.jersey.config.property.resourceConfigClass</param-name>
-            <param-value>com.sun.jersey.api.core.PackagesResourceConfig</param-value>
-        </init-param>
         <init-param>
           <param-name>com.sun.jersey.config.property.packages</param-name>
           <param-value>es.udc.fi.dc.photoalbum.restservices.servlets</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>

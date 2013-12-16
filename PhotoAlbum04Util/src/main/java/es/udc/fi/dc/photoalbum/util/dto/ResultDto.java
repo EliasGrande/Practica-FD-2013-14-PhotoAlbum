@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "result")
-@XmlType(name = "resultDto", propOrder = { "albumDtos", "fileDtos" })
+@XmlType(name = "resultDto", propOrder = { "albumDtos", "fileDtos", "error" })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ResultDto {
     @XmlElement(name = "album-dtos")
