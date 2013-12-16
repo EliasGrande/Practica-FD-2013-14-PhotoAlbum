@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.model.hibernate;
 
+import java.util.List;
+
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 /**
@@ -30,5 +32,21 @@ public class LikeAndDislikeDaoImpl extends HibernateDaoSupport
     public LikeAndDislike get(int likeAndDislikeId) {
         return getHibernateTemplate().get(LikeAndDislike.class,
                 likeAndDislikeId);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<LikeAndDislike> getLikesAndDislikes(boolean like) {
+        String query = "SELECT l FROM LikeAndDislike l ";
+        
+        if (like) {
+            query += "ORDER BY l.like DESC ";
+        } else {
+            query += "ORDER BY l.dislike DESC ";
+        }
+        
+        return (List<LikeAndDislike>) getHibernateTemplate()
+                .getSessionFactory().getCurrentSession()
+                .createQuery(query).list();
     }
 }

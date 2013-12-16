@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.model.hibernate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -232,5 +233,154 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
                         PrivacyLevel.INHERIT_FROM_ALBUM)
                 .setParameter("publicPrivacyLevel",
                         PrivacyLevel.PUBLIC).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Album> getAlbums(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy,
+            Calendar fechaMin, Calendar fechaMax, int first, int count) {
+        String query = "SELECT a FROM Album a "
+                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        
+        if (name) {
+            query += "AND (a.name LIKE :keywords) ";
+        }
+        
+        if (comment) {
+            query += "AND "
+                    + "("
+                    + "a.id "
+                    + "IN "
+                    + "("
+                    + "SELECT c.album.id FROM Comment c "
+                    + "WHERE c.text LIKE :keywords "
+                    + ")"
+                    + ") ";
+        }
+        
+        if (tag) {
+            query += "AND "
+                    + "("
+                    + "a.id "
+                    + "IN "
+                    + "("
+                    + "SELECT t.album.id "
+                    + "FROM AlbumTag t "
+                    + "WHERE t.tag LIKE :keywords"
+                    + ")"
+                    + ") ";
+        }
+        
+        query += "AND (a.date BETWEEN :fechaMin AND :fechaMax) ";
+        
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY a.date DESC ";
+        }
+        
+        return (List<Album>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("keywords", "%" + keywords + "%")
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC)
+                .setParameter("fechaMin", fechaMin)
+                .setParameter("fechaMax", fechaMax)
+                .setFirstResult(first).setMaxResults(count).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Album> getAlbums(String orderBy, int first, int count) {
+        String query = "SELECT a FROM Album a "
+                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY a.date DESC ";
+        }
+        
+        return (List<Album>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC)
+                .setFirstResult(first).setMaxResults(count).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Album> getAlbums(String orderBy, Calendar fechaMin,
+            Calendar fechaMax, int first, int count) {
+        String query = "SELECT a FROM Album a "
+                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        
+        query += "AND (a.date BETWEEN :fechaMin AND :fechaMax) ";
+        
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY a.date DESC ";
+        }
+        
+        return (List<Album>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC)
+                .setParameter("fechaMin", fechaMin)
+                .setParameter("fechaMax", fechaMax)
+                .setFirstResult(first).setMaxResults(count).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Album> getAlbums(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy, int first,
+            int count) {
+        String query = "SELECT a FROM Album a "
+                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        
+        if (name) {
+            query += "AND (a.name LIKE :keywords) ";
+        }
+        
+        if (comment) {
+            query += "AND "
+                    + "("
+                    + "a.id "
+                    + "IN "
+                    + "("
+                    + "SELECT c.album.id FROM Comment c "
+                    + "WHERE c.text LIKE :keywords "
+                    + ")"
+                    + ") ";
+        }
+        
+        if (tag) {
+            query += "AND "
+                    + "("
+                    + "a.id "
+                    + "IN "
+                    + "("
+                    + "SELECT t.album.id "
+                    + "FROM AlbumTag t "
+                    + "WHERE t.tag LIKE :keywords"
+                    + ")"
+                    + ") ";
+        }
+        
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY a.date DESC ";
+        }
+        
+        return (List<Album>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("keywords", "%" + keywords + "%")
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC).setFirstResult(first)
+                .setMaxResults(count).list();
     }
 }

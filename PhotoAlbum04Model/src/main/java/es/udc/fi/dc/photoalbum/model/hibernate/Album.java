@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.model.hibernate;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import es.udc.fi.dc.photoalbum.util.utils.ComparableById;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
@@ -43,6 +46,11 @@ public class Album implements Serializable, ComparableById {
     private User user;
 
     /**
+     * @see #getDate()
+     */
+    private Calendar date;
+
+    /**
      * @see #getPrivacyLevel()
      */
     private String privacyLevel;
@@ -69,6 +77,7 @@ public class Album implements Serializable, ComparableById {
      */
     public Album() {
         privacyLevel = PrivacyLevel.PRIVATE;
+        date = Calendar.getInstance();
     }
 
     /**
@@ -93,6 +102,7 @@ public class Album implements Serializable, ComparableById {
         this.id = id;
         this.name = name;
         this.user = user;
+        this.date = Calendar.getInstance();
         this.privacyLevel = privacyLevel;
         this.files = files;
         this.shareInformation = shareInformation;
@@ -158,6 +168,27 @@ public class Album implements Serializable, ComparableById {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * Creation date.
+     * 
+     * @return Creation date
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE")
+    public Calendar getDate() {
+        return date;
+    }
+
+    /**
+     * Setter for {@link #getDate() date}.
+     * 
+     * @param date
+     *            New creation date
+     */
+    public void setDate(Calendar date) {
+        this.date = date;
     }
 
     /**
@@ -243,5 +274,14 @@ public class Album implements Serializable, ComparableById {
      */
     public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
         this.likeAndDislike = likeAndDislike;
+    }
+
+    @Override
+    public String toString() {
+        return "Album [id=" + id + ", name=" + name + ", user="
+                + user.getEmail() + ", date=" + date
+                + ", privacyLevel=" + privacyLevel + ", files="
+                + files + ", shareInformation=" + shareInformation
+                + ", likeAndDislike=" + likeAndDislike.getId() + "]";
     }
 }

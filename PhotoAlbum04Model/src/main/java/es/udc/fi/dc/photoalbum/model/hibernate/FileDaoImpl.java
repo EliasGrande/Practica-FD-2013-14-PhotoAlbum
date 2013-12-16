@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.model.hibernate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -277,5 +278,267 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                 .setParameter("publicPrivacyLevel",
                         PrivacyLevel.PUBLIC).setFirstResult(first)
                 .setMaxResults(count).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<File> getFiles(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy,
+            Calendar fechaMin, Calendar fechaMax, int first, int count) {
+
+        String query = "SELECT f FROM File f " 
+                + "WHERE (" 
+                + "("
+                + "(f.privacyLevel = :publicPrivacyLevel) " 
+                + "AND "
+                + "(f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ") " 
+                + "OR " 
+                + "("
+                + "(f.privacyLevel = :inheritPrivacyLevel) " 
+                + "AND "
+                + "(" 
+                + "f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ")" 
+                + ") ";
+
+        if (name) {
+            query += "AND (f.name LIKE :keywords ) ";
+        }
+
+        if (comment) {
+            query += "AND " 
+                    + "(" 
+                    + "f.id " 
+                    + "IN " 
+                    + "("
+                    + "SELECT c.file.id " 
+                    + "FROM Comment c "
+                    + "WHERE c.text LIKE :keywords" 
+                    + ")"
+                    + ") ";
+        }
+
+        if (tag) {
+            query += "AND " 
+                    + "(" 
+                    + "f.id " 
+                    + "IN " 
+                    + "("
+                    + "SELECT t.file.id " 
+                    + "FROM FileTag t "
+                    + "WHERE t.tag LIKE :keywords" 
+                    + ")" 
+                    + ") ";
+        }
+
+        query += "AND (f.date BETWEEN :fechaMin AND :fechaMax) ";
+        
+
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY f.date DESC ";
+        }
+
+        return (List<File>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("keywords", "%" + keywords + "%")
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC)
+                .setParameter("inheritPrivacyLevel",
+                        PrivacyLevel.INHERIT_FROM_ALBUM)
+                .setParameter("fechaMin", fechaMin)
+                .setParameter("fechaMax", fechaMax)
+                .setFirstResult(first).setMaxResults(count).list();
+
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<File> getFiles(String orderBy, int first, int count) {
+        String query = "SELECT f FROM File f " 
+                + "WHERE (" 
+                + "("
+                + "(f.privacyLevel = :publicPrivacyLevel) " 
+                + "AND "
+                + "(f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ") " 
+                + "OR " 
+                + "("
+                + "(f.privacyLevel = :inheritPrivacyLevel) " 
+                + "AND "
+                + "(" 
+                + "f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ")" 
+                + ") ";
+        
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY f.date DESC ";
+        }
+        
+        return (List<File>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC)
+                .setParameter("inheritPrivacyLevel",
+                        PrivacyLevel.INHERIT_FROM_ALBUM)
+                .setFirstResult(first).setMaxResults(count).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<File> getFiles(String orderBy, Calendar fechaMin,
+            Calendar fechaMax, int first, int count) {
+        String query = "SELECT f FROM File f " 
+                + "WHERE (" 
+                + "("
+                + "(f.privacyLevel = :publicPrivacyLevel) " 
+                + "AND "
+                + "(f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ") " 
+                + "OR " 
+                + "("
+                + "(f.privacyLevel = :inheritPrivacyLevel) " 
+                + "AND "
+                + "(" 
+                + "f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ")" 
+                + ") ";
+        
+        query += "AND (f.date BETWEEN :fechaMin AND :fechaMax) ";
+        
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY f.date DESC ";
+        }
+        
+        return (List<File>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC)
+                .setParameter("inheritPrivacyLevel",
+                        PrivacyLevel.INHERIT_FROM_ALBUM)
+                .setParameter("fechaMin", fechaMin)
+                .setParameter("fechaMax", fechaMax)
+                .setFirstResult(first).setMaxResults(count).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<File> getFiles(String keywords, boolean name,
+            boolean comment, boolean tag, String orderBy, int first,
+            int count) {
+        String query = "SELECT f FROM File f " 
+                + "WHERE (" 
+                + "("
+                + "(f.privacyLevel = :publicPrivacyLevel) " 
+                + "AND "
+                + "(f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ") " 
+                + "OR " 
+                + "("
+                + "(f.privacyLevel = :inheritPrivacyLevel) " 
+                + "AND "
+                + "(" 
+                + "f.album.id " 
+                + "IN " 
+                + "("
+                + "SELECT a.id FROM Album a "
+                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+                + ")"
+                + ")" 
+                + ")" 
+                + ") ";
+
+        if (name) {
+            query += "AND (f.name LIKE :keywords ) ";
+        }
+
+        if (comment) {
+            query += "AND " 
+                    + "(" 
+                    + "f.id " 
+                    + "IN " 
+                    + "("
+                    + "SELECT c.file.id " 
+                    + "FROM Comment c "
+                    + "WHERE c.text LIKE :keywords" 
+                    + ")"
+                    + ") ";
+        }
+
+        if (tag) {
+            query += "AND " 
+                    + "(" 
+                    + "f.id " 
+                    + "IN " 
+                    + "("
+                    + "SELECT t.file.id " 
+                    + "FROM FileTag t "
+                    + "WHERE t.tag LIKE :keywords" 
+                    + ")" 
+                    + ") ";
+        }
+        
+        if (orderBy.equals("FECHA")) {
+            query += "ORDER BY f.date DESC ";
+        }
+        
+        return (List<File>) getHibernateTemplate()
+                .getSessionFactory()
+                .getCurrentSession()
+                .createQuery(query)
+                .setParameter("keywords", "%" + keywords + "%")
+                .setParameter("publicPrivacyLevel",
+                        PrivacyLevel.PUBLIC)
+                .setParameter("inheritPrivacyLevel",
+                        PrivacyLevel.INHERIT_FROM_ALBUM)
+                .setFirstResult(first).setMaxResults(count).list();
     }
 }

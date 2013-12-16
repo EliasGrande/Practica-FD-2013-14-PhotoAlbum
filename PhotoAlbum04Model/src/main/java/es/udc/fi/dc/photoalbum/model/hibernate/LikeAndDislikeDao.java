@@ -1,5 +1,7 @@
 package es.udc.fi.dc.photoalbum.model.hibernate;
 
+import java.util.List;
+
 /**
  * DAO interface for the {@link LikeAndDislike} entity.
  */
@@ -24,4 +26,6 @@ public interface LikeAndDislikeDao extends GenericDao<LikeAndDislike> {
      * @return LikeAndDislike object
      */
     LikeAndDislike get(int likeAndDislikeId);
+    
+    List<LikeAndDislike> getLikesAndDislikes (boolean like);
 }

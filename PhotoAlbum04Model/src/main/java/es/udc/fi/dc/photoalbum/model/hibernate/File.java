@@ -2,6 +2,7 @@ package es.udc.fi.dc.photoalbum.model.hibernate;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import es.udc.fi.dc.photoalbum.util.utils.ComparableById;
 import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
@@ -37,6 +40,11 @@ public class File implements Serializable, ComparableById {
      * @see #getName()
      */
     private String name;
+
+    /**
+     * @see #getDate()
+     */
+    private Calendar date;
 
     /**
      * @see #getPrivacyLevel()
@@ -75,6 +83,7 @@ public class File implements Serializable, ComparableById {
      */
     public File() {
         privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
+        date = Calendar.getInstance();
     }
 
     /**
@@ -95,6 +104,7 @@ public class File implements Serializable, ComparableById {
             byte[] fileSmall, Album album) {
         this.id = id;
         this.name = name;
+        this.date = Calendar.getInstance();
         this.privacyLevel = PrivacyLevel.INHERIT_FROM_ALBUM;
         this.file = Arrays.copyOf(file, file.length);
         this.fileSmall = Arrays.copyOf(fileSmall, fileSmall.length);
@@ -163,6 +173,27 @@ public class File implements Serializable, ComparableById {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Creation date.
+     * 
+     * @return Creation date
+     */
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE")
+    public Calendar getDate() {
+        return date;
+    }
+
+    /**
+     * Setter for {@link #getDate() date}.
+     * 
+     * @param date
+     *            New creation date
+     */
+    public void setDate(Calendar date) {
+        this.date = date;
     }
 
     /**
@@ -267,4 +298,16 @@ public class File implements Serializable, ComparableById {
     public void setLikeAndDislike(LikeAndDislike likeAndDislike) {
         this.likeAndDislike = likeAndDislike;
     }
+
+    @Override
+    public String toString() {
+        return "File [id=" + id + ", name=" + name + ", date=" + date
+                + ", privacyLevel=" + privacyLevel + ", file="
+                + Arrays.toString(file) + ", fileSmall="
+                + Arrays.toString(fileSmall) + ", album="
+                + album.getName() + ", shareInformation="
+                + shareInformation + ", likeAndDislike="
+                + likeAndDislike.getId() + "]";
+    }
+
 }

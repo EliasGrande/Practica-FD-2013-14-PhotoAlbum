@@ -1,5 +1,6 @@
 package es.udc.fi.dc.photoalbum.model.spring;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -86,7 +87,8 @@ public class AlbumServiceImpl implements AlbumService {
      * 
      * @param album
      *            Album that will be deleted
-     * @see es.udc.fi.dc.photoalbum.model.spring.AlbumService #delete(Album)
+     * @see es.udc.fi.dc.photoalbum.model.spring.AlbumService
+     *      #delete(Album)
      */
     public void delete(Album album) {
         LikeAndDislike lad = album.getLikeAndDislike();
@@ -117,8 +119,8 @@ public class AlbumServiceImpl implements AlbumService {
      *            The album whose name will be renamed
      * @param newName
      *            The new name for the album
-     * @see es.udc.fi.dc.photoalbum.model.spring.AlbumService #rename(Album,
-     *      String)
+     * @see es.udc.fi.dc.photoalbum.model.spring.AlbumService
+     *      #rename(Album, String)
      */
     public void rename(Album album, String newName) {
         albumDao.rename(album, newName);
@@ -232,29 +234,138 @@ public class AlbumServiceImpl implements AlbumService {
     public List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count) {
-        // TODO Auto-generated method stub
-        return null;
+
+        List<LikeAndDislike> lad = null;
+        ArrayList<Album> hot = new ArrayList<>();
+        int i, j;
+
+        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+            if (orderBy.equals("LIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(true);
+            } else if (orderBy.equals("DISLIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(false);
+            }
+            List<Album> albums = albumDao.getAlbums(keywords, name,
+                    comment, tag, orderBy, fechaMin, fechaMax, first,
+                    count);
+            i = 0;
+            while (i < lad.size() || (i < albums.size())) {
+                for (j = 0; j < albums.size(); j++) {
+                    if (albums.get(j).getLikeAndDislike().getId() == lad
+                            .get(i).getId()) {
+                        hot.add(albums.get(j));
+                    }
+                }
+                i++;
+            }
+        } else { // busqueda por fecha
+            hot = (ArrayList<Album>) albumDao.getAlbums(keywords,
+                    name, comment, tag, "FECHA", fechaMin, fechaMax,
+                    first, count);
+        }
+
+        return hot;
     }
 
     @Override
     public List<Album> getAlbums(String orderBy, int first, int count) {
-        // TODO Auto-generated method stub
-        return null;
+
+        ArrayList<Album> hot = new ArrayList<>();
+        int i, j;
+
+        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+            List<LikeAndDislike> lad = null;
+            if (orderBy.equals("LIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(true);
+            } else if (orderBy.equals("DISLIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(false);
+            }
+            List<Album> albums = albumDao.getAlbums(orderBy, first,
+                    count);
+            i = 0;
+            while (i < lad.size() || (i < albums.size())) {
+                for (j = 0; j < albums.size(); j++) {
+                    if (albums.get(j).getLikeAndDislike().getId() == lad
+                            .get(i).getId()) {
+                        hot.add(albums.get(j));
+                    }
+                }
+                i++;
+            }
+        } else { // fecha
+            hot = (ArrayList<Album>) albumDao.getAlbums(orderBy,
+                    first, count);
+        }
+
+        return hot;
     }
 
     @Override
     public List<Album> getAlbums(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<Album> hot = new ArrayList<>();
+        int i, j;
+
+        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+            List<LikeAndDislike> lad = null;
+            if (orderBy.equals("LIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(true);
+            } else if (orderBy.equals("DISLIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(false);
+            }
+            List<Album> albums = albumDao.getAlbums(orderBy,
+                    fechaMin, fechaMax, first, count);
+            i = 0;
+            while (i < lad.size() || (i < albums.size())) {
+                for (j = 0; j < albums.size(); j++) {
+                    if (albums.get(j).getLikeAndDislike().getId() == lad
+                            .get(i).getId()) {
+                        hot.add(albums.get(j));
+                    }
+                }
+                i++;
+            }
+        } else { // fecha
+            hot = (ArrayList<Album>) albumDao.getAlbums("FECHA",
+                    fechaMin, fechaMax, first, count);
+        }
+
+        return hot;
     }
 
     @Override
     public List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        ArrayList<Album> hot = new ArrayList<>();
+        int i, j;
+
+        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+            List<LikeAndDislike> lad = null;
+            if (orderBy.equals("LIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(true);
+            } else if (orderBy.equals("DISLIKE")) {
+                lad = likeAndDislikeDao.getLikesAndDislikes(false);
+            }
+            List<Album> albums = albumDao.getAlbums(keywords, name,
+                    comment, tag, orderBy, first, count);
+            i = 0;
+            while (i < lad.size() || (i < albums.size())) {
+                for (j = 0; j < albums.size(); j++) {
+                    if (albums.get(j).getLikeAndDislike().getId() == lad
+                            .get(i).getId()) {
+                        hot.add(albums.get(j));
+                    }
+                }
+                i++;
+            }
+        } else { // busqueda por fecha
+            hot = (ArrayList<Album>) albumDao.getAlbums(keywords,
+                    name, comment, tag, "FECHA", first, count);
+        }
+
+        return hot;
     }
 
 }
