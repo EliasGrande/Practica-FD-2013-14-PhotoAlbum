@@ -1,17 +1,29 @@
-package es.udc.fi.dc.photoalbum.util.dto;
+package es.udc.fi.dc.photoalbum.restservices.dto;
 
 import java.util.Arrays;
 
-public class FileDto {
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlRootElement(name = "file")
+@XmlType(name = "fileType", propOrder = { "id", "name", "fileSmall" })
+@XmlAccessorType(XmlAccessType.FIELD)
+public class FileDtoJax {
+    @XmlElement(name = "file-id", required = true)
     private Integer id;
+    @XmlElement(required = true)
     private String name;
+    @XmlElement(name = "file-small", required = true)
     private byte[] fileSmall;
 
-    public FileDto() {
-
+    public FileDtoJax(){
+        
     }
-
-    public FileDto(Integer id, String name, byte[] fileSmall) {
+    
+    public FileDtoJax(Integer id, String name, byte[] fileSmall) {
         this.id = id;
         this.name = name;
         this.fileSmall = Arrays.copyOf(fileSmall, fileSmall.length);
@@ -46,5 +58,6 @@ public class FileDto {
         return "FileDto [id=" + id + ", name=" + name
                 + ", fileSmall=" + Arrays.toString(fileSmall) + "]";
     }
-
+    
+    
 }

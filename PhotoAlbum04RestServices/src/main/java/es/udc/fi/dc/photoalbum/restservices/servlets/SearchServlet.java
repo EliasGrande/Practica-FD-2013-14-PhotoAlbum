@@ -18,11 +18,11 @@ import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
+import es.udc.fi.dc.photoalbum.restservices.dto.AlbumDtoJax;
+import es.udc.fi.dc.photoalbum.restservices.dto.ResultDtoJax;
 import es.udc.fi.dc.photoalbum.restservices.util.AlbumToAlbumDtoConversor;
 import es.udc.fi.dc.photoalbum.restservices.util.FileToFileDtoConversor;
 import es.udc.fi.dc.photoalbum.restservices.util.ValidateParameters;
-import es.udc.fi.dc.photoalbum.util.dto.AlbumDto;
-import es.udc.fi.dc.photoalbum.util.dto.ResultDto;
 
 @Component
 @Path("/search")
@@ -39,7 +39,7 @@ public class SearchServlet {
 
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public ResultDto getMsg(
+    public ResultDtoJax getMsg(
             @QueryParam("type") String type,
             @QueryParam("findBy") List<String> findBy,
             @QueryParam("keywords") String keywords,
@@ -56,7 +56,7 @@ public class SearchServlet {
 
         /* Comprueba parametros */
         if (type == null) {
-            return new ResultDto("Type param must be necessary");
+            return new ResultDtoJax("Type param must be necessary");
         }
         if ((dateFirst != null) && (dateEnd != null)) {
             if ((ValidateParameters.validate(dateFirst))
@@ -64,17 +64,17 @@ public class SearchServlet {
                 dateBeginC = ValidateParameters.toCalendar(dateFirst);
                 dateEndC = ValidateParameters.toCalendar(dateEnd);
             } else {
-                return new ResultDto(
+                return new ResultDtoJax(
                         "Incorrect format for date, the correct is dd/mm/yyyy");
             }
             if (!ValidateParameters.validateDates(dateBeginC,
                     dateEndC)) {
-                return new ResultDto(
+                return new ResultDtoJax(
                         "The dateEnd are earlier than dateFirst.");
             }
         }
         if (!ValidateParameters.validateOrderBy(orderBy)) {
-            return new ResultDto(
+            return new ResultDtoJax(
                     "The result can be order by date, like, dislike");
         }
         fileService.getAlbumFilesOwn(1);
@@ -105,7 +105,7 @@ public class SearchServlet {
                                 first, count);
                     }
                 }
-                return new ResultDto(
+                return new ResultDtoJax(
                         AlbumToAlbumDtoConversor.toAlbumDto(albums),
                         FileToFileDtoConversor.toFileDto(files));
                 /* /search?type=file */
@@ -134,7 +134,7 @@ public class SearchServlet {
                                 count);
                     }
                 }
-                return new ResultDto(
+                return new ResultDtoJax(
                         AlbumToAlbumDtoConversor.toAlbumDto(albums),
                         FileToFileDtoConversor.toFileDto(files));
 
@@ -178,7 +178,7 @@ public class SearchServlet {
                                 count);
                     }
                 }
-                return new ResultDto(
+                return new ResultDtoJax(
                         AlbumToAlbumDtoConversor.toAlbumDto(albums),
                         FileToFileDtoConversor.toFileDto(files));
                 /*
@@ -188,11 +188,11 @@ public class SearchServlet {
             case "hottest-pics":
                 files = fileService.getFiles("LIKE", first, count);
 
-                return new ResultDto(new ArrayList<AlbumDto>(),
+                return new ResultDtoJax(new ArrayList<AlbumDtoJax>(),
                         FileToFileDtoConversor.toFileDto(files));
                 /* Any incorrect type */
             default:
-                return new ResultDto(
+                return new ResultDtoJax(
                         "Especific a correct type: file, album, all or hottest-pics");
         }
 
