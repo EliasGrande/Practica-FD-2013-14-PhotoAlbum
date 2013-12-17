@@ -8,13 +8,13 @@ import java.util.regex.Pattern;
 
 public class ValidateParameters {
 
-    private final static String NAME = "name";
-    private final static String TAG = "tag";
-    private final static String COMMENT = "comment";
+    private static String NAME = "name";
+    private static String TAG = "tag";
+    private static String COMMENT = "comment";
 
-    private final static String LIKE = "like";
-    private final static String DISLIKE = "dislike";
-    private final static String DATE = "date";
+    private static String LIKE = "like";
+    private static String DISLIKE = "dislike";
+    private static String DATE = "date";
 
     private final static List<String> listOfOrderBy = Arrays
             .asList(new String[] { LIKE, DISLIKE, DATE });

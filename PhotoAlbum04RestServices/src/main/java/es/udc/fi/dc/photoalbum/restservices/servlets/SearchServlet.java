@@ -24,7 +24,7 @@ import es.udc.fi.dc.photoalbum.restservices.util.AlbumToAlbumDtoConversor;
 import es.udc.fi.dc.photoalbum.restservices.util.FileToFileDtoConversor;
 import es.udc.fi.dc.photoalbum.restservices.util.ValidateParameters;
 
-/*Servlet that allows to search files, albums or both, using diferents parameters to 
+/**Servlet that allows to search files, albums or both, using diferents parameters to 
  * determine the items result.*/
 @Component
 @Path("/search")
@@ -32,19 +32,19 @@ public class SearchServlet {
     /**
      * One of the allowed findBy parameters.
      */
-    private final static String NAME = "name";
+    private static String NAME = "name";
     /**
      * One of the allowed findBy parameters.
      */
-    private final static String TAG = "tag";
+    private static String TAG = "tag";
     /**
      * One of the allowed findBy parameters.
      */
-    private final static String COMMENT = "comment";
+    private static String COMMENT = "comment";
     /**
      * One of the allowed orderBy parameters.
      */
-    private final static String LIKE = "like";
+    private static String LIKE = "like";
     /**
      * @see FileService
      */
@@ -66,7 +66,8 @@ public class SearchServlet {
      * @param dateEnd Allow to filter by date (end limit). Are necessary both date.
      * @param first The id of the first element to shown.
      * @param count The number of elements shown.
-     * @return
+    
+     * @return ResultDtoJax
      */
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
