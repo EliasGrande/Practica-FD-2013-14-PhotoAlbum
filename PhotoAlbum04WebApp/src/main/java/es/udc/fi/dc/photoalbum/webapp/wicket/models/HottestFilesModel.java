@@ -8,6 +8,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.util.dto.FileDto;
+import es.udc.fi.dc.photoalbum.webapp.restclient.RestClientSearchService;
 
 /**
  * Model that return a list of the hottest {@link File files}.
@@ -30,8 +31,8 @@ public class HottestFilesModel extends
      */
     @Override
     protected List<FileDto> load() {
-        // TODO Use REST search service here, now returns empty list
-        ArrayList<FileDto> list = new ArrayList<FileDto>();
+        RestClientSearchService searchService = new RestClientSearchService();
+        List<FileDto> list = searchService.getHottestPics();
         return list;
     }
 }
