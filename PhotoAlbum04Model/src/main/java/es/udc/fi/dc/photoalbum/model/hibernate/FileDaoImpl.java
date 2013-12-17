@@ -347,7 +347,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         query += "AND (f.date BETWEEN :fechaMin AND :fechaMax) ";
         
 
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
         }
 
@@ -397,7 +397,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                 + ")" 
                 + ") ";
         
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
         }
         
@@ -446,7 +446,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         
         query += "AND (f.date BETWEEN :fechaMin AND :fechaMax) ";
         
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
         }
         
@@ -526,7 +526,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                     + ") ";
         }
         
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
         }
         

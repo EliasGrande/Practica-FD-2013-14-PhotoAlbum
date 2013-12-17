@@ -17,6 +17,10 @@ import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislikeDao;
 @Transactional
 public class AlbumServiceImpl implements AlbumService {
 
+    private final static String DATE = "date";
+    private final static String LIKE = "like";
+    private final static String DISLIKE = "dislike";
+    
     /**
      * @see AlbumDao
      */
@@ -239,10 +243,10 @@ public class AlbumServiceImpl implements AlbumService {
         ArrayList<Album> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
-            if (orderBy.equals("LIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<Album> albums = albumDao.getAlbums(keywords, name,
@@ -260,7 +264,7 @@ public class AlbumServiceImpl implements AlbumService {
             }
         } else { // busqueda por fecha
             hot = (ArrayList<Album>) albumDao.getAlbums(keywords,
-                    name, comment, tag, "FECHA", fechaMin, fechaMax,
+                    name, comment, tag, DATE, fechaMin, fechaMax,
                     first, count);
         }
 
@@ -273,11 +277,11 @@ public class AlbumServiceImpl implements AlbumService {
         ArrayList<Album> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
             List<LikeAndDislike> lad = null;
-            if (orderBy.equals("LIKE")) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<Album> albums = albumDao.getAlbums(orderBy, first,
@@ -293,7 +297,7 @@ public class AlbumServiceImpl implements AlbumService {
                 i++;
             }
         } else { // fecha
-            hot = (ArrayList<Album>) albumDao.getAlbums(orderBy,
+            hot = (ArrayList<Album>) albumDao.getAlbums(DATE,
                     first, count);
         }
 
@@ -306,11 +310,11 @@ public class AlbumServiceImpl implements AlbumService {
         ArrayList<Album> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
             List<LikeAndDislike> lad = null;
-            if (orderBy.equals("LIKE")) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<Album> albums = albumDao.getAlbums(orderBy,
@@ -326,7 +330,7 @@ public class AlbumServiceImpl implements AlbumService {
                 i++;
             }
         } else { // fecha
-            hot = (ArrayList<Album>) albumDao.getAlbums("FECHA",
+            hot = (ArrayList<Album>) albumDao.getAlbums(DATE,
                     fechaMin, fechaMax, first, count);
         }
 
@@ -341,11 +345,11 @@ public class AlbumServiceImpl implements AlbumService {
         ArrayList<Album> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
             List<LikeAndDislike> lad = null;
-            if (orderBy.equals("LIKE")) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<Album> albums = albumDao.getAlbums(keywords, name,
@@ -362,7 +366,7 @@ public class AlbumServiceImpl implements AlbumService {
             }
         } else { // busqueda por fecha
             hot = (ArrayList<Album>) albumDao.getAlbums(keywords,
-                    name, comment, tag, "FECHA", first, count);
+                    name, comment, tag, DATE, first, count);
         }
 
         return hot;
