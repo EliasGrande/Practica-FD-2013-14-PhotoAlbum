@@ -48,39 +48,25 @@ public class ValidateParameters {
         if (day <= 0) {
             return false;
         }
-
-        switch (month) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                if (day <= 31) {
+        if((month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) 
+                || (month == 10) || (month == 12)){
+            if (day <= 31) {
+                return true;
+            }
+        }else if(month == 2){
+            if (year % 4 == 0) {
+                if(day <= 29){
                     return true;
+                }else{
+                    return false;
                 }
-                break;
-            case 2:
-                if (year % 4 == 0) {
-                    if(day <= 29){
-                        return true;
-                    }else{
-                        return false;
-                    }
-                }else if(day <= 28){
-                    return true;
-                }
-                break;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                if (day <= 30) {
-                    return true;
-                }
-                break;
-
+            }else if(day <= 28){
+                return true;
+            }
+        }else{
+            if (day <= 30) {
+                return true;
+            }
         }
         return false;
     }

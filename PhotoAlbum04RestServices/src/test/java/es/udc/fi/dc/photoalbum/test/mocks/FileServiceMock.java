@@ -20,7 +20,7 @@ public class FileServiceMock implements FileService {
         User user = new User(1, "123", MD5.getHash("pass"));
         Album album = new Album(1, "FirstAlbum", user, null, null,
                 PrivacyLevel.PRIVATE);
-        File file = new File(1, "Search with all parameters",
+        File file = new File(1, "File: Search with all parameters",
                 new byte[] { 1 }, new byte[] { 2 }, album);
 
         List<File> files = new ArrayList<File>();
@@ -34,7 +34,7 @@ public class FileServiceMock implements FileService {
         User user = new User(1, "123", MD5.getHash("pass"));
         Album album = new Album(1, "FirstAlbum", user, null, null,
                 PrivacyLevel.PRIVATE);
-        File file = new File(1, "Search with only orderBy",
+        File file = new File(1, "File: Search with only orderBy",
                 new byte[] { 1 }, new byte[] { 2 }, album);
 
         List<File> files = new ArrayList<File>();
@@ -49,7 +49,7 @@ public class FileServiceMock implements FileService {
         Album album = new Album(1, "FirstAlbum", user, null, null,
                 PrivacyLevel.PRIVATE);
         File file = new File(1,
-                "Search with orderBy and filter by date",
+                "File: Search with orderBy and filter by date",
                 new byte[] { 1 }, new byte[] { 2 }, album);
 
         List<File> files = new ArrayList<File>();
@@ -65,7 +65,7 @@ public class FileServiceMock implements FileService {
         Album album = new Album(1, "FirstAlbum", user, null, null,
                 PrivacyLevel.PRIVATE);
         File file = new File(1,
-                "All parameters without filter dates",
+                "File: All parameters without filter dates",
                 new byte[] { 1 }, new byte[] { 2 }, album);
 
         List<File> files = new ArrayList<File>();

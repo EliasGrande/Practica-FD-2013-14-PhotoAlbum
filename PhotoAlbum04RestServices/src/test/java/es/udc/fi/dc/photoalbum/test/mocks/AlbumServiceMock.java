@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
-import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.util.utils.MD5;
@@ -18,7 +17,7 @@ public class AlbumServiceMock implements AlbumService{
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count){
         User user = new User(1, "123", MD5.getHash("pass"));
-        Album album = new Album(1, "Search with all parameters", user, null, null,
+        Album album = new Album(1, "Album: Search with all parameters", user, null, null,
                 PrivacyLevel.PRIVATE);
         
         List<Album> albums = new ArrayList<Album>();
@@ -29,7 +28,7 @@ public class AlbumServiceMock implements AlbumService{
 
     public List<Album> getAlbums(String orderBy, int first, int count){
         User user = new User(1, "123", MD5.getHash("pass"));
-        Album album = new Album(1, "Search with only orderBy", user, null, null,
+        Album album = new Album(1, "Album: Search with only orderBy", user, null, null,
                 PrivacyLevel.PRIVATE);
         
         List<Album> albums = new ArrayList<Album>();
@@ -41,7 +40,7 @@ public class AlbumServiceMock implements AlbumService{
     public List<Album> getAlbums(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count){
         User user = new User(1, "123", MD5.getHash("pass"));
-        Album album = new Album(1, "Search with orderBy and filter by date", user, null, null,
+        Album album = new Album(1, "Album: Search with orderBy and filter by date", user, null, null,
                 PrivacyLevel.PRIVATE);
         
         List<Album> albums = new ArrayList<Album>();
@@ -54,7 +53,7 @@ public class AlbumServiceMock implements AlbumService{
             boolean comment, boolean tag, String orderBy,
             int first, int count){
         User user = new User(1, "123", MD5.getHash("pass"));
-        Album album = new Album(1, "All parameters without filter dates", user, null, null,
+        Album album = new Album(1, "Album: All parameters without filter dates", user, null, null,
                 PrivacyLevel.PRIVATE);
         
         List<Album> albums = new ArrayList<Album>();

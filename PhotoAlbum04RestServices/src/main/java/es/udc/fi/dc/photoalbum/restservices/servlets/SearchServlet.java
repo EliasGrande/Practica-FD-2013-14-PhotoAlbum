@@ -24,21 +24,50 @@ import es.udc.fi.dc.photoalbum.restservices.util.AlbumToAlbumDtoConversor;
 import es.udc.fi.dc.photoalbum.restservices.util.FileToFileDtoConversor;
 import es.udc.fi.dc.photoalbum.restservices.util.ValidateParameters;
 
+/*Servlet that allows to search files, albums or both, using diferents parameters to 
+ * determine the items result.*/
 @Component
 @Path("/search")
 public class SearchServlet {
+    /**
+     * One of the allowed findBy parameters.
+     */
     private final static String NAME = "name";
+    /**
+     * One of the allowed findBy parameters.
+     */
     private final static String TAG = "tag";
+    /**
+     * One of the allowed findBy parameters.
+     */
     private final static String COMMENT = "comment";
-
+    /**
+     * One of the allowed orderBy parameters.
+     */
     private final static String LIKE = "like";
-
+    /**
+     * @see FileService
+     */
     @Autowired
-    FileService fileService;
-
+    private FileService fileService;
+    /**
+     * @see AlbumService
+     */
     @Autowired
-    AlbumService albumService;
-
+    private AlbumService albumService;
+    
+    /**
+     * Method that allows to realize the search.
+     * @param type The type of search: file, album, all(album and files) or hottest-pics.
+     * @param findBy The field in which you want to search the keywords.
+     * @param keywords The words that must contain the search in findBy.
+     * @param orderBy The sort order of the result.
+     * @param dateFirst Allow to filter by date (begin limit). Are necessary both date.
+     * @param dateEnd Allow to filter by date (end limit). Are necessary both date.
+     * @param first The id of the first element to shown.
+     * @param count The number of elements shown.
+     * @return
+     */
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public ResultDtoJax getMsg(
@@ -80,122 +109,121 @@ public class SearchServlet {
             return new ResultDtoJax(
                     "Url syntax error: The result can be order by date, like, dislike");
         }
-        switch (type) {
-        /* /search?type=album */
-            case "album":
-                if (ValidateParameters.validateFindByAndKeywords(
-                        findBy, keywords)) {
-                    if (dateBeginC != null) {
-                        albums = albumService.getAlbums(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy,
-                                dateBeginC, dateEndC, first, count);
-                    } else {
-                        albums = albumService.getAlbums(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy, first,
-                                count);
-                    }
+        if (type.compareTo("album") == 0) {
+            /* /search?type=album */
+            if (ValidateParameters.validateFindByAndKeywords(findBy,
+                    keywords)) {
+                if (dateBeginC != null) {
+                    albums = albumService.getAlbums(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy,
+                            dateBeginC, dateEndC, first, count);
                 } else {
-                    if (dateBeginC != null) {
-                        albums = albumService.getAlbums(orderBy,
-                                dateBeginC, dateEndC, first, count);
-                    } else {
-                        albums = albumService.getAlbums(orderBy,
-                                first, count);
-                    }
+                    albums = albumService.getAlbums(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy, first,
+                            count);
                 }
-                return new ResultDtoJax(
-                        AlbumToAlbumDtoConversor.toAlbumDto(albums),
-                        FileToFileDtoConversor.toFileDto(files));
-                /* /search?type=file */
-            case "file":
-                if (ValidateParameters.validateFindByAndKeywords(
-                        findBy, keywords)) {
-                    if (dateBeginC != null) {
-                        files = fileService.getFiles(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy,
-                                dateBeginC, dateEndC, first, count);
-                    } else {
-                        files = fileService.getFiles(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy, first,
-                                count);
-                    }
+            } else {
+                if (dateBeginC != null) {
+                    albums = albumService.getAlbums(orderBy,
+                            dateBeginC, dateEndC, first, count);
                 } else {
-                    if (dateBeginC != null) {
-                        files = fileService.getFiles(orderBy,
-                                dateBeginC, dateEndC, first, count);
-                    } else {
-                        files = fileService.getFiles(orderBy, first,
-                                count);
-                    }
+                    albums = albumService.getAlbums(orderBy, first,
+                            count);
                 }
-                return new ResultDtoJax(
-                        AlbumToAlbumDtoConversor.toAlbumDto(albums),
-                        FileToFileDtoConversor.toFileDto(files));
+            }
+            return new ResultDtoJax(
+                    AlbumToAlbumDtoConversor.toAlbumDto(albums),
+                    FileToFileDtoConversor.toFileDto(files));
+            /* /search?type=file */
+        } else if (type.compareTo("file") == 0) {
+            if (ValidateParameters.validateFindByAndKeywords(findBy,
+                    keywords)) {
+                if (dateBeginC != null) {
+                    files = fileService.getFiles(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy,
+                            dateBeginC, dateEndC, first, count);
+                } else {
+                    files = fileService.getFiles(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy, first,
+                            count);
+                }
+            } else {
+                if (dateBeginC != null) {
+                    files = fileService.getFiles(orderBy, dateBeginC,
+                            dateEndC, first, count);
+                } else {
+                    files = fileService.getFiles(orderBy, first,
+                            count);
+                }
+            }
+            return new ResultDtoJax(
+                    AlbumToAlbumDtoConversor.toAlbumDto(albums),
+                    FileToFileDtoConversor.toFileDto(files));
+        } else if (type.compareTo("all") == 0) {
+            /* /search?type=all */
+            if (ValidateParameters.validateFindByAndKeywords(findBy,
+                    keywords)) {
+                if (dateBeginC != null) {
+                    albums = albumService.getAlbums(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy,
+                            dateBeginC, dateEndC, first, count);
+                    files = fileService.getFiles(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy,
+                            dateBeginC, dateEndC, first, count);
+                } else {
+                    albums = albumService.getAlbums(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy, first,
+                            count);
+                    files = fileService.getFiles(keywords,
+                            findBy.contains(NAME),
+                            findBy.contains(COMMENT),
+                            findBy.contains(TAG), orderBy, first,
+                            count);
+                }
+            } else {
+                if (dateBeginC != null) {
+                    albums = albumService.getAlbums(orderBy,
+                            dateBeginC, dateEndC, first, count);
+                    files = fileService.getFiles(orderBy, dateBeginC,
+                            dateEndC, first, count);
+                } else {
+                    albums = albumService.getAlbums(orderBy, first,
+                            count);
+                    files = fileService.getFiles(orderBy, first,
+                            count);
+                }
+            }
+            return new ResultDtoJax(
+                    AlbumToAlbumDtoConversor.toAlbumDto(albums),
+                    FileToFileDtoConversor.toFileDto(files));
+        } else if (type.compareTo("hottest-pics") == 0) {
+            /*
+             * localhost:8080/PhotoAlbum04/search?type=hottest-pics
+             * &first=_&count=_
+             */
+            files = fileService.getFiles(LIKE, first, count);
 
-                /* /search?type=all */
-            case "all":
-                if (ValidateParameters.validateFindByAndKeywords(
-                        findBy, keywords)) {
-                    if (dateBeginC != null) {
-                        albums = albumService.getAlbums(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy,
-                                dateBeginC, dateEndC, first, count);
-                        files = fileService.getFiles(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy,
-                                dateBeginC, dateEndC, first, count);
-                    } else {
-                        albums = albumService.getAlbums(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy, first,
-                                count);
-                        files = fileService.getFiles(keywords,
-                                findBy.contains(NAME),
-                                findBy.contains(COMMENT),
-                                findBy.contains(TAG), orderBy, first,
-                                count);
-                    }
-                } else {
-                    if (dateBeginC != null) {
-                        albums = albumService.getAlbums(orderBy,
-                                dateBeginC, dateEndC, first, count);
-                        files = fileService.getFiles(orderBy,
-                                dateBeginC, dateEndC, first, count);
-                    } else {
-                        albums = albumService.getAlbums(orderBy,
-                                first, count);
-                        files = fileService.getFiles(orderBy, first,
-                                count);
-                    }
-                }
-                return new ResultDtoJax(
-                        AlbumToAlbumDtoConversor.toAlbumDto(albums),
-                        FileToFileDtoConversor.toFileDto(files));
-                /*
-                 * localhost:8080/PhotoAlbum04/search?type=hottest-pics
-                 * &first=_&count=_
-                 */
-            case "hottest-pics":
-                files = fileService.getFiles(LIKE, first, count);
-
-                return new ResultDtoJax(new ArrayList<AlbumDtoJax>(),
-                        FileToFileDtoConversor.toFileDto(files));
-                /* Any incorrect type */
-            default:
-                return new ResultDtoJax(
-                        "Url syntax error: Especific a correct type: file, album, all or hottest-pics");
+            return new ResultDtoJax(new ArrayList<AlbumDtoJax>(),
+                    FileToFileDtoConversor.toFileDto(files));
+            /* Any incorrect type */
+        } else {
+            return new ResultDtoJax(
+                    "Url syntax error: Especific a correct type: "
+                            + "file, album, all or hottest-pics");
         }
 
     }
