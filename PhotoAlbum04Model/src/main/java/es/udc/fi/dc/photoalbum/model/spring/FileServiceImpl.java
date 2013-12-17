@@ -23,6 +23,10 @@ import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 @Transactional
 public class FileServiceImpl implements FileService {
 
+    private final static String DATE = "date";
+    private final static String LIKE = "like";
+    private final static String DISLIKE = "dislike";
+    
     /**
      * @see LikeAndDislikeDao
      */
@@ -490,10 +494,10 @@ public class FileServiceImpl implements FileService {
         ArrayList<File> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
-            if (orderBy.equals("LIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<File> files = fileDao.getFiles(keywords, name,
@@ -511,7 +515,7 @@ public class FileServiceImpl implements FileService {
             }
         } else { // fecha
             hot = (ArrayList<File>) fileDao.getFiles(keywords, name,
-                    comment, tag, "FECHA", fechaMin, fechaMax, first,
+                    comment, tag, DATE, fechaMin, fechaMax, first,
                     count);
         }
 
@@ -524,11 +528,11 @@ public class FileServiceImpl implements FileService {
         ArrayList<File> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
             List<LikeAndDislike> lad = null;
-            if (orderBy.equals("LIKE")) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<File> files = fileDao
@@ -544,7 +548,7 @@ public class FileServiceImpl implements FileService {
                 i++;
             }
         } else { // fecha
-            hot = (ArrayList<File>) fileDao.getFiles(orderBy, first,
+            hot = (ArrayList<File>) fileDao.getFiles(DATE, first,
                     count);
         }
         return hot;
@@ -557,11 +561,11 @@ public class FileServiceImpl implements FileService {
         ArrayList<File> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
             List<LikeAndDislike> lad = null;
-            if (orderBy.equals("LIKE")) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<File> files = fileDao.getFiles(orderBy, fechaMin,
@@ -577,7 +581,7 @@ public class FileServiceImpl implements FileService {
                 i++;
             }
         } else { // fecha
-            hot = (ArrayList<File>) fileDao.getFiles("FECHA",
+            hot = (ArrayList<File>) fileDao.getFiles(DATE,
                     fechaMin, fechaMax, first, count);
         }
 
@@ -592,11 +596,11 @@ public class FileServiceImpl implements FileService {
         ArrayList<File> hot = new ArrayList<>();
         int i, j;
 
-        if (orderBy.equals("LIKE") || orderBy.equals("DISLIKE")) {
+        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
             List<LikeAndDislike> lad = null;
-            if (orderBy.equals("LIKE")) {
+            if (orderBy.equals(LIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals("DISLIKE")) {
+            } else if (orderBy.equals(DISLIKE)) {
                 lad = likeAndDislikeDao.getLikesAndDislikes(false);
             }
             List<File> files = fileDao.getFiles(keywords, name,
@@ -613,7 +617,7 @@ public class FileServiceImpl implements FileService {
             }
         } else { // fecha
             hot = (ArrayList<File>) fileDao.getFiles(keywords, name,
-                    comment, tag, "FECHA", first, count);
+                    comment, tag, DATE, first, count);
         }
 
         return hot;

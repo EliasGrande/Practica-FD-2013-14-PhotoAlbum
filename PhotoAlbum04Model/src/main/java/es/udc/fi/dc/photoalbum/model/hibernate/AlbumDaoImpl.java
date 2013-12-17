@@ -274,7 +274,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         
         query += "AND (a.date BETWEEN :fechaMin AND :fechaMax) ";
         
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
         }
         
@@ -296,7 +296,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         String query = "SELECT a FROM Album a "
                 + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
         
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
         }
         
@@ -318,7 +318,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         
         query += "AND (a.date BETWEEN :fechaMin AND :fechaMax) ";
         
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
         }
         
@@ -370,7 +370,7 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
                     + ") ";
         }
         
-        if (orderBy.equals("FECHA")) {
+        if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
         }
         
