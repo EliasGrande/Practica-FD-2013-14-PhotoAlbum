@@ -30,7 +30,7 @@ public class SearchServlet {
     private final static String NAME = "name";
     private final static String TAG = "tag";
     private final static String COMMENT = "comment";
-    
+
     private final static String LIKE = "like";
 
     @Autowired
@@ -58,7 +58,8 @@ public class SearchServlet {
 
         /* Comprueba parametros */
         if (type == null) {
-            return new ResultDtoJax("Type param must be necessary");
+            return new ResultDtoJax(
+                    "Url syntax error: Type param must be necessary");
         }
         if ((dateFirst != null) && (dateEnd != null)) {
             if ((ValidateParameters.validate(dateFirst))
@@ -67,19 +68,18 @@ public class SearchServlet {
                 dateEndC = ValidateParameters.toCalendar(dateEnd);
             } else {
                 return new ResultDtoJax(
-                        "Incorrect format for date, the correct is dd/mm/yyyy");
+                        "Url syntax error: Incorrect format for date, the correct is dd/mm/yyyy");
             }
             if (!ValidateParameters.validateDates(dateBeginC,
                     dateEndC)) {
                 return new ResultDtoJax(
-                        "The dateEnd are earlier than dateFirst.");
+                        "Url syntax error: The dateEnd are earlier than dateFirst");
             }
         }
         if (!ValidateParameters.validateOrderBy(orderBy)) {
             return new ResultDtoJax(
-                    "The result can be order by date, like, dislike");
+                    "Url syntax error: The result can be order by date, like, dislike");
         }
-        fileService.getAlbumFilesOwn(1);
         switch (type) {
         /* /search?type=album */
             case "album":
@@ -195,7 +195,7 @@ public class SearchServlet {
                 /* Any incorrect type */
             default:
                 return new ResultDtoJax(
-                        "Especific a correct type: file, album, all or hottest-pics");
+                        "Url syntax error: Especific a correct type: file, album, all or hottest-pics");
         }
 
     }
