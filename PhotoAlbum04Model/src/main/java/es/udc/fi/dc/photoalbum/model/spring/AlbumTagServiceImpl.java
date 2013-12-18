@@ -47,8 +47,9 @@ public class AlbumTagServiceImpl implements AlbumTagService {
      */
     public void create(AlbumTag albumTag) {
         if (albumTagDao.getTag(albumTag.getAlbum().getId(),
-                albumTag.getTag()) == null)
+                albumTag.getTag()) == null) {
             albumTagDao.create(albumTag);
+        }
     }
 
     /**

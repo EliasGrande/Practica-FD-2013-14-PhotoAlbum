@@ -83,7 +83,7 @@ public class Mail {
      * authenticator;
      * 
      * 
-     * @throws EmailException
+     * @throws EmailException Throws and email exception.
      * @see EmailException.
      */
     protected void initializeEmail() throws EmailException {
@@ -100,7 +100,7 @@ public class Mail {
      * @param emailTo
      *            recepient's email
      * 
-     * @throws EmailException
+     * @throws EmailException Throws and email exception.
      * @see EmailException.
      */
     public Mail(String emailTo) throws EmailException {
@@ -115,7 +115,7 @@ public class Mail {
      * @param locale
      *            Defines the language, country, etc that is using the
      *            {@link User}.
-     * @throws EmailException
+     * @throws EmailException Throws and email exception.
      * @see EmailException.
      */
     public void sendRegister(Locale locale) throws EmailException {
@@ -138,7 +138,7 @@ public class Mail {
      * @param locale
      *            Defines the language, country, etc that is using the
      *            {@link User}.
-     * @throws EmailException
+     * @throws EmailException Throws and email exception.
      * @see EmailException.
      * 
      */

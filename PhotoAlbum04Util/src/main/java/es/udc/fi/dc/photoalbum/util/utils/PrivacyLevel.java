@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Utility for the privacy level of albums and files.
  */
-public class PrivacyLevel {
+public final class PrivacyLevel {
 
     /**
      * Static variable to facilitate the use of string privacy level
@@ -56,5 +56,12 @@ public class PrivacyLevel {
      */
     public static boolean validateFile(String privacyLevel) {
         return LIST_FILE.contains(privacyLevel);
+    }
+
+    /**
+     * Private constructor.
+     */
+    private PrivacyLevel() {
+
     }
 }

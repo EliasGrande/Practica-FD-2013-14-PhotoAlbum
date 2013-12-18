@@ -273,7 +273,8 @@ public class Share extends BasePageAuth {
         Form<Void> form = new PrivacyLevelForm();
         selectedPrivacyLevel = new PrivacyLevelOption(albumModel
                 .getObject().getPrivacyLevel(), this);
-        DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
+        DropDownChoice<PrivacyLevelOption> listPrivacyLevel = 
+                new DropDownChoice<PrivacyLevelOption>(
                 "privacyLevels",
                 new PropertyModel<PrivacyLevelOption>(this,
                         "selectedPrivacyLevel"),

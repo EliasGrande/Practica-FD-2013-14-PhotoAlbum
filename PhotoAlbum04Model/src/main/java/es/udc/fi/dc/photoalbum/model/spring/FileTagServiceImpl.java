@@ -44,9 +44,9 @@ public class FileTagServiceImpl implements FileTagService {
      */
     public void create(FileTag fileTag) {
         if (fileTagDao.getTag(fileTag.getFile().getId(),
-                fileTag.getTag()) == null)
+                fileTag.getTag()) == null) {
             fileTagDao.create(fileTag);
-
+        }
     }
 
     /**

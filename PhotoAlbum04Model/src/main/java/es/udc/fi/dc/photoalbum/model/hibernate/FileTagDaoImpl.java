@@ -17,7 +17,7 @@ public class FileTagDaoImpl extends HibernateDaoSupport implements
     @Override
     @SuppressWarnings("unchecked")
     public FileTag getTag(int fileId, String tag) {
-        ArrayList<FileTag> list = (ArrayList<FileTag>) getHibernateTemplate()
+        List<FileTag> list = (ArrayList<FileTag>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(FileTag.class)

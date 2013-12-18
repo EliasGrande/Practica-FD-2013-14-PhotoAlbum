@@ -38,7 +38,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements
     @Override
     public User getUser(String email, String password) {
         @SuppressWarnings("unchecked")
-        ArrayList<User> list = (ArrayList<User>) getHibernateTemplate()
+        List<User> list = (ArrayList<User>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(User.class)
@@ -58,7 +58,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements
     @Override
     public User getUser(User userEmail) {
         @SuppressWarnings("unchecked")
-        ArrayList<User> list = (ArrayList<User>) getHibernateTemplate()
+        List<User> list = (ArrayList<User>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(User.class)
@@ -87,7 +87,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements
                 .addOrder(Order.asc("user.email"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
-        // from AlbumShareInformation
         DetachedCriteria fromSharedAlbumsDc = DetachedCriteria
                 .forClass(AlbumShareInformation.class, "asi")
                 .createAlias("asi.user", "asi_us")
@@ -98,7 +97,6 @@ public class UserDaoImpl extends HibernateDaoSupport implements
         Criterion fromSharedAlbumsCr = Subqueries.propertyIn(
                 "user.id", fromSharedAlbumsDc);
 
-        // from FileShareInformation
         DetachedCriteria fromSharedFilesDc = DetachedCriteria
                 .forClass(FileShareInformation.class, "fsi")
                 .createAlias("fsi.user", "fsi_us")

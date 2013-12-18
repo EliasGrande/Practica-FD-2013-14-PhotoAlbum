@@ -17,7 +17,7 @@ public class AlbumTagDaoImpl extends HibernateDaoSupport implements
     @Override
     @SuppressWarnings("unchecked")
     public AlbumTag getTag(int albumId, String tag) {
-        ArrayList<AlbumTag> list = (ArrayList<AlbumTag>) getHibernateTemplate()
+        List<AlbumTag> list = (ArrayList<AlbumTag>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(AlbumTag.class)

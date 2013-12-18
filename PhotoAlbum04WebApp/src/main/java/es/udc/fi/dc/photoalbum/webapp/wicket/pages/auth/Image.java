@@ -345,7 +345,8 @@ public class Image extends BasePageAuth {
         };
         selectedPrivacyLevel = new PrivacyLevelOption(fileOwnModel
                 .getObject().getPrivacyLevel(), this);
-        DropDownChoice<PrivacyLevelOption> listPrivacyLevel = new DropDownChoice<PrivacyLevelOption>(
+        DropDownChoice<PrivacyLevelOption> listPrivacyLevel = 
+                new DropDownChoice<PrivacyLevelOption>(
                 "privacyLevels",
                 new PropertyModel<PrivacyLevelOption>(this,
                         "selectedPrivacyLevel"),

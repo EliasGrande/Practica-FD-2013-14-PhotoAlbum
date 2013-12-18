@@ -18,12 +18,12 @@ public class LikeAndDislikeServiceImpl implements
     /**
      * Defines a LIKE string variable.
      */
-    private static String LIKE = "LIKE";
+    private static final String LIKE = "LIKE";
     
     /**
      * Defines a DISLIKE string variable.
      */
-    private static String DISLIKE = "DISLIKE";
+    private static final String DISLIKE = "DISLIKE";
 
     /**
      * @see LikeAndDislikeDao
@@ -91,8 +91,9 @@ public class LikeAndDislikeServiceImpl implements
                 user.getId());
         LikeAndDislike updatedLikeAndDislike;
         if (voted != null) {
-            if (voted.getUserVote().equals(LIKE))
+            if (voted.getUserVote().equals(LIKE)) {
                 return voted.getLikeAndDislike();
+            }
             voted.setUserVote(LIKE);
             votedDao.update(voted);
             updatedLikeAndDislike = voted.getLikeAndDislike();
@@ -128,8 +129,9 @@ public class LikeAndDislikeServiceImpl implements
                 user.getId());
         LikeAndDislike updatedLikeAndDislike;
         if (voted != null) {
-            if (voted.getUserVote().equals(DISLIKE))
+            if (voted.getUserVote().equals(DISLIKE)) {
                 return voted.getLikeAndDislike();
+            }
             voted.setUserVote(DISLIKE);
             votedDao.update(voted);
             updatedLikeAndDislike = voted.getLikeAndDislike();
@@ -165,14 +167,16 @@ public class LikeAndDislikeServiceImpl implements
                 user.getId());
         LikeAndDislike updatedLikeAndDislike = likeAndDislikeDao
                 .get(likeAndDislike.getId());
-        if (voted == null)
+        if (voted == null) {
             return updatedLikeAndDislike;
-        if (voted.getUserVote().equals(LIKE))
+        }
+        if (voted.getUserVote().equals(LIKE)) {
             updatedLikeAndDislike.setLike(updatedLikeAndDislike
                     .getLike() - 1);
-        else if (voted.getUserVote().equals(DISLIKE))
+        } else if (voted.getUserVote().equals(DISLIKE)) {
             updatedLikeAndDislike.setDislike(updatedLikeAndDislike
                     .getDislike() - 1);
+        }
         votedDao.delete(voted);
         return likeAndDislikeDao.update(updatedLikeAndDislike);
     }

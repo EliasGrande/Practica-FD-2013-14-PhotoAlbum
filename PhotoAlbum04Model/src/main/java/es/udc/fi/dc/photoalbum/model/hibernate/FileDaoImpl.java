@@ -25,12 +25,12 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     /**
      * The search will be sorted by {@link File} date.
      */
-    private final static String DATE = "date";
+    private static final String DATE = "date";
     
     /**
      * The search will be sorted by {@link File} likes.
      */
-    private final static String LIKE = "like";
+    private static final String LIKE = "like";
     
     /**
      * Query for File: Search files by tag returning only the ones
@@ -40,33 +40,25 @@ public class FileDaoImpl extends HibernateDaoSupport implements
      * inheritPrivacyLevel, (String) publicPrivacyLevel
      */
     private static final String HQL_QUERY_FILES_BY_TAG = "FROM File "
-            // search files by tag
             + "WHERE id IN ("
             + "SELECT file.id FROM FileTag "
             + "WHERE tag = :tag"
             + ")"
-            // files viewable by userId
             + "AND"
             + "("
-            // files owned by userId
             + "album.id IN ("
             + "SELECT id FROM Album "
             + "WHERE user.id = :userId"
             + ")"
-            // public files
             + "OR privacyLevel = :publicPrivacyLevel "
-            // files shared with userId
             + "OR id IN ("
             + "SELECT file.id FROM FileShareInformation "
             + "WHERE user.id = :userId"
             + ")"
-            // inherit files
             + "OR ("
             + "privacyLevel = :inheritPrivacyLevel "
             + "AND ("
-            // from public albums
             + "album.privacyLevel = :publicPrivacyLevel "
-            // from albums shared with userId
             + "OR album.id IN ("
             + "SELECT album.id FROM AlbumShareInformation "
             + "WHERE user.id = :userId" + ")" + ")" + ")" + ")";
@@ -89,8 +81,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
             + "("
             + "SELECT a.id FROM Album a "
             + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-            + ")"
-            + ")" 
+            + "))" 
             + ")" 
             + ") ";
     
@@ -173,7 +164,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     @Override
     public File getFileOwn(int id, String name, int userId) {
         @SuppressWarnings("unchecked")
-        ArrayList<File> list = (ArrayList<File>) getHibernateTemplate()
+        List<File> list = (ArrayList<File>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(File.class)
@@ -184,9 +175,9 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                                         Criteria.DISTINCT_ROOT_ENTITY));
         if ((list.size() == 1)) {
             File file = list.get(0);
-            // verify ownership
-            if (file.getAlbum().getUser().getId() == userId)
+            if (file.getAlbum().getUser().getId() == userId) {
                 return file;
+            }
         }
         return null;
     }
@@ -250,19 +241,15 @@ public class FileDaoImpl extends HibernateDaoSupport implements
      */
     private Criteria getAlbumSharedFilesCriteria(int albumId,
             int userId) {
-
-        // main query, search by album
         Criteria criteria = getHibernateTemplate()
                 .getSessionFactory().getCurrentSession()
                 .createCriteria(File.class, "fi")
                 .createAlias("fi.album", "fi_al")
                 .add(Restrictions.eq("fi_al.id", albumId));
 
-        // OR1: get public files
         Criterion publicFileCr = Restrictions.eq("fi.privacyLevel",
                 PrivacyLevel.PUBLIC);
 
-        // OR2: get files shared to userId
         Criterion sharedFileCr = Subqueries.propertyIn(
                 "fi.id",
                 DetachedCriteria
@@ -275,9 +262,6 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                         .setResultTransformer(
                                 Criteria.DISTINCT_ROOT_ENTITY));
 
-        // OR3: get inherit files if the album (is public OR is shared
-        // to
-        // userId)
         Criterion publicAlbumCr = Restrictions.eq(
                 "fi_al.privacyLevel", PrivacyLevel.PUBLIC);
         Criterion sharedAlbumCr = Subqueries.propertyIn(
@@ -297,13 +281,11 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                 .add(Restrictions.disjunction().add(publicAlbumCr)
                         .add(sharedAlbumCr));
 
-        // OR: join OR1, OR2, OR3
         Disjunction or = Restrictions.disjunction();
         or.add(publicFileCr);
         or.add(sharedFileCr);
         or.add(inheritFileCr);
 
-        // add restrictions to the main query
         criteria.add(or).addOrder(Order.asc("fi.id"))
                 .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
@@ -329,7 +311,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     @Override
     @SuppressWarnings("unchecked")
     public Long getCountAlbumFiles(int albumId) {
-        ArrayList<Long> list = (ArrayList<Long>) getHibernateTemplate()
+        List<Long> list = (ArrayList<Long>) getHibernateTemplate()
                 .findByCriteria(
                         DetachedCriteria
                                 .forClass(File.class)
@@ -386,23 +368,17 @@ public class FileDaoImpl extends HibernateDaoSupport implements
             Calendar fechaMin, Calendar fechaMax, int first, int count) {
 
         String query = "SELECT f FROM File f ";
-        
         query += HQL_RESTRICTION_PUBLIC_FILES;
-
         if (name) {
             query += HQL_RESTRICTION_NAME;
         }
-
         if (comment) {
             query += HQL_RESTRICTION_COMMENT;
         }
-
         if (tag) {
             query += HQL_RESTRICTION_TAG;
         }
-
         query += HQL_RESTRICTION_BETWEEN_DATE;
-
         if (orderBy.equals(DATE)) {
             query += HQL_RESTRICTION_ORDER_BY_DATE;
         } else if (orderBy.equals(LIKE)) {
@@ -410,7 +386,6 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         } else {
             query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
-
         return (List<File>) getHibernateTemplate()
                 .getSessionFactory()
                 .getCurrentSession()
@@ -423,16 +398,13 @@ public class FileDaoImpl extends HibernateDaoSupport implements
                 .setParameter("fechaMin", fechaMin)
                 .setParameter("fechaMax", fechaMax)
                 .setFirstResult(first).setMaxResults(count).list();
-
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<File> getFiles(String orderBy, int first, int count) {
         String query = "SELECT f FROM File f ";
-        
         query += HQL_RESTRICTION_PUBLIC_FILES;
-        
         if (orderBy.equals(DATE)) {
             query += HQL_RESTRICTION_ORDER_BY_DATE;
         } else if (orderBy.equals(LIKE)) {
@@ -440,7 +412,6 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         } else {
             query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
-        
         return (List<File>) getHibernateTemplate()
                 .getSessionFactory()
                 .getCurrentSession()
@@ -457,11 +428,8 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     public List<File> getFiles(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count) {
         String query = "SELECT f FROM File f ";
-        
         query += HQL_RESTRICTION_PUBLIC_FILES;
-        
         query += HQL_RESTRICTION_BETWEEN_DATE;
-        
         if (orderBy.equals(DATE)) {
             query += HQL_RESTRICTION_ORDER_BY_DATE;
         } else if (orderBy.equals(LIKE)) {
@@ -469,7 +437,6 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         } else {
             query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
-        
         return (List<File>) getHibernateTemplate()
                 .getSessionFactory()
                 .getCurrentSession()
@@ -488,23 +455,17 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     public List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count) {
-        
         String query = "SELECT f FROM File f ";
-        
         query += HQL_RESTRICTION_PUBLIC_FILES;
-
         if (name) {
             query += HQL_RESTRICTION_NAME;
         }
-
         if (comment) {
             query += HQL_RESTRICTION_COMMENT;
         }
-
         if (tag) {
             query += HQL_RESTRICTION_TAG;
         }
-        
         if (orderBy.equals(DATE)) {
             query += HQL_RESTRICTION_ORDER_BY_DATE;
         } else if (orderBy.equals(LIKE)) {
@@ -512,7 +473,6 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         } else {
             query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
-        
         return (List<File>) getHibernateTemplate()
                 .getSessionFactory()
                 .getCurrentSession()

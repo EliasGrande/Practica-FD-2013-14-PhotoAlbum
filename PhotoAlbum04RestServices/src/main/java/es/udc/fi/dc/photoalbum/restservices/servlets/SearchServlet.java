@@ -86,7 +86,6 @@ public class SearchServlet {
         List<Album> albums = new ArrayList<Album>();
         List<File> files = new ArrayList<File>();
 
-        /* Comprueba parametros */
         if (type == null) {
             return new ResultDtoJax(
                     "Url syntax error: Type param must be necessary");
@@ -111,7 +110,6 @@ public class SearchServlet {
                     "Url syntax error: The result can be order by date, like, dislike");
         }
         if (type.compareTo("album") == 0) {
-            /* /search?type=album */
             if (ValidateParameters.validateFindByAndKeywords(findBy,
                     keywords)) {
                 if (dateBeginC != null) {
@@ -139,7 +137,6 @@ public class SearchServlet {
             return new ResultDtoJax(
                     AlbumToAlbumDtoJaxConversor.toAlbumDto(albums),
                     FileToFileDtoJaxConversor.toFileDto(files));
-            /* /search?type=file */
         } else if (type.compareTo("file") == 0) {
             if (ValidateParameters.validateFindByAndKeywords(findBy,
                     keywords)) {
@@ -169,7 +166,6 @@ public class SearchServlet {
                     AlbumToAlbumDtoJaxConversor.toAlbumDto(albums),
                     FileToFileDtoJaxConversor.toFileDto(files));
         } else if (type.compareTo("all") == 0) {
-            /* /search?type=all */
             if (ValidateParameters.validateFindByAndKeywords(findBy,
                     keywords)) {
                 if (dateBeginC != null) {
@@ -212,15 +208,9 @@ public class SearchServlet {
                     AlbumToAlbumDtoJaxConversor.toAlbumDto(albums),
                     FileToFileDtoJaxConversor.toFileDto(files));
         } else if (type.compareTo("hottest-pics") == 0) {
-            /*
-             * localhost:8080/PhotoAlbum04/search?type=hottest-pics
-             * &first=_&count=_
-             */
             files = fileService.getFiles(LIKE, first, count);
-
             return new ResultDtoJax(new ArrayList<AlbumDtoJax>(),
                     FileToFileDtoJaxConversor.toFileDto(files));
-            /* Any incorrect type */
         } else {
             return new ResultDtoJax(
                     "Url syntax error: Especific a correct type: "

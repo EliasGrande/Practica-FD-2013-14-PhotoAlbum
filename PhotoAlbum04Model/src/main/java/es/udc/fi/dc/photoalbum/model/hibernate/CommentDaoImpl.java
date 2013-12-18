@@ -27,7 +27,6 @@ public class CommentDaoImpl extends HibernateDaoSupport implements
     public List<Comment> getComments(Album album) {
         String hql = "SELECT c FROM Comment c "
                 + "WHERE c.album.id = :albumId "
-                //+ "ORDER BY c.date DESC";
                 + "ORDER BY c.id DESC";
 
         return (ArrayList<Comment>) getHibernateTemplate()

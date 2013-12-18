@@ -206,32 +206,26 @@ public class FileServiceImpl implements FileService {
      *      String, int)
      */
     public File getFileShared(int fileId, String name, int userId) {
-        // get file
         File file = fileDao.getById(fileId);
-        if (file == null)
+        if (file == null) {
             return null;
-
+        }
         String filePrivacyLevel = file.getPrivacyLevel();
 
-        // the file is public => return it
-        if (filePrivacyLevel.equals(PrivacyLevel.PUBLIC))
+        if (filePrivacyLevel.equals(PrivacyLevel.PUBLIC)) {
             return file;
-
-        // the file is private => check FileShareInformation
+        }
         if (filePrivacyLevel.equals(PrivacyLevel.PRIVATE)) {
             return (fileShareInformationDao.getShare(fileId, userId) == null) ? null
                     : file;
         }
 
-        // the file inherit its share information from the album
-        // => check AlbumShareInformation
         if (filePrivacyLevel.equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
             int albumId = file.getAlbum().getId();
             return (albumShareInformationDao
                     .getShare(albumId, userId) == null) ? null : file;
         }
 
-        // unknown privacy level => return nothing
         return null;
     }
 
@@ -318,8 +312,9 @@ public class FileServiceImpl implements FileService {
      */
     public void changePrivacyLevel(File file, String privacyLevel) {
         fileDao.changePrivacyLevel(file, privacyLevel);
-        if (privacyLevel.equals(PrivacyLevel.INHERIT_FROM_ALBUM))
+        if (privacyLevel.equals(PrivacyLevel.INHERIT_FROM_ALBUM)) {
             fileShareInformationDao.deleteShares(file.getId());
+        }
     }
 
     /**
@@ -337,11 +332,10 @@ public class FileServiceImpl implements FileService {
      *      String, int)
      */
     public File getFilePublic(int id, String name, int userId) {
-        // try to get it as owner
         File file = fileDao.getFileOwn(id, name, userId);
-        if (file == null)
-            // try to get it as "shared with me" or "public file"
+        if (file == null) {
             file = getFileShared(id, name, userId);
+        }
         return file;
     }
 
@@ -398,14 +392,12 @@ public class FileServiceImpl implements FileService {
      */
     public List<File> getAlbumFilesPublic(int albumId, int userId) {
         Album album = albumDao.getById(albumId);
-        if (album == null)
+        if (album == null) {
             return null;
+        }
         if (album.getUser().getId() == userId) {
-            // I'm the owner, show all the files of the album
             return getAlbumFilesOwn(albumId);
         } else {
-            // I'm not the owner, show all public and files shared
-            // with me
             return getAlbumFilesShared(albumId, userId);
         }
     }
@@ -430,14 +422,12 @@ public class FileServiceImpl implements FileService {
     public List<File> getAlbumFilesPublicPaging(int albumId,
             int userId, int first, int count) {
         Album album = albumDao.getById(albumId);
-        if (album == null)
+        if (album == null) {
             return null;
+        }
         if (album.getUser().getId() == userId) {
-            // I'm the owner, show all the files of the album
             return getAlbumFilesOwnPaging(albumId, first, count);
         } else {
-            // I'm not the owner, show all public and files shared
-            // with me
             return getAlbumFilesSharedPaging(albumId, userId, first,
                     count);
         }
