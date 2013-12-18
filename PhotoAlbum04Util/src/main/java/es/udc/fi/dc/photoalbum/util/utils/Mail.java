@@ -63,24 +63,28 @@ public class Mail {
     /**
      * Defines a password on the registration in Spanish language.
      */
-    public static final String MESSAGE_REG_ES = "Estimado usuario, gracias por inscripción. Disfrute!";
+    public static final String MESSAGE_REG_ES = "Estimado usuario, "
+            + "gracias por inscripción. Disfrute!";
     /**
      * Defines a message for get the new password in Spanish language.
      */
-    public static final String MESSAGE_PASS_ES = "Estimado usuario, puedes iniciar sesión con la nueva "
+    public static final String MESSAGE_PASS_ES = "Estimado usuario, "
+            + "puedes iniciar sesión con la nueva "
             + "contraseña y cambiarla en Perfil. Nueva contraseña es:";
 
     /**
      * Constructor of class {@link Email}.
      * 
-     * @return An {@link Email}
      */
     protected Email email = new SimpleEmail();
-    
+
     /**
-     * Initializes {@link #email} host, smtp port, from and authenticator;
+     * Initializes {@link #email} host, smtp port, from and
+     * authenticator;
+     * 
      * 
      * @throws EmailException
+     * @see EmailException.
      */
     protected void initializeEmail() throws EmailException {
         this.email.setHostName(HOST_NAME);
@@ -96,6 +100,8 @@ public class Mail {
      * @param emailTo
      *            recepient's email
      * 
+     * @throws EmailException
+     * @see EmailException.
      */
     public Mail(String emailTo) throws EmailException {
         initializeEmail();
@@ -109,6 +115,8 @@ public class Mail {
      * @param locale
      *            Defines the language, country, etc that is using the
      *            {@link User}.
+     * @throws EmailException
+     * @see EmailException.
      */
     public void sendRegister(Locale locale) throws EmailException {
         if (locale.equals(Locale.US)) {
@@ -130,6 +138,9 @@ public class Mail {
      * @param locale
      *            Defines the language, country, etc that is using the
      *            {@link User}.
+     * @throws EmailException
+     * @see EmailException.
+     * 
      */
     public void sendPass(String password, Locale locale)
             throws EmailException {

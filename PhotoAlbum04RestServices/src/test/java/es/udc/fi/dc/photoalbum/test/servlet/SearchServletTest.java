@@ -1,6 +1,8 @@
 package es.udc.fi.dc.photoalbum.test.servlet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URI;
@@ -437,7 +439,7 @@ public class SearchServletTest {
         assertEquals(adj.getId(),(Integer) 1);
         assertEquals(adj.getName(),"Test 1");
         
-        assertEquals(adj.toString(),"AlbumDto [id=" + 1 + ", name=" + "Test 1" + "]");
+        assertEquals(adj.toString(),"AlbumDtoJax [id=" + 1 + ", name=" + "Test 1" + "]");
     }
     @Test
     public void testFileDtoJax(){
@@ -449,9 +451,9 @@ public class SearchServletTest {
         
         assertEquals(fdj.getId(),(Integer) 1);
         assertEquals(fdj.getName(),"Test file");
-        assertEquals(ej, fdj.getFileSmall());
+        assertTrue(Arrays.equals(ej, fdj.getFileSmall()));
         
-        assertEquals(fdj.toString(),"FileDto [id=" + 1 + ", name=" + "Test file"
+        assertEquals(fdj.toString(),"FileDtoJax [id=" + 1 + ", name=" + "Test file"
                 + ", fileSmall=" + Arrays.toString(new byte[1]) + "]");
     }
     @Test

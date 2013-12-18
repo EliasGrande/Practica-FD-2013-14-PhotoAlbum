@@ -73,8 +73,8 @@ public class HottestFiles extends BasePageAuth {
      * Creates a DataView that shown a list of the hottest
      * {@link File files}.
      * 
-     * @return Hottest files dataview
-     */
+    
+     * @return Hottest files dataview */
     private DataView<FileDto> createDataView() {
         LoadableDetachableModel<List<FileDto>> ldm = new HottestFilesModel();
         DataView<FileDto> dataView = new HottestFilesDataView(
@@ -91,12 +91,18 @@ public class HottestFiles extends BasePageAuth {
 
         /**
          * Calls the inherit constructor.
+         * @param id String
+         * @param dataProvider IDataProvider<FileDto>
          */
         protected HottestFilesDataView(String id,
                 IDataProvider<FileDto> dataProvider) {
             super(id, dataProvider);
         }
 
+        /**
+         * Method populateItem.
+         * @param item Item<FileDto>
+         */
         @Override
         public void populateItem(final Item<FileDto> item) {
             PageParameters pars = new PageParameters();
@@ -124,6 +130,11 @@ public class HottestFiles extends BasePageAuth {
         }
     }
 
+    /**
+     * Method renderHead.
+     * @param response IHeaderResponse
+     * @see org.apache.wicket.markup.html.IHeaderContributor#renderHead(IHeaderResponse)
+     */
     @Override
     public void renderHead(IHeaderResponse response) {
         super.renderHead(response);

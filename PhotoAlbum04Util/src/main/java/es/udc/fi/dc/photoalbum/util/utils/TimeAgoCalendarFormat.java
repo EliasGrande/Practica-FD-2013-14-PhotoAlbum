@@ -3,7 +3,7 @@ package es.udc.fi.dc.photoalbum.util.utils;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility to calculate the time passed since an event
@@ -33,12 +33,13 @@ public class TimeAgoCalendarFormat implements Serializable {
     public static final long ONE_WEEK = 7L * ONE_DAY;
     /**
      * Static variable to facilitate the use of units of time.
+     * Approximately atomic year.
      */
-    public static final long ONE_YEAR = 31557600000L; // atomic year
+    public static final long ONE_YEAR = 31557600000L;
     /**
      * Static variable to facilitate the use of units of time.
      */
-    public static final long ONE_MONTH = Math.round(ONE_YEAR / 12L); // aprox
+    public static final long ONE_MONTH = Math.round(ONE_YEAR / 12L);
 
     /**
      * @return Time stamp now.
@@ -51,16 +52,16 @@ public class TimeAgoCalendarFormat implements Serializable {
      * HashMap of the localized text, using the resourceKey as key and
      * the value as value.
      */
-    private HashMap<String, String> translates;
+    private Map<String, String> translates;
 
     /**
      * Constructor for TimeAgoCalendarFormat.
      * 
      * @param translates
-     *            HashMap of the localized text, using the resourceKey
-     *            as key and the value as value.
+     *            Map of the localized text, using the resourceKey as
+     *            key and the value as value.
      */
-    public TimeAgoCalendarFormat(HashMap<String, String> translates) {
+    public TimeAgoCalendarFormat(Map<String, String> translates) {
         this.translates = translates;
     }
 
@@ -75,20 +76,21 @@ public class TimeAgoCalendarFormat implements Serializable {
     public String format(Calendar calendar) {
         long millisAgo = (getTimeInMillisNow() - calendar
                 .getTimeInMillis());
-        if (millisAgo < ONE_MINUTE)
+        if (millisAgo < ONE_MINUTE) {
             return timeAgo(millisAgo / ONE_SECOND, "second");
-        else if (millisAgo < ONE_HOUR)
+        } else if (millisAgo < ONE_HOUR) {
             return timeAgo(millisAgo / ONE_MINUTE, "minute");
-        else if (millisAgo < ONE_DAY)
+        } else if (millisAgo < ONE_DAY) {
             return timeAgo(millisAgo / ONE_HOUR, "hour");
-        else if (millisAgo < ONE_WEEK)
+        } else if (millisAgo < ONE_WEEK) {
             return timeAgo(millisAgo / ONE_DAY, "day");
-        else if (millisAgo < ONE_MONTH)
+        } else if (millisAgo < ONE_MONTH) {
             return timeAgo(millisAgo / ONE_WEEK, "week");
-        else if (millisAgo < ONE_YEAR)
+        } else if (millisAgo < ONE_YEAR) {
             return timeAgo(millisAgo / ONE_MONTH, "month");
-        else
+        } else {
             return timeAgo(millisAgo / ONE_YEAR, "year");
+        }
     }
 
     /**

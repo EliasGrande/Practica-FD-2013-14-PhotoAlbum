@@ -20,8 +20,8 @@ import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.model.spring.FileService;
 import es.udc.fi.dc.photoalbum.restservices.dto.AlbumDtoJax;
 import es.udc.fi.dc.photoalbum.restservices.dto.ResultDtoJax;
-import es.udc.fi.dc.photoalbum.restservices.util.AlbumToAlbumDtoConversor;
-import es.udc.fi.dc.photoalbum.restservices.util.FileToFileDtoConversor;
+import es.udc.fi.dc.photoalbum.restservices.util.AlbumToAlbumDtoJaxConversor;
+import es.udc.fi.dc.photoalbum.restservices.util.FileToFileDtoJaxConversor;
 import es.udc.fi.dc.photoalbum.restservices.util.ValidateParameters;
 
 /**Servlet that allows to search files, albums or both, using diferents parameters to 
@@ -32,19 +32,19 @@ public class SearchServlet {
     /**
      * One of the allowed findBy parameters.
      */
-    private static String NAME = "name";
+    private static final String NAME = "name";
     /**
      * One of the allowed findBy parameters.
      */
-    private static String TAG = "tag";
+    private static final String TAG = "tag";
     /**
      * One of the allowed findBy parameters.
      */
-    private static String COMMENT = "comment";
+    private static final String COMMENT = "comment";
     /**
      * One of the allowed orderBy parameters.
      */
-    private static String LIKE = "like";
+    private static final String LIKE = "like";
     /**
      * @see FileService
      */
@@ -137,8 +137,8 @@ public class SearchServlet {
                 }
             }
             return new ResultDtoJax(
-                    AlbumToAlbumDtoConversor.toAlbumDto(albums),
-                    FileToFileDtoConversor.toFileDto(files));
+                    AlbumToAlbumDtoJaxConversor.toAlbumDto(albums),
+                    FileToFileDtoJaxConversor.toFileDto(files));
             /* /search?type=file */
         } else if (type.compareTo("file") == 0) {
             if (ValidateParameters.validateFindByAndKeywords(findBy,
@@ -166,8 +166,8 @@ public class SearchServlet {
                 }
             }
             return new ResultDtoJax(
-                    AlbumToAlbumDtoConversor.toAlbumDto(albums),
-                    FileToFileDtoConversor.toFileDto(files));
+                    AlbumToAlbumDtoJaxConversor.toAlbumDto(albums),
+                    FileToFileDtoJaxConversor.toFileDto(files));
         } else if (type.compareTo("all") == 0) {
             /* /search?type=all */
             if (ValidateParameters.validateFindByAndKeywords(findBy,
@@ -209,8 +209,8 @@ public class SearchServlet {
                 }
             }
             return new ResultDtoJax(
-                    AlbumToAlbumDtoConversor.toAlbumDto(albums),
-                    FileToFileDtoConversor.toFileDto(files));
+                    AlbumToAlbumDtoJaxConversor.toAlbumDto(albums),
+                    FileToFileDtoJaxConversor.toFileDto(files));
         } else if (type.compareTo("hottest-pics") == 0) {
             /*
              * localhost:8080/PhotoAlbum04/search?type=hottest-pics
@@ -219,7 +219,7 @@ public class SearchServlet {
             files = fileService.getFiles(LIKE, first, count);
 
             return new ResultDtoJax(new ArrayList<AlbumDtoJax>(),
-                    FileToFileDtoConversor.toFileDto(files));
+                    FileToFileDtoJaxConversor.toFileDto(files));
             /* Any incorrect type */
         } else {
             return new ResultDtoJax(

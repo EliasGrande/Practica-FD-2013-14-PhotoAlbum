@@ -53,7 +53,6 @@ import es.udc.fi.dc.photoalbum.webapp.wicket.models.AlbumsModel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.FileOwnModel;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.PrivacyLevelOption;
 import es.udc.fi.dc.photoalbum.webapp.wicket.models.PrivacyLevelsModel;
-import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.share.Share;
 import es.udc.fi.dc.photoalbum.webapp.wicket.pages.auth.tag.BaseTags;
 import es.udc.fi.dc.photoalbum.webapp.wicket.panels.CommentAndVotePanel;
 

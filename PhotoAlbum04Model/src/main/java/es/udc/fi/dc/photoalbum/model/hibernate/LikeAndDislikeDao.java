@@ -1,6 +1,5 @@
 package es.udc.fi.dc.photoalbum.model.hibernate;
 
-import java.util.List;
 
 /**
  * DAO interface for the {@link LikeAndDislike} entity.

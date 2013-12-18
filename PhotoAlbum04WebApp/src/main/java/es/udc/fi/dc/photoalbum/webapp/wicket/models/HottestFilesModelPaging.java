@@ -1,6 +1,5 @@
 package es.udc.fi.dc.photoalbum.webapp.wicket.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.injection.Injector;

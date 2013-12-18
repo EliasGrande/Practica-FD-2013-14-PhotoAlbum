@@ -131,8 +131,9 @@ public class CommentsModel extends
      *         to shown. */
     @Override
     protected List<Comment> load() {
-        if (hasMore())
+        if (hasMore()){
             getMore();
+        }
         return commentCache;
     }
 
@@ -146,16 +147,18 @@ public class CommentsModel extends
                 : commentService.getCommentsPaging(file, index,
                         count + 1);
         hasMoreComments = (moreComments.size() > count);
-        if (hasMoreComments)
+        if (hasMoreComments){
             moreComments.remove(count);
+        }
         index += moreComments.size();
         commentCache.addAll(moreComments);
         // update voteCache
-        ArrayList<Integer> likeAndDislikeIdList = new ArrayList<Integer>();
+        List<Integer> likeAndDislikeIdList = new ArrayList<Integer>();
         Iterator<Comment> iterComments = moreComments.iterator();
-        while (iterComments.hasNext())
+        while (iterComments.hasNext()){
             likeAndDislikeIdList.add(iterComments.next()
                     .getLikeAndDislike().getId());
+        }
         Iterator<Voted> iterVoted = votedService.getVoted(
                 likeAndDislikeIdList, userId).iterator();
         Voted voted;

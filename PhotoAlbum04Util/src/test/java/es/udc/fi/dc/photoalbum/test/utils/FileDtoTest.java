@@ -1,6 +1,7 @@
 package es.udc.fi.dc.photoalbum.test.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
@@ -19,7 +20,7 @@ public class FileDtoTest {
         
         assertEquals(fd.getId(),(Integer) 1);
         assertEquals(fd.getName(),"Test file");
-        assertEquals(ej, fd.getFileSmall());
+        assertTrue(Arrays.equals(ej, fd.getFileSmall()));
         
         assertEquals(fd.toString(),"FileDto [id=" + 1 + ", name=" + "Test file"
                 + ", fileSmall=" + Arrays.toString(new byte[1]) + "]");

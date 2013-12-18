@@ -3,9 +3,6 @@ package es.udc.fi.dc.photoalbum.mocks;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.ALBUM_NAME_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_EMAIL_EXIST;
 import static es.udc.fi.dc.photoalbum.test.pages.ConstantsForTests.USER_PASS_YES;
-
-import java.util.List;
-
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
 import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
@@ -47,12 +44,6 @@ public class LikeAndDislikeServiceMock {
         public boolean userHasVoted(LikeAndDislike likeAndDislike,
                 User user) {
             return true;
-        }
-
-        @Override
-        public List<LikeAndDislike> getLikesAndDislikes(boolean like) {
-            // TODO Auto-generated method stub
-            return null;
         }
         
     };

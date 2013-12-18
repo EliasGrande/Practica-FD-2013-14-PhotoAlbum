@@ -1,11 +1,15 @@
 package es.udc.fi.dc.photoalbum.util.utils;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * Comparator for sorting entities that implements the {@link ComparableById} interface.
+ * Comparator for sorting entities that implements the
+ * {@link ComparableById} interface.
  */
-public class ComparatorById implements Comparator<ComparableById> {
+@SuppressWarnings("serial")
+public class ComparatorById implements Comparator<ComparableById>,
+        Serializable {
 
     @Override
     public int compare(ComparableById o1, ComparableById o2) {

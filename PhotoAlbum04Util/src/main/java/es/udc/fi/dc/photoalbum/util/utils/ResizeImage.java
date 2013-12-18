@@ -43,7 +43,7 @@ public final class ResizeImage {
                 buffImage = Scalr.resize(buffImage, size);
             }
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            if (contentType.equals("image/png")) {
+            if (("image/png").equals(contentType)) {
                 ImageIO.write(buffImage, "png", baos);
             } else {
                 ImageIO.write(buffImage, "jpg", baos);

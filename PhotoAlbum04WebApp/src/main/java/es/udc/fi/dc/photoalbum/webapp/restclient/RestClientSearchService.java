@@ -15,14 +15,30 @@ import es.udc.fi.dc.photoalbum.util.dto.FileDto;
 import es.udc.fi.dc.photoalbum.webapp.restclient.dto.ResultDtoJax;
 import es.udc.fi.dc.photoalbum.webapp.restclient.util.FileDtoJaxToFileDtoConversor;
 
+/**
+ * Client to use the Rest Service.
+ */
 public class RestClientSearchService {
-
+    /**
+     * Type of content of responses.
+     */
     private static final MediaType MEDIA_TYPE = MediaType.APPLICATION_XML_TYPE;
-
+    /**
+     * The url to connect with the rest service.
+     */
     private static final String ENDPOINT_ADDRESS = "http://localhost:8081/PhotoAlbum04";
-
+    /**
+     * Initializes the client.
+     */
     private static Client client = null;
-
+    /**
+     * Number of pics to the method that not paginated.
+     */
+    private static final Integer NUMBER_OF_PICS = 50;
+    /**
+     * Method getClient.
+     * @return Client Return a default client.
+     */
     private static Client getClient() {
         if (client == null) {
             ClientConfig cc = new DefaultClientConfig();
@@ -31,10 +47,20 @@ public class RestClientSearchService {
         return client;
     }
 
+    /**
+     * Method getHottestPics, obtains a concret number of pics..
+     * @return List<FileDto> The list that contains the pics.
+     */
     public List<FileDto> getHottestPics() {
-        return getHottestPicsPaging(0, 50);
+        return getHottestPicsPaging(0, NUMBER_OF_PICS);
     }
 
+    /**
+     * Method that obtains the hottest-pics at paginated form.
+     * @param first The first element to return.
+     * @param count The number of elements to return.
+     * @return List<FileDto> A list with the hottest-pics.
+     */
     public List<FileDto> getHottestPicsPaging(int first, int count) {
         WebResource resource = getClient().resource(
                 ENDPOINT_ADDRESS + "/search?type=hottest-pics&first="
