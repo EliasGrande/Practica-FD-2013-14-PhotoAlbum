@@ -1,7 +1,5 @@
 package es.udc.fi.dc.photoalbum.model.spring;
 
-import java.util.List;
-
 import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislike;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 
@@ -55,6 +53,5 @@ public interface LikeAndDislikeService {
      * @return True if the user voted, false if the user not voted.
      */
     boolean userHasVoted(LikeAndDislike likeAndDislike, User user);
-    
-    List<LikeAndDislike> getLikesAndDislikes (boolean like);
+
 }

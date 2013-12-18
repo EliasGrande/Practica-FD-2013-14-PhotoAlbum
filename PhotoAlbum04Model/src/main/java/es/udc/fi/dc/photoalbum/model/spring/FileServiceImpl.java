@@ -1,6 +1,5 @@
 package es.udc.fi.dc.photoalbum.model.spring;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,10 +22,6 @@ import es.udc.fi.dc.photoalbum.util.utils.PrivacyLevel;
 @Transactional
 public class FileServiceImpl implements FileService {
 
-    private final static String DATE = "date";
-    private final static String LIKE = "like";
-    private final static String DISLIKE = "dislike";
-    
     /**
      * @see LikeAndDislikeDao
      */
@@ -489,137 +484,27 @@ public class FileServiceImpl implements FileService {
     public List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count) {
-
-        List<LikeAndDislike> lad = null;
-        ArrayList<File> hot = new ArrayList<>();
-        int i, j;
-
-        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
-            if (orderBy.equals(LIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals(DISLIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(false);
-            }
-            List<File> files = fileDao.getFiles(keywords, name,
-                    comment, tag, orderBy, fechaMin, fechaMax, first,
-                    count);
-            i = 0;
-            while (i < lad.size() || (i < files.size())) {
-                for (j = 0; j < files.size(); j++) {
-                    if (files.get(j).getLikeAndDislike().getId() == lad
-                            .get(i).getId()) {
-                        hot.add(files.get(j));
-                    }
-                }
-                i++;
-            }
-        } else { // fecha
-            hot = (ArrayList<File>) fileDao.getFiles(keywords, name,
-                    comment, tag, DATE, fechaMin, fechaMax, first,
-                    count);
-        }
-
-        return hot;
+        return fileDao.getFiles(keywords, name, comment, tag,
+                orderBy, fechaMin, fechaMax, first, count);
     }
 
     @Override
     public List<File> getFiles(String orderBy, int first, int count) {
-
-        ArrayList<File> hot = new ArrayList<>();
-        int i, j;
-
-        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
-            List<LikeAndDislike> lad = null;
-            if (orderBy.equals(LIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals(DISLIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(false);
-            }
-            List<File> files = fileDao
-                    .getFiles(orderBy, first, count);
-            i = 0;
-            while (i < lad.size() || (i < files.size())) {
-                for (j = 0; j < files.size(); j++) {
-                    if (files.get(j).getLikeAndDislike().getId() == lad
-                            .get(i).getId()) {
-                        hot.add(files.get(j));
-                    }
-                }
-                i++;
-            }
-        } else { // fecha
-            hot = (ArrayList<File>) fileDao.getFiles(DATE, first,
-                    count);
-        }
-        return hot;
+        return fileDao.getFiles(orderBy, first, count);
     }
 
     @Override
     public List<File> getFiles(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count) {
-
-        ArrayList<File> hot = new ArrayList<>();
-        int i, j;
-
-        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
-            List<LikeAndDislike> lad = null;
-            if (orderBy.equals(LIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals(DISLIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(false);
-            }
-            List<File> files = fileDao.getFiles(orderBy, fechaMin,
-                    fechaMax, first, count);
-            i = 0;
-            while (i < lad.size() || (i < files.size())) {
-                for (j = 0; j < files.size(); j++) {
-                    if (files.get(j).getLikeAndDislike().getId() == lad
-                            .get(i).getId()) {
-                        hot.add(files.get(j));
-                    }
-                }
-                i++;
-            }
-        } else { // fecha
-            hot = (ArrayList<File>) fileDao.getFiles(DATE,
-                    fechaMin, fechaMax, first, count);
-        }
-
-        return hot;
+        return fileDao.getFiles(orderBy, fechaMin, fechaMax, first,
+                count);
     }
 
     @Override
     public List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count) {
-        
-        ArrayList<File> hot = new ArrayList<>();
-        int i, j;
-
-        if (orderBy.equals(LIKE) || orderBy.equals(DISLIKE)) {
-            List<LikeAndDislike> lad = null;
-            if (orderBy.equals(LIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(true);
-            } else if (orderBy.equals(DISLIKE)) {
-                lad = likeAndDislikeDao.getLikesAndDislikes(false);
-            }
-            List<File> files = fileDao.getFiles(keywords, name,
-                    comment, tag, orderBy, first, count);
-            i = 0;
-            while (i < lad.size() || (i < files.size())) {
-                for (j = 0; j < files.size(); j++) {
-                    if (files.get(j).getLikeAndDislike().getId() == lad
-                            .get(i).getId()) {
-                        hot.add(files.get(j));
-                    }
-                }
-                i++;
-            }
-        } else { // fecha
-            hot = (ArrayList<File>) fileDao.getFiles(keywords, name,
-                    comment, tag, DATE, first, count);
-        }
-
-        return hot;
+        return fileDao.getFiles(keywords, name, comment, tag,
+                orderBy, first, count);
     }
 }

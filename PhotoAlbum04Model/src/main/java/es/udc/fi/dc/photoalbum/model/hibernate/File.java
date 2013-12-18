@@ -299,15 +299,4 @@ public class File implements Serializable, ComparableById {
         this.likeAndDislike = likeAndDislike;
     }
 
-    @Override
-    public String toString() {
-        return "File [id=" + id + ", name=" + name + ", date=" + date
-                + ", privacyLevel=" + privacyLevel + ", file="
-                + Arrays.toString(file) + ", fileSmall="
-                + Arrays.toString(fileSmall) + ", album="
-                + album.getName() + ", shareInformation="
-                + shareInformation + ", likeAndDislike="
-                + likeAndDislike.getId() + "]";
-    }
-
 }

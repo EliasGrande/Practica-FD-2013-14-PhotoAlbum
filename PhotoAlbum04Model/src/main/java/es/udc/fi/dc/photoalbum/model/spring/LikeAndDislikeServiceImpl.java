@@ -1,7 +1,5 @@
 package es.udc.fi.dc.photoalbum.model.spring;
 
-import java.util.List;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislike;
@@ -196,11 +194,6 @@ public class LikeAndDislikeServiceImpl implements
                 user.getId());
 
         return voted == null ? false : true;
-    }
-
-    @Override
-    public List<LikeAndDislike> getLikesAndDislikes(boolean like) {
-        return likeAndDislikeDao.getLikesAndDislikes(like);
     }
 
 }

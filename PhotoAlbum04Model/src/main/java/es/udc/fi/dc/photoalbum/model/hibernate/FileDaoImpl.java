@@ -289,15 +289,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         String query = "SELECT f FROM File f " 
                 + "WHERE (" 
                 + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) " 
-                + "AND "
-                + "(f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
+                + "(f.privacyLevel = :publicPrivacyLevel) "  
                 + ") " 
                 + "OR " 
                 + "("
@@ -349,6 +341,10 @@ public class FileDaoImpl extends HibernateDaoSupport implements
 
         if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        } else {
+            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
         }
 
         return (List<File>) getHibernateTemplate()
@@ -372,15 +368,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         String query = "SELECT f FROM File f " 
                 + "WHERE (" 
                 + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) " 
-                + "AND "
-                + "(f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
+                + "(f.privacyLevel = :publicPrivacyLevel) "  
                 + ") " 
                 + "OR " 
                 + "("
@@ -399,6 +387,10 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         
         if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        } else {
+            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
         }
         
         return (List<File>) getHibernateTemplate()
@@ -419,15 +411,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         String query = "SELECT f FROM File f " 
                 + "WHERE (" 
                 + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) " 
-                + "AND "
-                + "(f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
+                + "(f.privacyLevel = :publicPrivacyLevel) "  
                 + ") " 
                 + "OR " 
                 + "("
@@ -448,6 +432,10 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         
         if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        } else {
+            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
         }
         
         return (List<File>) getHibernateTemplate()
@@ -471,15 +459,7 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         String query = "SELECT f FROM File f " 
                 + "WHERE (" 
                 + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) " 
-                + "AND "
-                + "(f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
+                + "(f.privacyLevel = :publicPrivacyLevel) "  
                 + ") " 
                 + "OR " 
                 + "("
@@ -528,6 +508,10 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         
         if (orderBy.equals("date")) {
             query += "ORDER BY f.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        } else {
+            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
         }
         
         return (List<File>) getHibernateTemplate()

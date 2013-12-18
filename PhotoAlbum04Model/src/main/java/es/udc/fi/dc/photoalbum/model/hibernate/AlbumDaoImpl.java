@@ -276,6 +276,10 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         
         if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        } else {
+            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
         }
         
         return (List<Album>) getHibernateTemplate()
@@ -298,6 +302,10 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         
         if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        } else {
+            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
         }
         
         return (List<Album>) getHibernateTemplate()
@@ -320,6 +328,10 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         
         if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        } else {
+            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
         }
         
         return (List<Album>) getHibernateTemplate()
@@ -372,6 +384,10 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         
         if (orderBy.equals("date")) {
             query += "ORDER BY a.date DESC ";
+        } else if (orderBy.equals("like")) {
+            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        } else {
+            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
         }
         
         return (List<Album>) getHibernateTemplate()

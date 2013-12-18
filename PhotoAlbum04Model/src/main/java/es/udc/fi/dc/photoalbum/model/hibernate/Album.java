@@ -276,12 +276,4 @@ public class Album implements Serializable, ComparableById {
         this.likeAndDislike = likeAndDislike;
     }
 
-    @Override
-    public String toString() {
-        return "Album [id=" + id + ", name=" + name + ", user="
-                + user.getEmail() + ", date=" + date
-                + ", privacyLevel=" + privacyLevel + ", files="
-                + files + ", shareInformation=" + shareInformation
-                + ", likeAndDislike=" + likeAndDislike.getId() + "]";
-    }
 }

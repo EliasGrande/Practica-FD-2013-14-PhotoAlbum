@@ -1735,6 +1735,8 @@ public class DaoTest {
                 PrivacyLevel.PUBLIC);
         this.fileService.changePrivacyLevel(file10,
                 PrivacyLevel.PUBLIC);
+        this.fileService.changePrivacyLevel(file8,
+                PrivacyLevel.PUBLIC);
         this.fileService.changePrivacyLevel(file9,
                 PrivacyLevel.PRIVATE);
 
@@ -1760,7 +1762,233 @@ public class DaoTest {
                 file6.getLikeAndDislike(), user3);
         this.likeAndDislikeService.voteLike(
                 file10.getLikeAndDislike(), user3);
+
+        Comment comment = new Comment(file1.getLikeAndDislike(),
+                user, "Prueba comment", null, file1);
+        this.commentService.create(user, file1, comment.getText());
+
+        Comment comment2 = new Comment(album5.getLikeAndDislike(),
+                user, "Prueba 2", null, file4);
+        this.commentService.create(user2, file4, comment2.getText());
+
+        FileTag tag = new FileTag();
+        tag.setFile(file2);
+        tag.setTag("Prueba tag");
+        this.fileTagService.create(tag);
+
+        FileTag tag2 = new FileTag(file6, "Prueba 2");
+        this.fileTagService.create(tag2);
+
+        List<File> listFLkN = fileService.getFiles("File", true,
+                false, false, "like", file1.getDate(),
+                file10.getDate(), 0, 10);
+        List<File> listFDkN = fileService.getFiles("File", true,
+                false, false, "dislike", file1.getDate(),
+                file10.getDate(), 0, 10);
+        List<File> listFFkN = fileService.getFiles("File", true,
+                false, false, "date", file5.getDate(),
+                file10.getDate(), 2, 10);
+        List<File> listFFkNV = fileService.getFiles("manzana", true,
+                false, false, "date", file1.getDate(),
+                file10.getDate(), 0, 10);
+        List<File> listFFkNPag = fileService.getFiles("File", true,
+                false, false, "date", file1.getDate(),
+                file10.getDate(), 0, 5);
+
+        List<File> listFLkC = fileService.getFiles("Pr", false, true,
+                false, "like", file2.getDate(), file10.getDate(), 0,
+                10);
+        List<File> listFDkC = fileService.getFiles("Pr", false, true,
+                false, "dislike", file1.getDate(), file10.getDate(),
+                0, 10);
+        List<File> listFFkC = fileService.getFiles("Pr", false, true,
+                false, "date", file3.getDate(), file10.getDate(), 0,
+                10);
+        List<File> listFFkCV = fileService.getFiles("manzana", false,
+                true, false, "dislike", file3.getDate(),
+                file10.getDate(), 0, 10);
+
+        List<File> listFLkT = fileService.getFiles("Prue", false,
+                false, true, "like", file1.getDate(),
+                file10.getDate(), 0, 10);
+        List<File> listFDkT = fileService.getFiles("Prue", false,
+                false, true, "dislike", file1.getDate(),
+                file10.getDate(), 0, 10);
+        List<File> listFFkT = fileService.getFiles("Prue", false,
+                false, true, "date", file1.getDate(),
+                file10.getDate(), 1, 3);
+        List<File> listFFkV = fileService.getFiles("manzana", false,
+                false, true, "date", file1.getDate(),
+                file10.getDate(), 0, 10);
+
+        List<File> listFLo = fileService.getFiles("like", 0, 5);
+        List<File> listFDo = fileService.getFiles("dislike", 1, 3);
+        List<File> listFFo = fileService.getFiles("date", 0, 5);
+        List<File> listFFoV = fileService.getFiles("date", 11, 15);
+
+        List<File> listFLof = fileService.getFiles("like",
+                file1.getDate(), file10.getDate(), 0, 10);
+        List<File> listFDof = fileService.getFiles("dislike",
+                file1.getDate(), file10.getDate(), 0, 5);
+        List<File> listFFof = fileService.getFiles("date",
+                file1.getDate(), file10.getDate(), 0, 5);
+
+        List<File> listFLokN = fileService.getFiles("File", true,
+                false, false, "like", 0, 10);
+        List<File> listFDokN = fileService.getFiles("File", true,
+                false, false, "dislike", 0, 10);
+        List<File> listFFokN = fileService.getFiles("File", true,
+                false, false, "date", 0, 10);
+
+        List<File> listFLokC = fileService.getFiles("Pru", false,
+                true, false, "like", 0, 10);
+        List<File> listFDokC = fileService.getFiles("Pru", false,
+                true, false, "dislike", 0, 10);
+        List<File> listFFokC = fileService.getFiles("Pru", false,
+                true, false, "date", 0, 10);
+
+        List<File> listFLokT = fileService.getFiles("Pru", false,
+                false, true, "like", 0, 5);
+        List<File> listFDokT = fileService.getFiles("Pru", false,
+                false, true, "dislike", 0, 5);
+        List<File> listFFokT = fileService.getFiles("Pru", false,
+                false, true, "date", 0, 1);
+        List<File> listFFokTPag = fileService.getFiles("Pru", false,
+                false, true, "date", 1, 1);
+
+        assertEquals(listFLkN.size(), 9);
+        assertEquals(listFLkN.get(0), file1);
+        assertEquals(listFLkN.get(1), file2);
+        assertEquals(listFLkN.get(2), file10);
+        assertEquals(listFLkN.get(3), file3);
+        assertEquals(listFLkN.get(0).getName(), file1.getName());
+        assertEquals(listFLkN.get(2).getAlbum(), file10.getAlbum());
+        assertEquals(listFFkNPag.size(), 5);
+
+        assertEquals(listFDkN.size(), 9);
+        assertEquals(listFDkN.get(0), file4);
+        assertEquals(listFDkN.get(1), file6);
+        assertEquals(listFDkN.get(0).getName(), file4.getName());
+
+        assertEquals(listFFkN.size(), 3);
+        assertEquals(listFFkN.get(0), file7);
+        assertEquals(listFFkN.get(1), file6);
+        assertEquals(listFFkN.get(1).getAlbum(), file6.getAlbum());
+
+        assertEquals(listFFkNV.size(), 0);
         
+
+        assertEquals(listFLkC.size(), 1);
+        assertEquals(listFLkC.get(0), file4);
+
+        assertEquals(listFDkC.size(), 2);
+        assertEquals(listFDkC.get(0), file4);
+        assertEquals(listFDkC.get(1), file1);
+
+        assertEquals(listFFkC.size(), 1);
+        assertEquals(listFFkC.get(0), file4);
+
+        assertEquals(listFFkCV.size(), 0);
+
+        assertEquals(listFLkT.size(), 2);
+        assertEquals(listFLkT.get(0), file2);
+        assertEquals(listFLkT.get(1), file6);
+
+        assertEquals(listFDkT.size(), 2);
+        assertEquals(listFDkT.get(0), file6);
+        assertEquals(listFDkT.get(1), file2);
+
+        assertEquals(listFFkT.size(), 1);
+        assertEquals(listFFkT.get(0), file2);
+
+        assertEquals(listFFkV.size(), 0);
+
+        assertEquals(listFLo.size(), 5);
+        assertEquals(listFLo.get(0), file1);
+
+        assertEquals(listFDo.size(), 3);
+        assertEquals(listFDo.get(0), file6);
+
+        assertEquals(listFFo.size(), 5);
+        assertEquals(listFFo.get(0), file10);
+
+        assertEquals(listFFoV.size(), 0);
+
+        assertEquals(listFLof.size(), 9);
+        assertEquals(listFLof.get(0), file1);
+        assertEquals(listFLof.get(2), file10);
+        assertEquals(listFLof.get(8), file8);
+
+        assertEquals(listFDof.size(), 5);
+        assertEquals(listFDof.get(0), file4);
+
+        assertEquals(listFFof.size(), 5);
+        assertEquals(listFFof.get(0), file10);
+        assertEquals(listFFof.get(1), file8);
+
+        assertEquals(listFLokN.size(), 9);
+        assertEquals(listFLokN.get(0), file1);
+        assertEquals(listFLokN.get(2), file10);
+
+        assertEquals(listFDokN.size(), 9);
+        assertEquals(listFDokN.get(0), file4);
+        assertEquals(listFDokN.get(1).getName(), file6.getName());
+
+        assertEquals(listFFokN.size(), 9);
+        assertEquals(listFFokN.get(0), file10);
+        assertEquals(listFFokN.get(2), file7);
+
+        assertEquals(listFLokC.size(), 2);
+        assertEquals(listFLokC.get(0), file1);
+        assertEquals(listFLokC.get(1), file4);
+
+        assertEquals(listFDokC.size(), 2);
+        assertEquals(listFDokC.get(0), file4);
+
+        assertEquals(listFFokC.size(), 2);
+        assertEquals(listFDokC.get(0), file4);
+
+        assertEquals(listFLokT.size(), 2);
+        assertEquals(listFLokT.get(0), file2);
+        assertEquals(listFLokT.get(1), file6);
+
+        assertEquals(listFDokT.size(), 2);
+        assertEquals(listFDokT.get(0), file6);
+        assertEquals(listFDokT.get(1), file2);
+
+        assertEquals(listFFokT.size(), 1);
+        assertEquals(listFFokT.get(0), file6);
+
+        assertEquals(listFFokTPag.size(), 1);
+        assertEquals(listFFokTPag.get(0), file2);
+
+    }
+
+    @Test
+    public void test_GetAlbums() {
+        User user = new User(null, "123", MD5.getHash("pass"));
+        this.userService.create(user);
+        User user2 = new User(null, "456", MD5.getHash("pass"));
+        this.userService.create(user2);
+        User user3 = new User(null, "789", MD5.getHash("pass"));
+        this.userService.create(user3);
+
+        Album album = new Album(null, "FirstAlbum", user, null, null,
+                PrivacyLevel.PUBLIC);
+        this.albumService.create(album);
+        Album album2 = new Album(null, "SecondAlbum", user, null,
+                null, PrivacyLevel.PUBLIC);
+        this.albumService.create(album2);
+        Album album3 = new Album(null, "ThirdAlbum", user, null,
+                null, PrivacyLevel.PUBLIC);
+        this.albumService.create(album3);
+        Album album4 = new Album(null, "FourthAlbum", user, null,
+                null, PrivacyLevel.PUBLIC);
+        this.albumService.create(album4);
+        Album album5 = new Album(null, "FifthAlbum", user, null,
+                null, PrivacyLevel.PRIVATE);
+        this.albumService.create(album5);
+
         this.likeAndDislikeService.voteLike(
                 album4.getLikeAndDislike(), user2);
         this.likeAndDislikeService.voteLike(
@@ -1774,259 +2002,216 @@ public class DaoTest {
         this.likeAndDislikeService.voteDislike(
                 album5.getLikeAndDislike(), user);
 
-        Comment comment = new Comment(file1.getLikeAndDislike(),
-                user, "Prueba comment", null, file1);
-        this.commentService.create(user, file1, comment.getText());
-
-        Comment comment2 = new Comment(album5.getLikeAndDislike(),
-                user, "Prueba 2", null, file4);
-        this.commentService.create(user2, file4, comment2.getText());
-        
         Comment commentA = new Comment(album3.getLikeAndDislike(),
                 user, "Prueba comment", album3, null);
         this.commentService.create(user, album3, commentA.getText());
-        
-        FileTag tag = new FileTag();
-        tag.setFile(file2);
-        tag.setTag("Prueba tag");
-        this.fileTagService.create(tag);
-        
-        FileTag tag2 = new FileTag(file6, "Prueba 2");
-        this.fileTagService.create(tag2);
+
+        Comment commentA2 = new Comment(album4.getLikeAndDislike(),
+                user, "Prueba 2", album4, null);
+        this.commentService.create(user, album4, commentA2.getText());
 
         AlbumTag tagA = new AlbumTag(album4, "Prueba tag");
         this.albumTagService.create(tagA);
-        
+
         AlbumTag tagA2 = new AlbumTag(album2, "Prueba 2");
+        this.albumTagService.create(tagA2);
 
-        List<File> listFLkN = fileService.getFiles("File", true, false,
-                false, "like", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFDkN = fileService.getFiles("File", true, false,
-                false, "dislike", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFFkN = fileService.getFiles("File", true, false,
-                false, "date", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFFkNV = fileService.getFiles("manzana", true, false,
-                false, "date", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFFkNPag = fileService.getFiles("File", true, false,
-                false, "date", file1.getDate(), file10.getDate(),
-                0, 5);
-        
-        List<File> listFLkC = fileService.getFiles("Pr", false, true,
-                false, "like", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFDkC = fileService.getFiles("Pr", false, true,
-                false, "dislike", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFFkC = fileService.getFiles("Pr", false, true,
-                false, "date", file3.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFFkCV = fileService.getFiles("manzana", false, true,
-                false, "dislike", file3.getDate(), file10.getDate(),
-                0, 10);
-        
-        List<File> listFLkT = fileService.getFiles("Prue", false, false,
-                true, "like", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFDkT = fileService.getFiles("Prue", false, false,
-                true, "dislike", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFFkT = fileService.getFiles("Prue", false, false,
-                true, "date", file1.getDate(), file10.getDate(),
-                0, 10);
-        List<File> listFFkV = fileService.getFiles("manzana", false, false,
-                true, "date", file1.getDate(), file10.getDate(),
-                0, 10);
-        
-        
-        List<File> listFLo = fileService.getFiles("like", 0, 5);
-        List<File> listFDo = fileService.getFiles("dislike", 0, 5);
-        List<File> listFFo = fileService.getFiles("date", 0, 5);
-        List<File> listFFoV = fileService.getFiles("date", 11, 15);
-        
-        
-        List<File> listFLof = fileService.getFiles("like",
-                file1.getDate(), file10.getDate(), 0, 10);
-        List<File> listFDof = fileService.getFiles("dislike",
-                file1.getDate(), file10.getDate(), 0, 5);
-        List<File> listFFof = fileService.getFiles("date",
-                file1.getDate(), file10.getDate(), 0, 5);
-        
-        
-        List<File> listFLokN = fileService.getFiles("File", true,
+        List<Album> listALkN = albumService.getAlbums("Album", true,
+                false, false, "like", album.getDate(),
+                album5.getDate(), 0, 10);
+        List<Album> listALkN2 = albumService.getAlbums("Album", true,
+                false, false, "like", album.getDate(),
+                album5.getDate(), 1, 10);
+        List<Album> listADkN = albumService.getAlbums("Album", true,
+                false, false, "dislike", album.getDate(),
+                album5.getDate(), 0, 10);
+        List<Album> listAFkN = albumService.getAlbums("Album", true,
+                false, false, "date", album.getDate(),
+                album5.getDate(), 0, 10);
+        List<Album> listAFkN2 = albumService.getAlbums("Album", true,
+                false, false, "date", album.getDate(),
+                album5.getDate(), 2, 1);
+        List<Album> listAFkNV = albumService.getAlbums("manzana",
+                true, false, false, "date", album.getDate(),
+                album5.getDate(), 2, 1);
+
+        List<Album> listALkC = albumService.getAlbums("Pru", false,
+                true, false, "like", album.getDate(),
+                album5.getDate(), 0, 10);
+        List<Album> listADkC = albumService.getAlbums("Pru", false,
+                true, false, "dislike", album.getDate(),
+                album5.getDate(), 0, 10);
+        List<Album> listAFkC = albumService.getAlbums("Pru", false,
+                true, false, "date", album.getDate(),
+                album5.getDate(), 1, 1);
+        List<Album> listADkCV = albumService.getAlbums("manzana",
+                false, true, false, "dislike", album.getDate(),
+                album5.getDate(), 0, 10);
+
+        List<Album> listALkT = albumService.getAlbums("Pru", false,
+                false, true, "like", album4.getDate(),
+                album5.getDate(), 0, 10);
+        List<Album> listADkT = albumService.getAlbums("Pru", false,
+                false, true, "dislike", album.getDate(),
+                album5.getDate(), 0, 10);
+        List<Album> listAFkT = albumService.getAlbums("Pru", false,
+                false, true, "date", album.getDate(),
+                album5.getDate(), 1, 10);
+        List<Album> listAFkTV = albumService.getAlbums("manzana",
+                false, false, true, "date", album.getDate(),
+                album5.getDate(), 1, 10);
+
+        List<Album> listALo = albumService.getAlbums("like", 0, 5);
+        List<Album> listADo = albumService.getAlbums("dislike", 1, 3);
+        List<Album> listAFo = albumService.getAlbums("date", 2, 5);
+        List<Album> listALoV = albumService.getAlbums("like", 8, 5);
+
+        List<Album> listALof = albumService.getAlbums("like",
+                album.getDate(), album5.getDate(), 0, 10);
+        List<Album> listADof = albumService.getAlbums("dislike",
+                album2.getDate(), album5.getDate(), 1, 2);
+        List<Album> listAFof = albumService.getAlbums("date",
+                album.getDate(), album5.getDate(), 1, 3);
+        List<Album> listALofV = albumService.getAlbums("like",
+                album.getDate(), album5.getDate(), 6, 10);
+
+        List<Album> listALokN = albumService.getAlbums("Album", true,
                 false, false, "like", 0, 10);
-        List<File> listFDokN = fileService.getFiles("File", true,
-                false, false, "dislike", 0, 10);
-        List<File> listFFokN = fileService.getFiles("File", true,
-                false, false, "date", 0, 10);
-        
-        List<File> listFLokC = fileService.getFiles("Pru", false,
+        List<Album> listADokN = albumService.getAlbums("Album", true,
+                false, false, "dislike", 1, 10);
+        List<Album> listAFokN = albumService.getAlbums("Album", true,
+                false, false, "date", 1, 2);
+        List<Album> listAFokVN = albumService.getAlbums("manzana",
+                true, false, false, "date", 1, 2);
+
+        List<Album> listALokC = albumService.getAlbums("Pru", false,
                 true, false, "like", 0, 10);
-        List<File> listFDokC = fileService.getFiles("Pru", false,
-                true, false, "dislike", 0, 10);
-        List<File> listFFokC = fileService.getFiles("Pru", false,
-                true, false, "date", 0, 10);
-        
-        List<File> listFLokT = fileService.getFiles("Pru", false,
-                false, true, "like", 0, 5);
-        List<File> listFDokT = fileService.getFiles("Pru", false,
-                false, true, "dislike", 0, 5);
-        List<File> listFFokT = fileService.getFiles("Pru", false,
-                false, true, "date", 0, 1);
-        List<File> listFFokTPag = fileService.getFiles("Pru", false,
-                false, true, "date", 1, 1);
-        
-        System.out.println();
-        int i;
-        
+        List<Album> listADokC = albumService.getAlbums("Pru", false,
+                true, false, "dislike", 1, 3);
+        List<Album> listAFokC = albumService.getAlbums("Pru", false,
+                true, false, "date", 0, 3);
+        List<Album> listAFokCV = albumService.getAlbums("manzana",
+                false, true, false, "date", 0, 3);
 
-        /*
-        System.out.println("ListA size " + listA.size());
-        for (i = 0; i < listA.size(); i++) {
-            System.out.println(listA.get(i).getName() + " ------> "
-                    + listA.get(i).toString());
-        }
+        List<Album> listALokT = albumService.getAlbums("Prue", false,
+                false, true, "like", 0, 3);
+        List<Album> listADokT = albumService.getAlbums("Prue", false,
+                false, true, "dislike", 1, 1);
+        List<Album> listAFokT = albumService.getAlbums("Prue", false,
+                false, true, "date", 0, 5);
+        List<Album> listAFokTV = albumService.getAlbums("manzana",
+                false, false, true, "date", 0, 5);
 
-        System.out
-                .println("----------------------------------------------------------");
+        assertEquals(listALkN.size(), 4);
+        assertEquals(listALkN.get(0), album4);
 
-        System.out.println("ListA2 size " + listA2.size());
-        for (i = 0; i < listA2.size(); i++) {
-            System.out.println(listA2.get(i).getName() + " ------> "
-                    + listA2.get(i).toString());
-        }
+        assertEquals(listALkN2.size(), 3);
+        assertEquals(listALkN2.get(0), album2);
+        assertEquals(listALkN2.get(1), album);
 
-        System.out
-                .println("----------------------------------------------------------");
+        assertEquals(listADkN.size(), 4);
+        assertEquals(listADkN.get(0), album3);
+        assertEquals(listADkN.get(1), album);
 
-        System.out.println("ListA3 size " + listA3.size());
-        for (i = 0; i < listA3.size(); i++) {
-            System.out.println(listA3.get(i).getName() + " ------> "
-                    + listA3.get(i).toString());
-        }
+        assertEquals(listAFkN.size(), 4);
+        assertEquals(listAFkN.get(0), album4);
 
-        System.out
-                .println("----------------------------------------------------------");
+        assertEquals(listAFkN2.size(), 1);
+        assertEquals(listAFkN2.get(0), album2);
 
-        System.out.println("ListA4 size " + listA4.size());
-        for (i = 0; i < listA4.size(); i++) {
-            System.out.println(listA4.get(i).getName() + " ------> "
-                    + listA4.get(i).toString());
-        }
-        */ 
+        assertEquals(listAFkNV.size(), 0);
 
-        assertEquals(listFLkN.size(), 8);
-        assertEquals(listFLkN.get(0), file1);
-        assertEquals(listFLkN.get(1), file2);
-        assertEquals(listFLkN.get(2), file10);
-        assertEquals(listFLkN.get(3), file3);
-        assertEquals(listFLkN.get(0).getName(), file1.getName());
-        assertEquals(listFLkN.get(2).getAlbum(), file10.getAlbum());
-        assertEquals(listFFkNPag.size(), 5);
-        
-        assertEquals(listFDkN.size(), 8);
-        assertEquals(listFDkN.get(0), file4);
-        assertEquals(listFDkN.get(1), file6);
-        assertEquals(listFDkN.get(0).getName(), file4.getName());
-        
-        assertEquals(listFFkN.size(), 8);
-        assertEquals(listFFkN.get(0), file10);
-        assertEquals(listFFkN.get(1), file7);
-        assertEquals(listFFkN.get(1).getAlbum(), file7.getAlbum());
-        
-        assertEquals(listFFkNV.size(), 0);
-        
-        
-        assertEquals(listFLkC.size(), 2);
-        assertEquals(listFLkC.get(0), file1);
-        assertEquals(listFLkC.get(1), file4);
-        
-        assertEquals(listFDkC.size(), 2);
-        assertEquals(listFDkC.get(0), file4);
-        assertEquals(listFDkC.get(1), file1);
-        
-        assertEquals(listFFkC.size(), 1);
-        assertEquals(listFFkC.get(0), file4);
-        
-        assertEquals(listFFkCV.size(), 0);
-        
-        
-        assertEquals(listFLkT.size(), 2);
-        assertEquals(listFLkT.get(0), file2);
-        assertEquals(listFLkT.get(1), file6);
-        
-        assertEquals(listFDkT.size(), 2);
-        assertEquals(listFDkT.get(0), file6);
-        assertEquals(listFDkT.get(1), file2);
-        
-        assertEquals(listFFkT.size(), 2);
-        assertEquals(listFFkT.get(0), file6);
-        assertEquals(listFFkT.get(1), file2);
-        
-        assertEquals(listFFkV.size(), 0);
-        
-        
-        assertEquals(listFLo.size(), 5);
-        assertEquals(listFLo.get(0), file1);
-        
-        assertEquals(listFDo.size(), 5);
-        assertEquals(listFDo.get(0), file4);
-        
-        assertEquals(listFFo.size(), 5);
-        assertEquals(listFFo.get(0), file10);
-        
-        assertEquals(listFFoV.size(), 0);
-        
-        
-        assertEquals(listFLof.size(), 8);
-        assertEquals(listFLof.get(0), file1);
-        assertEquals(listFLof.get(2), file10);
-        
-        assertEquals(listFDof.size(), 5);
-        assertEquals(listFDof.get(0), file4);
-        
-        assertEquals(listFFof.size(), 5);
-        assertEquals(listFFof.get(0), file10);
-        assertEquals(listFFof.get(1), file7);
-                
-        
-        assertEquals(listFLokN.size(), 8);
-        assertEquals(listFLokN.get(0), file1);
-        assertEquals(listFLokN.get(2), file10);
-        
-        assertEquals(listFDokN.size(), 8);
-        assertEquals(listFDokN.get(0), file4);
-        assertEquals(listFDokN.get(1).getName(), file6.getName());
-        
-        assertEquals(listFFokN.size(), 8);
-        assertEquals(listFFokN.get(0), file10);
-        
-        assertEquals(listFLokC.size(), 2);
-        assertEquals(listFLokC.get(0), file1);
-        assertEquals(listFLokC.get(1), file4);
-        
-        assertEquals(listFDokC.size(), 2);
-        assertEquals(listFDokC.get(0), file4);
-        
-        assertEquals(listFFokC.size(), 2);
-        assertEquals(listFDokC.get(0), file4);
-        
-        assertEquals(listFLokT.size(), 2);
-        assertEquals(listFLokT.get(0), file2);
-        assertEquals(listFLokT.get(1), file6);
-        
-        assertEquals(listFDokT.size(), 2);
-        assertEquals(listFDokT.get(0), file6);
-        assertEquals(listFDokT.get(1), file2);
-        
-        assertEquals(listFFokT.size(), 1);
-        assertEquals(listFFokT.get(0), file6);
-        
-        assertEquals(listFFokTPag.size(), 1);
-        assertEquals(listFFokTPag.get(0), file2);
+        assertEquals(listALkC.size(), 2);
+        assertEquals(listALkC.get(0), album4);
+        assertEquals(listALkC.get(1), album3);
+
+        assertEquals(listADkC.size(), 2);
+        assertEquals(listADkC.get(0), album3);
+        assertEquals(listADkC.get(1), album4);
+
+        assertEquals(listAFkC.size(), 1);
+        assertEquals(listAFkC.get(0), album3);
+
+        assertEquals(listADkCV.size(), 0);
+
+        assertEquals(listALkT.size(), 1);
+        assertEquals(listALkT.get(0), album4);
+
+        assertEquals(listADkT.size(), 2);
+        assertEquals(listADkT.get(0), album2);
+        assertEquals(listADkT.get(1), album4);
+        assertEquals(listAFkT.size(), 1);
+        assertEquals(listAFkT.get(0), album2);
+
+        assertEquals(listAFkTV.size(), 0);
+
+        assertEquals(listALo.size(), 4);
+        assertEquals(listALo.get(0), album4);
+        assertEquals(listALo.get(1), album2);
+
+        assertEquals(listADo.size(), 3);
+        assertEquals(listADo.get(0), album);
+
+        assertEquals(listAFo.size(), 2);
+        assertEquals(listAFo.get(0), album2);
+        assertEquals(listAFo.get(1), album);
+
+        assertEquals(listALoV.size(), 0);
+
+        assertEquals(listALof.size(), 4);
+        assertEquals(listALof.get(0), album4);
+        assertEquals(listALof.get(1), album2);
+
+        assertEquals(listADof.size(), 2);
+        assertEquals(listADof.get(0), album2);
+        assertEquals(listADof.get(1), album4);
+
+        assertEquals(listAFof.size(), 3);
+        assertEquals(listAFof.get(0), album3);
+        assertEquals(listAFof.get(1), album2);
+        assertEquals(listAFof.get(2), album);
+
+        assertEquals(listALofV.size(), 0);
+
+        assertEquals(listALokN.size(), 4);
+        assertEquals(listALokN.get(0), album4);
+        assertEquals(listALokN.get(1), album2);
+
+        assertEquals(listADokN.size(), 3);
+        assertEquals(listADokN.get(0), album);
+        assertEquals(listADokN.get(1), album2);
+
+        assertEquals(listAFokN.size(), 2);
+        assertEquals(listAFokN.get(0), album3);
+        assertEquals(listAFokN.get(1), album2);
+
+        assertEquals(listAFokVN.size(), 0);
+
+        assertEquals(listALokC.size(), 2);
+        assertEquals(listALokC.get(0), album4);
+        assertEquals(listALokC.get(1), album3);
+
+        assertEquals(listADokC.size(), 1);
+        assertEquals(listADokC.get(0), album4);
+
+        assertEquals(listAFokC.size(), 2);
+        assertEquals(listAFokC.get(0), album4);
+        assertEquals(listAFokC.get(1), album3);
+
+        assertEquals(listAFokCV.size(), 0);
+
+        assertEquals(listALokT.size(), 2);
+        assertEquals(listALokT.get(0), album4);
+        assertEquals(listALokT.get(1), album2);
+
+        assertEquals(listADokT.size(), 1);
+        assertEquals(listADokT.get(0), album4);
+
+        assertEquals(listAFokT.size(), 2);
+        assertEquals(listAFokT.get(0), album4);
+        assertEquals(listAFokT.get(1), album2);
+
+        assertEquals(listAFokTV.size(), 0);
 
     }
 

@@ -26,6 +26,5 @@ public interface LikeAndDislikeDao extends GenericDao<LikeAndDislike> {
      * @return LikeAndDislike object
      */
     LikeAndDislike get(int likeAndDislikeId);
-    
-    List<LikeAndDislike> getLikesAndDislikes (boolean like);
+
 }
