@@ -36,6 +36,7 @@ public interface FileDao extends GenericDao<File> {
      * 
      * @param id
      *            File id
+     * 
      * @return File object, or {@code null} if not found
      */
     File getById(Integer id);
@@ -51,6 +52,7 @@ public interface FileDao extends GenericDao<File> {
      *            Album name
      * @param userId
      *            Owner user id
+     * 
      * @return File object, or {@code null} if not found or not owned
      *         by {@code userId} or the album holding the file is not
      *         named {@code albumName}.
@@ -63,6 +65,7 @@ public interface FileDao extends GenericDao<File> {
      * 
      * @param albumId
      *            Album id
+     * 
      * @return File list
      */
     List<File> getAlbumFilesOwn(int albumId);
@@ -76,6 +79,7 @@ public interface FileDao extends GenericDao<File> {
      *            First index in the database result list
      * @param count
      *            Max number of files to return
+     * 
      * @return File list
      */
     List<File> getAlbumFilesOwnPaging(int albumId, int first,
@@ -89,6 +93,7 @@ public interface FileDao extends GenericDao<File> {
      *            Album id
      * @param userId
      *            User id
+     * 
      * @return File list
      */
     List<File> getAlbumFilesShared(int albumId, int userId);
@@ -104,6 +109,7 @@ public interface FileDao extends GenericDao<File> {
      *            First index in the database result list
      * @param count
      *            Max number of files to return
+     * 
      * @return File list
      */
     List<File> getAlbumFilesSharedPaging(int albumId, int userId,
@@ -115,6 +121,7 @@ public interface FileDao extends GenericDao<File> {
      * 
      * @param albumId
      *            Album id
+     * 
      * @return File list
      */
     Long getCountAlbumFiles(int albumId);
@@ -127,6 +134,7 @@ public interface FileDao extends GenericDao<File> {
      *            User requesting the file list
      * @param tag
      *            File tag string
+     * 
      * @return File list
      */
     List<File> getFilesByTag(int userId, String tag);
@@ -142,20 +150,104 @@ public interface FileDao extends GenericDao<File> {
      *            First index in the database result list
      * @param count
      *            Max number of files to return
+     * 
      * @return File list
      */
     List<File> getFilesByTagPaging(int userId, String tag, int first,
             int count);
 
+    /**
+     * Search files by keywords by performing the search by
+     * {@link File} name, or text in a text {@link Comment} or a
+     * {@link FileTag} between two dates employing paging.
+     * 
+     * @param keywords
+     *            Keywords with which the search is performed.
+     * @param name
+     *            Boolean indicating that the search is done by
+     *            {@link File} name.
+     * @param comment
+     *            Boolean indicating that the search is done by
+     *            {@link Comment} text.
+     * @param tag
+     *            Boolean indicating that the search is done by
+     *            {@link FileTag} text.
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param fechaMin
+     *            Minimum date search.
+     * @param fechaMax
+     *            Maximum date search.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count);
-    
+
+    /**
+     * Find files ordered by date, number of likes or number of
+     * dislikes employing paging.
+     * 
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String orderBy, int first, int count);
-    
+
+    /**
+     * Find files ordered by date, number of likes or dislikes and
+     * number who are between two dates employing paging.
+     * 
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param fechaMin
+     *            Minimum date search.
+     * @param fechaMax
+     *            Maximum date search.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count);
-    
+
+    /**
+     * Search files by keywords by performing the search by file name,
+     * or text in a text {@link Comment} or a tag employing paging.
+     * 
+     * @param keywords
+     *            Keywords with which the search is performed.
+     * @param name
+     *            Boolean indicating that the search is done by
+     *            {@link File} name.
+     * @param comment
+     *            Boolean indicating that the search is done by
+     *            {@link Comment} text.
+     * @param tag
+     *            Boolean indicating that the search is done by
+     *            {@link FileTag} text.
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count);

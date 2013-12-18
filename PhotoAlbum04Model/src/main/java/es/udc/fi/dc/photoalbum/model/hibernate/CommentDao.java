@@ -13,6 +13,7 @@ public interface CommentDao extends GenericDao<Comment> {
      * 
      * @param album
      *            Album
+     * 
      * @return Comment list
      */
     List<Comment> getComments(Album album);
@@ -23,6 +24,7 @@ public interface CommentDao extends GenericDao<Comment> {
      * 
      * @param file
      *            File
+     * 
      * @return Comment list
      */
     List<Comment> getComments(File file);
@@ -36,7 +38,9 @@ public interface CommentDao extends GenericDao<Comment> {
      *            First index in the database result list
      * @param count
      *            Max number of comments to return
-     * @return
+     * 
+     * @return List of all {@link Album} {@link Comments comments} of
+     *         a given {@link Album}.
      */
     List<Comment> getCommentsPaging(Album album, int first, int count);
 
@@ -49,7 +53,9 @@ public interface CommentDao extends GenericDao<Comment> {
      *            First index in the database result list
      * @param count
      *            Max number of comments to return
-     * @return
+     * 
+     * @return List of all {@link File} {@link Comments comments} of a
+     *         given {@link File}.
      */
     List<Comment> getCommentsPaging(File file, int first, int count);
 }

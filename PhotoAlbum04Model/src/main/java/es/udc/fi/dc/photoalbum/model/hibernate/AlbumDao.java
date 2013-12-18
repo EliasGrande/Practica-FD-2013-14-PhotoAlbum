@@ -36,6 +36,7 @@ public interface AlbumDao extends GenericDao<Album> {
      * 
      * @param id
      *            Album id
+     * 
      * @return Album object, or {@code null} if not found
      */
     Album getById(Integer id);
@@ -48,6 +49,7 @@ public interface AlbumDao extends GenericDao<Album> {
      *            Album name
      * @param userId
      *            Owner {@link User user} id
+     * 
      * @return Album object, or {@code null} if no album fulfills the
      *         requisites
      */
@@ -59,6 +61,7 @@ public interface AlbumDao extends GenericDao<Album> {
      * 
      * @param userId
      *            Owner {@link User user} id
+     * 
      * @return Album list
      */
     List<Album> getAlbums(Integer userId);
@@ -72,6 +75,7 @@ public interface AlbumDao extends GenericDao<Album> {
      *            Receiver of the sharing {@link User user} id
      * @param userSharedEmail
      *            Owner {@link User user} email
+     * 
      * @return Album list
      */
     List<Album> getAlbumsSharedWith(Integer userSharedToId,
@@ -79,6 +83,7 @@ public interface AlbumDao extends GenericDao<Album> {
 
     /**
      * List of all the public {@link Album albums}.
+     * 
      * 
      * @return Public album list
      */
@@ -94,6 +99,7 @@ public interface AlbumDao extends GenericDao<Album> {
      *            Receiver of the sharing {@link User user} id
      * @param userSharedEmail
      *            Owner {@link User user} email
+     * 
      * @return Album object, or {@code null} if no album fulfills the
      *         requisites
      */
@@ -108,19 +114,103 @@ public interface AlbumDao extends GenericDao<Album> {
      *            User requesting the album list
      * @param tag
      *            Album tag string
+     * 
      * @return Album list
      */
     List<Album> getAlbumsByTag(int userId, String tag);
-    
+
+    /**
+     * Search albums by keywords by performing the search by album
+     * name, or text in a text comment or a tag between two dates
+     * employing paging.
+     * 
+     * @param keywords
+     *            Keywords with which the search is performed.
+     * @param name
+     *            Boolean indicating that the search is done by name
+     *            {@link Album}.
+     * @param comment
+     *            Boolean indicating that the search is done by
+     *            {@link Comment} text.
+     * @param tag
+     *            Boolean indicating that the search is done by
+     *            {@link AlbumTag} text.
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param fechaMin
+     *            Minimum date search.
+     * @param fechaMax
+     *            Maximum date search.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of albums that match the search parameters.
+     */
     List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count);
-    
+
+    /**
+     * Find albums ordered by date, number of likes or number of
+     * dislikes employing paging.
+     * 
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of albums that match the search parameters.
+     */
     List<Album> getAlbums(String orderBy, int first, int count);
-    
+
+    /**
+     * Find albums ordered by date, number of likes or dislikes and
+     * number who are between two dates employing paging.
+     * 
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param fechaMin
+     *            Minimum date search.
+     * @param fechaMax
+     *            Maximum date search.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of albums that match the search parameters.
+     */
     List<Album> getAlbums(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count);
-    
+
+    /**
+     * Search albums by keywords by performing the search by album
+     * name, or text in a text comment or a tag employing paging.
+     * 
+     * @param keywords
+     *            Keywords with which the search is performed.
+     * @param name
+     *            Boolean indicating that the search is done by name
+     *            {@link Album}.
+     * @param comment
+     *            Boolean indicating that the search is done by
+     *            comment text.
+     * @param tag
+     *            Boolean indicating that the search is done by tag
+     *            text.
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of albums that match the search parameters.
+     */
     List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count);

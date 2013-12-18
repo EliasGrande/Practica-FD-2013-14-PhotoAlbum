@@ -16,10 +16,6 @@ import es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislikeDao;
 @Transactional
 public class AlbumServiceImpl implements AlbumService {
 
-    private final static String DATE = "date";
-    private final static String LIKE = "like";
-    private final static String DISLIKE = "dislike";
-
     /**
      * @see AlbumDao
      */

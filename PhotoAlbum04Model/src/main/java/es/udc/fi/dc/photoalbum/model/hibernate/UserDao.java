@@ -2,6 +2,9 @@ package es.udc.fi.dc.photoalbum.model.hibernate;
 
 import java.util.List;
 
+/**
+ * DAO interface for the {@link User} entity.
+ */
 public interface UserDao extends GenericDao<User> {
 
     /**
@@ -18,6 +21,7 @@ public interface UserDao extends GenericDao<User> {
      * 
      * @param id
      *            User id
+     * 
      * @return Requested user or {@code null} if not found
      */
     User getById(Integer id);
@@ -30,15 +34,16 @@ public interface UserDao extends GenericDao<User> {
      *            User email
      * @param password
      *            User password
+     * 
      * @return Requested user or {@code null} if not found
      */
     User getUser(String email, String password);
 
     /**
      * Gets the {@link User} identified by the given {@code email}.
-     * 
-     * @param email
-     *            User email
+     
+     * @param userEmail
+     *            User
      * @return Requested user or {@code null} if not found
      */
     User getUser(User userEmail);
@@ -49,6 +54,7 @@ public interface UserDao extends GenericDao<User> {
      * 
      * @param userId
      *            User id
+     * 
      * @return sorted User list
      */
     List<User> getUsersSharingWith(int userId);

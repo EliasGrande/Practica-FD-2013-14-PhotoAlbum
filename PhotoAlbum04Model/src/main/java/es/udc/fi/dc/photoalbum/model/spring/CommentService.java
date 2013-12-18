@@ -72,7 +72,7 @@ public interface CommentService {
      * @param first
      *            The first element that obtains.
      * @param count
-     *            The number of elements that will be obtained
+     *            The number of elements that will be obtained.
      * 
      * @return ArrayList<Comment> A list of album comments.
      */

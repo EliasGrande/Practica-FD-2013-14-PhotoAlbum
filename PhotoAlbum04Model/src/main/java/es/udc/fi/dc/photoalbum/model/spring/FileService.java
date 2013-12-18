@@ -4,7 +4,9 @@ import java.util.Calendar;
 import java.util.List;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.Album;
+import es.udc.fi.dc.photoalbum.model.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
+import es.udc.fi.dc.photoalbum.model.hibernate.FileTag;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 
 /**
@@ -54,6 +56,7 @@ public interface FileService {
      * 
      * @param id
      *            Identifier for the search
+     * 
      * @return {@link File} which has the identifier
      */
     File getById(Integer id);
@@ -69,6 +72,7 @@ public interface FileService {
      * @param userId
      *            {@link User} who invokes the search, needed for
      *            privacy restrictions.
+     * 
      * @return {@link File} that matches the specified criteria.
      */
     File getFileOwn(int id, String name, int userId);
@@ -83,6 +87,7 @@ public interface FileService {
      * @param userId
      *            {@link User} who invokes the search, needed for
      *            privacy restrictions.
+     * 
      * @return File that matches the specified criteria.
      */
     File getFileShared(int id, String name, int userId);
@@ -97,6 +102,7 @@ public interface FileService {
      * @param userId
      *            {@link User} who invokes the search, needed for
      *            privacy restrictions.
+     * 
      * @return File whose privacy level is public.
      */
     File getFilePublic(int id, String name, int userId);
@@ -106,6 +112,7 @@ public interface FileService {
      * 
      * @param albumId
      *            {@link Album} identifier for the search.
+     * 
      * @return List of files that belongs to an {@link Album}.
      */
     List<File> getAlbumFilesOwn(int albumId);
@@ -120,6 +127,7 @@ public interface FileService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtained
+     * 
      * @return List of files that belongs to an {@link Album}.
      */
     List<File> getAlbumFilesOwnPaging(int albumId, int first,
@@ -133,6 +141,7 @@ public interface FileService {
      * @param userId
      *            {@link User} who invokes the search, needed for
      *            privacy restrictions.
+     * 
      * @return A list of files which have been shared.
      */
     List<File> getAlbumFilesShared(int albumId, int userId);
@@ -150,6 +159,7 @@ public interface FileService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtained.
+     * 
      * @return A list of files which have been shared.
      */
     List<File> getAlbumFilesSharedPaging(int albumId, int userId,
@@ -163,6 +173,7 @@ public interface FileService {
      * @param userId
      *            {@link User} who invokes the search, needed for
      *            privacy restrictions.
+     * 
      * @return A list of files whose privacy level is public.
      */
     List<File> getAlbumFilesPublic(int albumId, int userId);
@@ -180,6 +191,7 @@ public interface FileService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtained.
+     * 
      * @return A list of files whose privacy level is public.
      */
     List<File> getAlbumFilesPublicPaging(int albumId, int userId,
@@ -190,6 +202,7 @@ public interface FileService {
      * 
      * @param albumId
      *            {@link Album} identifier for the search.
+     * 
      * @return A number that represents the number of files who
      *         belongs to an {@link Album}.
      */
@@ -203,6 +216,7 @@ public interface FileService {
      *            privacy restrictions.
      * @param tag
      *            The file tag.
+     * 
      * 
      * @return A list of files (empty if nothing found).
      */
@@ -220,20 +234,104 @@ public interface FileService {
      *            The first element that obtains.
      * @param count
      *            The number of elements that will be obtained.
+     * 
      * @return A list of files which has the tag.
      */
     List<File> getFilesByTagPaging(int userId, String tag, int first,
             int count);
 
+    /**
+     * Search files by keywords by performing the search by
+     * {@link File} name, or text in a text {@link Comment} or a
+     * {@link FileTag} between two dates employing paging.
+     * 
+     * @param keywords
+     *            Keywords with which the search is performed.
+     * @param name
+     *            Boolean indicating that the search is done by
+     *            {@link File} name.
+     * @param comment
+     *            Boolean indicating that the search is done by
+     *            {@link Comment} text.
+     * @param tag
+     *            Boolean indicating that the search is done by
+     *            {@link FileTag} text.
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param fechaMin
+     *            Minimum date search.
+     * @param fechaMax
+     *            Maximum date search.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count);
 
+    /**
+     * Find files ordered by date, number of likes or number of
+     * dislikes employing paging.
+     * 
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String orderBy, int first, int count);
 
+    /**
+     * Find files ordered by date, number of likes or dislikes and
+     * number who are between two dates employing paging.
+     * 
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param fechaMin
+     *            Minimum date search.
+     * @param fechaMax
+     *            Maximum date search.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count);
 
+    /**
+     * Search files by keywords by performing the search by file name,
+     * or text in a text {@link Comment} or a tag employing paging.
+     * 
+     * @param keywords
+     *            Keywords with which the search is performed.
+     * @param name
+     *            Boolean indicating that the search is done by
+     *            {@link File} name.
+     * @param comment
+     *            Boolean indicating that the search is done by
+     *            {@link Comment} text.
+     * @param tag
+     *            Boolean indicating that the search is done by
+     *            {@link FileTag} text.
+     * @param orderBy
+     *            Indicates the order in which the search is
+     *            performed: date, like, dislike.
+     * @param first
+     *            The first element that obtains.
+     * @param count
+     *            The number of elements that will be obtained.
+     * @return A list of files that match the search parameters.
+     */
     List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count);

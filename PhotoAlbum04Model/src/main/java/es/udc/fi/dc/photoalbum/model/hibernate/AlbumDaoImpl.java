@@ -19,6 +19,16 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
         AlbumDao {
 
     /**
+     * The search will be sorted by {@link Album} date.
+     */
+    private final static String DATE = "date";
+    
+    /**
+     * The search will be sorted by {@link Album} likes.
+     */
+    private final static String LIKE = "like";
+    
+    /**
      * Restriction for Album: Public albums.
      * <p>
      * Parameters: (String) inheritPrivacyLevel, (String)
@@ -79,6 +89,79 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
      */
     private static final String HQL_RESTRICTION_IM_THE_OWNER = "(user.id = :userId)";
 
+    /**
+     * Restriction for Album: Get public albums.
+     */
+    private static final String HQL_RESTRICTION_PUBLIC_ALBUMS = "WHERE "
+            + "("
+            + "a.privacyLevel = :publicPrivacyLevel"
+            + ") ";
+    
+    /**
+     * Restriction for Album: Get albums that its album name contains
+     * the keyword.
+     */
+    private static final String HQL_RESTRICTION_KEYWORDS = "AND "
+            + "("
+            + "a.name LIKE :keywords"
+            + ") ";
+    
+    /**
+     * Restriction for Album: Search albums that have the text of a
+     * comment containing the specified text.
+     */
+    private static final String HQL_RESTRICTION_COMMENT = "AND "
+            + "("
+            + "a.id "
+            + "IN "
+            + "("
+            + "SELECT c.album.id FROM Comment c "
+            + "WHERE c.text LIKE :keywords "
+            + ")"
+            + ") ";
+    
+    /**
+     * Restriction for Album: Get albums whose tag have the specified
+     * tag text.
+     */
+    private static final String HQL_RESTRICTION_TAG = "AND "
+            + "("
+            + "a.id "
+            + "IN "
+            + "("
+            + "SELECT t.album.id "
+            + "FROM AlbumTag t "
+            + "WHERE t.tag LIKE :keywords"
+            + ")"
+            + ") ";
+    
+    /**
+     * Restriction for Album: Get albums which date is between two
+     * dates.
+     */
+    private static final String HQL_RESTRICTION_BETWEEN_DATE = "AND "
+            + "("
+            + "a.date BETWEEN :fechaMin AND :fechaMax"
+            + ") ";
+    
+    /**
+     * Restriction for Album: Sort result by {@link Album} date.
+     */
+    private static final String HQL_RESTRICTION_ORDER_BY_DATE = "ORDER BY "
+            + "a.date DESC ";
+
+    /**
+     * Restriction for Album: Sort result by {@link Album} likes.
+     */
+    private static final String HQL_RESTRICTION_ORDER_BY_LIKE = "ORDER BY "
+            + "a.likeAndDislike.like DESC, a.date";
+
+    /**
+     * Restriction for Album: Sort result by {@link Album} dislikes.
+     */
+    private static final String HQL_RESTRICTION_ORDER_BY_DISLIKE = "ORDER BY "
+            + "a.likeAndDislike.dislike DESC, a.date";
+    
     /**
      * Creates an hql query for the current session.
      * 
@@ -240,46 +323,30 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     public List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count) {
-        String query = "SELECT a FROM Album a "
-                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        String query = "SELECT a FROM Album a ";
+        
+        query += HQL_RESTRICTION_PUBLIC_ALBUMS; 
         
         if (name) {
-            query += "AND (a.name LIKE :keywords) ";
+            query += HQL_RESTRICTION_KEYWORDS;
         }
         
         if (comment) {
-            query += "AND "
-                    + "("
-                    + "a.id "
-                    + "IN "
-                    + "("
-                    + "SELECT c.album.id FROM Comment c "
-                    + "WHERE c.text LIKE :keywords "
-                    + ")"
-                    + ") ";
+            query += HQL_RESTRICTION_COMMENT;
         }
         
         if (tag) {
-            query += "AND "
-                    + "("
-                    + "a.id "
-                    + "IN "
-                    + "("
-                    + "SELECT t.album.id "
-                    + "FROM AlbumTag t "
-                    + "WHERE t.tag LIKE :keywords"
-                    + ")"
-                    + ") ";
+            query += HQL_RESTRICTION_TAG;
         }
         
-        query += "AND (a.date BETWEEN :fechaMin AND :fechaMax) ";
+        query += HQL_RESTRICTION_BETWEEN_DATE;
         
-        if (orderBy.equals("date")) {
-            query += "ORDER BY a.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
         
         return (List<Album>) getHibernateTemplate()
@@ -297,15 +364,16 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     @SuppressWarnings("unchecked")
     @Override
     public List<Album> getAlbums(String orderBy, int first, int count) {
-        String query = "SELECT a FROM Album a "
-                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        String query = "SELECT a FROM Album a ";
         
-        if (orderBy.equals("date")) {
-            query += "ORDER BY a.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        query += HQL_RESTRICTION_PUBLIC_ALBUMS; 
+        
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
         
         return (List<Album>) getHibernateTemplate()
@@ -321,17 +389,18 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     @Override
     public List<Album> getAlbums(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count) {
-        String query = "SELECT a FROM Album a "
-                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        String query = "SELECT a FROM Album a ";
         
-        query += "AND (a.date BETWEEN :fechaMin AND :fechaMax) ";
+        query += HQL_RESTRICTION_PUBLIC_ALBUMS;
         
-        if (orderBy.equals("date")) {
-            query += "ORDER BY a.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        query += HQL_RESTRICTION_BETWEEN_DATE;
+        
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
         
         return (List<Album>) getHibernateTemplate()
@@ -350,44 +419,28 @@ public class AlbumDaoImpl extends HibernateDaoSupport implements
     public List<Album> getAlbums(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count) {
-        String query = "SELECT a FROM Album a "
-                + "WHERE (a.privacyLevel = :publicPrivacyLevel) ";
+        String query = "SELECT a FROM Album a ";
+        
+        query += HQL_RESTRICTION_PUBLIC_ALBUMS;
         
         if (name) {
-            query += "AND (a.name LIKE :keywords) ";
+            query += HQL_RESTRICTION_KEYWORDS;
         }
         
         if (comment) {
-            query += "AND "
-                    + "("
-                    + "a.id "
-                    + "IN "
-                    + "("
-                    + "SELECT c.album.id FROM Comment c "
-                    + "WHERE c.text LIKE :keywords "
-                    + ")"
-                    + ") ";
+            query += HQL_RESTRICTION_COMMENT;
         }
         
         if (tag) {
-            query += "AND "
-                    + "("
-                    + "a.id "
-                    + "IN "
-                    + "("
-                    + "SELECT t.album.id "
-                    + "FROM AlbumTag t "
-                    + "WHERE t.tag LIKE :keywords"
-                    + ")"
-                    + ") ";
+            query += HQL_RESTRICTION_TAG;
         }
         
-        if (orderBy.equals("date")) {
-            query += "ORDER BY a.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY a.likeAndDislike.like DESC, a.date";
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY a.likeAndDislike.dislike DESC, a.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
         
         return (List<Album>) getHibernateTemplate()

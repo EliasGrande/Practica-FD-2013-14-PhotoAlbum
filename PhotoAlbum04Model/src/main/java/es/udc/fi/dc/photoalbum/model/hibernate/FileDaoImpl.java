@@ -23,6 +23,16 @@ public class FileDaoImpl extends HibernateDaoSupport implements
         FileDao {
 
     /**
+     * The search will be sorted by {@link File} date.
+     */
+    private final static String DATE = "date";
+    
+    /**
+     * The search will be sorted by {@link File} likes.
+     */
+    private final static String LIKE = "like";
+    
+    /**
      * Query for File: Search files by tag returning only the ones
      * viewable by userId.
      * <p>
@@ -61,6 +71,95 @@ public class FileDaoImpl extends HibernateDaoSupport implements
             + "SELECT album.id FROM AlbumShareInformation "
             + "WHERE user.id = :userId" + ")" + ")" + ")" + ")";
 
+    /**
+     * Restriction for File: Get public files or files that inherits
+     * of and public album.
+     */
+    private static final String HQL_RESTRICTION_PUBLIC_FILES = "WHERE (" 
+            + "("
+            + "(f.privacyLevel = :publicPrivacyLevel) "  
+            + ") " 
+            + "OR " 
+            + "("
+            + "(f.privacyLevel = :inheritPrivacyLevel) " 
+            + "AND "
+            + "(" 
+            + "f.album.id " 
+            + "IN " 
+            + "("
+            + "SELECT a.id FROM Album a "
+            + "WHERE a.privacyLevel = :publicPrivacyLevel" 
+            + ")"
+            + ")" 
+            + ")" 
+            + ") ";
+    
+    /**
+     * Restriction for File: Get files that its file name contains
+     * the keyword.
+     */
+    public static final String HQL_RESTRICTION_NAME = "AND "
+            + "("
+            + "f.name LIKE :keywords "
+            + ") ";
+    
+    /**
+     * Restriction for File: Search files that have the text of a
+     * comment containing the specified text.
+     */
+    public static final String HQL_RESTRICTION_COMMENT = "AND " 
+            + "(" 
+            + "f.id " 
+            + "IN " 
+            + "("
+            + "SELECT c.file.id " 
+            + "FROM Comment c "
+            + "WHERE c.text LIKE :keywords" 
+            + ")"
+            + ") ";
+    
+    /**
+     * Restriction for File: Get files whose tag have the specified
+     * tag text.
+     */
+    public static final String HQL_RESTRICTION_TAG = "AND " 
+            + "(" 
+            + "f.id " 
+            + "IN " 
+            + "("
+            + "SELECT t.file.id " 
+            + "FROM FileTag t "
+            + "WHERE t.tag LIKE :keywords" 
+            + ")" 
+            + ") ";
+    
+    /**
+     * Restriction for File: Get files which date is between two
+     * dates.
+     */
+    public static final String HQL_RESTRICTION_BETWEEN_DATE = "AND "
+            + "("
+            + "f.date BETWEEN :fechaMin AND :fechaMax"
+            + ") ";
+  
+    /**
+     * Restriction for File: Sort result by {@link File} date.
+     */
+    private static final String HQL_RESTRICTION_ORDER_BY_DATE = "ORDER BY "
+            + "f.date DESC ";
+            
+    /**
+     * Restriction for File: Sort result by {@link File} likes.
+     */
+    private static final String HQL_RESTRICTION_ORDER_BY_LIKE = "ORDER BY "
+            + "f.likeAndDislike.like DESC, f.date";
+    
+    /**
+     * Restriction for File: Sort result by {@link File} dislikes.
+     */
+    private static final String HQL_RESTRICTION_ORDER_BY_DISLIKE = 
+            "ORDER BY f.likeAndDislike.dislike DESC, f.date";
+    
     @Override
     public void create(File file) {
         getHibernateTemplate().save(file);
@@ -286,65 +385,30 @@ public class FileDaoImpl extends HibernateDaoSupport implements
             boolean comment, boolean tag, String orderBy,
             Calendar fechaMin, Calendar fechaMax, int first, int count) {
 
-        String query = "SELECT f FROM File f " 
-                + "WHERE (" 
-                + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) "  
-                + ") " 
-                + "OR " 
-                + "("
-                + "(f.privacyLevel = :inheritPrivacyLevel) " 
-                + "AND "
-                + "(" 
-                + "f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
-                + ")" 
-                + ") ";
+        String query = "SELECT f FROM File f ";
+        
+        query += HQL_RESTRICTION_PUBLIC_FILES;
 
         if (name) {
-            query += "AND (f.name LIKE :keywords ) ";
+            query += HQL_RESTRICTION_NAME;
         }
 
         if (comment) {
-            query += "AND " 
-                    + "(" 
-                    + "f.id " 
-                    + "IN " 
-                    + "("
-                    + "SELECT c.file.id " 
-                    + "FROM Comment c "
-                    + "WHERE c.text LIKE :keywords" 
-                    + ")"
-                    + ") ";
+            query += HQL_RESTRICTION_COMMENT;
         }
 
         if (tag) {
-            query += "AND " 
-                    + "(" 
-                    + "f.id " 
-                    + "IN " 
-                    + "("
-                    + "SELECT t.file.id " 
-                    + "FROM FileTag t "
-                    + "WHERE t.tag LIKE :keywords" 
-                    + ")" 
-                    + ") ";
+            query += HQL_RESTRICTION_TAG;
         }
 
-        query += "AND (f.date BETWEEN :fechaMin AND :fechaMax) ";
-        
+        query += HQL_RESTRICTION_BETWEEN_DATE;
 
-        if (orderBy.equals("date")) {
-            query += "ORDER BY f.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
 
         return (List<File>) getHibernateTemplate()
@@ -365,32 +429,16 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     @SuppressWarnings("unchecked")
     @Override
     public List<File> getFiles(String orderBy, int first, int count) {
-        String query = "SELECT f FROM File f " 
-                + "WHERE (" 
-                + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) "  
-                + ") " 
-                + "OR " 
-                + "("
-                + "(f.privacyLevel = :inheritPrivacyLevel) " 
-                + "AND "
-                + "(" 
-                + "f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
-                + ")" 
-                + ") ";
+        String query = "SELECT f FROM File f ";
         
-        if (orderBy.equals("date")) {
-            query += "ORDER BY f.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        query += HQL_RESTRICTION_PUBLIC_FILES;
+        
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
         
         return (List<File>) getHibernateTemplate()
@@ -408,34 +456,18 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     @Override
     public List<File> getFiles(String orderBy, Calendar fechaMin,
             Calendar fechaMax, int first, int count) {
-        String query = "SELECT f FROM File f " 
-                + "WHERE (" 
-                + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) "  
-                + ") " 
-                + "OR " 
-                + "("
-                + "(f.privacyLevel = :inheritPrivacyLevel) " 
-                + "AND "
-                + "(" 
-                + "f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
-                + ")" 
-                + ") ";
+        String query = "SELECT f FROM File f ";
         
-        query += "AND (f.date BETWEEN :fechaMin AND :fechaMax) ";
+        query += HQL_RESTRICTION_PUBLIC_FILES;
         
-        if (orderBy.equals("date")) {
-            query += "ORDER BY f.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        query += HQL_RESTRICTION_BETWEEN_DATE;
+        
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
         
         return (List<File>) getHibernateTemplate()
@@ -456,62 +488,29 @@ public class FileDaoImpl extends HibernateDaoSupport implements
     public List<File> getFiles(String keywords, boolean name,
             boolean comment, boolean tag, String orderBy, int first,
             int count) {
-        String query = "SELECT f FROM File f " 
-                + "WHERE (" 
-                + "("
-                + "(f.privacyLevel = :publicPrivacyLevel) "  
-                + ") " 
-                + "OR " 
-                + "("
-                + "(f.privacyLevel = :inheritPrivacyLevel) " 
-                + "AND "
-                + "(" 
-                + "f.album.id " 
-                + "IN " 
-                + "("
-                + "SELECT a.id FROM Album a "
-                + "WHERE a.privacyLevel = :publicPrivacyLevel" 
-                + ")"
-                + ")" 
-                + ")" 
-                + ") ";
+        
+        String query = "SELECT f FROM File f ";
+        
+        query += HQL_RESTRICTION_PUBLIC_FILES;
 
         if (name) {
-            query += "AND (f.name LIKE :keywords ) ";
+            query += HQL_RESTRICTION_NAME;
         }
 
         if (comment) {
-            query += "AND " 
-                    + "(" 
-                    + "f.id " 
-                    + "IN " 
-                    + "("
-                    + "SELECT c.file.id " 
-                    + "FROM Comment c "
-                    + "WHERE c.text LIKE :keywords" 
-                    + ")"
-                    + ") ";
+            query += HQL_RESTRICTION_COMMENT;
         }
 
         if (tag) {
-            query += "AND " 
-                    + "(" 
-                    + "f.id " 
-                    + "IN " 
-                    + "("
-                    + "SELECT t.file.id " 
-                    + "FROM FileTag t "
-                    + "WHERE t.tag LIKE :keywords" 
-                    + ")" 
-                    + ") ";
+            query += HQL_RESTRICTION_TAG;
         }
         
-        if (orderBy.equals("date")) {
-            query += "ORDER BY f.date DESC ";
-        } else if (orderBy.equals("like")) {
-            query += "ORDER BY f.likeAndDislike.like DESC, f.date";
+        if (orderBy.equals(DATE)) {
+            query += HQL_RESTRICTION_ORDER_BY_DATE;
+        } else if (orderBy.equals(LIKE)) {
+            query += HQL_RESTRICTION_ORDER_BY_LIKE;
         } else {
-            query += "ORDER BY f.likeAndDislike.dislike DESC, f.date";
+            query += HQL_RESTRICTION_ORDER_BY_DISLIKE;
         }
         
         return (List<File>) getHibernateTemplate()
