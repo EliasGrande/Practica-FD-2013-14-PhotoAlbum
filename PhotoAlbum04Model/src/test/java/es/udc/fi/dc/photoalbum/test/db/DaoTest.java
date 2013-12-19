@@ -1674,7 +1674,7 @@ public class DaoTest {
     }
 
     @Test
-    public void testGetFiles() {
+    public void testGetFiles() throws InterruptedException {
         User user = new User(null, "123", MD5.getHash("pass"));
         this.userService.create(user);
         User user2 = new User(null, "456", MD5.getHash("pass"));
@@ -1685,45 +1685,59 @@ public class DaoTest {
         Album album = new Album(null, "FirstAlbum", user, null, null,
                 PrivacyLevel.PUBLIC);
         this.albumService.create(album);
+        Thread.sleep(10);
         Album album2 = new Album(null, "SecondAlbum", user, null,
                 null, PrivacyLevel.PUBLIC);
         this.albumService.create(album2);
+        Thread.sleep(10);
         Album album3 = new Album(null, "ThirdAlbum", user, null,
                 null, PrivacyLevel.PUBLIC);
         this.albumService.create(album3);
+        Thread.sleep(10);
         Album album4 = new Album(null, "FourthAlbum", user, null,
                 null, PrivacyLevel.PUBLIC);
         this.albumService.create(album4);
+        Thread.sleep(10);
         Album album5 = new Album(null, "FifthAlbum", user, null,
                 null, PrivacyLevel.PRIVATE);
         this.albumService.create(album5);
 
+        Thread.sleep(10);
         File file1 = new File(null, "File1", new byte[] { 1 },
                 new byte[] { 2 }, album);
         this.fileService.create(file1);
+        Thread.sleep(10);
         File file2 = new File(null, "File2", new byte[] { 1 },
                 new byte[] { 2 }, album);
+        Thread.sleep(10);
         this.fileService.create(file2);
         File file3 = new File(null, "File3", new byte[] { 1 },
                 new byte[] { 2 }, album);
+        Thread.sleep(10);
         this.fileService.create(file3);
         File file4 = new File(null, "File4", new byte[] { 1 },
                 new byte[] { 2 }, album);
+        Thread.sleep(10);
         this.fileService.create(file4);
         File file5 = new File(null, "File5", new byte[] { 1 },
                 new byte[] { 2 }, album);
+        Thread.sleep(10);
         this.fileService.create(file5);
         File file6 = new File(null, "File6", new byte[] { 1 },
                 new byte[] { 2 }, album);
+        Thread.sleep(10);
         this.fileService.create(file6);
         File file7 = new File(null, "File7", new byte[] { 1 },
                 new byte[] { 2 }, album);
+        Thread.sleep(10);
         this.fileService.create(file7);
         File file8 = new File(null, "File8", new byte[] { 1 },
                 new byte[] { 2 }, album5);
+        Thread.sleep(10);
         this.fileService.create(file8);
         File file9 = new File(null, "File9", new byte[] { 1 },
                 new byte[] { 2 }, album);
+        Thread.sleep(10);
         this.fileService.create(file9);
         File file10 = new File(null, "File10", new byte[] { 1 },
                 new byte[] { 2 }, album);
@@ -1965,7 +1979,7 @@ public class DaoTest {
     }
 
     @Test
-    public void test_GetAlbums() {
+    public void test_GetAlbums() throws InterruptedException {
         User user = new User(null, "123", MD5.getHash("pass"));
         this.userService.create(user);
         User user2 = new User(null, "456", MD5.getHash("pass"));
@@ -1976,15 +1990,19 @@ public class DaoTest {
         Album album = new Album(null, "FirstAlbum", user, null, null,
                 PrivacyLevel.PUBLIC);
         this.albumService.create(album);
+        Thread.sleep(10);
         Album album2 = new Album(null, "SecondAlbum", user, null,
                 null, PrivacyLevel.PUBLIC);
         this.albumService.create(album2);
+        Thread.sleep(10);
         Album album3 = new Album(null, "ThirdAlbum", user, null,
                 null, PrivacyLevel.PUBLIC);
         this.albumService.create(album3);
+        Thread.sleep(10);
         Album album4 = new Album(null, "FourthAlbum", user, null,
                 null, PrivacyLevel.PUBLIC);
         this.albumService.create(album4);
+        Thread.sleep(10);
         Album album5 = new Album(null, "FifthAlbum", user, null,
                 null, PrivacyLevel.PRIVATE);
         this.albumService.create(album5);
@@ -2005,10 +2023,12 @@ public class DaoTest {
         Comment commentA = new Comment(album3.getLikeAndDislike(),
                 user, "Prueba comment", album3, null);
         this.commentService.create(user, album3, commentA.getText());
+        Thread.sleep(10);
 
         Comment commentA2 = new Comment(album4.getLikeAndDislike(),
                 user, "Prueba 2", album4, null);
         this.commentService.create(user, album4, commentA2.getText());
+        Thread.sleep(10);
 
         AlbumTag tagA = new AlbumTag(album4, "Prueba tag");
         this.albumTagService.create(tagA);
