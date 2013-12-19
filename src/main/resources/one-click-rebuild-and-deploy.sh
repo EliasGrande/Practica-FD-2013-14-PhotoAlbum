@@ -15,6 +15,9 @@ H2_JAR="$3"
 MAVEN_HOME="$4"
 ECLIPSE_WORKSPACE="$5"
 PROJECT_NAME="$6"
+H2_PORT="9092"
+TOMCAT_WEB_PORT="8080"
+TOMCAT_REST_PORT="8081"
 
 echo "TOMCAT_WEB_HOME $TOMCAT_WEB_HOME"
 echo "TOMCAT_REST_HOME $TOMCAT_REST_HOME"
@@ -22,6 +25,9 @@ echo "H2_JAR $H2_JAR"
 echo "MAVEN_HOME $MAVEN_HOME"
 echo "ECLIPSE_WORKSPACE $ECLIPSE_WORKSPACE"
 echo "PROJECT_NAME $PROJECT_NAME"
+echo "H2_PORT $H2_PORT"
+echo "TOMCAT_WEB_PORT $TOMCAT_WEB_PORT"
+echo "TOMCAT_REST_PORT $TOMCAT_REST_PORT"
 
 # xterm geometry
 GEOMETRY_H2="-geometry 200x20+0+30"
@@ -36,10 +42,10 @@ TOMCAT_WEB_CLEAN="rm -Rv $TOMCAT_WEB_HOME/webapps/$PROJECT_NAME $TOMCAT_WEB_HOME
 TOMCAT_REST_CLEAN="rm -Rv $TOMCAT_REST_HOME/webapps/$PROJECT_NAME $TOMCAT_REST_HOME/work/Catalina/localhost/$PROJECT_NAME"
 CD_PROJECT="cd $ECLIPSE_WORKSPACE/$PROJECT_NAME"
 MAVEN_INSTALL="$MAVEN_HOME/bin/mvn install -Dmaven.test.skip=true"
-H2_START="xterm $GEOMETRY_H2 -T H2-Server -e java -cp $H2_JAR org.h2.tools.Server -tcp -trace"
-H2_STOP="java -cp $H2_JAR org.h2.tools.Server -tcpShutdown tcp://localhost:9092"
+H2_START="xterm $GEOMETRY_H2 -T H2-Server -e java -cp $H2_JAR org.h2.tools.Server -tcp -trace -tcpPort $H2_PORT"
+H2_STOP="java -cp $H2_JAR org.h2.tools.Server -tcpShutdown tcp://localhost:$H2_PORT"
 
-# stop tomcat
+# stop servers
 echo
 echo "--> Stoping tomcat (web)..."
 echo "--> [exec] $TOMCAT_WEB_STOP"
@@ -50,6 +56,11 @@ echo "--> Stoping tomcat (rest)..."
 echo "--> [exec] $TOMCAT_REST_STOP"
 echo
 $TOMCAT_REST_STOP
+echo
+echo "--> Stoping H2 server..."
+echo "--> [exec] $H2_STOP"
+echo
+$H2_STOP
 
 # clean webapp folder
 sleep 2

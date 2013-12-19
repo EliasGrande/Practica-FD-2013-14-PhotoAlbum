@@ -15,6 +15,7 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.udc.fi.dc.photoalbum.mocks.AlbumServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.CommentServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileServiceMock;
 import es.udc.fi.dc.photoalbum.mocks.FileTagServiceMock;
@@ -35,6 +36,7 @@ public class TestSharedBigPage {
             protected void init() {
                 ApplicationContextMock context = new ApplicationContextMock();
 
+                context.putBean("albumBean", AlbumServiceMock.mock);
                 context.putBean("userBean", UserServiceMock.mock);
                 context.putBean("fileBean", FileServiceMock.mock);
                 context.putBean("fileTagBean", FileTagServiceMock.mock);
