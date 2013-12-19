@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setup xmlns="http://databene.org/benerator/0.7.7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://databene.org/benerator/0.7.7 benerator-0.7.7.xsd">
+
+	<import platforms="db" />
+	<import defaults="true" />
+	<import domains="person" />
+
+	<database id="db" url="jdbc:h2:~/H2/PhotoAlbum" driver="org.h2.Driver"
+		user="herramientas" password="desarrollo2013" catalog="PHOTOALBUM"
+		schema="PUBLIC" batch="false" />
+
+	<execute uri="db_create.sql" target="db" onError="ignore" />
+
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+
+	<setup>
+		<generate type="usuario" count="50" consumer="db">
+			<variable name="person" generator="PersonGenerator" />
+			<id name="id" generator="idGen" />
+			<attribute name="email" script="person.email"
+				converter="ToLowerCaseConverter, UniqueStringConverter" />
+			<attribute name="password" constant="123456789aAbB" />
+		</generate>
+	</setup>
+
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+	<setup>
+		<generate type="like_dislike" count="6000" consumer="db">
+			<id name="id" generator="idGen" />
+			<attribute name="likes" type="int" pattern="[0-9]{3}" />
+			<attribute name="dislikes" type="int" pattern="[0-9]{3}" />
+
+		</generate>
+	</setup>
+
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+	<bean id="dtGen" spec="new DateTimeGenerator()">
+		<property name='minDate' value='2013-06-01' />
+		<property name='maxDate' value='2013-12-01' />
+	</bean>
+	<setup>
+		<generate type="album" count="1000" consumer="db">
+			<variable name="person" generator="PersonGenerator" />
+			<id name="id" generator="idGen" />
+			<attribute name="name"
+				script="person.givenName + ' ' + person.familyName" converter="ToLowerCaseConverter, 
+		UniqueStringConverter" />
+			<reference name="user_id" source="db" targetType="usuario"
+				cyclic="true" distribution="random" />
+			<attribute name="date" type="timestamp" generator="dtGen" />
+			<attribute name="privacy_level" constant="PUBLIC" />
+			<reference name="like_dislike_id" source="db" targetType="like_dislike"
+				cyclic="true" distribution="random" />
+		</generate>
+	</setup>
+
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+	<bean id="dtGen" spec="new DateTimeGenerator()">
+		<property name='minDate' value='2013-06-01' />
+		<property name='maxDate' value='2013-12-01' />
+	</bean>
+	<setup>
+		<generate type="archivo" count="20000" consumer="db">
+			<variable name="person" generator="PersonGenerator" />
+			<id name="id" generator="idGen" />
+			<attribute name="name"
+				script="person.givenName + ' ' + person.familyName" converter="ToLowerCaseConverter, 
+		UniqueStringConverter" />
+			<attribute name="file" type="binary" />
+			<attribute name="file_small" type="binary" />
+			<reference name="album_id" source="db" targetType="album"
+				cyclic="true" distribution="random" />
+			<attribute name="date" type="timestamp" generator="dtGen" />
+			<attribute name="privacy_level" constant="PUBLIC" />
+			<reference name="like_dislike_id" source="db" targetType="like_dislike"
+				cyclic="true" distribution="random" />
+		</generate>
+	</setup>
+
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+	<bean id="dtGen" spec="new DateTimeGenerator()">
+		<property name='minDate' value='2013-06-01' />
+		<property name='maxDate' value='2013-12-01' />
+	</bean>
+	<setup>
+		<generate type="comment" count="100000" consumer="db">
+			<variable name="person1" generator="PersonGenerator" />
+			<variable name="person2" generator="PersonGenerator" />
+			<variable name="person3" generator="PersonGenerator" />
+			<variable name="person4" generator="PersonGenerator" />
+			<variable name="person5" generator="PersonGenerator" />
+			<variable name="person6" generator="PersonGenerator" />
+			<variable name="person7" generator="PersonGenerator" />
+			<variable name="person8" generator="PersonGenerator" />
+			<variable name="person9" generator="PersonGenerator" />
+			<variable name="person10" generator="PersonGenerator" />
+			<variable name="commentTextGenerator"
+				script="person1.givenName + ' ' + person2.givenName + ' ' +
+ 				person3.givenName + ' ' + person4.givenName + ' ' +   	 
+ 				person5.givenName + ' ' + person6.givenName + ' ' +   	 
+ 				person7.givenName + ' ' + person8.givenName + ' ' +   	 
+ 				person9.givenName + ' ' + person10.givenName + ' ' +   	
+ 	 			person1.familyName + ' ' + person6.familyName + ' ' +   
+ 		 		person2.familyName + ' ' + person7.familyName + ' ' +   
+   	 			person3.familyName + ' ' + person8.familyName + ' ' +   
+ 	 			person4.familyName + ' ' + person9.familyName + ' ' +   
+ 				person5.familyName + ' ' + person10.familyName" />
+			<attribute name="comment" script="comment" />
+			<id name="id" generator="idGen" />
+			<reference name="like_dislike_id" source="db" targetType="like_dislike"
+				cyclic="true" distribution="random" />
+			<reference name="user_id" source="db" targetType="usuario"
+				cyclic="true" distribution="random" />
+			<attribute name="date" type="timestamp" generator="dtGen" />
+			<attribute name="text" script="commentTextGenerator" />
+			<reference name="album_id" source="db" targetType="album"
+				cyclic="true" distribution="random" />
+			<reference name="file_id" source="db" targetType="archivo"
+				cyclic="true" distribution="random" />
+		</generate>
+	</setup>
+
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+	<setup>
+		<generate type="album_tag" count="200000" consumer="db">
+			<variable name="person" generator="PersonGenerator" />
+			<id name="id" generator="idGen" />
+			<reference name="album_id" source="db" targetType="album"
+				cyclic="true" distribution="random" />
+			<attribute name="tag"
+				script="person.givenName + ' ' + person.familyName" converter="ToLowerCaseConverter" />
+		</generate>
+	</setup>
+
+	<bean id="idGen" spec="new IncrementGenerator(1)" />
+	<setup>
+		<generate type="file_tag" count="200000" consumer="db">
+			<variable name="person" generator="PersonGenerator" />
+			<id name="id" generator="idGen" />
+			<reference name="file_id" source="db" targetType="archivo"
+				cyclic="true" distribution="random" />
+			<attribute name="tag"
+				script="person.givenName + ' ' + person.familyName" converter="ToLowerCaseConverter" />
+		</generate>
+	</setup>
+
+</setup>

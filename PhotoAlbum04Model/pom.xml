@@ -75,5 +75,41 @@
 			<version>2.2</version>
 		</dependency>
 	</dependencies>
-
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.databene</groupId>
+				<artifactId>maven-benerator-plugin</artifactId>
+				<version>0.7.7</version>
+				<configuration>
+					<descriptor>src/main/resources/benerator.xml</descriptor>
+					<encoding>iso-8859-1</encoding>
+					<validate>true</validate>
+					<dbDriver>org.h2.Driver</dbDriver>
+					<dbUrl>jdbc:h2:~/H2/PhotoAlbum</dbUrl>
+					<dbSchema>PUBLIC</dbSchema>
+					<dbUser>herramientas</dbUser>
+					<dbPassword>desarrollo2013</dbPassword>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${h2.version}</version>
+						<scope>runtime</scope>
+					</dependency>
+					<dependency>
+						<groupId>org.databene</groupId>
+						<artifactId>databene-benerator</artifactId>
+						<version>0.7.7</version>
+					</dependency>
+					<dependency>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-jdk14</artifactId>
+						<version>1.7.5</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
 </project>
