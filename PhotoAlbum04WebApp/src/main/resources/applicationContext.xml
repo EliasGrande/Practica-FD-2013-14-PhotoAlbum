@@ -33,22 +33,22 @@
 		class="es.udc.fi.dc.photoalbum.model.spring.AlbumTagServiceImpl">
 		<property name="albumTagDao" ref="albumTagDao" />
 	</bean>
-	<bean id="fileTagService"
-		class="es.udc.fi.dc.photoalbum.model.spring.FileTagServiceImpl">
+	<bean id="fileTagService" class="es.udc.fi.dc.photoalbum.model.spring.FileTagServiceImpl">
 		<property name="fileTagDao" ref="fileTagDao" />
 	</bean>
 	<bean id="commentService" class="es.udc.fi.dc.photoalbum.model.spring.CommentServiceImpl">
 		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
 		<property name="commentDao" ref="commentDao" />
 	</bean>
-	<bean id="likeAndDislikeService" class="es.udc.fi.dc.photoalbum.model.spring.LikeAndDislikeServiceImpl">
+	<bean id="likeAndDislikeService"
+		class="es.udc.fi.dc.photoalbum.model.spring.LikeAndDislikeServiceImpl">
 		<property name="likeAndDislikeDao" ref="likeAndDislikeDao" />
 		<property name="votedDao" ref="votedDao" />
 	</bean>
 	<bean id="votedService" class="es.udc.fi.dc.photoalbum.model.spring.VotedServiceImpl">
 		<property name="votedDao" ref="votedDao" />
 	</bean>
-	
+
 
 	<!-- DAOs -->
 	<bean id="albumDao" class="es.udc.fi.dc.photoalbum.model.hibernate.AlbumDaoImpl">
@@ -74,7 +74,8 @@
 	<bean id="fileTagDao" class="es.udc.fi.dc.photoalbum.model.hibernate.FileTagDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean id="likeAndDislikeDao" class="es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislikeDaoImpl">
+	<bean id="likeAndDislikeDao"
+		class="es.udc.fi.dc.photoalbum.model.hibernate.LikeAndDislikeDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="votedDao" class="es.udc.fi.dc.photoalbum.model.hibernate.VotedDaoImpl">
@@ -99,5 +100,10 @@
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Services Beans -->
+	<bean id="restClientSearchService"
+		class="es.udc.fi.dc.photoalbum.webapp.restclient.RestClientSearchServiceImpl">
 	</bean>
 </beans>

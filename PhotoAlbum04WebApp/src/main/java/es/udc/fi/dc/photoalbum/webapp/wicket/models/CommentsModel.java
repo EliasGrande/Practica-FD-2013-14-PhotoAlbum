@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.wicket.Session;
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -15,8 +16,10 @@ import es.udc.fi.dc.photoalbum.model.hibernate.Comment;
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.model.hibernate.User;
 import es.udc.fi.dc.photoalbum.model.hibernate.Voted;
+import es.udc.fi.dc.photoalbum.model.spring.AlbumService;
 import es.udc.fi.dc.photoalbum.model.spring.CommentService;
 import es.udc.fi.dc.photoalbum.model.spring.VotedService;
+import es.udc.fi.dc.photoalbum.webapp.wicket.MySession;
 
 /**
  * The model for a {@link Comment}.
@@ -24,6 +27,12 @@ import es.udc.fi.dc.photoalbum.model.spring.VotedService;
 @SuppressWarnings("serial")
 public class CommentsModel extends
         LoadableDetachableModel<List<Comment>> {
+
+    /**
+     * @see albumService
+     */
+    @SpringBean
+    private AlbumService albumService;
 
     /**
      * @see CommentService
@@ -92,7 +101,7 @@ public class CommentsModel extends
         wipeCache();
         Injector.get().inject(this);
     }
-    
+
     /**
      * Restores the object to its initial state.
      */
@@ -108,8 +117,9 @@ public class CommentsModel extends
      * 
      * @param comment
      *            The comment that want obtaion the {@link Voted}.
-    
-     * @return Voted Return the {@link Voted} for the {@link Comment}. */
+     * 
+     * @return Voted Return the {@link Voted} for the {@link Comment}.
+     */
     public Voted getVoted(Comment comment) {
         return voteCache.get(comment.getLikeAndDislike().getId());
     }
@@ -117,8 +127,9 @@ public class CommentsModel extends
     /**
      * Method hasMoreComments.
      * 
-    
-     * @return boolean True if has more comment otherwise false. */
+     * 
+     * @return boolean True if has more comment otherwise false.
+     */
     public boolean hasMore() {
         return hasMoreComments;
     }
@@ -126,12 +137,13 @@ public class CommentsModel extends
     /**
      * Load the list of {@link Comment}.
      * 
-    
+     * 
      * @return List<Comment> Return the list of the {@link Comment}s
-     *         to shown. */
+     *         to shown.
+     */
     @Override
     protected List<Comment> load() {
-        if (hasMore()){
+        if (hasMore()) {
             getMore();
         }
         return commentCache;
@@ -147,7 +159,7 @@ public class CommentsModel extends
                 : commentService.getCommentsPaging(file, index,
                         count + 1);
         hasMoreComments = (moreComments.size() > count);
-        if (hasMoreComments){
+        if (hasMoreComments) {
             moreComments.remove(count);
         }
         index += moreComments.size();
@@ -155,7 +167,7 @@ public class CommentsModel extends
         // update voteCache
         List<Integer> likeAndDislikeIdList = new ArrayList<Integer>();
         Iterator<Comment> iterComments = moreComments.iterator();
-        while (iterComments.hasNext()){
+        while (iterComments.hasNext()) {
             likeAndDislikeIdList.add(iterComments.next()
                     .getLikeAndDislike().getId());
         }
@@ -165,6 +177,65 @@ public class CommentsModel extends
         while (iterVoted.hasNext()) {
             voted = iterVoted.next();
             voteCache.put(voted.getLikeAndDislike().getId(), voted);
+        }
+    }
+
+    /**
+     * True if the user of the current session can remove the given
+     * comment.
+     * 
+     * @param comment
+     *            The comment
+     * @return True if can remove
+     */
+    public boolean canRemove(Comment comment) {
+        int userId = ((MySession) Session.get()).getuId();
+        // album owner
+        if (album != null && album.getUser().getId() == userId) {
+            return true;
+        }
+        // comment owner
+        if (comment.getUser().getId() == userId) {
+            return true;
+        }
+        // file owner
+        Album file_al = (file == null) ? null : albumService
+                .getById(file.getId());
+        if (file_al != null && file_al.getUser().getId() == userId) {
+            return true;
+        }
+        // other
+        return false;
+    }
+
+    /**
+     * Remove comment from model and persistence.
+     * 
+     * @param comment
+     *            The comment
+     */
+    public void removeComment(int commentId) {
+        Comment commentToRemove = null;
+        for (Comment comment : commentCache) {
+            if (comment.getId() == commentId) {
+                commentToRemove = comment;
+                break;
+            }
+        }
+        if (commentToRemove != null && canRemove(commentToRemove)) {
+            Voted votedToRemove = null;
+            for (Voted voted : voteCache.values()) {
+                if (voted.getLikeAndDislike().getId() == commentToRemove
+                        .getLikeAndDislike().getId()) {
+                    votedToRemove = voted;
+                    break;
+                }
+            }
+            if (votedToRemove != null) {
+                voteCache.remove(votedToRemove.getId());
+            }
+            commentCache.remove(commentToRemove);
+            commentService.delete(commentToRemove);
         }
     }
 }

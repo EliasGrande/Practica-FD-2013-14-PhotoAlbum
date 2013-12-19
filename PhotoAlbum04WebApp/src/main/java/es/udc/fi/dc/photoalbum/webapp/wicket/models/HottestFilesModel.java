@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.wicket.injection.Injector;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import es.udc.fi.dc.photoalbum.model.hibernate.File;
 import es.udc.fi.dc.photoalbum.util.dto.FileDto;
@@ -15,6 +16,12 @@ import es.udc.fi.dc.photoalbum.webapp.restclient.RestClientSearchService;
 @SuppressWarnings("serial")
 public class HottestFilesModel extends
         LoadableDetachableModel<List<FileDto>> {
+    
+    /**
+     * @see RestClientSearchService
+     */
+    @SpringBean
+    private RestClientSearchService restClientSearchService;
 
     /**
      * Constructor for HottestFilesModel.
@@ -30,8 +37,7 @@ public class HottestFilesModel extends
      */
     @Override
     protected List<FileDto> load() {
-        RestClientSearchService searchService = new RestClientSearchService();
-        List<FileDto> list = searchService.getHottestPics();
+        List<FileDto> list = restClientSearchService.getHottestPics();
         return list;
     }
 }

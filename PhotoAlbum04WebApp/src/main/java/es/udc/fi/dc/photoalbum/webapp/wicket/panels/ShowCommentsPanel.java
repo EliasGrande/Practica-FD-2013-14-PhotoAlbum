@@ -183,7 +183,7 @@ public class ShowCommentsPanel extends Panel {
                 "comment", commentsModel) {
             @Override
             protected void populateItem(ListItem<Comment> item) {
-                Comment comment = item.getModelObject();
+                final Comment comment = item.getModelObject();
                 item.add(new Label(USER_LABEL_ID, comment.getUser()
                         .getEmail()));
                 item.add(new Label(DATE_LABEL_ID,
@@ -196,6 +196,29 @@ public class ShowCommentsPanel extends Panel {
                 item.add(new VotePanel(VOTE_LABEL_ID, comment
                         .getLikeAndDislike(), commentsModel
                         .getVoted(comment)));
+                item.add(new AjaxLink<String>("removeCommentLink") {
+
+                    @Override
+                    public void onClick(AjaxRequestTarget target) {
+                        commentsModel.removeComment(comment.getId());
+                        target.add(commentContainer);
+                        // avoid the annoying scrolling-down
+                        target.focusComponent(null);
+                    }
+
+                    @Override
+                    public boolean isEnabled() {
+                        return commentsModel.canRemove(comment);
+                    }
+
+                    @Override
+                    protected void onComponentTag(ComponentTag tag) {
+                        super.onComponentTag(tag);
+                        if (!commentsModel.canRemove(comment)) {
+                            tag.put("style", "display:none;");
+                        }
+                    }
+                });
             }
         };
         commentContainer.add(commentsView);
@@ -207,6 +230,8 @@ public class ShowCommentsPanel extends Panel {
      */
     private void makeMoreLink() {
         AjaxLink<String> moreLink = new AjaxLink<String>(MORE_LINK_ID) {
+            
+            @Override
             public void onClick(AjaxRequestTarget target) {
                 target.add(commentContainer);
                 // avoid the annoying scrolling-down
