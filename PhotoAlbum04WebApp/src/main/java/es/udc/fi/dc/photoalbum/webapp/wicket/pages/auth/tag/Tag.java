@@ -13,7 +13,7 @@ public class Tag implements Serializable {
     private String value;
 
     /**
-     * Empty constructor for tag.
+     * Empty constructor for tag necessary to spring..
      */
     public Tag() {
     }

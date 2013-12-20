@@ -35,7 +35,7 @@ public class FileTag implements Serializable {
     private String tag;
 
     /**
-     * Empty constructor.
+     * The empty constructor necessary to spring.
      */
     public FileTag() {
     }

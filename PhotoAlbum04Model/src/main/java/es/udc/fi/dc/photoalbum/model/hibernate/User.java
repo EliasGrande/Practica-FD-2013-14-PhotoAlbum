@@ -49,7 +49,7 @@ public class User implements Serializable {
     private Set<AlbumShareInformation> shareInformation = new HashSet<AlbumShareInformation>();
 
     /**
-     * Empty constructor.
+     * Empty constructor necessary to spring..
      */
     public User() {
     }

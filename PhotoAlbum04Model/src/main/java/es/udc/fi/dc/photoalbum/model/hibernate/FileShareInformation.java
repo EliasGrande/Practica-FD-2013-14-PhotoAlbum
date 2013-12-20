@@ -35,7 +35,7 @@ public class FileShareInformation implements Serializable {
     private User user;
 
     /**
-     * Empty constructor.
+     * The empty constructor necessary to spring.
      */
     public FileShareInformation() {
     }

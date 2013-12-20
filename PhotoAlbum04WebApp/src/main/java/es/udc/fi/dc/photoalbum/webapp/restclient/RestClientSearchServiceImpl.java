@@ -50,7 +50,7 @@ public class RestClientSearchServiceImpl implements RestClientSearchService {
     }
 
     /**
-     * Empty constructor for the class.
+     * Empty constructor for the class necessary to spring.
      */
     public RestClientSearchServiceImpl() {
     }

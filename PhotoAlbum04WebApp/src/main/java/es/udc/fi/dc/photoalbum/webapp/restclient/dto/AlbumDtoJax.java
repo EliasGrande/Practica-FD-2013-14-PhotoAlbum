@@ -25,7 +25,7 @@ public class AlbumDtoJax {
     private String name;
 
     /**
-     * Empty constructor for AlbumDtoJax.
+     * The empty constructor for AlbumDtoJax to use the annotations.
      */
     public AlbumDtoJax() {
 

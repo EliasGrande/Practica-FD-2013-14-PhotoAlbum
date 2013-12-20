@@ -32,7 +32,7 @@ public class FileDtoJax {
     private byte[] fileSmall;
 
     /**
-     * Empty constructor for FileDtoJax.
+     * The empty constructor for FileDtoJax to use the annotations.
      */
     public FileDtoJax() {
     }

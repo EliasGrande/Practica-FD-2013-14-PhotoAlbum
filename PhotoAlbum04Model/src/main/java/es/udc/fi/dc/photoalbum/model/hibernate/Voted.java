@@ -51,7 +51,7 @@ public class Voted implements Serializable {
     private String userVote;
 
     /**
-     * Empty constructor.
+     * Empty constructor necessary to spring.
      */
     public Voted() {
     }
